@@ -33,12 +33,26 @@ const Auth = {
     const form = document.getElementById('login-form');
     if (!form) return;
     const googleBtn = form.querySelector('.google-btn-xoss');
+    const resendBlock = document.getElementById('resend-verification-block');
+    const resendText = document.getElementById('resend-verification-text');
+    const resendBtn = document.getElementById('resend-verification-btn');
     if (googleBtn) {
       googleBtn.addEventListener('click', () => this.handleGoogleSignIn());
+    }
+    if (resendBtn) {
+      resendBtn.addEventListener('click', async () => {
+        const email = document.getElementById('login-email').value.trim();
+        if (!this.isValidEmail(email)) {
+          Utils.toast('Enter a valid email first', 'error');
+          return;
+        }
+        await this.resendVerificationEmail(email);
+      });
     }
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (!this.validateLogin()) return;
+      if (resendBlock) resendBlock.style.display = 'none';
       
       const email = document.getElementById('login-email').value.trim();
       const pass  = document.getElementById('login-pass').value;
@@ -66,8 +80,14 @@ const Auth = {
           if (!emailConfirmed) {
             await window.supabaseClient.auth.signOut();
             Utils.toast('Please verify your email before logging in.', 'warning');
+            if (resendBlock && resendText) {
+              resendText.textContent = 'Your email is not verified yet. Click below to resend the verification email.';
+              resendBlock.style.display = 'block';
+            }
             return;
           }
+
+          if (resendBlock) resendBlock.style.display = 'none';
 
           let { data: prof, error: pErr } = await window.supabaseClient
             .from('profiles')
@@ -149,6 +169,39 @@ const Auth = {
     } catch (err) {
       Utils.toast(err.message || 'Google sign-in failed', 'error');
       console.error('Google sign-in error:', err);
+    }
+  },
+
+  async resendVerificationEmail(email) {
+    if (!window.supabaseClient) {
+      Utils.toast('Database connection not initialized yet. Please refresh the page.', 'error');
+      return;
+    }
+
+    if (!this.isValidEmail(email)) {
+      Utils.toast('Enter a valid email to resend verification.', 'error');
+      return;
+    }
+
+    if (!window.supabaseClient.auth.resend) {
+      Utils.toast('Resend verification is not supported by this version. Use Forgot Password instead.', 'warning');
+      return;
+    }
+
+    try {
+      const { error } = await window.supabaseClient.auth.resend({
+        email,
+        type: 'signup'
+      });
+
+      if (error) {
+        Utils.toast(error.message, 'error');
+      } else {
+        Utils.toast('Verification email resent. Please check your inbox.', 'success');
+      }
+    } catch (err) {
+      Utils.toast(err.message || 'Failed to resend verification email', 'error');
+      console.error('Resend verification error:', err);
     }
   },
 
