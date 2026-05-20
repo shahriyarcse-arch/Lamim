@@ -1327,7 +1327,7 @@ const Finance = {
             .report-title { font-size: 52px; font-weight: 900; letter-spacing: -3px; margin: 0; color: #1e1b4b; line-height: 1; }
             .report-date { font-size: 16px; font-weight: 600; color: #6366f1; margin-top: 10px; opacity: 0.8; }
 
-            .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px; }
+            .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 50px; }
             .stat-card { 
               background: white; padding: 24px; border-radius: 28px; 
               box-shadow: 0 10px 25px rgba(0,0,0,0.03);
@@ -1387,12 +1387,16 @@ const Finance = {
 
             <div class="stats-grid">
               <div class="stat-card">
-                <span class="label">Monthly Spend</span>
-                <div class="val neg">${sym}${this.formatVal(total)}</div>
+                <span class="label">Opening Balance</span>
+                <div class="val" style="color: #64748b;">${sym}${this.formatVal(stats.openingBalance)}</div>
               </div>
               <div class="stat-card">
                 <span class="label">Total Income</span>
-                <div class="val pos">${sym}${this.formatVal(stats.income)}</div>
+                <div class="val pos">+${sym}${this.formatVal(stats.income)}</div>
+              </div>
+              <div class="stat-card">
+                <span class="label">Monthly Spend</span>
+                <div class="val neg">-${sym}${this.formatVal(total)}</div>
               </div>
               <div class="stat-card dark">
                 <span class="label" style="color:rgba(255,255,255,0.4)">Closing Balance</span>
@@ -1564,12 +1568,19 @@ const Finance = {
     const closingIncome = this.data.income.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
     const closingExpenses = this.data.expenses.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
     
+    // Opening Balance of the viewed month (Cumulative up to the start of the viewed month)
+    const startOfViewMonth = new Date(y, m, 1, 0, 0, 0);
+    const openingIncome = this.data.income.filter(o => new Date(o.date) < startOfViewMonth).reduce((s, o) => s + o.amount, 0);
+    const openingExpenses = this.data.expenses.filter(o => new Date(o.date) < startOfViewMonth).reduce((s, o) => s + o.amount, 0);
+    const openingBalance = openingIncome - openingExpenses;
+    
     return { 
       income: monthlyIncome, 
       expenses: monthlyExpenses, 
       balance: monthlyIncome - monthlyExpenses,
       totalAllTime: totalIncome - totalExpenses,
-      closingBalance: closingIncome - closingExpenses
+      closingBalance: closingIncome - closingExpenses,
+      openingBalance: openingBalance
     };
   }
 };
