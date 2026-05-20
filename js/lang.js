@@ -95,6 +95,10 @@ const Translations = {
   'Priority': 'অগ্রাধিকার',
   'Deadline': 'শেষ সময়',
   'Recurring': 'পুনরাবৃত্তি',
+  'WARRIOR SPIRIT POWER': 'ওয়ারিয়র স্পিরিট পাওয়ার',
+  'Total Combined Days of Purity': 'পবিত্রতার মোট দিন',
+  'Add Another Habit to Conquer': 'জয়ের জন্য নতুন অভ্যাস যোগ করুন',
+  'Your Badges': 'আপনার ব্যাজসমূহ',
   
   // Finance
   'Add Income': 'আয় যোগ করুন',
@@ -102,6 +106,13 @@ const Translations = {
   'Transaction History': 'লেনদেনের ইতিহাস',
   'Vaults': 'ভল্টসমূহ',
   'Amount': 'পরিমাণ',
+  'Spending Analysis': 'ব্যয় বিশ্লেষণ',
+  'Daily breakdown of this month': 'এই মাসের দৈনিক হিসাব',
+  'DAILY': 'দৈনিক',
+  'MONTHLY': 'মাসিক',
+  'Deposit': 'জমা',
+  'Spend': 'ব্যয়',
+  'No recent transactions': 'সাম্প্রতিক কোনো লেনদেন নেই',
   
   // Profile & Settings
   'Personal Information': 'ব্যক্তিগত তথ্য',
@@ -227,10 +238,7 @@ if (document.body) {
       const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
       let n;
       while (n = walk.nextNode()) {
-        const text = n.nodeValue;
-        if (/\d/.test(text)) {
-           n.nodeValue = text.replace(/\d/g, d => ['০','১','২','৩','৪','৫','৬','৭','৮','৯'][d]);
-        }
+        processTextNode(n);
       }
       autoTranslateObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
     }
