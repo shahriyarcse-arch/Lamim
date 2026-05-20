@@ -275,6 +275,10 @@ const App = {
     this.navigateTo(initialSection);
     // Update topbar avatars
     this.updateAvatars();
+    // Initialize Prayer Notifier
+    if (typeof PrayerNotifier !== 'undefined') {
+      PrayerNotifier.init();
+    }
   },
 
   checkAdminUI() {

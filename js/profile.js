@@ -375,7 +375,14 @@ const Profile = {
     s.notifications = !s.notifications;
     DB.setSettings(s);
     if (s.notifications && 'Notification' in window) {
-      Notification.requestPermission().then(p => { if (p === 'granted') Utils.toast('Notifications enabled 🔔', 'success'); });
+      Notification.requestPermission().then(p => { 
+        if (p === 'granted') {
+          Utils.toast('Notifications enabled 🔔', 'success'); 
+          if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
+        }
+      });
+    } else {
+      if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.stop();
     }
     this.renderSettings();
     if (window.Sync) window.Sync.queueSync('settings', 'all', s);
