@@ -238,7 +238,6 @@ const App = {
             return;
           }
         }
-        }
 
         // Refresh role if online
         if (isOnline && window.supabaseClient && hasCloudSession) {
