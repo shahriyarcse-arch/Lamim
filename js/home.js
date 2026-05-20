@@ -92,7 +92,7 @@ const Home = {
                 <path d="M12 22c5.523 0 10-4.477 10-10 0-1.657-.403-3.219-1.11-4.593L12 22z" opacity="0.2"/>
               </svg>
             </div>
-            <span style="font-size: 12px; font-weight: 800; color: var(--color-accent-gold);">${DB.getSalahStreak().perfect}d Perfect</span>
+            <span style="font-size: 12px; font-weight: 800; color: var(--color-accent-gold);">${DB.getSalahStreak().perfect}d ${window.t ? window.t('Perfect') : 'Perfect'}</span>
           </div>
           <div class="shs-mini-aura-container" style="display: flex; align-items: center; justify-content: center;">
             <div class="shs-aura mini" style="--aura-color: ${shs.rating.color}; box-shadow: 0 0 40px ${shs.rating.color}60;">
@@ -458,7 +458,8 @@ const Home = {
         const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         if (timeVal) timeVal.textContent = timeStr;
 
-        const enDate = now.toLocaleDateString('en-US', { year: 'numeric', month: isMobile ? 'short' : 'long', day: 'numeric' });
+        const locale = (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US';
+        const enDate = now.toLocaleDateString(locale, { year: 'numeric', month: isMobile ? 'short' : 'long', day: 'numeric' });
         if (enVal && enVal.textContent !== enDate) enVal.textContent = enDate;
 
         const hijriDate = Utils.toHijri(now);
@@ -562,7 +563,7 @@ const Home = {
       </div>
       <div style="text-align:center;">
         <div style="font-size:var(--text-lg);font-weight:700">Today's Salah</div>
-        <div id="salah-ring-desc" style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:4px">0/5 prayers completed</div>
+        <div id="salah-ring-desc" style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:4px">0/5 ${window.t ? window.t('prayers completed') : 'prayers completed'}</div>
         <div class="progress-bar mt-2" style="width:140px">
           <div class="progress-fill" id="salah-ring-bar" style="width:0%"></div>
         </div>
@@ -582,7 +583,7 @@ const Home = {
       count.textContent = score.done;
       count.style.color = color;
     }
-    if (desc) desc.textContent = `${score.done}/5 prayers completed`;
+    if (desc) desc.textContent = `${score.done}/5 ${window.t ? window.t('prayers completed') : 'prayers completed'}`;
     if (bar) {
       bar.style.width = visualPct + '%';
       bar.style.background = color;
