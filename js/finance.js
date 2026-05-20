@@ -611,13 +611,13 @@ const Finance = {
     const hasVaults = this.data.savings.length > 0;
 
     return `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <div class="fin-section-title" style="margin-bottom:0;">Vaults</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div>
+          <div class="fin-section-title" style="margin-bottom:2px;">Vaults</div>
           ${hasVaults ? `
-            <span style="font-size:11px; font-weight:800; background:rgba(99, 102, 241, 0.08); color:#6366f1; border:1px solid rgba(99, 102, 241, 0.15); padding:4px 10px; border-radius:12px; letter-spacing:0.5px;">
-              ${sym}${this.formatVal(total)} Saved
-            </span>
+            <div style="font-size:12px; font-weight:700; color:var(--color-text-muted);">
+              Total Saved: <span style="color:#6366f1; font-weight:800;">${sym}${this.formatVal(total)}</span>
+            </div>
           ` : ''}
         </div>
         <button class="fin-save-btn" style="width:auto; padding:0 16px; height:40px; gap:8px; font-size:13px; font-weight:800;" onclick="Finance.showSavingsModal()">
