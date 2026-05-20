@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lamim-v59';
+const CACHE_NAME = 'lamim-v61';
 const ASSETS = [
   './',
   './index.html',
@@ -48,7 +48,7 @@ self.addEventListener('fetch', (e) => {
   // NAVIGATION REQUESTS (HTML pages) → Network-First
   if (e.request.mode === 'navigate') {
     e.respondWith(
-      fetch(e.request)
+      fetch(e.request, { cache: 'no-cache' })
         .then((res) => {
           const copy = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
@@ -80,7 +80,7 @@ self.addEventListener('fetch', (e) => {
           }
         }, 1500); // 1.5 seconds timeout
 
-        fetch(e.request)
+        fetch(e.request, { cache: 'no-cache' })
           .then((res) => {
             if (res && res.ok) {
               const copy = res.clone();
