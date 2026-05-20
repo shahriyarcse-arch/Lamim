@@ -223,7 +223,7 @@ const Home = {
       <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:flex-end">
         <div style="display:flex; flex-direction:column">
           <span style="font-size:9px; font-weight:800; opacity:0.5; text-transform:uppercase; letter-spacing:1px">${window.t ? window.t('CURRENT RANK') : 'Current Rank'}</span>
-          <span style="font-size:15px; font-weight:900; color:${shs.rating.color}">${current.label}</span>
+          <span style="font-size:15px; font-weight:900; color:${shs.rating.color}">${window.t ? window.t(current.label) : current.label}</span>
         </div>
         <div style="text-align:right; display:flex; flex-direction:column">
           <span style="font-size:9px; font-weight:800; color:var(--color-text-muted); text-transform:uppercase; opacity:0.8">${window.t ? window.t('Next') : 'Next'}: ${window.t ? window.t(next.label) : next.label}</span>
