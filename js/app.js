@@ -209,15 +209,29 @@ const App = {
       const isOnline = navigator.onLine;
       let hasCloudSession = false;
 
+      let cloudUser = null;
       if (isOnline && window.supabaseClient) {
         try {
           const { data } = await window.supabaseClient.auth.getSession();
-          hasCloudSession = !!data?.session?.user;
+          cloudUser = data?.session?.user || null;
+          hasCloudSession = !!cloudUser;
         } catch (e) { console.warn("Session check failed", e); }
       }
 
       // If user exists locally, we allow entry (even if offline or cloud session fails)
       if (user) {
+        // If we have an online Supabase session, enforce email verification on existing accounts.
+        if (isOnline && window.supabaseClient && cloudUser) {
+          const emailConfirmed = Boolean(cloudUser.email_confirmed_at || cloudUser.confirmed_at);
+          if (!emailConfirmed) {
+            await window.supabaseClient.auth.signOut().catch(() => {});
+            DB.clearUser();
+            Utils.toast('Your account is not verified. Please verify your email before logging in.', 'warning');
+            this.showPage('login');
+            return;
+          }
+        }
+
         // Refresh role if online
         if (isOnline && window.supabaseClient && hasCloudSession) {
           try {
