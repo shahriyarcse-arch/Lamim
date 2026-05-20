@@ -6,13 +6,56 @@
   <meta name="description" content="Lamim — Track your salah, dhikr, goals and spiritual progress">
   <meta name="theme-color" content="#8b5cf6">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Lamim — Islamic Lifestyle Tracker</title>
+  <title>Lamim | Your Spiritual Journey</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/components.css?v=122">
+  <!-- Modularized Page CSS -->
+  <link rel="stylesheet" href="css/splash.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/salah.css?v=123">
+  <link rel="stylesheet" href="css/dhikr.css">
+  <link rel="stylesheet" href="css/mobile-optimizations.css">
+  <link rel="stylesheet" href="css/goals.css">
+  <link rel="stylesheet" href="css/analysis.css">
+  <link rel="stylesheet" href="css/profile.css?v=3">
+  <link rel="stylesheet" href="css/complete-cinematic-quote-effects.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/mini-badges.css">
+  <link rel="stylesheet" href="css/radiant-soul-animation-engine.css">
+  <link rel="stylesheet" href="css/stats-row.css">
+  <link rel="stylesheet" href="css/main-layout.css">
+  <link rel="stylesheet" href="css/glass-panel.css">
+  <link rel="stylesheet" href="css/user-list.css">
+  <link rel="stylesheet" href="css/sidebar-widgets.css">
+  <link rel="stylesheet" href="css/health-bars.css">
+  <link rel="stylesheet" href="css/activity-log.css">
+  <link rel="stylesheet" href="css/desktop-layout.css">
+  <link rel="stylesheet" href="css/ultra-small-screens.css">
+  <link rel="stylesheet" href="css/profile-premium.css?v=3">
+  <link rel="stylesheet" href="css/leaderboard-premium.css">
+  <!-- Mujahid MUST load last to override all competing rules -->
+  <link rel="stylesheet" href="css/mujahid.css?v=123">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('lamim_settings');
+      let theme = 'dark';
+      try {
+        if (saved && saved !== 'undefined') {
+          const parsed = JSON.parse(saved);
+          theme = parsed.theme || 'dark';
+        } else {
+          theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+      } catch (e) {
+        console.warn("Settings parse error, falling back to dark theme");
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
 <body>
 <div id="app">
@@ -30,6 +73,19 @@
   </div>
   <div class="splash-tagline">Your Islamic Lifestyle Companion</div>
   <div class="splash-loader"><div class="splash-loader-fill"></div></div>
+</div>
+
+<!-- DHIKR HISTORY MODAL -->
+<div class="modal-overlay hidden" id="dhikr-history-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Dhikr History</h3>
+      <button class="modal-close" onclick="document.getElementById('dhikr-history-modal').classList.add('hidden')">✕</button>
+    </div>
+    <div class="modal-body" id="dhikr-history-modal-body" style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
@@ -225,33 +281,29 @@
   <nav class="sidebar" id="sidebar" aria-label="Main navigation">
     <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#fff;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div><div class="sidebar-logo-text">Lamim</div></div>
     <div class="sidebar-nav">
-      <div class="nav-item active" data-section="home"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
-      <div class="nav-item" data-section="salah"><span class="nav-icon">🕋</span><span class="nav-label">Salah Tracker</span></div>
-      <div class="nav-item" data-section="dhikr"><span class="nav-icon">📿</span><span class="nav-label">Dhikr Counter</span></div>
-      <div class="nav-item" data-section="goals"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></div>
-      <div class="nav-item" data-section="akhlaq"><span class="nav-icon">🤲</span><span class="nav-label">Akhlaq (Habits)</span></div>
-      <div class="nav-item" data-section="finance"><span class="nav-icon">💰</span><span class="nav-label">Islamic Finance</span></div>
-      <div class="nav-item" data-section="tazkiyah"><span class="nav-icon">🧠</span><span class="nav-label">Tazkiyah</span></div>
-      <div class="nav-item" data-section="ilm"><span class="nav-icon">📚</span><span class="nav-label">Knowledge (Ilm)</span></div>
-      <div class="nav-item" data-section="analysis"><span class="nav-icon">📊</span><span class="nav-label">Analysis</span></div>
-      <div class="nav-item" data-section="profile"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></div>
+      <div class="nav-item active" data-section="home"><span class="nav-icon"><div class="nav-badge-container"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nav-notification-badge" id="home-badge-sidebar"></div></div></span><span class="nav-label">Home</span></div>
+      <div class="nav-item" data-section="salah"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg></span><span class="nav-label">Salah Tracker</span></div>
+      <div class="nav-item" data-section="dhikr"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="1"/><circle cx="18" cy="8" r="1"/><circle cx="20" cy="15" r="1"/><circle cx="15" cy="20" r="1"/><circle cx="8" cy="20" r="1"/><circle cx="4" cy="15" r="1"/><circle cx="6" cy="8" r="1"/></svg></span><span class="nav-label">Dhikr Counter</span></div>
+      <div class="nav-item" data-section="nafl"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><circle cx="12" cy="12" r="2"/></svg></span><span class="nav-label">Nafl Salah</span></div>
+      <div class="nav-item" data-section="mujahid"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span class="nav-label">Mujahid</span></div>
+      <div class="nav-item" data-section="finance"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M9 12h6"/></svg></span><span class="nav-label">Islamic Finance</span></div>
+      <div class="nav-item" data-section="analysis"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span class="nav-label">Analysis</span></div>
+      <div class="nav-item" data-section="profile"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="nav-label">Profile</span></div>
+      <div class="nav-item" id="vanguard-nav-item" data-section="leaderboard" style="display:none"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span><span class="nav-label">Vanguard</span></div>
+      
+      <!-- Admin Panel (Hidden by default) -->
+      <div class="nav-item hidden" id="admin-nav-item" data-section="admin">
+        <span class="nav-icon" style="color:#ef4444">⚙️</span>
+        <span class="nav-label">Admin Panel</span>
+      </div>
     </div>
-    <div class="sidebar-footer"><div class="nav-item" onclick="Auth.logout()"><span class="nav-icon">🚪</span><span class="nav-label">Logout</span></div></div>
+    <div class="sidebar-footer"><div class="nav-item" onclick="Auth.logout()"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span><span class="nav-label">Logout</span></div></div>
   </nav>
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <!-- Main Content -->
   <main class="main-content">
 
-    <!-- TEMP: Dev Data Cleaner — DELETE LATER -->
-    <div id="temp-dev-bar" style="background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.3);border-radius:12px;padding:10px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <span style="font-size:12px;color:#f87171;font-weight:600;">🛠️ Dev Tools (Temporary)</span>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button onclick="if(confirm('Clear ALL Salah data?')){Object.keys(localStorage).filter(k=>k.startsWith('lamim_salah_')).forEach(k=>localStorage.removeItem(k));location.reload();}" style="background:#f87171;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️ Clear Salah</button>
-        <button onclick="if(confirm('Clear ALL app data? This will log you out!')){localStorage.clear();location.reload();}" style="background:#dc2626;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">💣 Clear Everything</button>
-      </div>
-    </div>
-    <!-- /TEMP -->
     <!-- Topbar (mobile — dashboard only) -->
     <div class="topbar" id="topbar">
       <button class="btn btn-ghost btn-icon" id="sidebar-toggle" aria-label="Menu">☰</button>
@@ -262,6 +314,10 @@
         <span class="topbar-brand-name">Lamim</span>
       </div>
       <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-icon" onclick="Notifications.show()" title="Messages" style="padding:4px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-primary)"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <div class="nav-notification-badge" id="global-badge-top" style="top:2px; right:2px; display:none"></div>
+        </button>
         <button class="btn btn-ghost btn-icon" onclick="Profile.toggleTheme()" title="Toggle Theme">🌓</button>
         <div class="avatar avatar-sm" id="topbar-avatar" style="cursor:pointer" onclick="App.navigateTo('profile')">?</div>
       </div>
@@ -285,38 +341,95 @@
 
     <!-- ===== HOME ===== -->
     <section class="section-panel active" id="section-home">
-      <div class="home-header-row">
-        <div id="home-greeting" class="home-greeting"></div>
-        <div class="card card-glass home-live-datetime" id="home-live-datetime"></div>
-      </div>
-      <div id="home-date-bar" class="home-date-bar"></div>
-      <div id="home-next-prayer" class="next-prayer-banner"></div>
-      <div class="grid-2" style="margin-bottom:var(--space-6)">
-        <div class="card" style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;justify-content:center" id="home-salah-ring"></div>
-        <div class="card quote-card" id="home-quote"></div>
-      </div>
-      <div class="card" style="margin-bottom:var(--space-6)">
-        <div class="card-header"><div class="card-title">🗓️ 3-Week Salah Heatmap</div></div>
-        <div class="home-mini-heatmap" id="home-mini-heatmap"></div>
-        <div style="display:flex;gap:var(--space-4);margin-top:var(--space-3)">
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#34d399"></div>All 5</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#38bdf8"></div>3-4</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#fbbf24"></div>1-2</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#f87171"></div>None</div>
+      <!-- Nur Particles (Subtle BG) -->
+      <div id="nur-particles-container" style="position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; opacity:0.5;"></div>
+
+      <div style="position:relative; z-index:1;">
+        <div class="home-header-row">
+          <div id="home-greeting" class="home-greeting"></div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">⚡ Quick Actions</div></div>
-        <div class="quick-actions-grid">
-          <div class="quick-action-btn" onclick="App.navigateTo('salah')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg></div><div class="qa-label">Log Salah</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('dhikr')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-teal)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="8s" repeatCount="indefinite"/><circle cx="12" cy="4" r="2"><animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/></circle><circle cx="18" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.2s" repeatCount="indefinite"/></circle><circle cx="20" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.4s" repeatCount="indefinite"/></circle><circle cx="15" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.6s" repeatCount="indefinite"/></circle><circle cx="8" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.8s" repeatCount="indefinite"/></circle><circle cx="4" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1s" repeatCount="indefinite"/></circle><circle cx="6" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1.2s" repeatCount="indefinite"/></circle></g></svg></div><div class="qa-label">Start Dhikr</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('goals')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-red)"><circle cx="12" cy="12" r="10"><animate attributeName="r" values="10;9;10" dur="2s" repeatCount="indefinite"/></circle><circle cx="12" cy="12" r="6"><animate attributeName="r" values="6;5;6" dur="2s" repeatCount="indefinite"/></circle><circle cx="12" cy="12" r="2"><animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/></circle></svg></div><div class="qa-label">Set Goal</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('akhlaq')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-purple)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="scale" values="1; 1.1; 1" dur="2s" repeatCount="indefinite"/><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></g></svg></div><div class="qa-label">Akhlaq</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('finance')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="4s" repeatCount="indefinite"/><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M9 12h6"/></g></svg></div><div class="qa-label">Finance</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('tazkiyah')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 180; 360" dur="10s" repeatCount="indefinite"/><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></g><circle cx="12" cy="12" r="2"><animate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite"/></circle></svg></div><div class="qa-label">Tazkiyah</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('ilm')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-orange)"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><g><animateTransform attributeName="transform" type="translate" values="0,0; -2,0; 0,0" dur="2s" repeatCount="indefinite"/><path d="M8 7h6"/><path d="M8 11h8"/></g></svg></div><div class="qa-label">Ilm (Knowledge)</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('analysis')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><line x1="18" y1="20" x2="18" y2="10"><animate attributeName="y2" values="10; 4; 14; 10" dur="2s" repeatCount="indefinite"/></line><line x1="12" y1="20" x2="12" y2="4"><animate attributeName="y2" values="4; 12; 4" dur="2.5s" repeatCount="indefinite"/></line><line x1="6" y1="20" x2="6" y2="14"><animate attributeName="y2" values="14; 8; 16; 14" dur="3s" repeatCount="indefinite"/></line></svg></div><div class="qa-label">Analytics</div></div>
-          <div class="quick-action-btn" onclick="App.navigateTo('profile')"><div class="qa-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-secondary)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="8s" repeatCount="indefinite"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></g></svg></div><div class="qa-label">Settings</div></div>
+        
+        <div class="home-live-datetime-modern" id="home-live-datetime" style="margin-bottom:var(--space-6)"></div>
+        <div id="home-date-bar" class="home-date-bar" style="margin-bottom:var(--space-8)"></div>
+        
+        <style>
+          .home-salah-desktop-flex {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-6);
+            width: 100%;
+          }
+          .home-salah-ring-part {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+          }
+          .home-salah-widgets-part {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            max-width: 450px;
+            margin: 0 auto;
+          }
+
+          @media (min-width: 1024px) {
+            .home-salah-desktop-flex {
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              gap: var(--space-10);
+            }
+            .home-salah-ring-part {
+              flex: 1;
+              border-right: 1px solid var(--color-border);
+              padding-right: var(--space-6);
+            }
+            .home-salah-widgets-part {
+              flex: 1.2;
+              max-width: none;
+              padding-left: var(--space-2);
+            }
+          }
+        </style>
+        
+        <!-- CRITICAL FIX: Force prayer name visibility regardless of cached JS -->
+        <style>
+          #home-next-name {
+            -webkit-text-fill-color: initial !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--home-time-color) !important;
+            text-transform: capitalize !important;
+          }
+        </style>
+        
+        <div style="display: flex; flex-direction: column; width: 100%;">
+          <!-- 1. Next Prayer -->
+          <div id="home-next-prayer" style="margin-bottom:var(--space-6)"></div>
+          
+          <!-- 2. Today's Salah Card (Internal Horizontal Layout on Desktop) -->
+          <div class="card" style="margin-bottom:var(--space-6); padding: var(--space-8) var(--space-6);">
+            <div class="home-salah-desktop-flex">
+              <div id="home-salah-ring" class="home-salah-ring-part"></div>
+              
+              <div class="home-salah-widgets-part">
+                <!-- Path to Ihsan (Level Progress Bar) -->
+                <div id="home-level-progress-container" style="width: 100%;"></div>
+                
+                <!-- Vanguard Rank Shortcut Card -->
+                <div id="home-vanguard-card" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 3. AI Spiritual Insight -->
+          <div id="home-ai-insight-container" class="anim-fade-in" style="margin-bottom:var(--space-8)"></div>
         </div>
       </div>
     </section>
@@ -326,9 +439,18 @@
       <div class="section-header">
         <h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg></span>Salah Tracker</h2>
         <div class="flex gap-2" style="align-items:center">
-          <button class="btn btn-ghost btn-sm" id="salah-prev-day">← Prev</button>
-          <span class="badge badge-blue" id="salah-date-label">Today</span>
-          <button class="btn btn-ghost btn-sm" id="salah-next-day">Next →</button>
+          <button class="section-settings-btn" onclick="Salah.resetToday()" title="Reset Today's Salah">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+          <div class="salah-date-nav-modern" style="display: flex; align-items: center; background: var(--color-bg-tertiary); border: 1px solid var(--color-divider-subtle); border-radius: 20px; padding: 2px;">
+            <button class="btn btn-icon-sm" id="salah-prev-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <span id="salah-date-label" style="color: var(--color-text-primary); font-size: 13px; font-weight: 700; padding: 0 10px; min-width: 60px; text-align: center;">Today</span>
+            <button class="btn btn-icon-sm" id="salah-next-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -345,14 +467,14 @@
       <div class="card mt-4">
         <div class="card-header">
           <div class="card-title">📅 Monthly Calendar</div>
-          <button class="btn btn-sm btn-secondary" onclick="Salah.exportCSV()">📤 Export</button>
+          <button class="btn btn-sm btn-secondary" onclick="Salah.exportPDF()">📤 Export PDF</button>
         </div>
         <div id="salah-calendar" class="salah-calendar"></div>
         <div style="display:flex;gap:var(--space-4);margin-top:var(--space-3);flex-wrap:wrap">
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#34d399"></div>All 5</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#38bdf8"></div>3-4</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#fbbf24"></div>1-2</div>
-          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-muted)"><div style="width:10px;height:10px;border-radius:3px;background:#f87171"></div>None</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary);font-weight:700;"><div style="width:10px;height:10px;border-radius:3px;background:#10b981"></div>All 5</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary);font-weight:700;"><div style="width:10px;height:10px;border-radius:3px;background:#38bdf8"></div>3-4</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary);font-weight:700;"><div style="width:10px;height:10px;border-radius:3px;background:#fbbf24"></div>1-2</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:var(--text-xs);color:var(--color-text-secondary);font-weight:700;"><div style="width:10px;height:10px;border-radius:3px;background:#f87171"></div>None</div>
         </div>
         
         <!-- Premium Calendar Tooltip (Hidden by default) -->
@@ -362,85 +484,142 @@
 
     <!-- ===== DHIKR ===== -->
     <section class="section-panel" id="section-dhikr">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-teal)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="8s" repeatCount="indefinite"/><circle cx="12" cy="4" r="2"><animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/></circle><circle cx="18" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.2s" repeatCount="indefinite"/></circle><circle cx="20" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.4s" repeatCount="indefinite"/></circle><circle cx="15" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.6s" repeatCount="indefinite"/></circle><circle cx="8" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.8s" repeatCount="indefinite"/></circle><circle cx="4" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1s" repeatCount="indefinite"/></circle><circle cx="6" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1.2s" repeatCount="indefinite"/></circle></g></svg></span>Dhikr Counter</h2>
-        <div class="flex gap-2"><button class="btn btn-sm btn-secondary" onclick="Dhikr.reset()">🔄 Reset</button></div>
+      <div class="section-header" style="padding-bottom:var(--space-2)">
+        <h2 class="section-title salah-shimmer-text" style="font-size:var(--text-lg)"><span class="icon" style="width:22px;height:22px"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-teal)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="8s" repeatCount="indefinite"/><circle cx="12" cy="4" r="2"><animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/></circle><circle cx="18" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.2s" repeatCount="indefinite"/></circle><circle cx="20" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.4s" repeatCount="indefinite"/></circle><circle cx="15" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.6s" repeatCount="indefinite"/></circle><circle cx="8" cy="20" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="0.8s" repeatCount="indefinite"/></circle><circle cx="4" cy="15" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1s" repeatCount="indefinite"/></circle><circle cx="6" cy="8" r="2"><animate attributeName="r" values="2;3;2" dur="1s" begin="1.2s" repeatCount="indefinite"/></circle></g></svg></span>Dhikr</h2>
+        <button class="section-settings-btn" onclick="Dhikr.resetToday()" title="Reset Today's Dhikr">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
       </div>
-      <div class="tabs mb-4" id="dhikr-cat-tabs"></div>
-      <div id="dhikr-grid" class="dhikr-grid mb-6"></div>
-      <div class="card card-gold" style="text-align:center;margin-bottom:var(--space-6)">
-        <div id="dhikr-counter-wrap" class="dhikr-counter-wrap"></div>
-        <button class="dhikr-tap-btn" id="dhikr-tap-btn" onclick="Dhikr.tap()"><span class="dhikr-tap-icon">☝️</span><span>Tap</span></button>
-        <div style="margin-top:var(--space-2);font-size:var(--text-xs);color:var(--color-text-muted)">or press Space bar</div>
-        <div class="tasbeeh-beads mt-4" id="dhikr-beads"></div>
+
+      <!-- HERO: Tap Area -->
+      <div class="dhikr-hero-section">
+        
+        <!-- Hadith Marquee -->
+        <div class="dhikr-marquee-wrap">
+          <div class="dhikr-marquee">
+            <span class="dhikr-hadith-text"></span>
+            <span class="dhikr-hadith-text" aria-hidden="true"></span>
+          </div>
+        </div>
+        
+        <div class="dhikr-action-row" style="margin-top: 2rem;">
+          <button class="dhikr-side-btn dhikr-undo-btn" onclick="Dhikr.undo()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+          </button>
+          
+          <div class="dhikr-tap-area">
+            <button class="dhikr-main-tap-btn" id="dhikr-tap-btn" onclick="Dhikr.tap()">
+              <div class="tap-wave wave-1"></div>
+              <div class="tap-wave wave-2"></div>
+              <div class="tap-ripple" id="tap-ripple"></div>
+              <span class="dhikr-tap-count" id="dhikr-tap-count">0</span>
+            </button>
+          </div>
+          
+          <button class="dhikr-side-btn dhikr-reset-btn" onclick="Dhikr.reset()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+        </div>
+        
+        <div class="dhikr-current-info" id="dhikr-current-info"></div>
+        <div class="dhikr-beads-container" id="dhikr-beads-container"></div>
       </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📋 Today's Sessions</div></div>
-        <div id="dhikr-session-history"></div>
+
+      <!-- Horizontal Dhikr List -->
+      <div class="dhikr-preset-scroll">
+        <div id="dhikr-grid" class="dhikr-preset-row"></div>
+      </div>
+
+      <!-- Sessions -->
+      <div class="card dhikr-log-card" style="margin-top:var(--space-3)">
+        <div class="card-header" style="padding:var(--space-2) var(--space-3)">
+          <div class="card-title" style="font-size:var(--text-sm)">📋 Today</div>
+          <button class="btn btn-xs btn-secondary" style="background:transparent; border:none; color:var(--color-text-muted); cursor:pointer;" onclick="Dhikr.showHistoryModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </button>
+        </div>
+        <div id="dhikr-session-history" style="padding:0 var(--space-3) var(--space-3)"></div>
       </div>
     </section>
 
-    <!-- ===== GOALS ===== -->
-    <section class="section-panel" id="section-goals">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-red)"><circle cx="12" cy="12" r="10"><animate attributeName="r" values="10;9;10" dur="2s" repeatCount="indefinite"/></circle><circle cx="12" cy="12" r="6"><animate attributeName="r" values="6;5;6" dur="2s" repeatCount="indefinite"/></circle><circle cx="12" cy="12" r="2"><animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/></circle></svg></span>Goals</h2><button class="btn btn-gold btn-sm" onclick="Goals.showAddModal()">➕ New Goal</button></div>
-      <div class="stat-row mb-6" id="goals-stats"></div>
-      <div class="tabs mb-4" id="goals-filter-tabs">
-        <button class="tab-btn active" onclick="Goals.filterGoals('active',this)">Active</button>
-        <button class="tab-btn" onclick="Goals.filterGoals('completed',this)">Completed</button>
-        <button class="tab-btn" onclick="Goals.filterGoals('archived',this)">Archived</button>
-      </div>
-      <div id="goals-list"></div>
-    </section>
-
-    <!-- ===== ANALYSIS ===== -->
-    <section class="section-panel" id="section-analysis">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><line x1="18" y1="20" x2="18" y2="10"><animate attributeName="y2" values="10; 4; 14; 10" dur="2s" repeatCount="indefinite"/></line><line x1="12" y1="20" x2="12" y2="4"><animate attributeName="y2" values="4; 12; 4" dur="2.5s" repeatCount="indefinite"/></line><line x1="6" y1="20" x2="6" y2="14"><animate attributeName="y2" values="14; 8; 16; 14" dur="3s" repeatCount="indefinite"/></line></svg></span>Analysis</h2></div>
-      <div class="stat-row mb-6" id="analysis-summary"></div>
-      <div class="tabs mb-6">
-        <button class="tab-btn active" onclick="Analysis.renderTab('daily');this.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Daily</button>
-        <button class="tab-btn" onclick="Analysis.renderTab('weekly');this.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Weekly</button>
-        <button class="tab-btn" onclick="Analysis.renderTab('monthly');this.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Monthly</button>
-        <button class="tab-btn" onclick="Analysis.renderTab('dhikr');this.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Dhikr</button>
-      </div>
-      <div class="grid-2 mb-6">
-        <div class="card analysis-tab-content active" id="analysis-daily"><div class="card-title mb-4">📈 Daily Salah (Last 7 Days)</div><canvas id="chart-daily" class="chart-canvas"></canvas></div>
-        <div class="card analysis-tab-content" id="analysis-weekly"><div class="card-title mb-4">📊 Weekly Overview</div><canvas id="chart-weekly" class="chart-canvas"></canvas></div>
-        <div class="card analysis-tab-content" id="analysis-monthly"><div class="card-title mb-4">📉 Monthly Trend</div><canvas id="chart-monthly" class="chart-canvas"></canvas></div>
-        <div class="card analysis-tab-content" id="analysis-dhikr"><div class="card-title mb-4">📿 Dhikr (Last 7 Days)</div><canvas id="chart-dhikr" class="chart-canvas"></canvas></div>
-        <div class="card">
-          <div class="card-title mb-4">🥧 Prayer Status Breakdown</div>
-          <div style="display:flex;align-items:center;gap:var(--space-6);flex-wrap:wrap">
-            <canvas id="chart-donut" style="max-width:160px;max-height:160px"></canvas>
-            <div id="donut-legend" style="flex:1;display:flex;flex-direction:column;gap:var(--space-2)"></div>
+    <!-- ===== NAFL SALAH (Dedicated Section) ===== -->
+    <section class="section-panel" id="section-nafl">
+      <div class="section-header">
+        <h2 class="section-title salah-shimmer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-purple)"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><circle cx="12" cy="12" r="2"><animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite"/></circle></svg></span>Nafl Salah</h2>
+        <div class="flex items-center gap-3">
+          <button class="section-settings-btn" onclick="Goals.resetToday()" title="Reset Today's Nafl">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+          <button class="btn btn-icon-sm btn-ghost history-btn-premium" onclick="Goals.showHistory()" title="View History">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="live-pulse-svg"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+          </button>
+          <div class="nafl-date-nav-modern" style="display: flex; align-items: center; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); border-radius: 20px; padding: 2px;">
+            <button class="btn btn-icon-sm" id="nafl-prev-btn" onclick="Goals.changeDate(-1)" style="color: #a855f7; width: 28px; height: 28px; border-radius: 50%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <span id="nafl-date-label" style="color: #c084fc; font-size: 13px; font-weight: 700; padding: 0 10px; min-width: 60px; text-align: center;">Today</span>
+            <button class="btn btn-icon-sm" id="nafl-next-btn" onclick="Goals.changeDate(1)" style="color: #a855f7; width: 28px; height: 28px; border-radius: 50%;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
           </div>
         </div>
       </div>
-      <div class="card"><div class="card-title mb-4">🏆 Achievements</div><div id="achievements-grid" class="achievement-grid"></div></div>
+
+      <!-- Hero Header (Hydrated by Goals.js) -->
+      <div id="nafl-hero-banner"></div>
+
+<!-- Sunnah Grid -->
+      <div class="nafl-section-title">
+        <span class="nafl-section-title-text">Sunnah Mu'akkadah</span>
+      </div>
+      <div id="nafl-sunnah-grid" class="nafl-grid"></div>
+
+      <!-- Night Prayers -->
+      <div class="nafl-section-title">
+        <span class="nafl-section-title-text">Night Prayers</span>
+      </div>
+
+      <!-- Night Prayers Group -->
+      <div class="night-prayers-container nafl-grid" id="nafl-night-grid">
+        <div id="tahajjud-card-container"></div>
+        <div id="witr-card-container"></div>
+      </div>
+
+      </section>
+
+    <!-- ===== ANALYSIS ===== -->
+    <section class="section-panel" id="section-analysis">
+      <div class="section-header">
+        <h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-purple)"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Analysis</h2>
+      </div>
+      <div id="analysis-content"></div>
     </section>
 
-    <!-- ===== AKHLAQ ===== -->
-    <section class="section-panel" id="section-akhlaq">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-purple)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="scale" values="1; 1.1; 1" dur="2s" repeatCount="indefinite"/><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></g></svg></span>Habits & Sunnah</h2></div>
-      <div id="akhlaq-content"></div>
+    <!-- ===== MUJAHID ===== -->
+    <section class="section-panel" id="section-mujahid">
+      <div class="section-header">
+        <h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-red)"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span data-i18n="Mujahid">Mujahid</span></h2>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <button class="section-tools-btn" onclick="Mujahid.showBreathingExercise()" title="Calm Breathing">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.8 3a8.9 8.9 0 0 1 3.1 5.2 7.7 7.7 0 0 1-5.2 6.5 15.8 15.8 0 0 0-4.5 1.7 8.8 8.8 0 0 1-3.1-5.2 7.8 7.8 0 0 1 5.2-6.5c2.4-.9 4.5-1.7 4.5-1.7Z"/><path d="M5.1 16.9a11.1 11.1 0 0 1-1.1-4.1"/><path d="M18.9 7.1a11.1 11.1 0 0 1 1.1 4.1"/></svg>
+          </button>
+          <button class="section-tools-btn" onclick="Mujahid.showToolsModal()" title="Mujahid Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="mujahid-content"></div>
     </section>
 
     <!-- ===== FINANCE ===== -->
     <section class="section-panel" id="section-finance">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="4s" repeatCount="indefinite"/><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M9 12h6"/></g></svg></span>Islamic Finance</h2></div>
-      <div id="finance-zakat"></div>
-      <div id="finance-debts"></div>
-    </section>
-
-    <!-- ===== TAZKIYAH ===== -->
-    <section class="section-panel" id="section-tazkiyah">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 180; 360" dur="10s" repeatCount="indefinite"/><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></g><circle cx="12" cy="12" r="2"><animate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite"/></circle></svg></span>Tazkiyah</h2></div>
-      <div id="tazkiyah-content"></div>
-    </section>
-
-    <!-- ===== ILM ===== -->
-    <section class="section-panel" id="section-ilm">
-      <div class="section-header"><h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-orange)"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><g><animateTransform attributeName="transform" type="translate" values="0,0; -2,0; 0,0" dur="2s" repeatCount="indefinite"/><path d="M8 7h6"/><path d="M8 11h8"/></g></svg></span>Knowledge Hub</h2></div>
-      <div id="ilm-library"></div>
-      <div id="ilm-notes"></div>
+      <div class="section-header">
+        <h2 class="section-title"><span class="icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green)"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span><span data-i18n="Finance">Finance</span></h2>
+        <button class="section-tools-btn" onclick="Finance.showToolsModal()" title="Finance Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div id="finance-content"></div>
     </section>
 
     <!-- ===== PROFILE ===== -->
@@ -453,20 +632,65 @@
       <div class="settings-group" style="border-color:rgba(248,81,73,0.3)"><div class="settings-group-title" style="color:var(--color-accent-red)">Danger Zone</div><div id="profile-danger"></div></div>
     </section>
 
+    <!-- ===== LEADERBOARD ===== -->
+    <section class="section-panel" id="section-leaderboard">
+      <div id="leaderboard-content"></div>
+    </section>
+
+    <!-- Profile Edit Modal -->
+    <div class="modal-overlay hidden" id="profile-edit-modal">
+      <div class="modal" style="max-width:400px">
+        <div class="modal-header">
+          <h3 class="modal-title" id="profile-edit-title">Edit</h3>
+          <button class="modal-close" onclick="Profile.closeEditModal()">✕</button>
+        </div>
+        <div style="margin-bottom:var(--space-4)">
+          <label class="input-label" id="profile-edit-label" style="margin-bottom:6px;display:block">Value</label>
+          <input class="input" id="profile-edit-input" type="text" style="width:100%">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="Profile.closeEditModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="Profile.saveEditModal()">Save</button>
+        </div>
+      </div>
+    </div>
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay hidden" id="confirm-modal" style="display:flex; align-items:center; justify-content:center;">
+      <div class="modal custom-confirm-panel">
+        <div class="confirm-icon-wrap" id="confirm-icon-box">⚠️</div>
+        <h3 class="confirm-title" id="confirm-title">Are you sure?</h3>
+        <p class="confirm-msg" id="confirm-msg">This action cannot be undone.</p>
+        <div class="confirm-actions">
+          <button class="confirm-btn cancel" onclick="Utils.closeConfirm()">Cancel</button>
+          <button class="confirm-btn proceed" id="confirm-yes-btn">Yes, Proceed</button>
+        </div>
+      </div>
+    </div>
+    <!-- ===== ADMIN ===== -->
+    <section class="section-panel" id="section-admin">
+      <div id="admin-root">
+        <!-- Content injected by admin.js -->
+        <div class="p-8 text-center">
+          <div class="loader-spinner mb-4"></div>
+          <p>Initializing Admin Command Center...</p>
+        </div>
+      </div>
+    </section>
+
   </main>
+
 
   <!-- Bottom Nav (mobile) -->
   <nav class="bottom-nav" aria-label="Bottom navigation" style="overflow-x:auto; justify-content:flex-start; gap:16px; padding:0 16px;">
-    <div class="bottom-nav-item active" data-section="home"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Home</div>
-    <div class="bottom-nav-item" data-section="salah"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg></span>Salah</div>
-    <div class="bottom-nav-item" data-section="dhikr"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="15" r="2"/><circle cx="15" cy="20" r="2"/><circle cx="8" cy="20" r="2"/><circle cx="4" cy="15" r="2"/><circle cx="6" cy="8" r="2"/></svg></span>Dhikr</div>
-    <div class="bottom-nav-item" data-section="goals"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>Goals</div>
-    <div class="bottom-nav-item" data-section="akhlaq"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>Akhlaq</div>
-    <div class="bottom-nav-item" data-section="finance"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M9 12h6"/></svg></span>Finance</div>
-    <div class="bottom-nav-item" data-section="tazkiyah"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>Tazkiyah</div>
-    <div class="bottom-nav-item" data-section="ilm"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h6"/><path d="M8 11h8"/></svg></span>Ilm</div>
-    <div class="bottom-nav-item" data-section="analysis"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>Analysis</div>
-    <div class="bottom-nav-item" data-section="profile"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>Profile</div>
+    <div class="bottom-nav-item active" data-section="home"><span class="bnav-icon"><div class="nav-badge-container"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nav-notification-badge" id="home-badge-bottom"></div></div></span><span data-i18n="Home">Home</span></div>
+    <div class="bottom-nav-item" data-section="salah"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg></span><span data-i18n="Salah">Salah</span></div>
+    <div class="bottom-nav-item" data-section="dhikr"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="15" r="2"/><circle cx="15" cy="20" r="2"/><circle cx="8" cy="20" r="2"/><circle cx="4" cy="15" r="2"/><circle cx="6" cy="8" r="2"/></svg></span><span data-i18n="Dhikr">Dhikr</span></div>
+    <div class="bottom-nav-item" data-section="nafl"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><circle cx="12" cy="12" r="2"/></svg></span><span data-i18n="Nafl">Nafl</span></div>
+    <div class="bottom-nav-item" data-section="mujahid"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span data-i18n="Mujahid">Mujahid</span></div>
+    <div class="bottom-nav-item" data-section="finance"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M9 12h6"/></svg></span><span data-i18n="Finance">Finance</span></div>
+    <div class="bottom-nav-item" data-section="analysis"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span data-i18n="Analysis">Analysis</span></div>
+    <div class="bottom-nav-item" id="vanguard-bnav-item" data-section="leaderboard" style="display:none"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span><span data-i18n="Vanguard">Vanguard</span></div>
+    <div class="bottom-nav-item" data-section="profile"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span data-i18n="Profile">Profile</span></div>
   </nav>
 </div>
 </div>
@@ -502,7 +726,6 @@
   <div class="modal">
     <div class="modal-header"><h3 class="modal-title">Custom Dhikr</h3><button class="modal-close" onclick="Dhikr.hideAddModal()">✕</button></div>
     <div class="auth-form">
-      <div class="input-group"><label class="input-label">Arabic Text (optional)</label><input class="input font-arabic" id="custom-arabic" placeholder="Arabic text" dir="rtl"></div>
       <div class="input-group"><label class="input-label">Name / Transliteration</label><input class="input" id="custom-latin" placeholder="e.g. SubhanAllah"></div>
       <div class="input-group"><label class="input-label">Target Count</label><input class="input" type="number" id="custom-target" value="33" min="1"></div>
     </div>
@@ -510,21 +733,576 @@
   </div>
 </div>
 
+
+
+
+<!-- External Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="js/supabase-client.js?v=124"></script>
+  <!-- NAFL HISTORY MODAL -->
+  <div class="modal-overlay hidden" id="nafl-history-modal" onclick="if(event.target===this) Goals.hideHistory()">
+    <div class="modal history-modal-content-container anim-scale-up">
+      <div class="modal-header">
+        <h3 class="modal-title">Spiritual Journey</h3>
+        <button class="modal-close" onclick="Goals.hideHistory()">✕</button>
+      </div>
+      
+      <!-- Sophisticated Summary -->
+      <div class="history-premium-summary">
+        <div class="h-summary-card">
+          <span class="h-sum-val" id="h-sum-total">0</span>
+          <span class="h-sum-label">Total Rakat</span>
+        </div>
+        <div class="h-summary-card">
+          <span class="h-sum-val" id="h-sum-streak">0</span>
+          <span class="h-sum-label">Day Streak</span>
+        </div>
+        <div class="h-summary-card">
+          <span class="h-sum-val" id="h-sum-avg">0%</span>
+          <span class="h-sum-label">Completion</span>
+        </div>
+      </div>
+
+      <div class="history-list-header">Last 30 Days</div>
+      <div id="nafl-history-list" class="history-list-modern">
+        <!-- History items injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MUJAHID ADD MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-add-modal" onclick="if(event.target===this) Mujahid.hideAddModal()">
+    <div class="modal anim-scale-up" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Habit to Quit</h3>
+        <button class="modal-close" onclick="Mujahid.hideAddModal()">✕</button>
+      </div>
+      <div class="modal-body" style="padding:20px; max-height:80vh; overflow-y:auto;">
+        <!-- STEP 1: SELECT OR TYPE HABIT -->
+        <div style="margin-bottom:16px;">
+          <input type="text" id="mujahid-custom-habit-input" class="mujahid-forge-field" placeholder="🔍 Search or type a habit..." style="margin-bottom:14px; border-width:2px;" />
+          
+          <div id="mujahid-default-habits" class="mujahid-habits-grid" style="margin-bottom:0; max-height:220px; overflow-y:auto; padding-right:4px;">
+            <!-- Presets injected here -->
+          </div>
+        </div>
+
+        <!-- STEP 2: CUSTOMIZE (COMPACT) -->
+        <div class="mujahid-forge-input-wrap" style="margin-top:0; padding:12px; background:rgba(255,255,255,0.02);">
+          <!-- Step 2.1: Visual Theme (Collapsible) -->
+          <details style="margin-bottom:16px;">
+            <summary style="cursor:pointer; color:rgba(255,255,255,0.5); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; outline:none; user-select:none; display:flex; align-items:center; gap:8px;">
+              <span>🎨 Customize Visual Theme</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div style="margin-top:12px; padding:12px; background:rgba(0,0,0,0.2); border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+              <div id="mujahid-custom-colors" class="mujahid-color-selector" style="margin-bottom:0; gap:8px; flex-wrap:wrap;">
+                <div class="color-dot active" data-color="#6366f1" style="background:#6366f1; width:24px; height:24px;"></div>
+                <div class="color-dot" data-color="#ef4444" style="background:#ef4444; width:24px; height:24px;"></div>
+                <div class="color-dot" data-color="#10b981" style="background:#10b981; width:24px; height:24px;"></div>
+                <div class="color-dot" data-color="#f59e0b" style="background:#f59e0b; width:24px; height:24px;"></div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Step 2.2: Premium Collapsible Date & Time Picker Card -->
+          <div class="custom-dt-picker-card" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:16px; margin-bottom:16px; text-align:center;">
+            <!-- Display Selected Date/Time dynamically -->
+            <div id="mujahid-dt-display" style="font-size:14px; font-weight:800; color:#10b981; margin-bottom:12px; letter-spacing:0.5px; text-transform:uppercase;">
+              🕒 Starting: Right Now
+            </div>
+
+            <!-- Quick Date Buttons + Custom Trigger -->
+            <div class="forge-quick-dates" style="justify-content:center; gap:6px;">
+              <button class="quick-date-btn active" onclick="Mujahid.setForgeQuickDate(0, this)">Right Now</button>
+              <button class="quick-date-btn" onclick="Mujahid.setForgeQuickDate(1, this)">Yesterday</button>
+              <button class="quick-date-btn" onclick="Mujahid.setForgeQuickDate(3, this)">3 Days Ago</button>
+              <button class="quick-date-btn" onclick="Mujahid.setForgeQuickDate(7, this)">1 Week Ago</button>
+              <button class="quick-date-btn" id="mujahid-custom-trigger" onclick="Mujahid.toggleCustomDTPicker(this)">Custom...</button>
+            </div>
+
+            <!-- Hidden default input for backward compatibility -->
+            <input type="datetime-local" id="mujahid-new-habit-start" class="hidden" style="display:none;" />
+
+            <!-- Collapsible Custom Selector Wheel/Inputs -->
+            <div id="mujahid-custom-dt-controls" style="display:none; margin-top:16px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px; text-align:left;">
+              <!-- Days Ago Stepper -->
+              <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px;">Days Ago</div>
+                  <div id="custom-days-display" style="font-size:14px; font-weight:700; color:#fff; margin-top:2px;">0 Days (Today)</div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('days', -1)" style="width:36px; height:36px; border-radius:10px; padding:0; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; cursor:pointer;">-</button>
+                  <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('days', 1)" style="width:36px; height:36px; border-radius:10px; padding:0; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; cursor:pointer;">+</button>
+                </div>
+              </div>
+
+              <!-- Time of Day Stepper -->
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <!-- Hours -->
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);">
+                  <div>
+                    <div style="font-size:9px; font-weight:700; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.5px;">Hour</div>
+                    <div id="custom-hour-display" style="font-size:15px; font-weight:800; color:#fff; margin-top:2px;">12</div>
+                  </div>
+                  <div style="display:flex; gap:4px;">
+                    <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('hour', -1)" style="width:28px; height:28px; border-radius:6px; padding:0; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer;">-</button>
+                    <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('hour', 1)" style="width:28px; height:28px; border-radius:6px; padding:0; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer;">+</button>
+                  </div>
+                </div>
+
+                <!-- Minutes -->
+                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);">
+                  <div>
+                    <div style="font-size:9px; font-weight:700; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.5px;">Minute</div>
+                    <div id="custom-minute-display" style="font-size:15px; font-weight:800; color:#fff; margin-top:2px;">00</div>
+                  </div>
+                  <div style="display:flex; gap:4px;">
+                    <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('minute', -5)" style="width:28px; height:28px; border-radius:6px; padding:0; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer;">-</button>
+                    <button type="button" class="quick-date-btn" onclick="Mujahid.adjustCustomDT('minute', 5)" style="width:28px; height:28px; border-radius:6px; padding:0; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer;">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AM/PM Selector -->
+              <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:10px; font-weight:800; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px;">AM / PM Segment</span>
+                <div style="display:flex; background:rgba(0,0,0,0.3); padding:4px; border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
+                  <button type="button" id="ampm-am-btn" class="quick-date-btn" onclick="Mujahid.setCustomAMPM('AM')" style="padding:6px 14px; border-radius:8px; border:none; font-size:12px; font-weight:800; cursor:pointer;">AM</button>
+                  <button type="button" id="ampm-pm-btn" class="quick-date-btn" onclick="Mujahid.setCustomAMPM('PM')" style="padding:6px 14px; border-radius:8px; border:none; font-size:12px; font-weight:800; cursor:pointer;">PM</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="forge-action-btn" onclick="Mujahid.addCustomHabit()" style="padding:14px;">FORGE TRACKER</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- START DATE MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-startdate-modal" onclick="if(event.target===this) Mujahid.hideStartDateModal()">
+    <div class="modal anim-scale-up" style="max-width:320px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Set Start Time</h3>
+        <button class="modal-close" onclick="Mujahid.hideStartDateModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>When did you start fighting this habit?</p>
+        <input type="hidden" id="mujahid-startdate-habit-id" value="">
+        <input type="datetime-local" id="mujahid-startdate-input" class="input">
+        <button class="modal-btn-primary" onclick="Mujahid.saveStartDate()">Save Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELAPSE MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-relapse-modal" onclick="if(event.target===this) Mujahid.hideRelapseModal()">
+    <div class="modal anim-scale-up" style="max-width:320px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: #ef4444;">Mark Relapse</h3>
+        <button class="modal-close" onclick="Mujahid.hideRelapseModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>A relapse is a lesson, not a failure. Why did it happen?</p>
+        <input type="hidden" id="mujahid-relapse-habit-id" value="">
+        <textarea id="mujahid-relapse-reason" class="input" rows="3" placeholder="Identify the trigger (e.g. stress, boredom)..." style="resize:vertical;"></textarea>
+        <button class="modal-btn-primary danger" onclick="Mujahid.confirmRelapse()">Confirm Relapse & Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-history-modal" onclick="if(event.target===this) Mujahid.hideHistoryModal()">
+    <div class="modal anim-scale-up" style="max-width:400px;max-height:80vh;overflow-y:auto;">
+      <div class="modal-header">
+        <h3 class="modal-title">Relapse History</h3>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button id="mujahid-history-clear-btn" class="btn btn-icon-sm" style="color:#ef4444; background:transparent; border:none; cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center;" title="Clear History">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          </button>
+          <button class="modal-close" onclick="Mujahid.hideHistoryModal()" style="margin:0;">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="mujahid-history-list">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUJAHID CONFIRM MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-confirm-modal" style="z-index: 30000;">
+    <div class="modal anim-scale-up" style="max-width:320px; text-align:center;">
+      <div style="width:60px; height:60px; background:rgba(239, 68, 68, 0.1); color:#ef4444; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:30px;">⚠️</div>
+      <h3 class="modal-title" id="mujahid-confirm-title" style="color:var(--color-text-primary) !important; margin-bottom:12px;">Are you sure?</h3>
+      <p id="mujahid-confirm-msg" style="color:var(--color-text-muted); font-size:14px; line-height:1.6; margin-bottom:24px;">This action cannot be undone.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <button class="mujahid-btn-cancel" onclick="Mujahid.hideConfirm()">CANCEL</button>
+        <button class="mujahid-btn-danger" id="mujahid-confirm-btn">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS MODAL -->
+  <div class="modal-overlay hidden" id="mujahid-tools-modal" onclick="if(event.target===this) Mujahid.hideToolsModal()">
+    <div class="modal anim-scale-up" style="max-width:380px;max-height:85vh;overflow-y:auto;">
+      <div class="modal-header">
+        <h3 class="modal-title">Mujahid Settings</h3>
+        <button class="modal-close" onclick="Mujahid.hideToolsModal()">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Badge Guide -->
+        <div style="margin-bottom:20px;">
+          <div style="font-size:15px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;">Badge Milestones</div>
+          <p style="font-size:12px;color:var(--color-text-muted);margin-bottom:14px;line-height:1.5;">
+            Every day you stay clean earns you progress toward the next rank. Earned badges glow on your tracker — keep pushing to unlock them all.
+          </p>
+          <div id="mujahid-badge-guide" style="display:flex;flex-direction:column;gap:8px;">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.06);margin:16px 0;"></div>
+
+        <!-- Tools -->
+        <div style="font-size:15px;font-weight:700;color:var(--color-text-primary);margin-bottom:12px;">Tools</div>
+        <button class="mujahid-tool-btn" onclick="Mujahid.resetAllStartDates()">🔄 Reset All Timers</button>
+        <button class="mujahid-tool-btn danger" onclick="Mujahid.clearAllData()">🗑️ Clear All Data</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="mujahid-breathe-pro" style="background:#0a0f1c; z-index:9999; overflow:hidden;">
+    <!-- Animated Aurora Background -->
+    <div style="position:absolute; inset:0; z-index:0; overflow:hidden; opacity:0.6;">
+      <div class="aurora-blob" style="position:absolute; top:-10%; left:-10%; width:70%; height:70%; background:radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%); filter:blur(80px); animation: aurora-move 15s infinite alternate;"></div>
+      <div class="aurora-blob" style="position:absolute; bottom:-10%; right:-10%; width:70%; height:70%; background:radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%); filter:blur(80px); animation: aurora-move 20s infinite alternate-reverse;"></div>
+      <div class="aurora-blob" style="position:absolute; top:20%; right:10%; width:50%; height:50%; background:radial-gradient(circle, rgba(34,211,238,0.2) 0%, transparent 70%); filter:blur(80px); animation: aurora-move 12s infinite alternate;"></div>
+    </div>
+
+    <style>
+      @keyframes aurora-move {
+        0% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+        100% { transform: translate3d(15%, 10%, 0) rotate(10deg) scale(1.1); }
+      }
+      .aurora-blob {
+        will-change: transform, opacity;
+        animation-play-state: paused;
+      }
+      #mujahid-breathe-pro:not(.hidden) .aurora-blob {
+        animation-play-state: running;
+      }
+      .glossy-orb {
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2) 0%, transparent 50%),
+                    linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        box-shadow: 0 0 80px rgba(99,102,241,0.4), 
+                    inset 0 0 40px rgba(255,255,255,0.3),
+                    inset 0 0 20px rgba(0,0,0,0.2);
+        position: relative;
+        z-index: 2;
+        will-change: transform;
+        transform: translateZ(0);
+      }
+      .aura-ring {
+        position: absolute;
+        inset: -30px;
+        border: 2px solid rgba(99,102,241,0.1);
+        border-radius: 50%;
+        z-index: 1;
+        transition: transform 8s linear, opacity 8s linear;
+        will-change: transform, opacity;
+      }
+    </style>
+
+    <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; position:relative; z-index:10;">
+      <button class="modal-close" onclick="Mujahid.hideBreathingExercise()" style="position:absolute; top:30px; right:30px; background:rgba(255,255,255,0.1); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:20px; border:1px solid rgba(255,255,255,0.1); cursor:pointer; color:#fff; transition: background 0.3s;">✕</button>
+      
+      <div style="position:relative; margin-bottom:80px; display:flex; align-items:center; justify-content:center;">
+        <div id="breathe-orb" class="glossy-orb" style="width:180px; height:180px; border-radius:50%; transition: transform 8s linear; display:flex; align-items:center; justify-content:center;">
+          <div id="breathe-timer" style="font-size:72px; font-weight:900; color:#fff; text-shadow:0 0 30px rgba(0,0,0,0.3); position:relative; z-index:10; display:block; font-family:'Outfit', sans-serif;">8</div>
+        </div>
+        <div id="breathe-orb-outer" class="aura-ring" style="opacity:0.3;"></div>
+        <!-- Extra Pulse Ring -->
+        <div id="breathe-aura-2" style="position:absolute; inset:-60px; border:1px solid rgba(236,72,153,0.05); border-radius:50%; z-index:0; transition: transform 8s linear; pointer-events:none;"></div>
+      </div>
+      
+      <div id="breathe-text" style="font-size:36px; font-weight:900; letter-spacing:6px; text-transform:uppercase; margin-bottom:12px; text-shadow:0 10px 20px rgba(0,0,0,0.2); background:linear-gradient(to bottom, #fff, rgba(255,255,255,0.6)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Ready?</div>
+      <div id="breathe-phase" style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:3px; text-transform:uppercase; margin-bottom:40px;">Find your center</div>
+      
+      <div id="breathe-prompt" class="hidden" style="display:flex; gap:16px; align-items:center; justify-content:center; flex-direction:column; background:rgba(255,255,255,0.03); padding:32px; border-radius:32px; border:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(20px); box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+        <div style="font-size:22px; font-weight:800; margin-bottom:20px; letter-spacing:1px;">Session Complete</div>
+        <button class="mujahid-btn" onclick="Mujahid.startBreathingExercise()" style="padding:16px 40px; font-size:16px; background:linear-gradient(135deg, #6366f1, #a855f7); border:none; border-radius:100px; color:#fff; cursor:pointer; font-weight:800; box-shadow:0 15px 30px rgba(99,102,241,0.4); transition: transform 0.3s;">Repeat Round</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Settings Modal (Custom Popup) -->
+  <div id="section-settings-modal" class="modal-overlay hidden">
+    <div class="modal card card-glass anim-scale-up" style="max-width:320px; width:90%; padding:var(--space-5); border-radius:28px; position:relative;">
+      <button class="modal-close" onclick="UI.hideSettingsModal()" style="position:absolute; top:12px; right:12px;">✕</button>
+      <div class="flex flex-col items-center text-center gap-4">
+        <div class="modal-icon-orb" id="settings-modal-icon" style="width:64px; height:64px; background:rgba(248,113,113,0.1); color:#f87171; border-radius:20px; display:flex; align-items:center; justify-content:center; margin-bottom:var(--space-2)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+        </div>
+        <h3 class="text-xl font-bold" id="settings-modal-title" style="margin:0">Reset Data?</h3>
+        <p class="text-sm text-muted" id="settings-modal-desc" style="margin:0; line-height:1.5;">Are you sure you want to clear all data for this section today?</p>
+        
+        <div class="flex flex-col w-full gap-3 mt-4">
+          <button class="btn" id="settings-confirm-btn" style="background:#f87171; color:#fff; border-radius:16px; padding:14px; font-weight:700; border:none; width:100%;">Yes, Clear Data</button>
+          <button class="btn btn-secondary" onclick="UI.hideSettingsModal()" style="border-radius:16px; padding:12px; font-weight:600; width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL SYNC INSPECTOR FAB (Modern, Faded, Glassmorphic) -->
+  <style>
+    .global-sync-fab {
+      position: fixed;
+      right: 16px;
+      bottom: 90px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text);
+      z-index: 9990;
+      opacity: 0.3;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .global-sync-fab:hover, .global-sync-fab:active {
+      opacity: 1;
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      color: var(--color-accent-blue);
+    }
+    .global-sync-fab svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    @keyframes syncPulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(74, 222, 128, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+    }
+    @keyframes syncPulseYellow {
+      0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(251, 191, 36, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+    @keyframes syncPulseGray {
+      0% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(148, 163, 184, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(148, 163, 184, 0); }
+    }
+    
+    .sync-pulse-green { animation: syncPulseGreen 2s infinite; color: #4ade80 !important; border-color: rgba(74, 222, 128, 0.3) !important; }
+    .sync-pulse-yellow { animation: syncPulseYellow 2s infinite; color: #fbbf24 !important; border-color: rgba(251, 191, 36, 0.3) !important; }
+    .sync-pulse-gray { animation: syncPulseGray 2s infinite; color: #94a3b8 !important; border-color: rgba(148, 163, 184, 0.2) !important; }
+  </style>
+
+  <button id="sync-fab-trigger" class="global-sync-fab" onclick="document.getElementById('sync-hub-modal').classList.remove('hidden')" title="Cloud Sync Inspector">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+      <path d="m12 12 3-3 3 3"/>
+      <path d="M15 9v11"/>
+    </svg>
+  </button>
+
+  <!-- PREMIUM SYNC HUB MODAL -->
+  <div id="sync-hub-modal" class="modal-overlay hidden" onclick="if(event.target===this) this.classList.add('hidden')" style="z-index:10000; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="modal anim-scale-up" style="max-width:360px; width:90%; padding:24px; border-radius:28px; background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);">
+      
+      <!-- Header -->
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+        <div style="width:46px; height:46px; border-radius:14px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 20px rgba(99,102,241,0.4);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        </div>
+        <div>
+          <h3 style="margin:0; font-size:18px; font-weight:700; color:#fff; letter-spacing:-0.3px;">Data Sync Hub</h3>
+          <div style="font-size:13px; font-weight:500; color:var(--color-text-secondary);" id="sync-hub-status-text">Checking connection...</div>
+        </div>
+      </div>
+
+      <!-- MODERN SYNC STATUS CARD -->
+      <div id="sync-status-main-card" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius:24px; padding:24px; text-align:center; margin-bottom:20px; position:relative; overflow:hidden;">
+        <div id="sync-status-icon-container" style="width:60px; height:60px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+           <!-- Icon will be injected by JS -->
+        </div>
+        <div id="sync-status-title" style="font-size:18px; font-weight:800; color:#fff; margin-bottom:4px;">Checking...</div>
+        <div id="sync-status-desc" style="font-size:13px; color:#64748b; font-weight:500;">Please wait a moment</div>
+        
+        <!-- Animated Pulse Ring -->
+        <div class="sync-pulse" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:100%; height:100%; pointer-events:none; opacity:0.1;"></div>
+      </div>
+
+      <!-- CONNECTIVITY BADGES -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:24px;">
+        <div class="sync-badge-item" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:18px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <div id="conn-dot-local" style="width:8px; height:8px; border-radius:50%; background:#4ade80; box-shadow: 0 0 10px #4ade80;"></div>
+          <div style="font-size:12px; font-weight:700; color:#94a3b8;">Local Save</div>
+        </div>
+        <div class="sync-badge-item" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:18px; padding:12px; display:flex; align-items:center; gap:10px;">
+          <div id="conn-dot-cloud" style="width:8px; height:8px; border-radius:50%; background:#64748b;"></div>
+          <div style="font-size:12px; font-weight:700; color:#94a3b8;">Cloud Link</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;">
+        <button onclick="document.getElementById('sync-hub-modal').classList.add('hidden')" style="flex:1; padding:16px; border-radius:16px; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.05); font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s;">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Update Sync Hub
+    setInterval(() => {
+      const statusTitle = document.getElementById('sync-status-title');
+      const statusDesc = document.getElementById('sync-status-desc');
+      const statusHeader = document.getElementById('sync-hub-status-text');
+      const iconContainer = document.getElementById('sync-status-icon-container');
+      const dotCloud = document.getElementById('conn-dot-cloud');
+      const fab = document.getElementById('sync-fab-trigger');
+      
+      const q = (DB.rawGet('lamim_sync_queue') ? JSON.parse(DB.rawGet('lamim_sync_queue')) : []);
+      const isOnline = !!window.supabaseClient;
+      const isSynced = q.length === 0;
+
+      // Update Header Text
+      if (statusHeader) {
+        statusHeader.innerHTML = isOnline 
+          ? '<span style="color:#4ade80">● Active & Protected</span>'
+          : '<span style="color:#94a3b8">● Offline / Disconnected</span>';
+      }
+
+      // Update Floating FAB
+      if (fab) {
+        fab.classList.remove('sync-pulse-green', 'sync-pulse-yellow', 'sync-pulse-gray');
+        if (!isOnline) fab.classList.add('sync-pulse-gray');
+        else if (!isSynced) fab.classList.add('sync-pulse-yellow');
+        else fab.classList.add('sync-pulse-green');
+      }
+
+      if (!statusTitle || !iconContainer) return;
+
+      // Update Hub Modal Dot
+      if (dotCloud) {
+        dotCloud.style.background = isOnline ? '#4ade80' : '#64748b';
+        dotCloud.style.boxShadow = isOnline ? '0 0 10px #4ade80' : 'none';
+      }
+
+      if (!isOnline) {
+        statusTitle.textContent = "Offline Mode";
+        statusTitle.style.color = "#94a3b8";
+        statusDesc.textContent = "Data saving locally to your device";
+        iconContainer.style.background = "rgba(148, 163, 184, 0.1)";
+        iconContainer.style.color = "#94a3b8";
+        iconContainer.innerHTML = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+      } else if (!isSynced) {
+        statusTitle.textContent = "Sync Pending";
+        statusTitle.style.color = "#fbbf24";
+        statusDesc.textContent = `${q.length} items waiting to upload`;
+        iconContainer.style.background = "rgba(251, 191, 36, 0.1)";
+        iconContainer.style.color = "#fbbf24";
+        iconContainer.innerHTML = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
+      } else {
+        statusTitle.textContent = "Fully Synced";
+        statusTitle.style.color = "#4ade80";
+        statusDesc.textContent = "All your data is safe in the cloud";
+        iconContainer.style.background = "rgba(74, 222, 128, 0.1)";
+        iconContainer.style.color = "#4ade80";
+        iconContainer.innerHTML = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 11 13 15 9"/></svg>';
+      }
+    }, 1000);
+  </script>
+
+  <!-- Core Engine -->
+  <script src="js/utils.js?v=124"></script>
+  <script src="js/db.js?v=124"></script>
+  <script src="js/sync.js?v=124"></script>
+  <script src="js/auth.js?v=124"></script>
+  <script src="js/home.js?v=124"></script>
+  
+  <!-- App Modules -->
+  <script src="js/hijri.js?v=124"></script>
+  <script src="js/salah.js?v=124"></script>
+  <script src="js/dhikr.js?v=124"></script>
+  <script src="js/goals.js?v=124"></script>
+  <script src="js/finance.js?v=124"></script>
+  <script src="js/mujahid.js?v=124"></script>
+  <script src="js/profile.js?v=124"></script>
+  <script src="js/analysis.js?v=124"></script>
+  <script src="js/leaderboard.js?v=124"></script>
+  <script src="js/admin.js?v=124"></script>
+  <script src="js/notifications.js?v=124"></script>
+  <script src="js/app.js?v=124"></script>
+
+  <!-- Service Worker Registration handled in app.js -->
+  <script>
+
+    function forceClearCache() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+          }
+          alert('Cache Destroyed! The app will now reload.');
+          window.location.reload(true);
+        });
+      } else {
+        window.location.reload(true);
+      }
+    }
+  </script>
+
+</div>
+<div id="salah-print-report"></div>
+<!-- BROADCAST MODAL -->
+<div class="modal-overlay hidden" id="broadcast-modal" onclick="if(event.target===this) Notifications.hide()">
+  <div class="modal anim-scale-up" style="max-width:440px;">
+    <div class="modal-header">
+      <h3 class="modal-title" data-i18n="Administration Messages">Administration Messages</h3>
+      <button class="modal-close" onclick="document.getElementById('broadcast-modal').classList.add('hidden')">✕</button>
+    </div>
+    <div class="modal-body" id="broadcast-modal-body" style="padding:0 4px 20px;">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
 </div>
 
-<script src="js/utils.js"></script>
-<script src="js/db.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/home.js"></script>
-<script src="js/salah.js"></script>
-<script src="js/dhikr.js"></script>
-<script src="js/goals.js"></script>
-<script src="js/akhlaq.js"></script>
-<script src="js/finance.js"></script>
-<script src="js/tazkiyah.js"></script>
-<script src="js/ilm.js"></script>
-<script src="js/analysis.js"></script>
-<script src="js/profile.js"></script>
-<script src="js/app.js"></script>
+<!-- Mathematically Perfect iOS Squircle SVG ClipPath -->
+<svg width="0" height="0" style="position:absolute; width:0; height:0;">
+  <defs>
+    <clipPath id="squircle-clip" clipPathUnits="objectBoundingBox">
+      <path d="M 0,0.5 C 0,0.16 0.16,0 0.5,0 C 0.84,0 1,0.16 1,0.5 C 1,0.84 0.84,1 0.5,1 C 0.16,1 0,0.84 0,0.5" />
+    </clipPath>
+  </defs>
+</svg>
+
 </body>
 </html>

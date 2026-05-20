@@ -1,0 +1,7 @@
+/* === MAIN LAYOUT === */
+.sa-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}

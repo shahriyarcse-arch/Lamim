@@ -1,0 +1,342 @@
+/* === AUTH PAGES === */
+@keyframes meshGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0a0a0f;
+  background-image:
+    radial-gradient(circle at 15% 50%,
+      rgba(167, 139, 250, 0.35),
+      transparent 45%),
+    radial-gradient(circle at 85% 30%,
+      rgba(56, 189, 248, 0.3),
+      transparent 45%),
+    radial-gradient(circle at 50% 80%,
+      rgba(232, 121, 249, 0.25),
+      transparent 55%);
+  background-size: 200% 200%;
+  animation: meshGradient 15s ease infinite;
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(35, 35, 45, 0.75);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--color-glass-active);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px var(--color-border) inset;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  position: relative;
+  z-index: 1;
+}
+
+/* Glossy Centered Logo */
+.centered-logo {
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.glossy-icon-wrap {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  margin: 0 auto 16px auto;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--color-glass-hover),
+    0 15px 35px rgba(139, 92, 246, 0.6),
+    inset 0 4px 10px rgba(255, 255, 255, 0.7),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+  padding: 2px;
+  background: linear-gradient(135deg,
+      var(--color-border-active),
+      var(--color-surface-nested));
+}
+
+.glossy-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%,
+      #f472b6,
+      #d946ef,
+      #8b5cf6,
+      #3b82f6);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium-svg-logo {
+  width: 32px;
+  height: 32px;
+  color: var(--color-accent-primary);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.glossy-sweep {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent);
+  transform: skewX(-20deg);
+  animation: sweep 3s infinite;
+}
+
+@keyframes sweep {
+  0% {
+    left: -100%;
+  }
+
+  20% {
+    left: 200%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.auth-logo-name {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  background: linear-gradient(to right, #a855f7, #3b82f6, #ec4899, #a855f7);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 4s linear infinite;
+}
+
+@keyframes shimmerText {
+  to {
+    background-position: 300% center;
+  }
+}
+
+/* Colorful Titles & Labels */
+.auth-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  background: linear-gradient(to right, #e879f9, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-subtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin-bottom: 32px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* XOSS Animated Buttons Base */
+.btn-xoss {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  border: 1px solid transparent !important;
+  background-clip: padding-box !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  padding: 14px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 9px;
+  width: 100%;
+}
+
+.btn-xoss::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  background-size: 400%;
+  animation: glowingBorder 4s linear infinite;
+  border-radius: 11px;
+}
+
+.btn-xoss::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: 7px;
+  transition: background 0.3s;
+}
+
+.btn-xoss:hover {
+  transform: scale(1.02);
+}
+
+/* Google Variant */
+.google-btn-xoss::before {
+  background: linear-gradient(45deg,
+      #4285f4,
+      #34a853,
+      #fbbc05,
+      #ea4335,
+      #4285f4);
+}
+
+.google-btn-xoss::after {
+  background: #18181b;
+}
+
+.google-btn-xoss:hover::after {
+  background: #27272a;
+}
+
+.google-btn-xoss:hover {
+  box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
+}
+
+/* Purple Variant (Sign Up / Sign In) */
+.purple-btn-xoss::before {
+  background: linear-gradient(45deg,
+      #a855f7,
+      #ec4899,
+      #8b5cf6,
+      #3b82f6,
+      #a855f7);
+}
+
+.purple-btn-xoss::after {
+  background: #1a102b;
+}
+
+.purple-btn-xoss:hover::after {
+  background: #271842;
+}
+
+.purple-btn-xoss:hover {
+  box-shadow: 0 10px 20px rgba(168, 85, 247, 0.35);
+}
+
+/* Blue Variant (Forgot Password) */
+.blue-btn-xoss::before {
+  background: linear-gradient(45deg, #0ea5e9, #38bdf8, #818cf8, #0ea5e9);
+}
+
+.blue-btn-xoss::after {
+  background: #0f172a;
+}
+
+.blue-btn-xoss:hover::after {
+  background: #1e293b;
+}
+
+.blue-btn-xoss:hover {
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.35);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Enhanced Footer Links */
+.auth-footer {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--color-text-subtitle);
+  font-weight: 500;
+}
+
+.auth-footer a {
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: linear-gradient(to right, #38bdf8, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-left: 4px;
+}
+
+.auth-footer a:hover {
+  filter: brightness(1.2);
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.checkbox-wrap input[type="checkbox"] {
+  accent-color: var(--color-accent-primary);
+  width: 16px;
+  height: 16px;
+}

@@ -1,0 +1,33 @@
+/* === DESKTOP LAYOUT (min 900px) === */
+@media (min-width: 900px) {
+  .sa {
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .sa-topbar {
+    padding: 20px 28px;
+  }
+
+  .sa-stats {
+    gap: 20px;
+  }
+
+  .sa-stat-card {
+    padding: 22px;
+  }
+
+  .sa-main {
+    grid-template-columns: 5fr 2fr;
+    gap: 24px;
+  }
+
+  .sa-panel {
+    padding: 24px;
+  }
+
+  .sa-user-row {
+    padding: 14px 18px;
+  }
+}

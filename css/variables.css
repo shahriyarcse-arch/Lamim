@@ -4,11 +4,11 @@
 
 :root {
   /* === COLORS === */
-  /* Backgrounds */
-  --color-bg-primary:    #0a0a0f;
-  --color-bg-secondary:  #12121a;
-  --color-bg-tertiary:   #1a1a28;
-  --color-bg-elevated:   #242435;
+  /* Backgrounds (Dark Mode - Modern Midnight Slate) */
+  --color-bg-primary:    #0A0F1C;
+  --color-bg-secondary:  #0F172A;
+  --color-bg-tertiary:   #1E293B;
+  --color-bg-elevated:   #334155;
 
   /* Accents */
   --color-accent-primary: #a78bfa;
@@ -20,6 +20,7 @@
   --color-accent-red:     #f87171;
   --color-accent-purple:  #c084fc;
   --color-accent-teal:    #2dd4bf;
+  --color-accent-blue:    #38bdf8;
 
   /* Prayer Status Colors */
   --color-jamaat:  #3fb950;   /* green  */
@@ -34,11 +35,11 @@
   --heatmap-level-1: #f87171;   /* None  — soft rose      */
   --heatmap-level-0: rgba(255,255,255,0.04);  /* Empty/future */
 
-  /* Text */
-  --color-text-primary:   #f1f5f9;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted:     #52525b;
-  --color-text-inverse:   #0a0a0f;
+  /* Text (Max Contrast) */
+  --color-text-primary:   #ffffff;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted:     #64748b;
+  --color-text-inverse:   #020617;
 
   /* Borders */
   --color-border:         rgba(255,255,255,0.1);
@@ -50,6 +51,21 @@
   --color-glass-hover:    rgba(255, 255, 255, 0.08);
   --color-glass-active:   rgba(167, 139, 250, 0.12);
 
+  /* === SEMANTIC THEME TOKENS === */
+  --color-surface-card:     rgba(255, 255, 255, 0.04);
+  --color-surface-nested:   rgba(255, 255, 255, 0.02);
+  --color-surface-hollow:   rgba(255, 255, 255, 0.03);
+  --color-divider-subtle:   rgba(255, 255, 255, 0.06);
+  --color-divider-strong:   rgba(255, 255, 255, 0.12);
+  --color-text-subtitle:    rgba(255, 255, 255, 0.5);
+  --color-text-placeholder: rgba(255, 255, 255, 0.3);
+  --radar-grid-stroke:      rgba(255, 255, 255, 0.12);
+  --radar-axis-stroke:      rgba(255, 255, 255, 0.22);
+  --shadow-premium:         inset 0 2px 10px rgba(255, 255, 255, 0.1);
+  --color-loader-track:     rgba(255, 255, 255, 0.1);
+  --color-loader-fill:      var(--color-accent-primary);
+  --shadow-logo-glow:       0 0 20px rgba(167, 139, 250, 0.4);
+
   /* Overlays */
   --color-overlay:        rgba(0, 0, 0, 0.6);
   --color-shadow:         rgba(0, 0, 0, 0.4);
@@ -59,11 +75,23 @@
   --gradient-blue:    linear-gradient(135deg, #8b5cf6, #a78bfa);
   --gradient-green:   linear-gradient(135deg, #10b981, #34d399);
   --gradient-dark:    linear-gradient(135deg, #12121a, #0a0a0f);
-  --gradient-card:    linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  --gradient-header:  linear-gradient(180deg, #12121a 0%, transparent 100%);
-  --gradient-hero:    radial-gradient(ellipse at top, rgba(139,92,246,0.15) 0%, #0a0a0f 60%);
+  --gradient-card:    linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  --gradient-header:  linear-gradient(180deg, #0A0F1C 0%, transparent 100%);
+  --gradient-hero:    radial-gradient(ellipse at top, rgba(99,102,241,0.12) 0%, #0A0F1C 70%);
   --gradient-stat-text: linear-gradient(135deg, #c084fc, #38bdf8, #f0c456, #c084fc);
   --gradient-brand-text: linear-gradient(135deg, #c084fc, #f0c456, #a78bfa, #c084fc);
+
+  /* === FINTECH PREMIUM COLORS === */
+  --fin-green: #00D639;
+  --fin-red: #FF3B30;
+  --fin-blue: #007AFF;
+  --fin-purple: #AF52DE;
+  --fin-orange: #FF9500;
+  --fin-gold: #FFD60A;
+  
+  --fin-surface: rgba(255, 255, 255, 0.03);
+  --fin-border: rgba(255, 255, 255, 0.06);
+  --fin-glass: blur(20px);
 
   /* === TYPOGRAPHY === */
   --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -137,31 +165,76 @@
   --z-dropdown: 100;
   --z-sidebar:  200;
   --z-overlay:  300;
-  --z-modal:    400;
-  --z-toast:    500;
-  --z-splash:   999;
+  --z-modal:    20000;
+  --z-toast:    30000;
+  --z-splash:   99999;
+  /* === THEME AWARE HEADER COLORS === */
+  --home-salam-color: #e2e8f0;
+  --home-time-color:  #38bdf8;
+  --home-name-color:  #f0c456;
 }
 
-/* Light mode overrides */
+/* Light mode overrides - Billion Dollar Company Aesthetic */
 [data-theme="light"] {
-  --color-bg-primary:    #f6f8fa;
-  --color-bg-secondary:  #ffffff;
-  --color-bg-tertiary:   #f0f2f4;
-  --color-bg-elevated:   #e8ebef;
-  --color-text-primary:  #1e1b4b;
-  --color-text-secondary:#4338ca;
-  --color-text-muted:    #6366f1;
-  --color-border:        rgba(67, 56, 202, 0.15);
-  --color-border-muted:  rgba(67, 56, 202, 0.08);
-  --color-border-active: rgba(139, 92, 246, 0.4);
-  --color-glass:         rgba(0,0,0,0.03);
-  --color-glass-hover:   rgba(0,0,0,0.06);
-  --color-glass-active:  rgba(139, 92, 246, 0.08);
-  --gradient-card:       linear-gradient(145deg, #ffffff, #f6f8fa);
-  --gradient-hero:       radial-gradient(ellipse at top, #e8f4ff 0%, #f6f8fa 60%);
-  --gradient-brand-text: linear-gradient(135deg, #9333ea, #f97316, #4f46e5, #9333ea);
-  --gradient-stat-text:  linear-gradient(135deg, #9333ea, #0ea5e9, #f59e0b, #9333ea);
-  --color-shadow:        rgba(0,0,0,0.08);
-  --shadow-md:           0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg:           0 8px 24px rgba(0,0,0,0.12);
+  --home-salam-color: #1E1B4B; 
+  --home-time-color:  #4F46E5; 
+  --home-name-color:  #7C3AED; 
+  --color-bg-primary:    #F5F3FF; /* Lavender-50 Tinted Base */
+  --color-bg-secondary:  #EDE9FE; /* Lavender-100 */
+  --color-bg-tertiary:   #DDD6FE; /* Lavender-200 */
+  --color-bg-elevated:   #FFFFFF; 
+  
+  --color-text-primary:  #0F172A; 
+  --color-text-secondary:#334155;
+  --color-text-muted:    #64748B;
+  
+  --color-border:        rgba(99, 102, 241, 0.12); 
+  --color-border-muted:  rgba(99, 102, 241, 0.08);
+  --color-border-active: #6366F1;
+  
+  --color-glass:         rgba(255, 255, 255, 0.9);
+  --color-glass-hover:   rgba(255, 255, 255, 1.0);
+  --color-glass-active:  rgba(99, 102, 241, 0.06);
+  
+  --gradient-card:       linear-gradient(145deg, #FFFFFF, #F5F3FF); 
+  --gradient-hero:       radial-gradient(ellipse at top, #EDE9FE 0%, #F5F3FF 70%);
+  --gradient-brand-text: linear-gradient(135deg, #4F46E5, #7C3AED, #9333EA, #4F46E5);
+  --gradient-stat-text:  linear-gradient(135deg, #4338CA, #6D28D9, #4338CA); 
+  
+  --color-shadow:        rgba(99, 102, 241, 0.1);
+  --shadow-md:           0 12px 30px -10px rgba(99, 102, 241, 0.15), 0 4px 12px -5px rgba(99, 102, 241, 0.05);
+  --shadow-lg:           0 25px 50px -12px rgba(99, 102, 241, 0.2);
+
+  /* Semantic Tokens Light Mode */
+  --color-surface-card:     #FFFFFF; 
+  --color-surface-nested:   #F5F3FF;
+  --color-surface-hollow:   #EDE9FE;
+  --color-divider-subtle:   rgba(99, 102, 241, 0.08);
+  --color-divider-strong:   rgba(99, 102, 241, 0.15);
+  --shadow-premium:         0 10px 30px rgba(99, 102, 241, 0.08);
+  --radar-grid-stroke:      rgba(99, 102, 241, 0.15);
+  --radar-axis-stroke:      rgba(99, 102, 241, 0.25);
+  --color-text-subtitle:    #64748B;
+  --color-text-placeholder: #94A3B8;
+  --shadow-premium:         0 4px 12px rgba(0, 0, 0, 0.03);
+  --color-loader-track:     #E2E8F0;
+  --color-loader-fill:      #8B5CF6;
+  --shadow-logo-glow:       0 0 30px rgba(140, 80, 220, 0.15);
+
+  /* Fintech Light - Contrast Fixed */
+  --fin-surface: #FFFFFF;
+  --fin-border: rgba(15, 23, 42, 0.06);
+  --fin-green: #047857; /* Deep Emerald for contrast */
+  --fin-red: #B91C1C;   /* Deep Red */
+  --fin-blue: #1D4ED8;  /* Deep Blue */
+  --fin-purple: #6D28D9;/* Deep Purple */
+  --fin-orange: #B45309;/* Deep Amber */
+  --fin-gold: #A16207;  /* Deep Gold */
+
+  /* Functional Text Colors (Light Mode) */
+  --color-text-on-primary: #4338CA; /* Deep Indigo */
+  --color-text-on-success: #065F46; /* Deep Emerald */
+  --color-text-on-danger:  #991B1B; /* Deep Red */
+  --color-text-on-gold:    #92400E; /* Deep Amber */
+  --color-text-on-accent:  #5B21B6; /* Deep Purple */
 }

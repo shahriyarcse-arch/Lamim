@@ -1,0 +1,44 @@
+/* === ULTRA-SMALL SCREENS (below 380px) === */
+@media (max-width: 380px) {
+  .sa {
+    padding: 10px;
+  }
+
+  .sa-topbar {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .sa-stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .sa-stat-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .sa-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .sa-user-row {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .sa-role {
+    font-size: 8px;
+    padding: 3px 7px;
+  }
+
+  .sa-role-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}

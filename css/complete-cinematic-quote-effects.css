@@ -1,0 +1,235 @@
+/* === COMPLETE CINEMATIC QUOTE EFFECTS === */
+.iw-quote {
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: #FFFFFF;
+  min-height: 4em;
+  display: flex;
+  align-items: center;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+[data-theme="light"] .iw-quote:not([class*="qf-aurora"]):not([class*="qf-plasma"]):not([class*="qf-gold"]) {
+  color: #0F172A;
+}
+
+/* Ensure animated text is still readable in Light Mode */
+[data-theme="light"] .iw-quote[class*="qf-"] {
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.qf-fade {
+  animation: qf-fade-in 1s ease forwards;
+}
+
+@keyframes qf-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.qf-glitch {
+  position: relative;
+  animation: qf-glitch-anim 0.4s infinite;
+}
+
+@keyframes qf-glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 1px);
+  }
+
+  40% {
+    transform: translate(-2px, -1px);
+  }
+
+  60% {
+    transform: translate(2px, 1px);
+  }
+
+  80% {
+    transform: translate(2px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.qf-neon {
+  text-shadow: 0 0 10px #6366f1, 0 0 20px #6366f1;
+  animation: qf-neon-pulse 1.5s infinite alternate;
+}
+
+@keyframes qf-neon-pulse {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.6;
+  }
+}
+
+.qf-3d {
+  text-shadow: 1px 1px #94a3b8, 2px 2px #64748b, 3px 3px #475569;
+  transform: skewX(-5deg);
+}
+
+.qf-typing {
+  white-space: nowrap;
+  border-right: 3px solid #6366f1;
+  animation: qf-typing-anim 3s steps(30, end), qf-blink 0.7s step-end infinite;
+}
+
+@keyframes qf-typing-anim {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+@keyframes qf-blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+.qf-aurora-text {
+  background: linear-gradient(90deg, #6366f1, #ec4899, #f59e0b, #10b981, #6366f1);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: qf-aurora 3s linear infinite;
+}
+
+@keyframes qf-aurora {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.qf-hologram {
+  color: #22d3ee;
+  text-shadow: 0 0 5px #22d3ee;
+  opacity: 0.8;
+  animation: qf-hologram-flicker 0.1s infinite;
+}
+
+@keyframes qf-hologram-flicker {
+
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: skewX(1deg);
+  }
+}
+
+.qf-float {
+  animation: qf-float-anim 3s infinite ease-in-out;
+}
+
+@keyframes qf-float-anim {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.qf-plasma {
+  background: radial-gradient(circle, #f43f5e, #8b5cf6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: qf-plasma-anim 4s infinite alternate;
+}
+
+@keyframes qf-plasma-anim {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.qf-wave {
+  animation: qf-wave-anim 2s infinite ease-in-out;
+}
+
+@keyframes qf-wave-anim {
+
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.1);
+  }
+}
+
+.qf-fire {
+  color: #f59e0b;
+  text-shadow: 0 0 10px #f97316, 0 -5px 15px #ef4444;
+  animation: qf-fire-anim 0.5s infinite alternate;
+}
+
+@keyframes qf-fire-anim {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.02) skewX(1deg);
+  }
+}
+
+.qf-ice {
+  color: #bae6fd;
+  text-shadow: 0 0 10px #7dd3fc, 0 0 20px #fff;
+  filter: blur(0.5px);
+}
+
+.qf-bounce {
+  animation: qf-bounce-anim 0.6s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+@keyframes qf-bounce-anim {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* Fallback for undefined effects */
+.iw-quote[class*="qf-"] {
+  display: flex !important;
+}
