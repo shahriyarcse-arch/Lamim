@@ -12,6 +12,7 @@ const Admin = {
     sort: 'newest',
     totalUsers: 0,
     activeToday: 0,
+    activeNow: 0,
     admins: 0,
     syncTime: null,
     selectedUser: null,
@@ -187,7 +188,14 @@ const Admin = {
   recalculateActiveToday() {
     const s = this.state;
     const onlineSet = new Set(s.onlineUsers || []);
-    s.activeToday = s.users.filter(u => onlineSet.has(u.id)).length;
+    
+    // Add current user if not already present
+    const me = DB.getUser();
+    if (me && me.id) {
+      onlineSet.add(me.id);
+    }
+    
+    s.activeToday = onlineSet.size;
   },
 
   onSearch(val) {
