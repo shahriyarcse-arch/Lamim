@@ -101,8 +101,9 @@ const App = {
     }
     
     // Force clear old service workers and caches ONCE to ensure the bug fix applies
-    if (!DB.rawGet('lamim_cache_cleared_v33')) {
-      DB.rawSet('lamim_cache_cleared_v33', 'true');
+    if (!DB.rawGet('lamim_cache_cleared_v34')) {
+      DB.rawSet('lamim_cache_cleared_v34', 'true');
+      localStorage.removeItem('lamim_leaderboard_cache'); // Clear broken SVG avatar cache
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
           for (let registration of registrations) {

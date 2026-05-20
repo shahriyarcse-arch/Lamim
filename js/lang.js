@@ -138,6 +138,70 @@ const Translations = {
   'Location': 'অবস্থান',
   'Not set': 'সেট করা নেই',
   
+  // Vanguard / Leaderboard
+  'Spiritual Vanguard': 'স্পিরিচুয়াল ভ্যানগার্ড',
+  'The highest-ranking warriors of Lamim': 'লামিমের সর্বোচ্চ র‍্যাঙ্কিং যোদ্ধারা',
+  'Your Global Rank': 'আপনার গ্লোবাল র‍্যাঙ্ক',
+  'YOUR GLOBAL RANK': 'আপনার গ্লোবাল র‍্যাঙ্ক',
+  'Power': 'পাওয়ার',
+  'POWER': 'পাওয়ার',
+  'Vanguard Access Restricted': 'ভ্যানগার্ড প্রবেশাধিকার সীমাবদ্ধ',
+  
+  // Analysis
+  'Lamim Spirituality': 'লামিম স্পিরিচুয়ালিটি',
+  'Score': 'স্কোর',
+  'This Month': 'এই মাস',
+  'Spiritual Balance': 'আধ্যাত্মিক ভারসাম্য',
+  'Progress Timeline': 'অগ্রগতি টাইমলাইন',
+  'Insight Breakdown': 'ইনসাইট ব্রেকডাউন',
+  'Spirit': 'স্পিরিট',
+  'Total LSS': 'মোট LSS',
+  'Muhsin': 'মুহসিন',
+  'Muttaqi': 'মুত্তাকী',
+  'Mukhlis': 'মুখলিস',
+  
+  // Mujahid Section
+  'The Forge of Resolve': 'সংকল্পের কামারশালা',
+  'Initiate First Habit': 'প্রথম অভ্যাস শুরু করুন',
+  'Active Wars': 'সক্রিয় যুদ্ধ',
+  'Badges Earned': 'অর্জিত ব্যাজ',
+  'Days': 'দিন',
+  'Hours': 'ঘণ্টা',
+  'Minutes': 'মিনিট',
+  'Seconds': 'সেকেন্ড',
+  'History': 'ইতিহাস',
+  'Clean': 'পরিষ্কার',
+  'Relapse': 'পতন',
+  'Start Date': 'শুরুর তারিখ',
+  'Years': 'বছর',
+  
+  // Salah additional
+  'Tahajjud': 'তাহাজ্জুদ',
+  'Jummah': 'জুমআ',
+  'Witr': 'বিতর',
+  'Sunnah': 'সুন্নাহ',
+  'Missed': 'মিসড',
+  'Prayed': 'পড়েছেন',
+  'On Time': 'সময়মতো',
+  'Late': 'দেরিতে',
+  'Qaza': 'কাযা',
+  
+  // Dhikr additional
+  'SubhanAllah': 'সুবহানাল্লাহ',
+  'Alhamdulillah': 'আলহামদুলিল্লাহ',
+  'Allahu Akbar': 'আল্লাহু আকবার',
+  'La ilaha illallah': 'লা ইলাহা ইল্লাল্লাহ',
+  'Astaghfirullah': 'আস্তাগফিরুল্লাহ',
+  'Sessions': 'সেশনসমূহ',
+  'Presets': 'প্রিসেট',
+  
+  // Nafl Goals
+  'Daily': 'দৈনিক',
+  'Weekly': 'সাপ্তাহিক',
+  'Monthly': 'মাসিক',
+  'Progress': 'অগ্রগতি',
+  'No goals yet': 'এখনো কোনো লক্ষ্য নেই',
+  
   // Global
   'Save': 'সেভ করুন',
   'Delete': 'মুছুন',
@@ -148,7 +212,25 @@ const Translations = {
   'Language / ভাষা': 'Language / ভাষা',
   'All 5': 'সবগুলো',
   'None': 'একটিও না',
-  'Administration Messages': 'প্রশাসনিক বার্তা'
+  'Administration Messages': 'প্রশাসনিক বার্তা',
+  'Next': 'পরবর্তী',
+  'Previous': 'পূর্ববর্তী',
+  'Close': 'বন্ধ',
+  'Loading...': 'লোড হচ্ছে...',
+  'Retry': 'পুনরায় চেষ্টা',
+  'No data': 'কোনো ডেটা নেই',
+  'Updated': 'আপডেট হয়েছে',
+  'Copied': 'কপি হয়েছে',
+  'Share': 'শেয়ার',
+  'Download': 'ডাউনলোড',
+  'Settings': 'সেটিংস',
+  'Add': 'যোগ করুন',
+  'Remove': 'মুছে ফেলুন',
+  'Done': 'সম্পন্ন',
+  'days': 'দিন',
+  'hrs': 'ঘণ্টা',
+  'min': 'মিনিট',
+  'sec': 'সেকেন্ড'
 };
 
 window.t = function(key) {
@@ -175,7 +257,13 @@ const autoTranslateObserver = new MutationObserver((mutations) => {
   autoTranslateObserver.disconnect();
 
   function processTextNode(node) {
-    if (node.parentElement && (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE')) return;
+    const p = node.parentElement;
+    if (!p) return;
+    // Skip script, style, SVG internals, inputs, textareas, and code blocks
+    const tag = p.tagName;
+    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'CODE' || tag === 'PRE') return;
+    if (p.closest('svg')) return; // Never touch SVG content - breaks viewBox, coordinates, etc.
+    if (p.hasAttribute('data-no-translate')) return; // Allow opting out
     let text = node.nodeValue;
     if (!text || !text.trim()) return;
 

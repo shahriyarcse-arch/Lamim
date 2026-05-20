@@ -342,8 +342,8 @@ const Leaderboard = {
         const bgColor = colors[position % colors.length];
         const safeAvatar = user.avatar ? Utils.escapeHTML(user.avatar) : null;
         const avatarContent = safeAvatar 
-            ? `<img src="${safeAvatar}" class="podium-img" alt="${safeName}" onload="this.classList.add('loaded')" onerror="this.outerHTML='<svg viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'><rect width=\\'40\\' height=\\'40\\' rx=\\'20\\' fill=\\'${bgColor}\\'/><text x=\\'20\\' y=\\'26\\' text-anchor=\\'middle\\' fill=\\'white\\' font-size=\\'16\\' font-weight=\\'700\\' font-family=\\'sans-serif\\'>${initials}</text></svg>'">`
-            : `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="${bgColor}"/><text x="20" y="26" text-anchor="middle" fill="white" font-size="16" font-weight="700" font-family="sans-serif">${initials}</text></svg>`;
+            ? `<img src="${safeAvatar}" class="podium-img" alt="${safeName}" onload="this.classList.add('loaded')" onerror="this.outerHTML='<svg class=\\'podium-img loaded\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\' style=\\'width:100%;height:100%;border-radius:50%\\'><rect width=\\'40\\' height=\\'40\\' rx=\\'20\\' fill=\\'${bgColor}\\'/><text x=\\'20\\' y=\\'26\\' text-anchor=\\'middle\\' fill=\\'white\\' font-size=\\'16\\' font-weight=\\'700\\' font-family=\\'sans-serif\\'>${initials}</text></svg>'">`
+            : `<svg class="podium-img loaded" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;border-radius:50%"><rect width="40" height="40" rx="20" fill="${bgColor}"/><text x="20" y="26" text-anchor="middle" fill="white" font-size="16" font-weight="700" font-family="sans-serif">${initials}</text></svg>`;
         return `
             <div class="podium-item podium-rank-${position}">
                 <div class="podium-avatar-wrap">
@@ -368,8 +368,8 @@ const Leaderboard = {
         const bgColor = colors[index % colors.length];
         const safeAvatar = user.avatar ? Utils.escapeHTML(user.avatar) : null;
         const avatarContent = safeAvatar 
-            ? `<img src="${safeAvatar}" class="lb-avatar" alt="${safeName}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.outerHTML='<svg viewBox=\\'0 0 32 32\\' xmlns=\\'http://www.w3.org/2000/svg\\'><rect width=\\'32\\' height=\\'32\\' rx=\\'16\\' fill=\\'${bgColor}\\'/><text x=\\'16\\' y=\\'22\\' text-anchor=\\'middle\\' fill=\\'white\\' font-size=\\'13\\' font-weight=\\'700\\' font-family=\\'sans-serif\\'>${initials}</text></svg>'">`
-            : `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="16" fill="${bgColor}"/><text x="16" y="22" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="sans-serif">${initials}</text></svg>`;
+            ? `<img src="${safeAvatar}" class="lb-avatar" alt="${safeName}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.outerHTML='<svg class=\\'lb-avatar loaded\\' viewBox=\\'0 0 32 32\\' xmlns=\\'http://www.w3.org/2000/svg\\' style=\\'opacity:1\\'><rect width=\\'32\\' height=\\'32\\' rx=\\'16\\' fill=\\'${bgColor}\\'/><text x=\\'16\\' y=\\'22\\' text-anchor=\\'middle\\' fill=\\'white\\' font-size=\\'13\\' font-weight=\\'700\\' font-family=\\'sans-serif\\'>${initials}</text></svg>'">`
+            : `<svg class="lb-avatar loaded" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="opacity:1"><rect width="32" height="32" rx="16" fill="${bgColor}"/><text x="16" y="22" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="sans-serif">${initials}</text></svg>`;
         return `
             <div class="lb-item" style="animation-delay: ${index * 0.05}s">
                 <div class="lb-rank-num">${rankNum}</div>
