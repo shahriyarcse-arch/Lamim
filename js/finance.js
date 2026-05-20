@@ -823,7 +823,28 @@ const Finance = {
   },
 
   selectCategory(id) { this.selectedCategory = id; document.querySelectorAll('.fin-cat-pill').forEach(p => p.classList.remove('active')); const a = document.getElementById(`cat-${id}`); if (a) a.classList.add('active'); },
-  saveExpense() { let a = parseFloat(document.getElementById('finance-expense-amount').value); const c = this.selectedCategory, d = document.getElementById('finance-expense-date').value, obj = this.categories.find(o => o.id === c); if (isNaN(a) || a <= 0) return Utils.toast('Enter valid amount','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.expenses.push({ id: Utils.uid(), description: obj.name, amount: a, category: c, date: d }); this.saveData(); this.closeModal(); this.render(); },
+  saveExpense() {
+    let a = parseFloat(document.getElementById('finance-expense-amount').value);
+    const c = this.selectedCategory, d = document.getElementById('finance-expense-date').value, obj = this.categories.find(o => o.id === c);
+    if (isNaN(a) || a <= 0) return Utils.toast('Enter valid amount', 'error');
+
+    // Calculate absolute total balance in USD (base currency)
+    const allIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
+    const allExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
+    const totalBalance = allIncome - allExpenses;
+
+    let amountInBase = a;
+    if (DB.getSettings().currency === 'BDT') amountInBase = a / this.exchangeRate;
+
+    // Check if expense exceeds total balance
+    if (amountInBase > totalBalance + 0.0001) {
+      const sym = this.getSymbol();
+      return Utils.toast(`Insufficient balance! Available: ${sym}${this.formatVal(totalBalance)}`, 'error');
+    }
+
+    this.data.expenses.push({ id: Utils.uid(), description: obj.name, amount: amountInBase, category: c, date: d });
+    this.saveData(); this.closeModal(); this.render();
+  },
 
   showIncomeModal() {
     const sym = this.getSymbol();
