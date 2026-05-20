@@ -410,19 +410,15 @@ const Sync = {
   },
 
   async processQueue() {
-    console.log(`[Sync] processQueue check...`);
-    if (this.isSyncing) {
-      console.log(`[Sync] Already syncing, skipping.`);
-      return;
-    }
     const q = DB.get('lamim_sync_queue') || [];
     if (q.length === 0) {
       this.updateGlobal();
       return;
     }
     
+    if (this.isSyncing) return;
+    
     if (!navigator.onLine) {
-      console.log(`[Sync] Browser offline, skipping.`);
       this.updateGlobal();
       return;
     }

@@ -3,7 +3,14 @@
    ============================================= */
 const Notifications = {
   broadcasts: [],
-  lastSeen: DB.rawGet('lamim_last_broadcast') || '0',
+  get lastSeen() {
+    return String(DB.getSettings().lastSeenBroadcast || '0');
+  },
+  set lastSeen(val) {
+    const s = DB.getSettings();
+    s.lastSeenBroadcast = String(val);
+    DB.setSettings(s);
+  },
 
   async init() {
     console.log("Notifications: Initializing...");
@@ -12,6 +19,11 @@ const Notifications = {
     
     // Auto-refresh every 60s as fallback
     setInterval(() => this.fetch(), 60000);
+
+    // Listen for sync updates to refresh badge
+    window.addEventListener('lamim:data-updated', () => {
+      this.updateUI();
+    });
   },
 
   async fetch() {
@@ -53,7 +65,6 @@ const Notifications = {
 
     // Mark as seen
     this.lastSeen = String(this.broadcasts[0].id);
-    DB.rawSet('lamim_last_broadcast', this.lastSeen);
     this.updateUI();
     
     const listHtml = this.broadcasts.map((b, idx) => {

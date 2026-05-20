@@ -70,3 +70,38 @@ USING (true);
 CREATE POLICY "Only admins can insert broadcasts" 
 ON app_broadcasts FOR INSERT 
 WITH CHECK ( public.is_admin() );
+
+-- ==========================================
+-- USER DATA TABLES SECURITY (salah_logs, dhikr_logs, finance_store, mujahid_habits, user_settings, goals, dhikr_presets)
+-- ==========================================
+-- All user data tables must restrict access strictly to their owner (user_id = auth.uid())
+
+DO $$
+DECLARE
+    tbl text;
+    tables text[] := ARRAY['salah_logs', 'dhikr_logs', 'finance_store', 'mujahid_habits', 'user_settings', 'goals', 'dhikr_presets'];
+BEGIN
+    FOREACH tbl IN ARRAY tables LOOP
+        -- Enable RLS
+        EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY;', tbl);
+        
+        -- Drop existing policies if any
+        EXECUTE format('DROP POLICY IF EXISTS "Users can manage their own %s" ON %I;', tbl, tbl);
+        EXECUTE format('DROP POLICY IF EXISTS "Admins can view all %s" ON %I;', tbl, tbl);
+        
+        -- Create owner policy
+        EXECUTE format('
+            CREATE POLICY "Users can manage their own %1$s" 
+            ON %2$I FOR ALL 
+            USING (auth.uid() = user_id) 
+            WITH CHECK (auth.uid() = user_id);
+        ', tbl, tbl);
+        
+        -- Create admin view policy (optional but recommended for administrative analytics)
+        EXECUTE format('
+            CREATE POLICY "Admins can view all %1$s" 
+            ON %2$I FOR SELECT 
+            USING (public.is_admin());
+        ', tbl, tbl);
+    END LOOP;
+END $$;

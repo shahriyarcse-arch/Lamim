@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lamim-v51';
+const CACHE_NAME = 'lamim-v53';
 const ASSETS = [
   './',
   './index.html',
@@ -32,12 +32,17 @@ self.addEventListener('activate', (e) => {
 // - Navigation (HTML): Network-First (always get latest)
 // - Assets (JS/CSS/etc): Stale-While-Revalidate (fast + auto-update)
 self.addEventListener('fetch', (e) => {
-  // Skip Supabase/external API calls
-  if (e.request.url.includes('supabase.co')) return;
-  if (e.request.url.includes('googleapis.com')) return;
+  // Skip external database, dynamic API, and Google API calls to prevent stale data
+  const skipUrls = [
+    'supabase.co',
+    'api.bigdatacloud.net',
+    'ipapi.co',
+    'open.er-api.com',
+    'googleapis.com'
+  ];
+  if (skipUrls.some(url => e.request.url.includes(url))) return;
 
   // NAVIGATION REQUESTS (HTML pages) → Network-First
-  // This ensures users ALWAYS get the latest HTML on every visit
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request)
@@ -46,13 +51,66 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
           return res;
         })
-        .catch(() => caches.match(e.request)) // Fallback to cache if offline
+        .catch(() => caches.match(e.request).then((cached) => cached || caches.match('./index.html'))) // Fallback to cache or index.html if offline
     );
     return;
   }
 
-  // ALL OTHER REQUESTS (JS, CSS, images) → Stale-While-Revalidate
-  // Serve cached version instantly, fetch fresh copy in background
+  // LOCAL ASSETS (JS, CSS, images) → Network-First with Timeout (1.5s) fallback to Cache
+  // This ensures online users always get the latest updates instantly,
+  // while offline/slow-connection users get the cached version instantly.
+  const isLocalAsset = e.request.url.startsWith(self.location.origin);
+  if (isLocalAsset) {
+    e.respondWith(
+      new Promise((resolve) => {
+        let resolved = false;
+
+        const timeoutId = setTimeout(() => {
+          if (!resolved) {
+            caches.match(e.request).then((cached) => {
+              if (cached) {
+                resolved = true;
+                console.log('[SW] Timeout fallback to cache for:', e.request.url);
+                resolve(cached);
+              }
+            });
+          }
+        }, 1500); // 1.5 seconds timeout
+
+        fetch(e.request)
+          .then((res) => {
+            if (res && res.ok) {
+              const copy = res.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
+              
+              if (!resolved) {
+                clearTimeout(timeoutId);
+                resolved = true;
+                resolve(res);
+              }
+            } else {
+              if (!resolved) {
+                clearTimeout(timeoutId);
+                resolved = true;
+                caches.match(e.request).then((cached) => resolve(cached || res));
+              }
+            }
+          })
+          .catch(() => {
+            if (!resolved) {
+              clearTimeout(timeoutId);
+              resolved = true;
+              caches.match(e.request).then((cached) => {
+                resolve(cached || new Response('Offline', { status: 503, statusText: 'Service Unavailable' }));
+              });
+            }
+          });
+      })
+    );
+    return;
+  }
+
+  // EXTERNAL STATIC ASSETS (fonts, CDN icons, etc.) → Stale-While-Revalidate
   e.respondWith(
     caches.match(e.request).then((cached) => {
       const networkFetch = fetch(e.request).then((res) => {

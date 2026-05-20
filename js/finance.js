@@ -823,7 +823,7 @@ const Finance = {
   },
 
   selectCategory(id) { this.selectedCategory = id; document.querySelectorAll('.fin-cat-pill').forEach(p => p.classList.remove('active')); const a = document.getElementById(`cat-${id}`); if (a) a.classList.add('active'); },
-  saveExpense() { let a = parseFloat(document.getElementById('finance-expense-amount').value); const c = this.selectedCategory, d = document.getElementById('finance-expense-date').value, obj = this.categories.find(o => o.id === c); if (isNaN(a)) return Utils.toast('Enter amount','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.expenses.push({ id: Utils.uid(), description: obj.name, amount: a, category: c, date: d }); this.saveData(); this.closeModal(); this.render(); },
+  saveExpense() { let a = parseFloat(document.getElementById('finance-expense-amount').value); const c = this.selectedCategory, d = document.getElementById('finance-expense-date').value, obj = this.categories.find(o => o.id === c); if (isNaN(a) || a <= 0) return Utils.toast('Enter valid amount','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.expenses.push({ id: Utils.uid(), description: obj.name, amount: a, category: c, date: d }); this.saveData(); this.closeModal(); this.render(); },
 
   showIncomeModal() {
     const sym = this.getSymbol();
@@ -837,7 +837,7 @@ const Finance = {
     this.showModal(html);
   },
 
-  saveIncome() { const desc = document.getElementById('finance-income-desc').value; let a = parseFloat(document.getElementById('finance-income-amount').value); const d = document.getElementById('finance-income-date').value; if (!desc || isNaN(a)) return Utils.toast('Fill fields','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.income.push({ id: Utils.uid(), description: desc, amount: a, date: d }); this.saveData(); this.closeModal(); this.render(); },
+  saveIncome() { const desc = document.getElementById('finance-income-desc').value; let a = parseFloat(document.getElementById('finance-income-amount').value); const d = document.getElementById('finance-income-date').value; if (!desc || isNaN(a) || a <= 0) return Utils.toast('Fill valid fields','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.income.push({ id: Utils.uid(), description: desc, amount: a, date: d }); this.saveData(); this.closeModal(); this.render(); },
   
   deleteExpense(id) {
     Utils.confirm('Delete Record', 'Are you sure you want to delete this transaction?', () => {
@@ -873,7 +873,7 @@ const Finance = {
   saveSavingsGoal() {
     const name = document.getElementById('finance-savings-name').value;
     let target = parseFloat(document.getElementById('finance-savings-target').value);
-    if (!name || isNaN(target)) return Utils.toast('Fill fields', 'error');
+    if (!name || isNaN(target) || target <= 0) return Utils.toast('Fill valid fields', 'error');
     if (DB.getSettings().currency === 'BDT') target /= this.exchangeRate;
     this.data.savings.push({ id: Utils.uid(), name, target, saved: 0 });
     this.saveData(); this.closeModal(); this.render();

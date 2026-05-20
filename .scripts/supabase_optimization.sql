@@ -27,3 +27,27 @@ CREATE INDEX IF NOT EXISTS idx_broadcasts_created_at ON app_broadcasts(created_a
 
 -- Note: If you don't have the 'spirit_score' or 'app_broadcasts' table yet, 
 -- those specific lines might throw a harmless warning. That is perfectly fine!
+
+-- ==========================================
+-- USER TRACKING & SYNC PERFORMANCE INDEXES
+-- ==========================================
+-- 1. Salah logs query indexing (highly read/written by date ranges)
+CREATE INDEX IF NOT EXISTS idx_salah_logs_user_date ON salah_logs(user_id, date DESC);
+
+-- 2. Dhikr logs query indexing
+CREATE INDEX IF NOT EXISTS idx_dhikr_logs_user_date ON dhikr_logs(user_id, date DESC);
+
+-- 3. Mujahid habits query indexing
+CREATE INDEX IF NOT EXISTS idx_mujahid_habits_user ON mujahid_habits(user_id);
+
+-- 4. Finance store query indexing
+CREATE INDEX IF NOT EXISTS idx_finance_store_user ON finance_store(user_id);
+
+-- 5. User settings indexing
+CREATE INDEX IF NOT EXISTS idx_user_settings_user ON user_settings(user_id);
+
+-- 6. Goals indexing
+CREATE INDEX IF NOT EXISTS idx_goals_user ON goals(user_id);
+
+-- 7. Dhikr presets indexing
+CREATE INDEX IF NOT EXISTS idx_dhikr_presets_user ON dhikr_presets(user_id);

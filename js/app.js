@@ -166,25 +166,51 @@ const App = {
     const settings = DB.getSettings();
     document.documentElement.setAttribute('data-theme', settings.theme || 'dark');
 
-    // Register service worker with auto-update system
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(() => { });
+    // Check if running on localhost/development environment
+    const isLocalhost = Boolean(
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '[::1]' ||
+      window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    );
 
-      // Listen for SW update notifications — auto-refresh silently only if version changed
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'SW_UPDATED') {
-          const currentVersion = DB.rawGet('lamim_current_sw_version');
-          if (currentVersion !== event.data.version) {
-            DB.rawSet('lamim_current_sw_version', event.data.version);
-            console.log('[App] New version detected:', event.data.version, '— auto-refreshing...');
-            window.location.reload();
+    if ('serviceWorker' in navigator) {
+      if (isLocalhost) {
+        // Auto-unregister Service Worker on localhost to make development hassle-free
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (let registration of registrations) {
+            registration.unregister();
+            console.log('[Dev] Unregistered Service Worker on localhost');
           }
-        }
-      });
+        });
+      } else {
+        // Register service worker with auto-update system on production
+        navigator.serviceWorker.register('/sw.js').catch(() => { });
+
+        // Listen for SW update notifications — auto-refresh silently only if version changed
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data && event.data.type === 'SW_UPDATED') {
+            const currentVersion = DB.rawGet('lamim_current_sw_version');
+            if (currentVersion !== event.data.version) {
+              DB.rawSet('lamim_current_sw_version', event.data.version);
+              console.log('[App] New version detected:', event.data.version, '— auto-refreshing...');
+              window.location.reload();
+            }
+          }
+        });
+      }
     }
 
     // Apply translations after a short delay to allow DOM to settle
     setTimeout(() => this.applyTranslations(), 50);
+
+    // Global Midnight Rollover Detector - ensures app state resets if left open overnight
+    const startupDate = Utils.todayStr();
+    setInterval(() => {
+      if (Utils.todayStr() !== startupDate) {
+        console.log("[App] Midnight rollover detected. Reloading app state...");
+        window.location.reload();
+      }
+    }, 60000);
 
     // Splash → route
     setTimeout(async () => {
