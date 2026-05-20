@@ -17,6 +17,7 @@ When a user clicks "Complete" on a prayer or habit, the following workflow trigg
 1. **Local Save:** `DB.set()` updates the local interface instantly.
 2. **Queueing:** The payload is pushed into an array called `lamim_sync_queue` in `localStorage`.
 3. **Background Processing:** If the user has internet, `Sync.processQueue()` loops through the queue, sending data to Supabase. If successful, the item is popped from the queue. If it fails, it remains in the queue for the next retry.
+4. **Poison-Pill Protection:** To prevent infinite sync freezes caused by corrupted data payloads, the queue tracker implements a strict 3-retry limit. If an item fails 3 times consecutively, it is dropped so the rest of the queue can successfully sync.
 
 ### 1.3 Supabase Client (`supabase-client.js`)
 * **CDN Initialization:** Safe-guards client initialization by listening to CDN script load states.
@@ -81,6 +82,7 @@ Tracking night prayers (Tahajjud/Witr) presents a unique timezone problem. If a 
 ### 3.7 Islamic Finance (`finance.js`)
 * **Zakat Calculator:** Users input their Gold, Silver, Cash, and Business assets. The logic dynamically checks if the total exceeds the current Nisaab threshold and calculates exactly 2.5%.
 * **Debt Array:** Stores debts as an array of objects `{ id, name, amount }`. Users can dynamically add or remove rows.
+* **Savings Vaults:** Users can create custom vaults (e.g. "Hajj Fund"). When a deposit is made into a vault, the system dynamically logs it as a "transfer" expense, ensuring the global Available Balance strictly deducts the vaulted funds, maintaining perfect financial equilibrium.
 
 ### 3.8 Goals & Sunnah (`goals.js`)
 * **Boolean Checklist:** Renders a list of daily Sunnahs (e.g., "Read Surah Mulk").
@@ -100,9 +102,10 @@ Tracking night prayers (Tahajjud/Witr) presents a unique timezone problem. If a 
 * **Personal Dashboard:** Renders a focused view of the user's specific lifetime statistics (total prayers, total dhikr, current rank).
 * **Theme Engine:** Interacts with the global settings object to toggle between Dark Mode and Light Mode. The `index.html` `<head>` executes a blocking script to read `localStorage` and apply `data-theme` instantly before body paint to prevent flash-of-unstyled-content (FOUC).
 
-### 3.11 Notifications Engine (`notifications.js`)
+### 3.11 Notifications Engine (`notifications.js` & `prayer-notifier.js`)
 * **In-App Alerts:** A custom toast/notification engine that renders beautiful, auto-dismissing glassmorphic alerts for streaks, level-ups, and admin broadcasts.
 * **Queueing:** Prevents notification spam by queueing multiple alerts and displaying them sequentially.
+* **Doze-Mode Resilient Prayer Alerts:** A background polling module (`PrayerNotifier`) checks the sun-math arrays every 30 seconds. To survive Android "Doze" / iOS Deep Sleep mechanics, it uses a time-window threshold (0-120 seconds). If the device wakes up momentarily within 2 minutes of the prayer time, it immediately pushes the Service Worker Push Notification.
 
 ### 3.12 Calendar Core (`hijri.js`)
 * **Astronomical Approximation:** Uses standard algorithms to convert the Gregorian date to the Hijri (Islamic) lunar calendar.
@@ -139,10 +142,11 @@ All tables must have RLS enabled.
 * **Row Level Security (RLS):** 
   * All Postgres tables require `auth.uid() = user_id`.
   * The Admin panel bypasses this using an advanced `SECURITY DEFINER` SQL function `is_admin()`, completely preventing infinite recursion bugs.
-* **Cross-Site Scripting (XSS):** 
+* **Cross-Site Scripting (XSS) & Auto-Translation:** 
   * Any data pulled from Supabase (names, emails, broadcast texts) that is injected into `innerHTML` is first passed through `Utils.escapeHTML()`. This converts dangerous tags like `<script>` into safe strings like `&lt;script&gt;`.
+  * The App uses a `MutationObserver` for real-time Bengali translation. To prevent DOM corruption, the observer explicitly blacklists `<svg>`, `INPUT`, `TEXTAREA`, and `<script>` nodes, ensuring numbers inside SVG `viewBox` coordinates are not accidentally translated into Bengali strings, which would break the graphics engine.
 * **Service Worker Caching:** 
-  * `sw.js` uses a `Stale-While-Revalidate` strategy. When a user opens the app, it instantly loads the cached UI (0ms). In the background, it fetches the latest CSS/JS files. If they are different, it updates the cache for the *next* reload, ensuring the user is never stuck looking at a blank loading screen.
+  * `sw.js` uses a `Network-First` with a 1.5s Timeout strategy for HTML navigation and local assets. It provides blazing-fast offline support while guaranteeing that online users always receive real-time UI patches within 1.5 seconds.
 
 ---
 
