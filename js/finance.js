@@ -1521,12 +1521,12 @@ const Finance = {
           fill: true,
           backgroundColor: fillGradient,
           // Only show circular points on days with actual expenses to avoid baseline clutter
-          pointRadius: displayData.map(v => v > 0 ? 5.5 : 0),
-          pointHoverRadius: displayData.map(v => v > 0 ? 8 : 0),
+          pointRadius: displayData.map(v => v > 0 ? 7 : 0), // Larger radius to show the hollow center
+          pointHoverRadius: displayData.map(v => v > 0 ? 9 : 0),
           pointHitRadius: 12,
-          pointBackgroundColor: isDark ? '#0c0d12' : '#ffffff', // Matches card background
+          pointBackgroundColor: isDark ? '#0c0d12' : '#ffffff', // Matches theme background
           pointBorderColor: accentColor,
-          pointBorderWidth: 3,
+          pointBorderWidth: 2.5, // Thinner border to leave a clear center hole
           clip: false, // Prevents points at the top/sides from being cut off
         }]
       },
@@ -1535,7 +1535,7 @@ const Finance = {
         maintainAspectRatio: false,
         layout: {
           padding: {
-            top: 12, // Extra top breathing room for point markers
+            top: 14, // Extra top breathing room for point markers
             bottom: 4,
             left: 8,
             right: 8
@@ -1566,7 +1566,7 @@ const Finance = {
           x: { 
             grid: { display: false }, 
             ticks: { 
-              color: isDark ? '#94a3b8' : '#475569', // High contrast slate ticks
+              color: isDark ? '#94a3b8' : '#1e293b', // High contrast slate ticks in light mode
               font: { size: 10, weight: '700' }, 
               autoSkip: true, 
               maxTicksLimit: 12 
@@ -1581,7 +1581,7 @@ const Finance = {
               drawBorder: false 
             }, 
             ticks: { 
-              color: isDark ? '#94a3b8' : '#475569', 
+              color: isDark ? '#94a3b8' : '#1e293b', // High contrast slate ticks in light mode
               font: { size: 10, weight: '700' }, 
               callback: (v) => {
                 if (v <= 0) return '';
