@@ -5,19 +5,8 @@ const App = {
   currentSection: '',
   lang: DB.rawGet('lamim_lang') || 'en',
 
-  // UI Dictionary
-  dict: {
-    'Home': 'হোম', 'Salah': 'সালাত', 'Dhikr': 'যিকির', 'Nafl Salah': 'নফল সালাত', 'Akhlaq': 'আখলাক', 'Finance': 'অর্থনীতি', 'Tazkiyah': 'তাজকিয়াহ', 'Ilm': 'ইলম', 'Analysis': 'বিশ্লেষণ', 'Profile': 'প্রোফাইল', 'Vanguard': 'অগ্রসেনা',
-    'Habits & Sunnah': 'অভ্যাস ও সুন্নাহ', 'Islamic Finance': 'ইসলামিক অর্থনীতি', 'Knowledge Hub': 'জ্ঞানের হাব',
-    '📋 Today': '📋 আজকে', 'Today': 'আজ', 'Active': 'সক্রিয়', 'Completed': 'সম্পন্ন', 'Archived': 'আর্কাইভড', '➕ New Goal': '➕ নতুন লক্ষ্য',
-    'Personal Information': 'ব্যক্তিগত তথ্য', 'Prayer Settings': 'সালাত সেটিংস', 'App Settings': 'অ্যাপ সেটিংস', 'About': 'অ্যাপ সম্পর্কে', 'Danger Zone': 'বিপজ্জনক জোন',
-    'Theme': 'থিম', 'Dark': 'ডার্ক', 'Light': 'লাইট', 'Export Data': 'ডেটা এক্সপোর্ট', 'Import Data': 'ডেটা ইমপোর্ট', 'JSON Backup': 'JSON ব্যাকআপ', 'Export Salah Log': 'সালাত লগ এক্সপোর্ট',
-    'Logout': 'লগআউট', 'Delete Account': 'অ্যাকাউন্ট মুছুন', 'App Version': 'অ্যাপ ভার্সন', 'Privacy Policy': 'প্রাইভেসি পলিসি', 'Prayer Notifications': 'সালাতের নোটিফিকেশন', 'Calc Method': 'হিসাব পদ্ধতি', 'Madhab': 'মাযহাব',
-    'Name': 'নাম', 'Email': 'ইমেইল', 'Location': 'অবস্থান', 'Not set': 'সেট করা নেই', 'All 5': 'সবগুলো', 'None': 'একটিও না',
-    'Cancel': 'বাতিল', 'Save Goal': 'সেভ করুন', 'Title': 'শিরোনাম', 'Description': 'বিবরণ', 'Target': 'লক্ষ্যমাত্রা', 'Unit': 'একক', 'Category': 'বিভাগ', 'Priority': 'অগ্রাধিকার', 'Deadline': 'শেষ সময়', 'Recurring': 'পুনরাবৃত্তি', 'New Goal': 'নতুন লক্ষ্য',
-    'Administration Messages': 'প্রশাসনিক বার্তা',
-    'Language / ভাষা': 'Language / ভাষা'
-  },
+  // UI Dictionary (loaded from lang.js)
+  dict: typeof Translations !== 'undefined' ? Translations : {},
 
   toggleLang() {
     this.setLang(this.lang === 'en' ? 'bn' : 'en');
