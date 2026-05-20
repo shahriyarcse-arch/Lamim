@@ -455,10 +455,10 @@ const Home = {
         lastSec = sec;
         const isMobile = window.innerWidth <= 768;
         
-        const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const locale = (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US';
+        const timeStr = now.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         if (timeVal) timeVal.textContent = timeStr;
 
-        const locale = (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US';
         const enDate = now.toLocaleDateString(locale, { year: 'numeric', month: isMobile ? 'short' : 'long', day: 'numeric' });
         if (enVal && enVal.textContent !== enDate) enVal.textContent = enDate;
 

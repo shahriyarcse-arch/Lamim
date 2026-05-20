@@ -61,7 +61,22 @@ const Utils = {
     const day = l - Math.floor((709 * month) / 24);
     const year = 30 * n + j - 30;
     const months = ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhu al-Qi'dah",'Dhu al-Hijjah'];
-    return `${day} ${months[month - 1]} ${year} AH`;
+    let monthName = months[month - 1];
+    let dateStr = `${day} ${monthName} ${year} AH`;
+    
+    if (typeof App !== 'undefined' && App.lang === 'bn') {
+      const bnMonths = ['মুহাররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল উলা','জুমাদাস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'];
+      monthName = bnMonths[month - 1];
+      const bnNums = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+      const bnDay = String(day).split('').map(d => bnNums[d]).join('');
+      const bnYear = String(year).split('').map(d => bnNums[d]).join('');
+      dateStr = `${bnDay} ${monthName} ${bnYear} হিজরি`;
+    } else if (typeof window.t === 'function') {
+      monthName = window.t(monthName);
+      dateStr = `${day} ${monthName} ${year} AH`;
+    }
+    
+    return dateStr;
   },
 
   /* ---- Accurate Prayer Times (Sun-angle based) ---- */
