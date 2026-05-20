@@ -549,43 +549,83 @@ const Profile = {
       return;
     }
     
-    // Robustness: File size limit (max 5MB)
-    const MAX_MB = 5;
+    // Size limit before compression
+    const MAX_MB = 10;
     if (file.size > MAX_MB * 1024 * 1024) {
       Utils.toast(`Image is too large. Please select an image under ${MAX_MB}MB`, 'error');
-      // Reset input
       e.target.value = '';
       return;
     }
 
     const user = DB.getUser();
     if (!user) return;
-    
     const originalAvatar = user.avatar; // Save for fallback
 
-    // 1. Instant Preview (Optimistic UI)
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      const updatedUser = DB.getUser(); // Get fresh copy
-      updatedUser.avatar = evt.target.result; 
+    Utils.toast('Processing image...', 'info');
+
+    // 1. Client-side Image Compression (Safe for localStorage limit)
+    const compressImage = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const MAX_DIMENSION = 400; // Optimal for avatars
+
+            if (width > height) {
+              if (width > MAX_DIMENSION) {
+                height *= MAX_DIMENSION / width;
+                width = MAX_DIMENSION;
+              }
+            } else {
+              if (height > MAX_DIMENSION) {
+                width *= MAX_DIMENSION / height;
+                height = MAX_DIMENSION;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            
+            canvas.toBlob((blob) => {
+              resolve({ dataUrl, blob });
+            }, 'image/jpeg', 0.7);
+          };
+          img.onerror = reject;
+          img.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
+
+    try {
+      const { dataUrl, blob } = await compressImage(file);
+
+      // 2. Instant Preview (Optimistic UI) with compressed image
+      const updatedUser = DB.getUser();
+      updatedUser.avatar = dataUrl; 
       DB.setUser(updatedUser);
       Profile.renderProfile();
       Profile.renderSettings();
       if (typeof App !== 'undefined') App.updateAvatars();
-    };
-    reader.readAsDataURL(file);
 
-    try {
       Utils.toast('Uploading to cloud...', 'info');
       
       const oldAvatarUrl = originalAvatar;
-      const fileExt = file.name.split('.').pop();
+      const fileExt = 'jpg';
       const fileName = `${user.id}-${Math.round(Date.now() / 1000)}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
+      // 3. Upload compressed blob
       const { error: uploadError } = await window.supabaseClient.storage
         .from('avatars')
-        .upload(filePath, file);
+        .upload(filePath, blob, { cacheControl: '3600', upsert: true });
 
       if (uploadError) throw uploadError;
 
