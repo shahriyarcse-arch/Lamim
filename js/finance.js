@@ -1395,8 +1395,8 @@ const Finance = {
                 <div class="val pos">${sym}${this.formatVal(stats.income)}</div>
               </div>
               <div class="stat-card dark">
-                <span class="label" style="color:rgba(255,255,255,0.4)">Verified Balance</span>
-                <div class="val">${sym}${this.formatVal(stats.totalAllTime)}</div>
+                <span class="label" style="color:rgba(255,255,255,0.4)">Closing Balance</span>
+                <div class="val">${sym}${this.formatVal(stats.closingBalance)}</div>
               </div>
             </div>
 
@@ -1550,20 +1550,26 @@ const Finance = {
 
   getStats(v) {
     const m = v.getMonth(), y = v.getFullYear();
+    const endOfViewMonth = new Date(y, m + 1, 0, 23, 59, 59); // Last second of the viewed month
 
     // Monthly View Stats (Specific to this month)
     const monthlyIncome = this.data.income.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
     const monthlyExpenses = this.data.expenses.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
     
     // Absolute Current Balance (Total money currently on hand across all time)
-    const historicalIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
-    const historicalExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
+    const totalIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
+    const totalExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
+
+    // Closing Balance of the viewed month (Cumulative up to the end of the viewed month)
+    const closingIncome = this.data.income.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
+    const closingExpenses = this.data.expenses.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
     
     return { 
       income: monthlyIncome, 
       expenses: monthlyExpenses, 
       balance: monthlyIncome - monthlyExpenses,
-      totalAllTime: historicalIncome - historicalExpenses 
+      totalAllTime: totalIncome - totalExpenses,
+      closingBalance: closingIncome - closingExpenses
     };
   }
 };
