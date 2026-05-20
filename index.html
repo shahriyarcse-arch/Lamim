@@ -62,17 +62,61 @@
 
 <!-- SPLASH -->
 <div class="splash" id="splash">
-  <div class="splash-logo centered-logo">
-    <div class="glossy-icon-wrap" style="margin-bottom:0; width:80px; height:80px;">
-      <div class="glossy-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="premium-svg-logo" style="width:40px; height:40px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      </div>
-      <div class="glossy-sweep"></div>
-    </div>
-    <div class="auth-logo-name" style="margin-top:16px;">Lamim</div>
+  <!-- Animated Aurora Background Blobs -->
+  <div class="splash-aurora">
+    <div class="splash-blob splash-blob-1"></div>
+    <div class="splash-blob splash-blob-2"></div>
+    <div class="splash-blob splash-blob-3"></div>
   </div>
-  <div class="splash-tagline">Your Islamic Lifestyle Companion</div>
-  <div class="splash-loader"><div class="splash-loader-fill"></div></div>
+
+  <!-- Floating Particles -->
+  <div class="splash-particles">
+    <div class="splash-particle" style="--x:15%;--y:20%;--d:6s;--s:3px;"></div>
+    <div class="splash-particle" style="--x:80%;--y:15%;--d:8s;--s:2px;"></div>
+    <div class="splash-particle" style="--x:25%;--y:75%;--d:7s;--s:4px;"></div>
+    <div class="splash-particle" style="--x:70%;--y:65%;--d:5s;--s:2px;"></div>
+    <div class="splash-particle" style="--x:50%;--y:30%;--d:9s;--s:3px;"></div>
+    <div class="splash-particle" style="--x:90%;--y:80%;--d:6s;--s:2px;"></div>
+    <div class="splash-particle" style="--x:10%;--y:55%;--d:7s;--s:3px;"></div>
+    <div class="splash-particle" style="--x:60%;--y:85%;--d:8s;--s:2px;"></div>
+  </div>
+
+  <!-- Main Logo Content -->
+  <div class="splash-content">
+    <!-- Icon with matching app icon design -->
+    <div class="splash-icon-container">
+      <div class="splash-icon-glow"></div>
+      <div class="splash-icon-orb">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80">
+          <defs>
+            <filter id="splash-glow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" 
+                fill="#ffffff" opacity="0.95" filter="url(#splash-glow)"/>
+          <path d="M256 128l16 48 48 16-48 16-16 48-16-48-48-16 48-16z" 
+                fill="#fcd34d" filter="url(#splash-glow)"/>
+          <path d="M368 180l10 30 30 10-30 10-10 30-10-30-30-10 30-10z" 
+                fill="#fde68a" opacity="0.8" filter="url(#splash-glow)"/>
+        </svg>
+      </div>
+      <div class="splash-icon-ring"></div>
+      <div class="splash-icon-ring splash-icon-ring-2"></div>
+    </div>
+
+    <!-- App Name -->
+    <div class="splash-app-name">Lamim</div>
+
+    <!-- Tagline -->
+    <div class="splash-tagline">Your Islamic Lifestyle Companion</div>
+
+    <!-- Premium Loading Bar -->
+    <div class="splash-loader-wrap">
+      <div class="splash-loader"><div class="splash-loader-fill"></div></div>
+    </div>
+  </div>
 </div>
 
 <!-- DHIKR HISTORY MODAL -->
