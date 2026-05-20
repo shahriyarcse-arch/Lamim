@@ -1278,9 +1278,16 @@ const Finance = {
   exportPDF() {
     const v = this.currentViewDate, sym = this.getSymbol();
     const mStr = v.toLocaleString('default', { month: 'long', year: 'numeric' });
-    const exps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear(); }).sort((a,b) => new Date(b.date) - new Date(a.date));
+    const exps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear(); });
+    const incs = this.data.income.filter(i => { const d = new Date(i.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear(); });
     const total = exps.reduce((s, e) => s + e.amount, 0);
     const stats = this.getStats(v);
+
+    // Merge both income and expenses into a unified list, sorted chronologically (newest first)
+    const txs = [
+      ...exps.map(e => ({ ...e, type: 'expense' })),
+      ...incs.map(i => ({ ...i, type: 'income' }))
+    ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const win = window.open('', '_blank');
     win.document.write(`
@@ -1419,14 +1426,24 @@ const Finance = {
                 </tr>
               </thead>
               <tbody>
-                ${exps.map(e => `
-                  <tr>
-                    <td style="color:#6366f1; font-weight:800; font-size:13px;">${new Date(e.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
-                    <td style="font-weight:700; color:#1e1b4b; font-size:15px;">${e.description}</td>
-                    <td><span class="cat-tag">${e.category}</span></td>
-                    <td class="amount neg">-${sym}${this.formatVal(e.amount)}</td>
-                  </tr>
-                `).join('')}
+                ${txs.map(t => {
+                  const isInc = t.type === 'income';
+                  const sign = isInc ? '+' : '-';
+                  const classColor = isInc ? 'pos' : 'neg';
+                  const catText = isInc ? 'INCOME' : t.category;
+                  const catBg = isInc ? 'rgba(16, 185, 129, 0.08)' : '#f8fafc';
+                  const catColor = isInc ? '#10b981' : '#64748b';
+                  const catBorder = isInc ? 'rgba(16, 185, 129, 0.15)' : '#f1f5f9';
+
+                  return `
+                    <tr>
+                      <td style="color:#6366f1; font-weight:800; font-size:13px;">${new Date(t.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}</td>
+                      <td style="font-weight:700; color:#1e1b4b; font-size:15px;">${t.description}</td>
+                      <td><span class="cat-tag" style="background:${catBg}; color:${catColor}; border:1px solid ${catBorder};">${catText}</span></td>
+                      <td class="amount ${classColor}">${sign}${sym}${this.formatVal(t.amount)}</td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
 
