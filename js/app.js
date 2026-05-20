@@ -258,6 +258,15 @@ const App = {
     this.bindSidebarToggle();
     this.bindInstallPrompt();
 
+    // Network status indicators for PWA
+    window.addEventListener('online', () => {
+      Utils.toast(this.lang === 'bn' ? 'ইন্টারনেট কানেকশন ফিরেছে!' : 'Back Online!', 'success');
+      if (window.Sync) window.Sync.pullAll(); // Auto-sync when back online
+    });
+    window.addEventListener('offline', () => {
+      Utils.toast(this.lang === 'bn' ? 'আপনি এখন অফলাইনে আছেন। ডাটা লোকালি সেভ হবে।' : 'You are offline. Data will be saved locally.', 'warning');
+    });
+
     // Android hardware back button support
     window.addEventListener('popstate', (e) => {
       // Close any open modal first
