@@ -410,14 +410,7 @@ const Sync = {
   },
 
   async processQueue() {
-    const q = DB.get('lamim_sync_queue') || [];
-    if (q.length === 0) {
-      this.updateGlobal();
-      return;
-    }
-    
     if (this.isSyncing) return;
-    
     if (!navigator.onLine) {
       this.updateGlobal();
       return;
@@ -425,10 +418,13 @@ const Sync = {
 
     try {
       this.isSyncing = true;
-      console.log(`[Sync] Processing queue: ${q.length} items remaining.`);
 
-      while (q.length > 0) {
-        const item = q[0];
+      // Loop over queue dynamically to prevent race conditions during long await calls
+      while (true) {
+        const freshQ = DB.get('lamim_sync_queue') || [];
+        if (freshQ.length === 0) break;
+
+        const item = freshQ[0];
         try {
           console.log(`[Sync] Uploading ${item.type} for ${item.date || 'all'}...`);
           
@@ -441,9 +437,10 @@ const Sync = {
           else if (item.type === 'goals') await this.pushGoals(item.data);
           else if (item.type === 'dhikr_presets') await this.pushDhikrPresets(item.data);
           
-          // Remove success
-          q.shift();
-          DB.set('lamim_sync_queue', q);
+          // Re-fetch queue to prevent overwriting new items added by user during the await
+          const qAfterSync = DB.get('lamim_sync_queue') || [];
+          const updatedQ = qAfterSync.filter(i => !(i.type === item.type && i.date === item.date && i.ts === item.ts));
+          DB.set('lamim_sync_queue', updatedQ);
           console.log(`[Sync] Successfully synced: ${item.type}`);
         } catch (err) {
           console.error(`[Sync] Fatal error on ${item.type}:`, err);
@@ -453,15 +450,17 @@ const Sync = {
             return; // Stop processing queue until login
           }
 
-          // FIX: Poison-pill protection. If it fails 3 times, drop it to prevent permanent queue freeze.
           item.retries = (item.retries || 0) + 1;
+          const qAfterErr = DB.get('lamim_sync_queue') || [];
+          
           if (item.retries > 3) {
             console.error(`[Sync] Dropping corrupted item (${item.type}) after 3 failed retries.`);
-            q.shift();
-            DB.set('lamim_sync_queue', q);
+            const droppedQ = qAfterErr.filter(i => !(i.type === item.type && i.date === item.date && i.ts === item.ts));
+            DB.set('lamim_sync_queue', droppedQ);
             continue;
           } else {
-            DB.set('lamim_sync_queue', q); // save retry count
+            const retryQ = qAfterErr.map(i => (i.type === item.type && i.date === item.date && i.ts === item.ts) ? item : i);
+            DB.set('lamim_sync_queue', retryQ); 
             Utils.toast(`Sync failed (${item.type}): Retrying soon...`, 'error');
             break; // Retry later
           }
