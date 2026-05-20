@@ -1550,15 +1550,14 @@ const Finance = {
 
   getStats(v) {
     const m = v.getMonth(), y = v.getFullYear();
-    const endOfViewMonth = new Date(y, m + 1, 0, 23, 59, 59); // Last second of the viewed month
 
     // Monthly View Stats (Specific to this month)
     const monthlyIncome = this.data.income.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
     const monthlyExpenses = this.data.expenses.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
     
-    // Historical Balance (Cumulative up to the END of this viewed month)
-    const historicalIncome = this.data.income.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
-    const historicalExpenses = this.data.expenses.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
+    // Absolute Current Balance (Total money currently on hand across all time)
+    const historicalIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
+    const historicalExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
     
     return { 
       income: monthlyIncome, 
