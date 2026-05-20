@@ -334,30 +334,30 @@ select.input option:disabled { color: var(--color-text-muted); }
 .bottom-nav-item .bnav-icon svg { width: 20px; height: 20px; }
 .bottom-nav-item.active, .nav-item.active { color: #a78bfa; }
 
-/* Section Specific Colors */
-[data-section="home"].active { color: #a855f7 !important; }
-[data-section="home"].active .bnav-icon, [data-section="home"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
+/* Section Specific Colors (Active State) */
+.nav-item[data-section="home"].active, .bottom-nav-item[data-section="home"].active { color: #a855f7 !important; }
+.nav-item[data-section="home"].active .bnav-icon, .nav-item[data-section="home"].active .nav-icon, .bottom-nav-item[data-section="home"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
 
-[data-section="salah"].active { color: #f87171 !important; }
-[data-section="salah"].active .bnav-icon, [data-section="salah"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.6)); }
+.nav-item[data-section="salah"].active, .bottom-nav-item[data-section="salah"].active { color: #f87171 !important; }
+.nav-item[data-section="salah"].active .bnav-icon, .nav-item[data-section="salah"].active .nav-icon, .bottom-nav-item[data-section="salah"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.6)); }
 
-[data-section="dhikr"].active { color: #0ea5e9 !important; }
-[data-section="dhikr"].active .bnav-icon, [data-section="dhikr"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.6)); }
+.nav-item[data-section="dhikr"].active, .bottom-nav-item[data-section="dhikr"].active { color: #0ea5e9 !important; }
+.nav-item[data-section="dhikr"].active .bnav-icon, .nav-item[data-section="dhikr"].active .nav-icon, .bottom-nav-item[data-section="dhikr"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.6)); }
 
-[data-section="nafl"].active { color: #c084fc !important; }
-[data-section="nafl"].active .bnav-icon, [data-section="nafl"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.6)); }
+.nav-item[data-section="nafl"].active, .bottom-nav-item[data-section="nafl"].active { color: #c084fc !important; }
+.nav-item[data-section="nafl"].active .bnav-icon, .nav-item[data-section="nafl"].active .nav-icon, .bottom-nav-item[data-section="nafl"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.6)); }
 
-[data-section="mujahid"].active { color: #f59e0b !important; }
-[data-section="mujahid"].active .bnav-icon, [data-section="mujahid"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)); }
+.nav-item[data-section="mujahid"].active, .bottom-nav-item[data-section="mujahid"].active { color: #f59e0b !important; }
+.nav-item[data-section="mujahid"].active .bnav-icon, .nav-item[data-section="mujahid"].active .nav-icon, .bottom-nav-item[data-section="mujahid"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)); }
 
-[data-section="finance"].active { color: #10b981 !important; }
-[data-section="finance"].active .bnav-icon, [data-section="finance"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.6)); }
+.nav-item[data-section="finance"].active, .bottom-nav-item[data-section="finance"].active { color: #10b981 !important; }
+.nav-item[data-section="finance"].active .bnav-icon, .nav-item[data-section="finance"].active .nav-icon, .bottom-nav-item[data-section="finance"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.6)); }
 
-[data-section="analysis"].active { color: #6366f1 !important; }
-[data-section="analysis"].active .bnav-icon, [data-section="analysis"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6)); }
+.nav-item[data-section="analysis"].active, .bottom-nav-item[data-section="analysis"].active { color: #6366f1 !important; }
+.nav-item[data-section="analysis"].active .bnav-icon, .nav-item[data-section="analysis"].active .nav-icon, .bottom-nav-item[data-section="analysis"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6)); }
 
-[data-section="profile"].active { color: #94a3b8 !important; }
-[data-section="profile"].active .bnav-icon, [data-section="profile"].active .nav-icon { filter: drop-shadow(0 0 10px rgba(148, 163, 184, 0.6)); }
+.nav-item[data-section="profile"].active, .bottom-nav-item[data-section="profile"].active { color: #94a3b8 !important; }
+.nav-item[data-section="profile"].active .bnav-icon, .nav-item[data-section="profile"].active .nav-icon, .bottom-nav-item[data-section="profile"].active .bnav-icon { filter: drop-shadow(0 0 10px rgba(148, 163, 184, 0.6)); }
 
 [data-theme="light"] .bottom-nav {
   background: rgba(255, 255, 255, 0.8) !important;
