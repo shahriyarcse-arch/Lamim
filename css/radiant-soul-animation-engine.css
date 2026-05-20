@@ -1523,8 +1523,7 @@
 }
 
 .transaction-amount.negative {
-  color: var(--color-text-primary);
-  opacity: 0.9;
+  color: var(--fin-red);
 }
 
 .transaction-amount.positive {
@@ -2477,7 +2476,7 @@
 }
 
 .fin-stat-value.expense {
-  color: #fff;
+  color: var(--fin-red);
 }
 
 [data-theme="light"] .fin-stat-card {
@@ -2661,7 +2660,7 @@
 
 .fin-stat-value.expense,
 .transaction-amount.negative {
-  color: #fff;
+  color: var(--fin-red);
 }
 
 @keyframes textShimmer {
