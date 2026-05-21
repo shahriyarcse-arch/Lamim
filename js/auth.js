@@ -33,6 +33,12 @@ const Auth = {
     return Boolean(user?.email_confirmed_at || user?.confirmed_at);
   },
 
+  isOAuthUser(user) {
+    // Google/OAuth users don't need email verification
+    const provider = user?.app_metadata?.provider || user?.raw_app_meta_data?.provider || '';
+    return provider !== 'email' && provider !== '';
+  },
+
   isOldAccount(user) {
     if (!user?.created_at) return false;
     const accountCreatedDate = new Date(user.created_at);
@@ -41,8 +47,12 @@ const Auth = {
   },
 
   requiresEmailVerification(user) {
-    const emailConfirmed = this.isEmailConfirmed(user);
-    return !emailConfirmed || this.isOldAccount(user);
+    // OAuth users (Google etc) never need email verification
+    if (this.isOAuthUser(user)) return false;
+    // If already confirmed, no verification needed
+    if (this.isEmailConfirmed(user)) return false;
+    // Not confirmed = needs verification
+    return true;
   },
 
   bindLogin() {
@@ -105,29 +115,17 @@ const Auth = {
             if (emailInput) emailInput.value = email;
           }
         } else if (data.user) {
-          const emailConfirmed = this.isEmailConfirmed(data.user);
-          const isOldAccount = this.isOldAccount(data.user);
-          const requiresReverification = isOldAccount && emailConfirmed;
-
-          if (!emailConfirmed || requiresReverification) {
+          // Skip verification check for OAuth (Google) users
+          if (this.isOAuthUser(data.user)) {
+            // OAuth user - always confirmed, proceed directly
+          } else if (!this.isEmailConfirmed(data.user)) {
             await window.supabaseClient.auth.signOut();
-
-            if (requiresReverification) {
-              Utils.toast('Please re-verify your email to continue.', 'warning');
-              if (resendBlock && resendText) {
-                resendText.textContent = 'Your account was created before email confirmation was enabled. Click below to receive a new verification email.';
-                resendBlock.style.display = 'block';
-                const emailInput = document.getElementById('login-email');
-                if (emailInput) emailInput.value = email;
-              }
-            } else {
-              Utils.toast('Please verify your email before logging in.', 'warning');
-              if (resendBlock && resendText) {
-                resendText.textContent = 'Your email is not verified yet. Click below to resend the verification email.';
-                resendBlock.style.display = 'block';
-                const emailInput = document.getElementById('login-email');
-                if (emailInput) emailInput.value = email;
-              }
+            Utils.toast('Please verify your email before logging in.', 'warning');
+            if (resendBlock && resendText) {
+              resendText.textContent = 'Your email is not verified yet. Click below to resend the verification email.';
+              resendBlock.style.display = 'block';
+              const emailInput = document.getElementById('login-email');
+              if (emailInput) emailInput.value = email;
             }
             return;
           }
@@ -296,9 +294,19 @@ const Auth = {
         if (btn) btn.textContent = originalText;
 
         if (error) {
+          console.error('Signup API error:', error);
           this.showError('signup-email', error.message);
           Utils.toast(error.message, 'error');
         } else if (data.user) {
+          // BUG FIX: Supabase v2 returns a fake user with empty identities
+          // when user already exists and "Confirm email" is ON.
+          // No email is sent in this case, so detect and warn.
+          const identities = data.user.identities || [];
+          if (identities.length === 0) {
+            this.showError('signup-email', 'An account with this email may already exist. Try logging in instead.');
+            Utils.toast('An account with this email may already exist. Try logging in.', 'warning');
+            return;
+          }
           // Attempt to create profile immediately (even if email confirmation is pending)
           // Note: This might fail if RLS is strict, but we try anyway.
           try {
