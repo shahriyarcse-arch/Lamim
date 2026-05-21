@@ -93,6 +93,17 @@ const Auth = {
         if (error) {
           this.showError('login-email', error.message);
           Utils.toast(error.message, 'error');
+
+          const isUnconfirmed = error.message && (
+            error.message.toLowerCase().includes('confirm') || 
+            error.message.toLowerCase().includes('verify')
+          );
+          if (isUnconfirmed && resendBlock && resendText) {
+            resendText.textContent = 'Your email is not verified yet. Click below to resend the verification email.';
+            resendBlock.style.display = 'block';
+            const emailInput = document.getElementById('login-email');
+            if (emailInput) emailInput.value = email;
+          }
         } else if (data.user) {
           const emailConfirmed = this.isEmailConfirmed(data.user);
           const isOldAccount = this.isOldAccount(data.user);
