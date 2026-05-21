@@ -236,7 +236,10 @@ const Auth = {
     try {
       const { error } = await window.supabaseClient.auth.resend({
         email,
-        type: 'signup'
+        type: 'signup',
+        options: {
+          emailRedirectTo: window.location.origin
+        }
       });
 
       if (error) {
