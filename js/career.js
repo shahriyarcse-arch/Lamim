@@ -425,5 +425,232 @@ const Career = {
     });
 
     container.innerHTML = html;
+  },
+
+  /* ---- Export Monthly PDF ---- */
+  exportPDF() {
+    const [yearStr, monthStr] = this.selectedDate.split('-');
+    const year = parseInt(yearStr, 10);
+    const month = parseInt(monthStr, 10) - 1;
+    const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    let totalStudyMins = 0;
+    let studyDays = 0;
+    let totalGoals = 0;
+    let totalDone = 0;
+    const catTotals = {};
+    this._catOptions.forEach(c => catTotals[c.value] = 0);
+    let tableRows = '';
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+      const data = DB.getCareer(dateStr);
+      const studyMins = data.studyDuration || 0;
+      const checklist = data.checklist || [];
+      const done = checklist.filter(x => x.done).length;
+      const total = checklist.length;
+      const category = data.category || 'coding';
+      const topic = data.focusTopic || '--';
+
+      totalStudyMins += studyMins;
+      if (studyMins > 0) studyDays++;
+      totalGoals += total;
+      totalDone += done;
+      if (catTotals[category] !== undefined) catTotals[category] += studyMins;
+
+      const dayOfWeek = new Date(year, month, d).toLocaleDateString('en-US', { weekday: 'short' });
+      const isFuture = dateStr > Utils.todayStr();
+      const rowClass = (d % 2 === 0) ? 'row-alt' : '';
+
+      const hrs = Math.floor(studyMins / 60);
+      const rem = studyMins % 60;
+      const display = studyMins > 0 ? (hrs > 0 ? hrs + 'h ' + rem + 'm' : rem + 'm') : '--';
+
+      if (isFuture) {
+        tableRows += '<tr class="' + rowClass + '"><td class="cell-date"><span class="date-day">' + d + '</span><span class="date-weekday">' + dayOfWeek + '</span></td><td colspan="4" class="cell-empty" style="text-align:center;font-style:italic">Not yet</td></tr>';
+      } else {
+        tableRows += '<tr class="' + rowClass + '">'
+          + '<td class="cell-date"><span class="date-day">' + d + '</span><span class="date-weekday">' + dayOfWeek + '</span></td>'
+          + '<td>' + display + '</td>'
+          + '<td>' + Utils.escapeHTML(category.charAt(0).toUpperCase() + category.slice(1)) + '</td>'
+          + '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + Utils.escapeHTML(topic) + '</td>'
+          + '<td>' + done + '/' + total + '</td>'
+          + '</tr>';
+      }
+    }
+
+    const avgDaily = daysInMonth > 0 ? Math.round(totalStudyMins / daysInMonth) : 0;
+    const avgHours = Math.floor(avgDaily / 60);
+    const avgMins = avgDaily % 60;
+    const avgDisplay = avgHours > 0 ? avgHours + 'h ' + avgMins + 'm' : avgMins + 'm';
+    const totalHours = Math.floor(totalStudyMins / 60);
+    const totalRemMins = totalStudyMins % 60;
+    const totalDisplay = totalHours > 0 ? totalHours + 'h ' + totalRemMins + 'm' : totalRemMins + 'm';
+    const streak = DB.getCareerStreak();
+
+    const user = DB.getUser() || { name: 'LAMIM User' };
+    const generatedDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Skill breakdown
+    const maxCat = Math.max(1, ...Object.values(catTotals));
+    let skillHTML = '';
+    const _catLabels = { coding: 'Coding', reading: 'Reading', language: 'Language', business: 'Business', general: 'General' };
+    this._catOptions.forEach(c => {
+      const mins = catTotals[c.value];
+      const pct = Math.round((mins / maxCat) * 100);
+      const hrs = Math.floor(mins / 60);
+      const rem2 = mins % 60;
+      const display2 = hrs > 0 ? hrs + 'h ' + rem2 + 'm' : rem2 + 'm';
+      skillHTML += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="width:70px;font-size:8px;font-weight:600;color:#64748b">' + _catLabels[c.value] + '</span><div style="flex:1;height:6px;background:#f1f5f9;border-radius:100px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,#a78bfa,#7c3aed);border-radius:100px;transition:width 0.3s"></div></div><span style="width:40px;text-align:right;font-size:8px;font-weight:700;color:#334155">' + display2 + '</span></div>';
+    });
+
+    let consistencyScore = 'NEEDS WORK';
+    let consistencyColor = '#d97706';
+    let consistencyBg = '#fffbeb';
+    let consistencyBorder = '#fde68a';
+    const activePct = daysInMonth > 0 ? Math.round((studyDays / daysInMonth) * 100) : 0;
+    if (activePct >= 80) {
+      consistencyScore = 'EXCELLENT';
+      consistencyColor = '#059669';
+      consistencyBg = '#ecfdf5';
+      consistencyBorder = '#a7f3d0';
+    } else if (activePct >= 50) {
+      consistencyScore = 'GOOD';
+      consistencyColor = '#0891b2';
+      consistencyBg = '#ecfeff';
+      consistencyBorder = '#a5f3fc';
+    }
+
+    const css = `
+      @page { size: A4; margin: 0; }
+      * { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #ffffff; color: #0f172a; font-size: 10px; line-height: 1.4; }
+      .page { max-width: 210mm; margin: 0 auto; padding: 28px 32px; }
+      .report-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0; margin-bottom: 22px; }
+      .brand-section { display: flex; align-items: center; gap: 14px; }
+      .brand-logo { width: 42px; height: 42px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; font-weight: 900; letter-spacing: -1px; }
+      .brand-text h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; line-height: 1.1; }
+      .brand-text p { font-size: 9px; color: #64748b; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px; }
+      .report-meta { text-align: right; }
+      .report-meta .user-name { font-size: 14px; font-weight: 700; color: #0f172a; }
+      .report-meta .report-period { font-size: 11px; color: #d97706; font-weight: 700; margin-top: 2px; }
+      .report-meta .report-ref { font-size: 8px; color: #94a3b8; margin-top: 5px; font-family: 'SF Mono', 'Fira Code', monospace; letter-spacing: 0.5px; }
+      .report-meta .report-date { font-size: 8px; color: #94a3b8; margin-top: 2px; }
+      .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+      .summary-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 10px; text-align: center; }
+      .summary-card.primary { background: ${consistencyBg}; border-color: ${consistencyBorder}; }
+      .summary-card .card-value { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; }
+      .summary-card.primary .card-value { color: ${consistencyColor}; }
+      .summary-card .card-badge { display: inline-block; font-size: 7px; font-weight: 800; letter-spacing: 1.2px; padding: 3px 8px; border-radius: 6px; margin-top: 6px; background: ${consistencyBg}; color: ${consistencyColor}; border: 1px solid ${consistencyBorder}; }
+      .summary-card .card-title { font-size: 8px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 8px; }
+      .section-title { font-size: 10px; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+      .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
+      .data-table thead th { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #475569; padding: 10px 4px; border-bottom: 2px solid #0f172a; text-align: center; background: #f8fafc; }
+      .data-table thead th:first-child { text-align: left; padding-left: 12px; width: 14%; }
+      .data-table tbody tr { border-bottom: 1px solid #f1f5f9; }
+      .data-table tbody tr.row-alt { background: #fafbfd; }
+      .data-table tbody td { padding: 6px 4px; text-align: center; vertical-align: middle; font-size: 9px; }
+      .data-table tbody td:first-child { text-align: left; padding-left: 12px; }
+      .cell-date { display: flex; align-items: baseline; gap: 5px; }
+      .date-day { font-size: 11px; font-weight: 700; color: #0f172a; }
+      .date-weekday { font-size: 7px; color: #94a3b8; font-weight: 600; }
+      .cell-empty { color: #cbd5e1; font-size: 9px; }
+      .skill-section { margin-bottom: 20px; }
+      .report-footer { padding-top: 16px; border-top: 1px solid #e2e8f0; }
+      .quote-box { background: linear-gradient(135deg, #fffbeb, #fef3c7); border-left: 3px solid #f59e0b; padding: 12px 16px; border-radius: 0 10px 10px 0; margin-bottom: 14px; }
+      .quote-text { font-size: 10px; color: #475569; font-style: italic; line-height: 1.6; }
+      .quote-ref { font-size: 9px; color: #d97706; font-weight: 600; margin-top: 4px; font-style: normal; }
+      .footer-brand { display: flex; justify-content: space-between; align-items: center; }
+      .footer-left { font-size: 8px; color: #94a3b8; letter-spacing: 0.5px; }
+      .footer-right { font-size: 8px; color: #94a3b8; font-weight: 600; }
+      @media print { body { padding: 0; } .page { padding: 20mm 18mm; } .summary-card { break-inside: avoid; } .data-table thead { display: table-row-group; } .data-table tbody tr { break-inside: avoid; } }
+    `;
+
+    const bodyHTML = `
+      <div class="page">
+        <div class="report-header">
+          <div class="brand-section">
+            <div class="brand-logo">L</div>
+            <div class="brand-text">
+              <h1>LAMIM</h1>
+              <p>Career & Skills Report</p>
+            </div>
+          </div>
+          <div class="report-meta">
+            <div class="user-name">${user.name}</div>
+            <div class="report-period">${monthName} ${year}</div>
+            <div class="report-ref">REF: ${Date.now().toString(36).toUpperCase()}</div>
+            <div class="report-date">Generated: ${generatedDate}</div>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card primary">
+            <div class="card-value">${activePct}%</div>
+            <div class="card-badge">${consistencyScore}</div>
+            <div class="card-title">Study Consistency</div>
+          </div>
+          <div class="summary-card">
+            <div class="card-value">${totalDisplay}</div>
+            <div class="card-title">Total Study Time</div>
+          </div>
+          <div class="summary-card">
+            <div class="card-value">${avgDisplay}</div>
+            <div class="card-title">Avg Daily Study</div>
+          </div>
+          <div class="summary-card">
+            <div class="card-value">${streak}d</div>
+            <div class="card-title">Current Streak</div>
+          </div>
+        </div>
+
+        <div class="section-title">Daily Study Log — ${monthName} ${year}</div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:15%">Date</th>
+              <th style="width:14%">Duration</th>
+              <th style="width:14%">Category</th>
+              <th style="width:38%">Focus Topic</th>
+              <th style="width:19%">Goals</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+
+        <div class="section-title">Skill Breakdown</div>
+        <div class="skill-section">${skillHTML}</div>
+
+        <div class="report-footer">
+          <div class="quote-box">
+            <div class="quote-text">"The secret of getting ahead is getting started. The secret of getting started is breaking your complex overwhelming tasks into small manageable tasks, and then starting on the first one."</div>
+            <div class="quote-ref">— Mark Twain</div>
+          </div>
+          <div class="footer-brand">
+            <div class="footer-left">LAMIM ECOSYSTEM • SECURE REPORT</div>
+            <div class="footer-right">v4.0.0</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const fullHTML = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LAMIM - Career & Skills Report ' + monthName + ' ' + year + '</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>' + css + '</style></head><body>' + bodyHTML + '</body></html>';
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      Utils.toast('Popup blocked. Please allow popups and try again.', 'error');
+      return;
+    }
+    printWindow.document.open();
+    printWindow.document.write(fullHTML);
+    printWindow.document.close();
+    setTimeout(function() {
+      printWindow.focus();
+      printWindow.print();
+    }, 1000);
   }
 };
