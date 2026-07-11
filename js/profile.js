@@ -664,25 +664,22 @@ const Profile = {
       settings.lat = lat;
       settings.lng = lng;
 
-      try {
-        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
-        const data = await res.json();
-        const city = data.city || data.locality || '';
-        const country = data.countryName || '';
-        settings.locationName = city && country ? `${city}, ${country}` : (city || country || 'Unknown Location');
-      } catch (err) {
-        settings.locationName = isIP ? 'Detected via IP' : (lat.toFixed(2) + ', ' + lng.toFixed(2));
-      }
+try {
+         const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
+         const data = await res.json();
+         const city = data.city || data.locality || '';
+         const country = data.countryName || '';
+         settings.locationName = city && country ? `${city}, ${country}` : (city || country || 'Unknown Location');
+       } catch (err) {
+         settings.locationName = isIP ? 'Detected via IP' : (lat.toFixed(2) + ', ' + lng.toFixed(2));
+       }
 
-      DB.setSettings(settings);
-      this.renderSettings();
-      if (typeof Home !== 'undefined') Home.render(); 
-      
-      const successMsg = settings.locationName ? `Location synced: ${settings.locationName}` : 'Location updated successfully!';
-      Utils.toast(successMsg, 'success');
-      Profile.renderSettings();
-      icons.forEach(icon => icon.classList.remove('rotating'));
-      this._isSyncingLocation = false;
+       DB.setSettings(settings);
+       this.renderSettings();
+       const successMsg = settings.locationName ? `Location synced: ${settings.locationName}` : 'Location updated successfully!';
+       Utils.toast(successMsg, 'success');
+       icons.forEach(icon => icon.classList.remove('rotating'));
+       this._isSyncingLocation = false;
     };
 
     // Strategy 1: High-precision Geolocation (GPS/WiFi)

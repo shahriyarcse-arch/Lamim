@@ -29,7 +29,6 @@ const App = {
     const current = this.currentSection;
     if (current === 'dhikr' && typeof Dhikr !== 'undefined') { Dhikr.renderMarquee(); Dhikr.renderSessionHistory(); Dhikr.renderHero(); Dhikr.renderPresetRow(); }
     if (current === 'profile' && typeof Profile !== 'undefined') { Profile.renderSettings(); }
-    if (current === 'home' && typeof Home !== 'undefined') { Home.render(); }
     if (current === 'salah' && typeof Salah !== 'undefined') { Salah.renderAll(); }
     if (current === 'nafl' && typeof Goals !== 'undefined') { Goals.render(); }
     if (current === 'finance' && typeof Finance !== 'undefined') { Finance.render(); }
@@ -79,9 +78,9 @@ const App = {
     }
   },
 
-  updateSectionTitle() {
+updateSectionTitle() {
     const titleEl = document.getElementById('topbar-section-title');
-    if (titleEl && this.currentSection !== 'home') {
+    if (titleEl) {
       const labelObj = this.sectionLabels[this.lang] || this.sectionLabels['en'];
       titleEl.textContent = labelObj[this.currentSection] || this.currentSection;
     }
@@ -89,8 +88,8 @@ const App = {
 
   // Section labels for the topbar
   sectionLabels: {
-    en: { home: 'Home', salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', profile: 'Profile' },
-    bn: { home: 'হোম', salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', profile: 'প্রোফাইল' }
+    en: { salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', profile: 'Profile' },
+    bn: { salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', profile: 'প্রোফাইল' }
   },
 
   async init() {
@@ -311,9 +310,6 @@ const App = {
       return;
     }
 
-    // Cleanup previous section's resources (e.g., Home rAF loops)
-    if (this.currentSection === 'home' && typeof Home !== 'undefined') Home.cleanup();
-
     this.currentSection = sectionId;
 
     // Push history state for Android back button (skip if this IS a back navigation)
@@ -331,18 +327,13 @@ const App = {
     const panel = document.getElementById('section-' + sectionId);
     if (panel) panel.classList.add('active');
 
-    // Toggle topbars: logo topbar for home, section topbar for others
+    // Toggle topbars
     const topbar = document.getElementById('topbar');
     const topbarSection = document.getElementById('topbar-section');
     if (topbar && topbarSection) {
-      if (sectionId === 'home') {
-        topbar.style.display = '';
-        topbarSection.style.display = 'none';
-      } else {
-        topbar.style.display = 'none';
-        topbarSection.style.display = '';
-        this.updateSectionTitle();
-      }
+      topbar.style.display = 'none';
+      topbarSection.style.display = '';
+      this.updateSectionTitle();
     }
 
     // Init section
@@ -355,7 +346,6 @@ const App = {
     // Scroll top
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-
 
   bindNav() {
     document.querySelectorAll('[data-section]').forEach(el => {

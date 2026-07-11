@@ -385,9 +385,8 @@ const Salah = {
     DB.setSalah(date, salah);
 
     // Partial update instead of full renderAll to prevent blinking
-    this.renderPrayerCards(date, true); // true = skipAnim
-    this.renderCalendar(); // Calendar needs update too, but we can make it smooth
-    if (typeof Home !== 'undefined') Home.render();
+this.renderPrayerCards(date, true); // true = skipAnim
+     this.renderCalendar();
 
     const sm = this.statusMeta[status];
     const result = sm.result === 'successful' ? '✅' : sm.result === 'qaza' ? '⏰' : '❌';
