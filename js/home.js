@@ -1,6 +1,6 @@
 /* =============================================
-   LAMIM — HOME MODULE (Minimal Classic)
-   Greetings, Date, Spirit Score, Prayers, Next Prayer
+   LAMIM — HOME MODULE (Full Screen, Large Elements)
+   Big typography, centered, responsive, with Hijri date
    ============================================= */
 const Home = {
   init() {
@@ -33,12 +33,17 @@ const Home = {
     const updateClock = () => {
       const now = new Date();
       const dateEl = document.getElementById('home-date');
+      const hijriEl = document.getElementById('home-hijri-date');
       
       if (dateEl) {
         dateEl.textContent = now.toLocaleDateString(
           localStorage.getItem('lamim_lang') === 'bn' ? 'bn-BD' : 'en-US', 
           { weekday: 'long', month: 'long', day: 'numeric' }
         );
+      }
+      
+      if (hijriEl) {
+        hijriEl.textContent = Utils.toHijri(now);
       }
     };
     
