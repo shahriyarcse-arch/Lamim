@@ -351,7 +351,7 @@ const Mujahid = {
     this.migrateIcons();
     this.render();
     
-    // Listen for cloud/local data updates
+    // Listen for local data updates
     if (!this.dataUpdateBound) {
       window.addEventListener('lamim:data-updated', () => {
         if (document.getElementById('section-mujahid')?.classList.contains('active')) {

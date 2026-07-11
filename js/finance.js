@@ -220,7 +220,7 @@ const Finance = {
       }
     }, 60000);
 
-    // Listen for cloud/local data updates
+    // Listen for local data updates
     if (!this.dataUpdateBound) {
       window.addEventListener('lamim:data-updated', () => {
         if (document.getElementById('section-finance')?.classList.contains('active')) {
@@ -297,7 +297,7 @@ const Finance = {
         <div class="fin-chart-header">
           <div>
             <div class="fin-section-title">Spending Analysis</div>
-            <div class="fin-section-subtitle">${this.chartView === 'daily' ? 'Daily breakdown of this month' : 'Monthly overview of this year'}</div>
+            <div class="fin-section-subtitle">${this.chartView === 'daily' ? this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' breakdown' : 'Monthly overview of ' + this.currentViewDate.getFullYear()}</div>
           </div>
           <div class="fin-chart-tabs">
             <button class="fin-chart-tab ${this.chartView === 'daily' ? 'active' : ''}" onclick="Finance.setChartView('daily')">Daily</button>
@@ -323,9 +323,11 @@ const Finance = {
         </div>
       </div>
     `;
-    setTimeout(() => {
-      this.initChart(stats);
-    }, 50);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.initChart(stats);
+      });
+    });
   },
 
   renderMonthSelector() {
@@ -756,7 +758,9 @@ const Finance = {
       <div class="finance-modal-content" style="max-width:500px;">
         <div class="fin-modal-header">
           <div class="fin-modal-title">Log Spending</div>
-          <button class="fin-modal-close" onclick="Finance.closeModal()">✕</button>
+          <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
         
         <div class="fin-modal-amount-wrap">
@@ -918,7 +922,9 @@ const Finance = {
       <div class="finance-modal-content" style="max-width:400px;">
         <div class="fin-modal-header">
           <div class="fin-modal-title">Deposit to ${Utils.escapeHTML(goal.name)}</div>
-          <button class="fin-modal-close" onclick="Finance.closeModal()">✕</button>
+          <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
         
         <p style="font-size:12px; color:var(--color-text-subtitle); margin-bottom:16px; line-height:1.4;">
@@ -1219,7 +1225,9 @@ const Finance = {
       <div class="finance-modal-content" style="max-width:400px;">
         <div class="fin-modal-header">
           <div class="fin-modal-title">Finance Settings</div>
-          <button class="fin-modal-close" onclick="Finance.closeModal()">✕</button>
+          <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
         
         <div style="padding: 12px 0 20px;">
@@ -1471,11 +1479,16 @@ const Finance = {
   initChart(stats) {
     const canvas = document.getElementById('finance-main-chart');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    if (typeof Chart === 'undefined') return;
     if (this.mainChart) this.mainChart.destroy();
 
-    let labels = [];
-    let data = [];
+    Chart.defaults.font.family = "'Outfit','Plus Jakarta Sans',system-ui,-apple-system,sans-serif";
+
+    const ctx = canvas.getContext('2d');
+    const container = canvas.parentElement;
+    const containerHeight = container ? container.clientHeight : 240;
+
+    let labels = [], data = [];
     const v = this.currentViewDate;
     const m = v.getMonth(), y = v.getFullYear();
 
@@ -1503,29 +1516,26 @@ const Finance = {
     const displayData = data.map(v => v * currencyMult);
     const isDaily = this.chartView === 'daily';
 
-    // Premium Color System
-    const accentColor = isDaily ? '#3b82f6' : '#a855f7'; // Vibrant Blue for Daily, Purple for Monthly
-    const fillGradient = ctx.createLinearGradient(0, 0, 0, 240);
+    const accentColor = isDaily ? '#3b82f6' : '#a855f7';
+    const fillGradient = ctx.createLinearGradient(0, 0, 0, containerHeight);
     
     if (isDaily) {
       fillGradient.addColorStop(0, 'rgba(59, 130, 246, 0.28)');
-      fillGradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.08)');
+      fillGradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.06)');
       fillGradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
     } else {
       fillGradient.addColorStop(0, 'rgba(168, 85, 247, 0.28)');
-      fillGradient.addColorStop(0.6, 'rgba(168, 85, 247, 0.08)');
+      fillGradient.addColorStop(0.6, 'rgba(168, 85, 247, 0.06)');
       fillGradient.addColorStop(1, 'rgba(168, 85, 247, 0.0)');
     }
 
-    // Dynamic contrast color resolution using CSS variables
-    const getStyleVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    const tickColor = isDark ? '#cbd5e1' : '#334155'; // High contrast Slate-300 in dark mode, Slate-700 in light mode
+    const tickColor = isDark ? '#cbd5e1' : '#334155';
     const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(99, 102, 241, 0.08)';
 
     this.mainChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels,
         datasets: [{
           label: isDaily ? 'Daily Spend' : 'Monthly Spend',
           data: displayData,
@@ -1534,29 +1544,26 @@ const Finance = {
           tension: 0.35,
           fill: true,
           backgroundColor: fillGradient,
-          // Only show circular points on days with actual expenses to avoid baseline clutter
-          pointRadius: displayData.map(v => v > 0 ? 7 : 0), // Larger radius to show the hollow center
+          pointRadius: displayData.map(v => v > 0 ? 7 : 0),
           pointHoverRadius: displayData.map(v => v > 0 ? 9 : 0),
           pointHitRadius: 12,
-          pointBackgroundColor: isDark ? '#0a0f1c' : '#ffffff', // Matches primary background for hollow effect
+          pointBackgroundColor: isDark ? '#0a0f1c' : '#ffffff',
           pointBorderColor: accentColor,
-          pointBorderWidth: 2.5, // Thinner border to leave a clear center hole
-          clip: false, // Prevents points at the top/sides from being cut off
+          pointBorderWidth: 2.5,
+          clip: false,
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
-          padding: {
-            top: 14, // Extra top breathing room for point markers
-            bottom: 4,
-            left: 8,
-            right: 8
-          }
+          padding: { top: 14, bottom: 4, left: 8, right: 8 }
         },
         animation: {
           y: { type: 'number', easing: 'easeOutQuart', duration: 800, from: (c) => c.chart.scales.y.getPixelForValue(0) }
+        },
+        transitions: {
+          show: { animations: { x: { from: 0 }, y: { from: 0 } } }
         },
         interaction: { intersect: false, mode: 'index' },
         plugins: {
@@ -1572,7 +1579,7 @@ const Finance = {
             displayColors: false,
             callbacks: {
               title: (items) => isDaily ? `Day ${items[0].label}` : items[0].label,
-              label: (item) => `Spent: ${sym}${this.formatVal(item.raw / currencyMult)}`
+              label: (item) => `Spent: ${sym}${this.formatVal(item.parsed.y / currencyMult)}`
             }
           }
         },
@@ -1580,7 +1587,7 @@ const Finance = {
           x: { 
             grid: { display: false }, 
             ticks: { 
-              color: tickColor, // Optimized contrast Slate color
+              color: tickColor,
               font: { size: 10, weight: '700' }, 
               autoSkip: true, 
               maxTicksLimit: 12 
@@ -1589,13 +1596,13 @@ const Finance = {
           y: { 
             position: 'right', 
             beginAtZero: true, 
-            grace: '15%', // Adds 15% buffer at the top of the scale so peaks don't touch the edge
+            grace: '15%',
             grid: { 
-              color: gridColor, // Subtle theme-aware grid lines
+              color: gridColor,
               drawBorder: false 
             }, 
             ticks: { 
-              color: tickColor, // Optimized contrast Slate color
+              color: tickColor,
               font: { size: 10, weight: '700' }, 
               callback: (v) => {
                 if (v <= 0) return '';

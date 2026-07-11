@@ -1,8 +1,10 @@
-const CACHE_NAME = 'lamim-v100';
+const CACHE_NAME = 'lamim-v144';
 const ASSETS = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './js/chart.min.js',
+  './js/html2pdf.bundle.min.js'
 ];
 
 // Install: Cache core assets & skip waiting immediately
@@ -37,7 +39,6 @@ self.addEventListener('fetch', (e) => {
 
   // Skip external database, dynamic API, and Google API calls to prevent stale data
   const skipUrls = [
-    'supabase.co',
     'api.bigdatacloud.net',
     'ipapi.co',
     'open.er-api.com',
@@ -128,7 +129,7 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
         }
         return res;
-      }).catch(() => null);
+      }).catch(() => new Response('Offline', { status: 503, statusText: 'Service Unavailable' }));
 
       return cached || networkFetch;
     })

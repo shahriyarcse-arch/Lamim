@@ -168,9 +168,6 @@ const Dhikr = {
       setTimeout(() => countEl.style.transform = 'scale(1)', 150);
     }
 
-    // Float up
-    this.floatUp();
-
     // Update UI
     this.renderHero();
     this.renderSessionHistory();
@@ -206,17 +203,6 @@ const Dhikr = {
     const dhikr = DB.getDhikr(today);
     dhikr[this.currentId] = this.count;
     DB.setDhikr(today, dhikr);
-  },
-
-  floatUp() {
-    const btn = document.getElementById('dhikr-tap-btn');
-    if (!btn) return;
-    const rect = btn.getBoundingClientRect();
-    const el = document.createElement('div');
-    el.innerHTML = this.current.icon || Icons.sparkles;
-    el.style.cssText = `position:fixed;left:${rect.left + rect.width / 2 - 14}px;top:${rect.top - 10}px;pointer-events:none;z-index:9999;animation:dhikrFloatUp 0.7s ease forwards;filter:drop-shadow(0 0 10px rgba(234,179,8,0.9));color:var(--color-accent-gold);`;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 750);
   },
 
   bindKeyboard() {

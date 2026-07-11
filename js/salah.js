@@ -28,8 +28,8 @@ const Salah = {
     this.selectedDate = Utils.todayStr();
     this.renderAll();
     
-    // Listen for cloud/local data updates
-    // Listen for cloud/local data updates
+    // Listen for local data updates
+    // Listen for local data updates
     if (!this._dataUpdateBound) {
       this._debouncedRender = Utils.debounce(() => {
         if (document.getElementById('section-salah')?.classList.contains('active')) {
@@ -64,9 +64,14 @@ const Salah = {
 
     if (dateLabel) {
       if (isToday) {
-        dateLabel.textContent = 'Today';
+        dateLabel.textContent = window.t ? window.t('Today') : 'Today';
       } else {
-        dateLabel.textContent = new Date(date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const dObj = new Date(date + 'T00:00:00');
+        const formatted = dObj.toLocaleDateString(
+          (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US',
+          { month: 'short', day: 'numeric' }
+        );
+        dateLabel.textContent = window.n ? window.n(formatted) : formatted;
       }
     }
 
@@ -75,23 +80,48 @@ const Salah = {
     }
   },
 
-  /* ---- Prayer time pills ---- */
+  /* ---- Prayer time pills (Blink-Free) ---- */
   renderPrayerTimes() {
     const times = Utils.calcPrayerTimes();
     const next  = Utils.getNextPrayer(times);
     const row   = document.getElementById('salah-times-row');
     if (!row) return;
+
+    // If pills already exist, just update which one is "next" (zero blink)
+    const existingPills = row.querySelectorAll('.prayer-time-pill');
+    if (existingPills.length === times.length) {
+      existingPills.forEach((pill, idx) => {
+        const isNext = times[idx].name === next.name;
+        pill.classList.toggle('next', isNext);
+        // Update or remove the next badge
+        let badge = pill.querySelector('.pill-next-badge');
+        if (isNext && !badge) {
+          badge = document.createElement('div');
+          badge.className = 'pill-next-badge';
+          badge.style.animation = 'pulse 1.5s ease-in-out infinite';
+          badge.textContent = window.t ? window.t('Next') : 'Next';
+          pill.appendChild(badge);
+        } else if (!isNext && badge) {
+          badge.remove();
+        }
+      });
+      return;
+    }
+
+    // First time: build full structure
     row.innerHTML = times.map((t, idx) => {
       const meta = this.prayerMeta[t.name];
       const isNext = t.name === next.name;
+      const translatedLabel = window.t ? window.t(meta.label) : meta.label;
+      const formattedTime = window.n ? window.n(t.label) : t.label;
       return `
         <div class="prayer-time-pill ${isNext ? 'next' : ''}" 
              onclick="Salah.scrollToPrayer('${t.name}')"
              style="animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: ${idx * 0.05}s;">
           <div class="pill-icon" style="filter:drop-shadow(${meta.glow})">${meta.icon}</div>
-          <div class="pill-name">${meta.label}</div>
-          <div class="pill-time">${t.label}</div>
-          ${isNext ? '<div class="pill-next-badge" style="animation: pulse 1.5s ease-in-out infinite">Next</div>' : ''}
+          <div class="pill-name">${translatedLabel}</div>
+          <div class="pill-time">${formattedTime}</div>
+          ${isNext ? `<div class="pill-next-badge" style="animation: pulse 1.5s ease-in-out infinite">${window.t ? window.t('Next') : 'Next'}</div>` : ''}
         </div>
       `;
     }).join('');
@@ -102,7 +132,7 @@ const Salah = {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   },
 
-  /* ---- Stats ---- */
+  /* ---- Stats (Blink-Free: builds structure once, then updates values only) ---- */
   renderStats(date) {
     date = date || this.selectedDate;
     const statsEl = document.getElementById('salah-stats');
@@ -113,46 +143,79 @@ const Salah = {
     const streak = DB.getSalahStreak();
     const points = this.calcDayPoints(salah);
 
-    // Empty state logic (Keep it but in old style if desired, or just show zeros)
-    // The user image shows 2/5 prayed, so they have some data.
+    const valPrayed = `${window.n ? window.n(score.done) : score.done}/${window.n ? window.n(5) : 5}`;
+    const valPerfect = `${window.n ? window.n(streak.perfect) : streak.perfect}d`;
+    const valConsistent = `${window.n ? window.n(streak.consistency) : streak.consistency}d`;
+    const valPoints = `${window.n ? window.n(points) : points}`;
+    const valScore = `${window.n ? window.n(score.pct) : score.pct}%`;
+
+    // If structure already exists, only update dynamic values (zero blink)
+    if (document.getElementById('salah-stat-val-prayed')) {
+      document.getElementById('salah-stat-val-prayed').textContent = valPrayed;
+      document.getElementById('salah-stat-val-perfect').textContent = valPerfect;
+      document.getElementById('salah-stat-val-consistent').textContent = valConsistent;
+      document.getElementById('salah-stat-val-points').textContent = valPoints;
+      document.getElementById('salah-stat-val-score').textContent = valScore;
+      
+      // Update mini ring segments directly (no innerHTML replacement)
+      this.prayers.forEach((p) => {
+        const status = salah[p];
+        let color = 'transparent';
+        if (status === 'jamaat') color = 'var(--color-jamaat)';
+        else if (status === 'alone') color = 'var(--color-alone)';
+        else if (status === 'qaza') color = 'var(--color-qaza)';
+        else if (status === 'missed') color = 'var(--color-missed)';
+        
+        const segment = document.getElementById(`salah-miniring-segment-${p}`);
+        if (segment) {
+          segment.style.stroke = color;
+        }
+      });
+      return;
+    }
+
+    // First time: build full structure with IDs on value elements
+    const labelPrayed = window.t ? window.t('Prayed') : 'Prayed';
+    const labelPerfect = window.t ? window.t('Perfect') : 'Perfect';
+    const labelConsistent = window.t ? window.t('Consistent') : 'Consistent';
+    const labelPoints = window.t ? window.t('Points') : 'Points';
+    const labelScore = window.t ? window.t('Score') : 'Score';
     
     statsEl.innerHTML = `
       <div class="salah-stats-grid">
         <div class="salah-stat-card stat-prayed">
-          <div class="salah-stat-ring">
-            ${this._miniRing(salah)}
-          </div>
+          <div class="salah-stat-ring">${this._miniRing(salah)}</div>
           <div class="salah-stat-info">
-            <div class="salah-stat-val">${score.done}/5</div>
-            <div class="salah-stat-label">Prayed</div>
+            <div id="salah-stat-val-prayed" class="salah-stat-val">${valPrayed}</div>
+            <div class="salah-stat-label">${labelPrayed}</div>
           </div>
         </div>
         <div class="salah-stat-card stat-perfect">
           <div class="salah-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-orange);filter:drop-shadow(0 0 8px rgba(251,146,60,0.5))"><g style="transform-origin: center"><animateTransform attributeName="transform" type="scale" values="1; 1.15; 1" dur="1.2s" repeatCount="indefinite"/><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></g></svg></div>
           <div class="salah-stat-info">
-            <div class="salah-stat-val">${streak.perfect}d</div>
-            <div class="salah-stat-label">Perfect</div>
+            <div id="salah-stat-val-perfect" class="salah-stat-val">${valPerfect}</div>
+            <div class="salah-stat-label">${labelPerfect}</div>
           </div>
         </div>
         <div class="salah-stat-card stat-consistent">
           <div class="salah-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green);filter:drop-shadow(0 0 8px rgba(16,185,129,0.5))"><g style="transform-origin: center"><animateTransform attributeName="transform" type="translate" values="0,0; 0,-2; 0,0" dur="2s" repeatCount="indefinite"/><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></g></svg></div>
           <div class="salah-stat-info">
-            <div class="salah-stat-val">${streak.consistency}d</div>
-            <div class="salah-stat-label">Consistent</div>
+            <div id="salah-stat-val-consistent" class="salah-stat-val">${valConsistent}</div>
+            <div class="salah-stat-label">${labelConsistent}</div>
           </div>
         </div>
         <div class="salah-stat-card stat-points">
           <div class="salah-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold);filter:drop-shadow(0 0 8px rgba(234,179,8,0.5))"><g style="transform-origin: center"><animateTransform attributeName="transform" type="rotate" values="0; 360" dur="8s" repeatCount="indefinite"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></g></svg></div>
           <div class="salah-stat-info">
-            <div class="salah-stat-val">${points}</div>
-            <div class="salah-stat-label">Points</div>
+            <div id="salah-stat-val-points" class="salah-stat-val">${valPoints}</div>
+            <div class="salah-stat-label">${labelPoints}</div>
           </div>
         </div>
         <div class="salah-stat-card stat-consistent">
           <div class="salah-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue);filter:drop-shadow(0 0 8px rgba(59,130,246,0.5))"><line x1="18" y1="20" x2="18" y2="10"><animate attributeName="y2" values="10; 6; 14; 10" dur="2s" repeatCount="indefinite"/></line><line x1="12" y1="20" x2="12" y2="4"><animate attributeName="y2" values="4; 12; 4" dur="2.5s" repeatCount="indefinite"/></line><line x1="6" y1="20" x2="6" y2="14"><animate attributeName="y2" values="14; 8; 16; 14" dur="3s" repeatCount="indefinite"/></line></svg></div>
           <div class="salah-stat-info">
-            <div class="salah-stat-val">${score.pct}%</div>
-            <div class="salah-stat-label">Score</div>
+            <div id="salah-stat-val-score" class="salah-stat-val">${valScore}</div>
+            <div class="salah-stat-label">${labelScore}</div>
           </div>
         </div>
       </div>
@@ -188,7 +251,7 @@ const Salah = {
       const rotate = -90 + (i * 72) + (gap/c * 360 / 2);
       
       svgSegments += `
-        <circle cx="28" cy="28" r="${r}" fill="none" stroke="${color}" stroke-width="5"
+        <circle id="salah-miniring-segment-${p}" cx="28" cy="28" r="${r}" fill="none" stroke="${color}" stroke-width="5"
           stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${offset}"
           transform="rotate(${rotate} 28 28)" style="transition:stroke 0.4s ease"/>
       `;
@@ -217,12 +280,15 @@ const Salah = {
     const isToday = date === Utils.todayStr();
     const isFuture = date > Utils.todayStr();
 
+    const titleLocked = window.t ? window.t('Future Date Locked') : 'Future Date Locked';
+    const descLocked = window.t ? window.t('You can only record prayers for today or past dates.') : 'You can only record prayers for today or past dates.';
+
     container.innerHTML = `
       <div class="salah-cards-container">
         ${isFuture ? `
-          <div class="salah-empty-stats anim-fade-in" style="grid-column: 1 / -1; margin: 0;">
-            <div class="salah-empty-title">🔒 Future Date Locked</div>
-            <div class="salah-empty-subtitle">You can only record prayers for today or past dates.</div>
+          <div class="salah-empty-stats" style="grid-column: 1 / -1; margin: 0;">
+            <div class="salah-empty-title">🔒 ${titleLocked}</div>
+            <div class="salah-empty-subtitle">${descLocked}</div>
           </div>
         ` : ''}
         ${this.prayers.map((p, idx) => {
@@ -236,6 +302,10 @@ const Salah = {
           
           const isNext = isToday && nextPrayer && nextPrayer.name === p;
 
+          const translatedLabel = window.t ? window.t(meta.label) : meta.label;
+          const translatedTimeLabel = window.t ? window.t(meta.timeLabel) : meta.timeLabel;
+          const formattedTime = window.n ? window.n(this.getPrayerTime(p)) : this.getPrayerTime(p);
+
           return `
             <div class="salah-prayer-card ${skipAnim ? '' : 'anim-fade-in'} ${currentStatus ? 'has-status status-' + currentStatus : ''} ${isNext && !isLocked ? 'is-next' : ''}"
                  id="salah-card-${p}"
@@ -248,18 +318,18 @@ const Salah = {
                 </div>
                 <div class="salah-prayer-info">
                   <div class="salah-prayer-name">
-                    ${meta.label}
-                    ${isNext && !isLocked ? `<span class="salah-next-badge-inline">NEXT</span>` : ''}
+                    ${translatedLabel}
+                    ${isNext && !isLocked ? `<span class="salah-next-badge-inline">${window.t ? window.t('NEXT') : 'NEXT'}</span>` : ''}
                   </div>
-                  <div class="salah-prayer-time">${this.getPrayerTime(p)} · ${meta.timeLabel}</div>
+                  <div class="salah-prayer-time">${formattedTime} · ${translatedTimeLabel}</div>
                 </div>
                 <div class="salah-prayer-status-badge">
                   ${currentStatus
                     ? `<div class="salah-status-chip" style="background:${statusInfo.bgAlpha};border-color:${statusInfo.borderAlpha};color:${statusInfo.color};box-shadow:${statusInfo.glow}">
-                         <span>${statusInfo.icon}</span> ${statusInfo.label}
+                         <span>${statusInfo.icon}</span> ${window.t ? window.t(statusInfo.label) : statusInfo.label}
                        </div>`
                     : `<div class="salah-status-chip salah-status-pending">
-                         <span>⏳</span> Pending
+                         <span>⏳</span> ${window.t ? window.t('Pending') : 'Pending'}
                        </div>`
                   }
                 </div>
@@ -270,27 +340,27 @@ const Salah = {
                 ? `<div class="salah-locked-result">
                      <div class="salah-locked-icon" style="color:${statusInfo.color};filter:drop-shadow(${statusInfo.glow})">${statusInfo.icon}</div>
                      <div class="salah-locked-info">
-                       <div class="salah-locked-status" style="color:${statusInfo.color}">${statusInfo.label}</div>
+                       <div class="salah-locked-status" style="color:${statusInfo.color}">${window.t ? window.t(statusInfo.label) : statusInfo.label}</div>
                        <div class="salah-locked-desc" style="display:flex;align-items:center;gap:3px">
-                         ${statusInfo.result === 'successful' ? '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green);filter:drop-shadow(0 0 4px rgba(16,185,129,0.6))"><polyline points="20 6 9 17 4 12"></polyline></svg> Successful' : statusInfo.result === 'qaza' ? '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-amber);filter:drop-shadow(0 0 4px rgba(251,191,36,0.6))"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Qaza' : '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-red);filter:drop-shadow(0 0 4px rgba(248,81,73,0.6))"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Unsuccessful'} 
-                         <span style="opacity:0.5;margin:0 2px">•</span> +${statusInfo.points} pts
+                         ${statusInfo.result === 'successful' ? `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green);filter:drop-shadow(0 0 4px rgba(16,185,129,0.6))"><polyline points="20 6 9 17 4 12"></polyline></svg> ${window.t ? window.t('Successful') : 'Successful'}` : statusInfo.result === 'qaza' ? `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-amber);filter:drop-shadow(0 0 4px rgba(251,191,36,0.6))"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> ${window.t ? window.t('Qaza') : 'Qaza'}` : `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-red);filter:drop-shadow(0 0 4px rgba(248,81,73,0.6))"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ${window.t ? window.t('Unsuccessful') : 'Unsuccessful'}`} 
+                         <span style="opacity:0.5;margin:0 2px">•</span> +${window.n ? window.n(statusInfo.points) : statusInfo.points} ${window.t ? window.t('pts') : 'pts'}
                        </div>
                      </div>
                      <svg class="salah-lock-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: lockPulse 2s ease-in-out infinite"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                    </div>`
                 : `<div class="salah-status-selector">
-                     <div class="salah-options-label">How did you pray?</div>
+                     <div class="salah-options-label">${window.t ? window.t('How did you pray?') : 'How did you pray?'}</div>
                      <div class="salah-options-grid">
                        ${this.statuses.map((s, btnIdx) => {
                          const sm = this.statusMeta[s];
                          return `
-                           <button class="salah-option-btn"
+                           <button class="salah-option-btn ${s}"
                                    style="${skipAnim ? '' : `animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: ${0.2 + (btnIdx * 0.05)}s;`}"
                                    onclick="Salah.selectStatus('${p}','${s}','${date}')">
                              <span class="salah-opt-icon" style="filter:drop-shadow(${sm.glow})">${sm.icon}</span>
-                             <span class="salah-opt-label">${sm.label}</span>
-                             <span class="salah-opt-desc">${sm.desc}</span>
-                             <span class="salah-opt-pts">+${sm.points} pts</span>
+                             <span class="salah-opt-label">${window.t ? window.t(sm.label) : sm.label}</span>
+                             <span class="salah-opt-desc">${window.t ? window.t(sm.desc) : sm.desc}</span>
+                             <span class="salah-opt-pts">+${window.n ? window.n(sm.points) : sm.points} ${window.t ? window.t('pts') : 'pts'}</span>
                            </button>
                          `;
                        }).join('')}
@@ -317,7 +387,7 @@ const Salah = {
     // Partial update instead of full renderAll to prevent blinking
     this.renderPrayerCards(date, true); // true = skipAnim
     this.renderCalendar(); // Calendar needs update too, but we can make it smooth
-    Home.render();
+    if (typeof Home !== 'undefined') Home.render();
 
     const sm = this.statusMeta[status];
     const result = sm.result === 'successful' ? '✅' : sm.result === 'qaza' ? '⏰' : '❌';
@@ -327,7 +397,7 @@ const Salah = {
     const score = Utils.salahScore(DB.getSalah(date));
     if (score.done === 5) {
       setTimeout(() => {
-        Utils.toast('🎉 MashaAllah! All 5 farz prayers logged!', 'success');
+        Utils.toast(window.t ? window.t('🎉 MashaAllah! All 5 farz prayers logged!') : '🎉 MashaAllah! All 5 farz prayers logged!', 'success');
         Utils.confetti();
       }, 500);
     }
@@ -384,15 +454,16 @@ const Salah = {
     const daysInMonth = lastDayDate.getDate();
     const startDayOfWeek = firstDayDate.getDay();
 
+    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const isBn = (localStorage.getItem('lamim_lang') || 'en') === 'bn';
+    const bnDays = ['র', 'সো', 'ম', 'বু', 'বৃ', 'শু', 'শ'];
+    const translatedDays = isBn ? bnDays : daysOfWeek;
+
     let html = `
       <div style="display:contents;">
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">S</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">M</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">T</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">W</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">T</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">F</div>
-        <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">S</div>
+        ${translatedDays.map(d => `
+          <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">${d}</div>
+        `).join('')}
       </div>
     `;
 
@@ -467,10 +538,12 @@ const Salah = {
          opacity = 0.5; // Future days should be visible in light mode too
       }
 
+      const formattedDayNum = window.n ? window.n(i) : i;
+
       html += `<div class="salah-cal-cell ${isToday ? 'today' : ''}${extraClass}" 
                    data-date="${dateStr}" 
                    style="background:${color};opacity:${opacity};${glow}">
-                <span class="salah-cal-day">${i}</span>
+                <span class="salah-cal-day">${formattedDayNum}</span>
               </div>`;
     }
 
@@ -691,7 +764,7 @@ const Salah = {
           </div>
           <div class="footer-brand">
             <div class="footer-left">LAMIM ECOSYSTEM • SECURE REPORT</div>
-            <div class="footer-right">v3.1.0</div>
+            <div class="footer-right">v4.0.0</div>
           </div>
         </div>
       </div>
@@ -871,7 +944,7 @@ const Salah = {
         ['fajr','dhuhr','asr','maghrib','isha'].forEach(p => delete data[p]);
         DB.setSalah(this.selectedDate, data);
         this.renderAll(true);
-        Home.render(); // Also update home stats
+        if (typeof Home !== 'undefined') Home.render(); // Also update home stats
         Utils.toast('Salah data cleared', 'info');
       }
     });

@@ -16,20 +16,12 @@ const Analysis = {
   _cachedHabits: null,
   _isGeneratingPDF: false,
 
-  async syncHistory() {
-    if (window.Sync && window.Sync.pushHistory) {
-      try {
-        await window.Sync.pushHistory();
-      } catch (e) {
-        console.error("Sync failed", e);
-      }
-    }
-  },
+
 
   init() {
     this.render();
 
-    // Listen for cloud/local data updates with debouncing to prevent UI lag
+    // Listen for local data updates with debouncing to prevent UI lag
     if (!this.dataUpdateBound) {
       this._debouncedRender = Utils.debounce(() => {
         if (document.getElementById('section-analysis')?.classList.contains('active')) {
@@ -589,7 +581,15 @@ const Analysis = {
     }
 
     if (typeof html2pdf === 'undefined') {
-      Utils.toast('PDF generator is still loading. Please try again in a moment.', 'warning');
+      Utils.toast('Loading PDF generator, please wait...', 'info');
+      Utils.loadScript('js/html2pdf.bundle.min.js')
+        .then(() => {
+          this.exportMonthlyReport();
+        })
+        .catch(err => {
+          console.error("Failed to load html2pdf", err);
+          Utils.toast('Failed to load PDF library.', 'error');
+        });
       return;
     }
 

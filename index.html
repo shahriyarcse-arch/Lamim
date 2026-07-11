@@ -20,7 +20,6 @@
   <!-- Modularized Page CSS -->
   <link rel="stylesheet" href="css/splash.css">
   <link rel="stylesheet" href="css/auth.css?v=144">
-  <link rel="stylesheet" href="css/home.css?v=213">
   <link rel="stylesheet" href="css/salah.css?v=143">
   <link rel="stylesheet" href="css/dhikr.css?v=143">
   <link rel="stylesheet" href="css/gym.css?v=213">
@@ -378,7 +377,6 @@
   <nav class="sidebar" id="sidebar" aria-label="Main navigation">
     <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))" viewBox="0 0 512 512"><path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" fill="#ffffff" opacity="0.95"/><path d="M256 128l16 48 48 16-48 16-16 48-16-48-48-16 48-16z" fill="#fcd34d"/><path d="M368 180l10 30 30 10-30 10-10 30-10-30-30-10 30-10z" fill="#fde68a" opacity="0.8"/></svg></div><div class="sidebar-logo-text">Lamim</div></div>
     <div class="sidebar-nav">
-      <div class="nav-item active" data-section="home"><span class="nav-icon"><div class="nav-badge-container"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nav-notification-badge" id="home-badge-sidebar"></div></div></span><span class="nav-label">Home</span></div>
       <div class="nav-item" data-section="salah"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-4 0-7 4-7 9v11h14V11c0-5-3-9-7-9z"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/></svg></span><span class="nav-label">Salah Tracker</span></div>
       <div class="nav-item" data-section="dhikr"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></span><span class="nav-label">Dhikr Counter</span></div>
       <div class="nav-item" data-section="nafl"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M17 5h4"/></svg></span><span class="nav-label">Nafl Salah</span></div>
@@ -407,10 +405,7 @@
         <span class="topbar-brand-name">Lamim</span>
       </div>
       <div class="flex items-center gap-2">
-        <button class="btn btn-ghost btn-icon" onclick="Notifications.show()" title="Messages" style="padding:4px">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-primary)"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-          <div class="nav-notification-badge" id="global-badge-top" style="top:2px; right:2px; display:none"></div>
-        </button>
+<button class="btn btn-ghost btn-icon" onclick="Profile.toggleTheme()" title="Toggle Theme">🌓</button>
         <button class="btn btn-ghost btn-icon" onclick="Profile.toggleTheme()" title="Toggle Theme">🌓</button>
         <div class="avatar avatar-sm" id="topbar-avatar" style="cursor:pointer" onclick="App.navigateTo('profile')">?</div>
       </div>
@@ -432,100 +427,6 @@
       <div class="flex gap-2"><button class="btn btn-primary btn-sm" id="install-btn">Install</button><button class="btn btn-ghost btn-sm" id="install-dismiss">✕</button></div>
     </div>
 
-    <!-- ===== HOME ===== -->
-    <section class="section-panel active" id="section-home">
-      <!-- Nur Particles (Subtle BG) -->
-      <div id="nur-particles-container" style="position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; opacity:0.5;"></div>
-
-      <div style="position:relative; z-index:2; display:flex; flex-direction:column; gap:20px;">
-        <div class="home-header-row">
-          <div id="home-greeting" class="home-greeting"></div>
-        </div>
-        
-        <style>
-          .home-salah-desktop-flex {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-6);
-            width: 100%;
-          }
-          .home-salah-ring-part {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-6);
-            flex-wrap: wrap;
-          }
-          .home-salah-widgets-part {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-6);
-            max-width: 450px;
-            margin: 0 auto;
-          }
-
-          @media (min-width: 1024px) {
-            .home-salah-desktop-flex {
-              flex-direction: row;
-              align-items: center;
-              justify-content: center;
-              gap: var(--space-10);
-            }
-            .home-salah-ring-part {
-              flex: 1;
-              border-right: 1px solid var(--color-border);
-              padding-right: var(--space-6);
-            }
-            .home-salah-widgets-part {
-              flex: 1.2;
-              max-width: none;
-              padding-left: var(--space-2);
-            }
-          }
-        </style>
-
-        <div class="home-grid">
-          <!-- COLUMN 1: Live clock, Spiritual Energy, and Next Prayer -->
-          <div style="display:flex; flex-direction:column; gap:20px; width: 100%;">
-            <!-- Live Clock -->
-            <div class="home-premium-card" id="home-live-datetime"></div>
-            
-            <!-- Spiritual Energy & Streaks -->
-            <div class="home-premium-card" id="home-date-bar"></div>
-            
-            <!-- Next Prayer -->
-            <div id="home-next-prayer"></div>
-          </div>
-          
-          <!-- COLUMN 2: Today's Salah Ring + Checklist & Rank, and AI insights -->
-          <div style="display:flex; flex-direction:column; gap:20px; width: 100%;">
-            <!-- Today's Salah Card -->
-            <div class="home-salah-glass-card">
-              <div class="home-salah-desktop-flex">
-                <div id="home-salah-ring" class="home-salah-ring-part"></div>
-                <div class="home-salah-widgets-part">
-                  <!-- Path to Ihsan (Level Progress Bar) -->
-                  <div id="home-level-progress-container" style="width: 100%;"></div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- AI Spiritual Insight -->
-            <div id="home-ai-insight-container" class="anim-fade-in"></div>
-
-            <!-- New Gym Summary Widget -->
-            <div id="home-gym-widget"></div>
-
-            <!-- New Career Progress Widget -->
-            <div id="home-career-widget"></div>
-          </div>
-        </div>
-
-      </div>
-    </section>
 
     <!-- ===== SALAH (Redesigned) ===== -->
     <section class="section-panel" id="section-salah">
@@ -681,171 +582,212 @@
       </section>
 
     <!-- ===== ANALYSIS ===== -->
+    <section class="section-panel" id="section-analysis">
+      <div id="analysis-content"></div>
     </section>
 
     <!-- ===== GYM TRACKER ===== -->
     <section class="section-panel" id="section-gym">
       <div class="section-header">
         <h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><path d="M18 20V4M6 20V4M2 8h4M18 8h4M2 16h4M18 16h4M6 12h12"/></svg></span>Gym & Diet Tracker</h2>
-        <div class="salah-date-nav-modern" style="display: flex; align-items: center; background: var(--color-bg-tertiary); border: 1px solid var(--color-divider-subtle); border-radius: 20px; padding: 2px;">
-          <button class="btn btn-icon-sm" id="gym-prev-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-          <span id="gym-date-label" style="color: var(--color-text-primary); font-size: 13px; font-weight: 700; padding: 0 10px; min-width: 60px; text-align: center;">Today</span>
-          <button class="btn btn-icon-sm" id="gym-next-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
+        <div class="gh-date-nav">
+          <button class="gh-date-btn" id="gym-prev-day"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg></button>
+          <span id="gym-date-label">Today</span>
+          <button class="gh-date-btn" id="gym-next-day"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
-        <button class="btn btn-sm btn-secondary" onclick="Gym.exportPDF()" title="Export monthly PDF">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export PDF
-        </button>
+        <div class="gh-header-btns">
+          <button class="gh-btn" onclick="Gym.exportPDF()" title="Export monthly PDF"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export PDF</button>
+        </div>
       </div>
-      
-      <!-- Stats Summary Row -->
-      <div class="gym-stats-summary" id="gym-stats-summary"></div>
 
-      <div class="gym-dashboard-row">
-        <!-- Workout Logger -->
-        <div class="gym-card">
-          <div class="gym-card-header">
-            <div class="gym-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg>
-              Workout Logger
+      <!-- Stats Summary Row -->
+      <div class="gh-stat-strip" id="gym-stats-summary">
+        <div class="gh-stat-tile">
+          <div class="gh-stat-tile-head"><span class="gh-stat-ico gh-stat-ico--streak"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+          <span class="gh-stat-value" id="gym-stat-streak">0</span>
+          <span class="gh-stat-value-sub" id="gym-stat-streak-sub">days</span>
+          <span class="gh-stat-label">Streak</span>
+        </div>
+        <div class="gh-stat-tile">
+          <div class="gh-stat-tile-head"><span class="gh-stat-ico gh-stat-ico--vol"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg></span></div>
+          <span class="gh-stat-value" id="gym-stat-vol">0</span>
+          <span class="gh-stat-value-sub" id="gym-stat-vol-sub">kg lifted</span>
+          <span class="gh-stat-label">Volume</span>
+        </div>
+        <div class="gh-stat-tile">
+          <div class="gh-stat-tile-head"><span class="gh-stat-ico gh-stat-ico--sleep"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span></div>
+          <span class="gh-stat-value" id="gym-stat-sleep">0</span>
+          <span class="gh-stat-value-sub" id="gym-stat-sleep-sub">hours</span>
+          <span class="gh-stat-label">Sleep</span>
+        </div>
+        <div class="gh-stat-tile">
+          <div class="gh-stat-tile-head"><span class="gh-stat-ico gh-stat-ico--water"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12 2 12 2 9 6.5 8 9.5a7 7 0 0 0 4 12.5z"/></svg></span></div>
+          <span class="gh-stat-value" id="gym-stat-water">0</span>
+          <span class="gh-stat-value-sub" id="gym-stat-water-sub">ml</span>
+          <span class="gh-stat-label">Hydration</span>
+        </div>
+      </div>
+
+      <!-- Hero Scorecard -->
+      <div class="gh-hero-card">
+        <div class="gh-hero-glow"></div>
+        <div class="gh-hero-ring-wrap">
+          <div id="gym-hero-ring"></div>
+          <div class="gh-hero-ring-center">
+            <span class="gh-hero-ring-num" id="gym-hero-ring-num">0</span>
+            <span class="gh-hero-ring-label">Readiness</span>
+          </div>
+        </div>
+        <div class="gh-hero-body">
+          <span class="gh-hero-eyebrow">Daily Score</span>
+          <h3 class="gh-hero-title" id="gh-hero-title">Ready to Begin</h3>
+          <p class="gh-hero-sub" id="gh-hero-sub">0 exercises · 0 ml</p>
+          <div id="gym-hero-spark" class="gh-hero-spark"></div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="gh-grid">
+        <!-- Left Column -->
+        <div class="gh-grid-right">
+          <!-- Workout Logger -->
+          <div class="gh-card">
+            <div class="gh-card-head">
+              <div class="gh-card-title">
+                <span class="gh-card-title-ico ico-workout"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg></span>
+                Workout Logger
+              </div>
+            </div>
+            <div class="gh-workout-inputs">
+              <div class="gh-input-row">
+                <input type="text" class="gh-input" id="gym-exercise-name" placeholder="Exercise name">
+                <button class="gh-btn gh-btn-primary" onclick="Gym.addExercise()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></button>
+              </div>
+              <div class="gh-meta-row">
+                <div><label class="gh-meta-label">Sets</label><input type="number" class="gh-input-sm" id="gym-exercise-sets" value="3" min="1" max="20" style="text-align:center"></div>
+                <div><label class="gh-meta-label">Reps</label><input type="number" class="gh-input-sm" id="gym-exercise-reps" value="10" min="1" max="100" style="text-align:center"></div>
+                <div><label class="gh-meta-label">Weight (kg)</label><input type="number" class="gh-input-sm" id="gym-exercise-weight" value="0" min="0" max="999" style="text-align:center"></div>
+              </div>
+            </div>
+            <div class="gh-divider"><span>Logged Exercises</span></div>
+            <div id="gym-exercise-list" class="gh-exercise-list"></div>
+            <div class="gh-empty" id="gym-exercise-empty">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg>
+              <p>No exercises logged today</p>
             </div>
           </div>
-          <div class="gym-exercise-inputs">
-            <div class="gym-exercise-name-row">
-              <input type="text" class="gym-input" id="gym-exercise-name" placeholder="Exercise name" style="width:100%">
-              <button class="btn btn-primary" onclick="Gym.addExercise()" id="gym-exercise-add-btn" title="Log set">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
-              </button>
+
+          <!-- Diet & Nutrition (full width) -->
+          <div class="gh-card gh-card--diet">
+            <div class="gh-card-head">
+              <div class="gh-card-title">
+                <span class="gh-card-title-ico ico-diet"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+                Diet & Macros
+              </div>
+              <button class="gh-btn gh-btn-primary" onclick="Gym.addMealPrompt()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>Add Meal</button>
             </div>
-            <div class="gym-exercise-grid">
-              <div>
-                <label class="gym-label">Sets</label>
-                <input type="number" class="gym-input" id="gym-exercise-sets" value="3" min="1" max="20" style="width:100%;text-align:center">
+            <div class="gh-macros-rings" id="gym-macros-rings">
+              <div class="gh-macro-ring">
+                <div class="gh-macro-ring-wrap" id="gym-macro-protein"><div class="gh-macro-ring-center" id="gym-macro-protein-center"><span class="gh-macro-ring-val">0g</span><span class="gh-macro-ring-goal">/ 150g</span></div></div>
+                <span class="gh-macro-name">Protein</span>
               </div>
-              <div>
-                <label class="gym-label">Reps</label>
-                <input type="number" class="gym-input" id="gym-exercise-reps" value="10" min="1" max="100" style="width:100%;text-align:center">
+              <div class="gh-macro-ring m-carbs">
+                <div class="gh-macro-ring-wrap" id="gym-macro-carbs"><div class="gh-macro-ring-center" id="gym-macro-carbs-center"><span class="gh-macro-ring-val">0g</span><span class="gh-macro-ring-goal">/ 250g</span></div></div>
+                <span class="gh-macro-name">Carbs</span>
               </div>
-              <div>
-                <label class="gym-label">Weight (kg)</label>
-                <input type="number" class="gym-input" id="gym-exercise-weight" value="0" min="0" max="999" style="width:100%;text-align:center">
+              <div class="gh-macro-ring m-fats">
+                <div class="gh-macro-ring-wrap" id="gym-macro-fats"><div class="gh-macro-ring-center" id="gym-macro-fats-center"><span class="gh-macro-ring-val">0g</span><span class="gh-macro-ring-goal">/ 65g</span></div></div>
+                <span class="gh-macro-name">Fats</span>
               </div>
             </div>
-          </div>
-          <div class="gym-exercise-divider">
-            <span>Logged Exercises</span>
-          </div>
-          <div id="gym-exercise-list" class="gym-exercise-list"></div>
-          <div class="gym-exercise-empty" id="gym-exercise-empty">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="gym-empty-icon"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg>
-            <div class="gym-empty-text">No exercises logged today</div>
+            <div id="gym-meals-list" class="gh-meals-list"></div>
+            <div class="gh-cal-row">
+              <span class="gh-meta-label">Total calories</span>
+              <strong id="gym-calories-val">0 kcal</strong>
+            </div>
+            <div class="gh-presets" style="margin-top:10px">
+              <button class="gh-preset" onclick="Gym.addMealPreset('Whey Shake', 25, 120, 'snack')">Whey Shake</button>
+              <button class="gh-preset" onclick="Gym.addMealPreset('Chicken Breast 150g', 35, 200, 'lunch')">Chicken Breast</button>
+              <button class="gh-preset" onclick="Gym.addMealPreset('3 Whole Eggs', 18, 220, 'breakfast')">3 Eggs</button>
+            </div>
           </div>
         </div>
 
-        <!-- Sleep Tracker -->
-        <div class="gym-card">
-          <div class="gym-card-header">
-            <div class="gym-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              Sleep & Recovery
-            </div>
-            <div class="gym-recovery-badge pending" id="gym-recovery-badge">PENDING</div>
-          </div>
-          <div class="gym-input-group">
-            <div class="gym-sleep-row">
-              <div>
-                <label class="gym-label">Sleep time</label>
-                <input type="time" class="gym-input" id="gym-sleep-time" style="width:100%" onchange="Gym.onSleepInputChange()">
+        <!-- Right Column -->
+        <div class="gh-grid-right">
+          <!-- Sleep & Recovery -->
+          <div class="gh-card">
+            <div class="gh-card-head">
+              <div class="gh-card-title">
+                <span class="gh-card-title-ico ico-sleep"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                Sleep & Recovery
               </div>
-              <div>
-                <label class="gym-label">Wake time</label>
-                <input type="time" class="gym-input" id="gym-wake-time" style="width:100%" onchange="Gym.onSleepInputChange()">
-              </div>
+              <span class="gh-badge pending" id="gym-recovery-badge">PENDING</span>
             </div>
-            <div>
-              <label class="gym-label">Quality</label>
-              <select class="gym-select" id="gym-sleep-quality" onchange="Gym.onSleepInputChange()">
+            <div class="gh-sleep-grid">
+              <div><label class="gh-meta-label">Sleep time</label><input type="time" class="gh-input-sm" id="gym-sleep-time" onchange="Gym.onSleepInputChange()"></div>
+              <div><label class="gh-meta-label">Wake time</label><input type="time" class="gh-input-sm" id="gym-wake-time" onchange="Gym.onSleepInputChange()"></div>
+            </div>
+            <div class="gh-field"><label class="gh-meta-label">Quality</label>
+              <select class="gh-select" id="gym-sleep-quality" onchange="Gym.onSleepInputChange()">
                 <option value="restless">Restless</option>
                 <option value="light">Light</option>
                 <option value="deep" selected>Deep</option>
               </select>
             </div>
-            <div class="gym-sleep-stats">
-              <div>
-                <span class="gym-label">Duration</span>
-                <span id="gym-sleep-duration-val" class="gym-stat-value">--</span>
-              </div>
-              <div class="gym-sleep-stats-divider"></div>
-              <div>
-                <span class="gym-label">Recovery</span>
-                <span id="gym-recovery-score-val" class="gym-stat-value gym-stat-value--gold">--</span>
+            <div class="gh-sleep-metrics">
+              <div class="gh-sleep-ring" id="gym-sleep-ring-svg"></div>
+              <div class="gh-sleep-stats-col">
+                <div class="gh-sleep-stat"><span class="gh-meta-label">Duration</span><strong id="gym-sleep-duration-val">--</strong></div>
+                <div class="gh-sleep-stat"><span class="gh-meta-label">Recovery</span><strong id="gym-recovery-score-val" style="color:var(--gh-secondary)">--</strong></div>
+                <div class="gh-sleep-stat"><span class="gh-meta-label">Gap</span><strong id="gym-sleep-gap-val" class="gh-gap-val">--</strong></div>
+                <div class="gh-sleep-stat"><span class="gh-meta-label">Gauge</span><strong id="gym-sleep-gauge-val">--</strong></div>
               </div>
             </div>
+            <div class="gh-sleep-times">
+              <div><span class="gh-meta-label">In</span><strong id="gym-sleep-time-display">--</strong></div>
+              <div><span class="gh-meta-label">Out</span><strong id="gym-wake-time-display">--</strong></div>
+            </div>
           </div>
-        </div>
 
-        <!-- Diet Logger -->
-        <div class="gym-card">
-          <div class="gym-card-header">
-            <div class="gym-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-              Diet & Macros
-            </div>
-            <button class="btn btn-sm btn-primary" onclick="Gym.addMealPrompt()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
-              Add Meal
-            </button>
-          </div>
-          <div class="gym-macro-bar">
-            <div class="gym-macro-row">
-              <span class="gym-label">Protein goal</span>
-              <span id="gym-protein-val" class="gym-macro-target">0g / 150g</span>
-            </div>
-            <div class="gym-progress-track">
-              <div id="gym-protein-progress" class="gym-progress-fill" style="width:0%"></div>
-            </div>
-          </div>
-          <div id="gym-meals-list" class="gym-meals-list"></div>
-          <div class="gym-calorie-row">
-            <span class="gym-label">Total calories</span>
-            <span id="gym-calories-val" class="gym-calorie-value">0 kcal</span>
-          </div>
-          <div class="gym-presets-row">
-            <button class="gym-preset-btn" onclick="Gym.addMealPreset('Whey Shake', 25, 120, 'snack')">Whey Shake</button>
-            <button class="gym-preset-btn" onclick="Gym.addMealPreset('Chicken Breast 150g', 35, 200, 'lunch')">Chicken Breast</button>
-            <button class="gym-preset-btn" onclick="Gym.addMealPreset('3 Whole Eggs', 18, 220, 'breakfast')">3 Eggs</button>
-          </div>
-        </div>
-
-        <!-- Water Tracker -->
-        <div class="gym-card">
-          <div class="gym-card-header">
-            <div class="gym-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-blue)"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12 2 12 2 9 6.5 8 9.5a7 7 0 0 0 4 12.5z"/></svg>
-              Hydration
-            </div>
-          </div>
-          <div class="gym-water-body">
-            <div class="gym-water-cup-wrap">
-              <div class="gym-water-cup">
-                <div class="gym-water-wave" id="gym-water-wave" style="top:100%"></div>
+          <!-- Water Tracker -->
+          <div class="gh-card">
+            <div class="gh-card-head">
+              <div class="gh-card-title">
+                <span class="gh-card-title-ico ico-water"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12 2 12 2 9 6.5 8 9.5a7 7 0 0 0 4 12.5z"/></svg></span>
+                Hydration
               </div>
-              <div class="gym-water-pct" id="gym-water-pct">0%</div>
             </div>
-            <div class="gym-water-info">
-              <div class="gym-water-amount" id="gym-water-amount-val">0 ml</div>
-              <div class="gym-water-goal">of 3000 ml</div>
+            <div class="gh-water-body">
+              <div class="gh-water-ring" id="gym-water-ring-svg"></div>
+              <div class="gh-water-actions">
+                <div class="gh-water-val" id="gym-water-amount-val">0 ml<small>of 3000 ml</small></div>
+                <div class="gh-water-pct" id="gym-water-pct">0%</div>
+                <div class="gh-water-goal" id="gym-water-goal">of 3000 ml</div>
+                <div class="gh-water-btns">
+                  <button class="gh-btn-sm" onclick="Gym.addWater(100)">100</button>
+                  <button class="gh-btn-sm" onclick="Gym.addWater(250)">250</button>
+                  <button class="gh-btn-sm gh-btn-sm--primary" onclick="Gym.addWater(500)">500</button>
+                  <button class="gh-btn-sm gh-btn-sm--danger" onclick="Gym.addWater(-250)">-250</button>
+                </div>
+              </div>
             </div>
+            <div class="gh-water-trend" id="gym-water-trend"></div>
           </div>
-          <div class="gym-water-controls">
-            <button class="gym-water-btn" onclick="Gym.addWater(100)" title="Add 100ml">100ml</button>
-            <button class="gym-water-btn" onclick="Gym.addWater(250)" title="Add 250ml">250ml</button>
-            <button class="gym-water-btn gym-water-btn--primary" onclick="Gym.addWater(500)" title="Add 500ml">500ml</button>
-            <button class="gym-water-btn gym-water-btn--subtle" onclick="Gym.addWater(-250)" title="Remove 250ml">-250</button>
+
+          <!-- Body Metrics -->
+          <div class="gh-card">
+            <div class="gh-card-head">
+              <div class="gh-card-title">
+                <span class="gh-card-title-ico ico-body"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><path d="M16 21V8a4 4 0 0 0-8 0v13"/></svg></span>
+                Body Metrics
+              </div>
+            </div>
+            <div class="gh-body-grid">
+              <div><label class="gh-meta-label">Weight (kg)</label><input type="number" class="gh-input-sm" id="gym-body-weight" step="0.1" min="20" max="300"></div>
+              <div><label class="gh-meta-label">Body Fat %</label><input type="number" class="gh-input-sm" id="gym-body-fat" step="0.1" min="1" max="60"></div>
+            </div>
+            <div id="gym-body-trend" class="gh-body-trend"></div>
           </div>
         </div>
       </div>
@@ -855,92 +797,147 @@
     <section class="section-panel" id="section-career">
       <div class="section-header">
         <h2 class="section-title"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M12 11v6M9 14h6"/></svg></span>Career Builder</h2>
-        <div class="salah-date-nav-modern" style="display: flex; align-items: center; background: var(--color-bg-tertiary); border: 1px solid var(--color-divider-subtle); border-radius: 20px; padding: 2px;">
-          <button class="btn btn-icon-sm" id="career-prev-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-          <span id="career-date-label" style="color: var(--color-text-primary); font-size: 13px; font-weight: 700; padding: 0 10px; min-width: 60px; text-align: center;">Today</span>
-          <button class="btn btn-icon-sm" id="career-next-day" style="color: var(--color-accent-primary); width: 28px; height: 28px; border-radius: 50%;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
+        <div class="cb-date-nav">
+          <button class="cb-date-btn" id="career-prev-day"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg></button>
+          <span id="career-date-label">Today</span>
+          <button class="cb-date-btn" id="career-next-day"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
-        <button class="btn btn-sm btn-secondary" onclick="Career.exportPDF()" title="Export monthly PDF">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export PDF
-        </button>
+        <div style="display:flex;gap:8px">
+          <button class="cb-btn" onclick="Career.exportPDF()" title="Export monthly PDF"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export PDF</button>
+        </div>
       </div>
 
       <!-- Stats Summary -->
-      <div class="career-stats-summary" id="career-stats-summary"></div>
-
-      <!-- Weekly Heatmap + Chart -->
-      <div class="career-card" style="margin-bottom:var(--space-4)">
-        <div class="career-card-header" style="margin-bottom:8px">
-          <div class="career-card-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Weekly Consistency
-          </div>
+      <div class="cb-stat-strip" id="career-stats-summary">
+        <div class="cb-stat-tile">
+          <div class="cb-stat-tile-head"><span class="cb-stat-ico cb-stat-ico--streak"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+          <span class="cb-stat-value" id="cb-stat-streak">0</span>
+          <span class="cb-stat-value-sub" id="cb-stat-streak-sub">days</span>
+          <span class="cb-stat-label">Streak</span>
         </div>
-        <div class="career-heatmap-wrapper" id="career-heatmap-container"></div>
-        <div class="career-chart-section">
-          <div class="career-card-title" style="font-size:0.9rem;margin-bottom:var(--space-3)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-            Study Hours This Week
-          </div>
-          <div class="career-chart-grid" id="career-chart-container"></div>
+        <div class="cb-stat-tile">
+          <div class="cb-stat-tile-head"><span class="cb-stat-ico cb-stat-ico--study"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M4 11h16"/></svg></span></div>
+          <span class="cb-stat-value" id="cb-stat-study">0</span>
+          <span class="cb-stat-value-sub" id="cb-stat-study-sub">minutes</span>
+          <span class="cb-stat-label">Study</span>
+        </div>
+        <div class="cb-stat-tile">
+          <div class="cb-stat-tile-head"><span class="cb-stat-ico cb-stat-ico--goals"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></div>
+          <span class="cb-stat-value" id="cb-stat-goals">0</span>
+          <span class="cb-stat-value-sub" id="cb-stat-goals-sub">done today</span>
+          <span class="cb-stat-label">Goals</span>
+        </div>
+        <div class="cb-stat-tile">
+          <div class="cb-stat-tile-head"><span class="cb-stat-ico cb-stat-ico--month"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></span></div>
+          <span class="cb-stat-value" id="cb-stat-month">0</span>
+          <span class="cb-stat-value-sub" id="cb-stat-month-sub">hours this mo.</span>
+          <span class="cb-stat-label">Monthly</span>
         </div>
       </div>
 
-      <div class="career-grid">
-        <!-- Study & Skill Log -->
-        <div class="career-card">
-          <div class="career-card-header">
-            <div class="career-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-gold)"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M4 11h16"/></svg>
-              Study Log
-            </div>
-            <button class="btn btn-sm btn-primary" onclick="Career.saveStudyLog()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              Save
-            </button>
+      <!-- Weekly Heatmap + Chart -->
+      <div class="cb-card" style="margin-bottom:var(--space-4)">
+        <div class="cb-card-head">
+          <div class="cb-card-title">
+            <span class="cb-card-title-ico ico-heatmap"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            Weekly Consistency
           </div>
-          <div class="gym-input-group">
-            <div>
-              <label class="gym-label">Focus Topic</label>
-              <input type="text" class="gym-input" id="career-study-topic" placeholder="e.g. React Hooks, Priority Queues..." style="width:100%">
-            </div>
-            <div>
-              <div class="flex justify-between items-center">
-                <label class="gym-label">Duration</label>
-                <span id="career-study-duration-val" class="career-duration-label">0 mins</span>
+        </div>
+        <div class="cb-heatmap-wrap" id="career-heatmap-monthly-container"></div>
+        <div class="cb-heatmap-stats">
+          <span class="cb-heatmap-stat">Consistency: <strong id="career-heatmap-consistency-pct">0%</strong></span>
+          <span class="cb-heatmap-stat">Streak: <strong id="career-heatmap-streak">0 days</strong></span>
+          <span class="cb-heatmap-stat">Total: <strong id="career-heatmap-total-hours">0h</strong></span>
+        </div>
+        <div class="cb-week-chart">
+          <div class="cb-week-chart-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cb-primary)"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>Study Hours This Week</div>
+          <div id="career-chart-container"></div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="cb-grid">
+        <!-- Left Column: Study Log -->
+        <div>
+          <div class="cb-card">
+            <div class="cb-card-head">
+              <div class="cb-card-title">
+                <span class="cb-card-title-ico ico-study"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M4 11h16"/></svg></span>
+                Study Log
               </div>
-              <input type="range" min="0" max="240" step="15" value="0" class="gym-input" id="career-study-duration" style="width:100%;margin-top:6px;cursor:pointer" oninput="Career.onStudyDurationChange()">
+              <button class="cb-btn cb-btn-primary" onclick="Career.saveStudyLog()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Save</button>
             </div>
-            <div>
-              <label class="gym-label">Category</label>
-              <select class="career-category-select" id="career-study-category"></select>
+
+            <!-- Study Timer -->
+            <div class="cb-timer">
+              <span class="cb-timer-display" id="cb-timer-display">00:00:00</span>
+              <div class="cb-timer-actions">
+                <button class="cb-timer-btn start" id="cb-timer-start" onclick="Career.startTimer()">Start</button>
+                <button class="cb-timer-btn stop" id="cb-timer-stop" onclick="Career.stopTimer()" disabled>Stop</button>
+                <button class="cb-timer-btn log" id="cb-timer-log" onclick="Career.logTimer()" disabled>Log</button>
+              </div>
             </div>
-            <div>
-              <label class="gym-label">Notes</label>
-              <textarea class="gym-input" id="career-study-notes" rows="2" placeholder="Key takeaways..." style="width:100%;resize:none;font-family:inherit"></textarea>
+
+            <div class="cb-field">
+              <label class="cb-label">Focus Topic</label>
+              <input type="text" class="cb-input" id="career-study-topic" placeholder="e.g. React Hooks, Priority Queues...">
             </div>
+            <div class="cb-field">
+              <div class="cb-field-row">
+                <label class="cb-label">Duration</label>
+                <span id="career-study-duration-val" class="cb-duration-label">0 mins</span>
+              </div>
+              <input type="range" min="0" max="240" step="15" value="0" class="cb-range" id="career-study-duration" oninput="Career.onStudyDurationChange()">
+            </div>
+            <div class="cb-field">
+              <label class="cb-label">Category</label>
+              <select class="cb-select" id="career-study-category"></select>
+            </div>
+            <div class="cb-chips" id="career-category-chips-container"></div>
+            <div class="cb-field" style="margin-top:12px">
+              <label class="cb-label">Notes</label>
+              <textarea class="cb-input cb-textarea" id="career-study-notes" rows="2" placeholder="Key takeaways..."></textarea>
+            </div>
+            <div id="career-skill-bars" class="cb-skills"></div>
           </div>
-          <div id="career-skill-bars" class="career-skill-section"></div>
         </div>
 
-        <!-- Career Tasks Checklist -->
-        <div class="career-card">
-          <div class="gym-card-header">
-            <div class="gym-card-title">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent-green)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Daily Goals
+        <!-- Right Column: Goals + Checklist -->
+        <div class="cb-grid-right">
+          <!-- Goals Progress -->
+          <div class="cb-card">
+            <div class="cb-card-head">
+              <div class="cb-card-title">
+                <span class="cb-card-title-ico ico-goals"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+                Daily Goals
+              </div>
+              <button class="cb-btn cb-btn-primary" onclick="Career.addChecklistItem()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>Add</button>
             </div>
-            <button class="btn btn-sm btn-primary" onclick="Career.addChecklistItem()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
-              Add
-            </button>
+            <div class="cb-goals-progress" id="career-checklist-progress">
+              <div class="cb-goals-progress-head">
+                <span class="cb-goals-progress-num"><span id="cb-goals-num">0</span> / <span id="cb-goals-den">0</span></span>
+                <span class="cb-goals-progress-pct" id="cb-goals-pct">0%</span>
+              </div>
+              <div class="cb-goals-progress-track"><div class="cb-goals-progress-fill" id="cb-goals-fill" style="width:0%"></div></div>
+            </div>
+            <div class="cb-suggested" id="career-suggested-goals"></div>
+            <div id="career-checklist-container" class="cb-checklist"></div>
+            <div id="cb-achievements" class="cb-achievements"></div>
           </div>
-          <div class="career-checklist-list" id="career-checklist-container"></div>
+
+          <!-- Quick Goal Input -->
+          <div class="cb-card">
+            <div class="cb-card-head">
+              <div class="cb-card-title">
+                <span class="cb-card-title-ico ico-goals"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span>
+                New Goal
+              </div>
+            </div>
+            <div class="cb-checklist-add">
+              <input type="text" class="cb-input" id="career-new-goal-text" placeholder="Type a goal..." onkeydown="if(event.key==='Enter')Career.addChecklistItem()">
+              <button class="cb-btn cb-btn-primary" onclick="Career.addChecklistItem()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1020,7 +1017,6 @@
 
   <!-- Bottom Nav (mobile) -->
   <nav class="bottom-nav" aria-label="Bottom navigation" style="overflow-x:auto; -webkit-overflow-scrolling:touch; justify-content:flex-start; gap:16px; padding:0 16px;">
-    <div class="bottom-nav-item active" data-section="home"><span class="bnav-icon"><div class="nav-badge-container"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="nav-notification-badge" id="home-badge-bottom"></div></div></span><span data-i18n="Home">Home</span></div>
     <div class="bottom-nav-item" data-section="salah"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-4 0-7 4-7 9v11h14V11c0-5-3-9-7-9z"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/></svg></span><span data-i18n="Salah">Salah</span></div>
     <div class="bottom-nav-item" data-section="dhikr"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></span><span data-i18n="Dhikr">Dhikr</span></div>
     <div class="bottom-nav-item" data-section="nafl"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M17 5h4"/></svg></span><span data-i18n="Nafl">Nafl</span></div>
@@ -1404,15 +1400,13 @@
 
 
   <!-- Core Engine -->
-  <script src="js/lang.js?v=127"></script>
-  <script src="js/utils.js?v=127"></script>
-  <script src="js/db.js?v=127"></script>
-  <script src="js/auth.js?v=146"></script>
-  <script src="js/home.js?v=213"></script>
-  
-  <!-- App Modules -->
-  <script src="js/hijri.js?v=137"></script>
-  <script src="js/salah.js?v=213"></script>
+<script src="js/lang.js?v=127"></script>
+   <script src="js/utils.js?v=127"></script>
+   <script src="js/db.js?v=127"></script>
+   <script src="js/auth.js?v=146"></script>
+   
+   <!-- App Modules -->
+   <script src="js/salah.js?v=213"></script>
   <script src="js/gym.js?v=213"></script>
   <script src="js/career.js?v=213"></script>
   <script src="js/dhikr.js?v=137"></script>

@@ -1,654 +1,515 @@
 /* =============================================
-   LAMIM — GYM & FITNESS (Modern Redesign)
+   LAMIM — GYM & DIET
+   Clean glassmorphism redesign — "Electric Vitality"
+   cyan + lime accent. Apple/Whoop-inspired.
    ============================================= */
 
-/* ---- Stats Summary Row ---- */
-.gym-stats-summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+/* ---------- design tokens ---------- */
+#section-gym {
+  --gh-primary: #22d3ee;        /* cyan */
+  --gh-primary-strong: #06b6d4;
+  --gh-secondary: #a3e635;      /* lime */
+  --gh-water: #38bdf8;          /* sky */
+  --gh-good: #34d399;           /* emerald */
+  --gh-warn: #fbbf24;           /* amber */
+  --gh-poor: #f87171;           /* rose */
+
+  --gh-surface: rgba(255, 255, 255, 0.04);
+  --gh-surface-2: rgba(255, 255, 255, 0.025);
+  --gh-surface-strong: rgba(255, 255, 255, 0.06);
+  --gh-border: rgba(255, 255, 255, 0.08);
+  --gh-border-strong: rgba(255, 255, 255, 0.14);
+  --gh-text: var(--color-text-primary, #fff);
+  --gh-text-2: var(--color-text-secondary, #cbd5e1);
+  --gh-text-muted: rgba(255, 255, 255, 0.45);
+  --gh-glow: rgba(34, 211, 238, 0.25);
+
+  --gh-radius: 22px;
+  --gh-radius-sm: 14px;
+  --gh-radius-xs: 10px;
+  --gh-transition: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] #section-gym {
+  --gh-surface: rgba(255, 255, 255, 0.82);
+  --gh-surface-2: rgba(248, 250, 252, 0.7);
+  --gh-surface-strong: #ffffff;
+  --gh-border: rgba(15, 23, 42, 0.08);
+  --gh-border-strong: rgba(15, 23, 42, 0.16);
+  --gh-text: var(--color-text-primary, #0b1423);
+  --gh-text-2: var(--color-text-secondary, #1e293b);
+  --gh-text-muted: rgba(15, 23, 42, 0.5);
+  --gh-glow: rgba(8, 145, 178, 0.18);
+  --gh-primary: #0891b2;
+  --gh-primary-strong: #0e7490;
+  --gh-secondary: #65a30d;
+}
+
+/* ---------- section shell ---------- */
+#section-gym .section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
   margin-bottom: var(--space-5);
 }
+#section-gym .section-title { color: var(--color-text-primary); }
 
-.gym-stat-pill {
-  background: var(--color-glass);
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
-  padding: 16px 12px;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-}
-.gym-stat-pill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(167,139,250,0.06) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.gym-stat-pill:hover {
-  transform: translateY(-3px) scale(1.02);
-  border-color: var(--color-border-active);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.2), 0 0 0 1px rgba(167,139,250,0.1);
-}
-.gym-stat-pill:hover::before { opacity: 1; }
-.gym-stat-pill:active { transform: translateY(-1px) scale(0.98); }
-
-.gym-stat-pill .stat-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
-  color: var(--color-accent-primary);
-  height: 24px;
-}
-.gym-stat-pill .stat-icon svg { width: 22px; height: 22px; }
-.gym-stat-pill:nth-child(2) .stat-icon { color: var(--color-accent-blue); }
-.gym-stat-pill:nth-child(3) .stat-icon { color: var(--color-accent-blue); }
-.gym-stat-pill .stat-value { font-size: 22px; font-weight: 850; color: var(--color-text-primary); display: block; line-height: 1.2; }
-.gym-stat-pill .stat-label { font-size: 9px; font-weight: 800; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; display: block; }
-
-/* Stagger entrance for stat pills */
-.gym-stats-summary > *:nth-child(1) { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-.gym-stats-summary > *:nth-child(2) { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both; }
-.gym-stats-summary > *:nth-child(3) { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.16s both; }
-
-/* ---- Dashboard Grid ---- */
-.gym-dashboard-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-  margin-bottom: var(--space-6);
-}
-
-/* ---- Card Base ---- */
-.gym-card {
-  background: var(--color-glass);
-  border: 1px solid var(--color-border);
-  border-radius: 24px;
-  padding: var(--space-5);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-}
-
-.gym-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 24px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.01));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* Animated gradient overlay on hover */
-.gym-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(167,139,250,0.04) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-}
-.gym-card:hover::after { opacity: 1; }
-
-.gym-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  border-color: var(--color-border-active);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(167,139,250,0.08);
-}
-.gym-card:active { transform: translateY(-1px) scale(0.99); }
-
-/* Stagger card entrance */
-.gym-dashboard-row > *:nth-child(1) { animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-.gym-dashboard-row > *:nth-child(2) { animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
-.gym-dashboard-row > *:nth-child(3) { animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
-.gym-dashboard-row > *:nth-child(4) { animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
-
-.gym-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-divider-subtle);
-  padding-bottom: var(--space-3);
-}
-
-.gym-card-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  letter-spacing: -0.5px;
-}
-.gym-card-title svg {
-  flex-shrink: 0;
-}
-
-.gym-input-group {
+.gh-content {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.gym-label {
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 6px;
-  display: block;
+/* ---------- header controls ---------- */
+.gh-header-actions { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+.gh-date-nav {
+  display: flex; align-items: center; gap: 2px;
+  background: var(--gh-surface);
+  border: 1px solid var(--gh-border);
+  border-radius: 999px;
+  padding: 3px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.gh-date-btn {
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; background: transparent; color: var(--gh-text-2);
+  border-radius: 50%; cursor: pointer;
+  transition: background var(--gh-transition), color var(--gh-transition), transform var(--gh-transition);
+}
+.gh-date-btn:hover { background: var(--gh-surface-strong); color: var(--gh-primary); transform: scale(1.06); }
+.gh-date-btn:active { transform: scale(0.92); }
+#gym-date-label {
+  min-width: 78px; text-align: center;
+  color: var(--gh-text); font-weight: 700; font-size: 13px;
+  padding: 0 8px;
 }
 
-.gym-select, .gym-input {
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  color: var(--color-text-primary);
-  padding: 12px 14px;
-  font-size: 14px;
-  outline: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.gh-header-btns { display: flex; gap: 8px; }
+.gh-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 12px;
+  font-weight: 700; font-size: 13px; cursor: pointer;
+  border: 1px solid var(--gh-border);
+  background: var(--gh-surface);
+  color: var(--gh-text-2);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transition: all var(--gh-transition);
+  font-family: inherit;
 }
+.gh-btn:hover { transform: translateY(-2px); border-color: var(--gh-border-strong); background: var(--gh-surface-strong); }
+.gh-btn:active { transform: scale(0.96); }
+.gh-btn-primary {
+  background: linear-gradient(135deg, var(--gh-primary), var(--gh-primary-strong));
+  color: #03242b; border-color: transparent;
+  box-shadow: 0 6px 20px var(--gh-glow);
+}
+[data-theme="light"] .gh-btn-primary { color: #fff; }
+.gh-btn-primary:hover { box-shadow: 0 10px 28px var(--gh-glow); }
+.gh-btn-secondary { color: var(--gh-primary); border-color: var(--gh-primary); background: rgba(34, 211, 238, 0.08); }
+[data-theme="light"] .gh-btn-secondary { background: rgba(8, 145, 178, 0.08); }
+.gh-btn-ghost { padding: 9px; }
+.gh-btn--icon { padding: 9px; width: 40px; height: 40px; justify-content: center; }
 
-.gym-select:focus, .gym-input:focus {
-  border-color: var(--color-accent-primary);
-  box-shadow: 0 0 12px rgba(167, 139, 250, 0.15);
-}
-
-.gym-sleep-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.gym-sleep-stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 6px;
-  padding: 12px;
-  background: var(--color-surface-nested);
-  border-radius: 14px;
-  border: 1px solid var(--color-border);
-}
-.gym-sleep-stats > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-.gym-sleep-stats-divider {
-  width: 1px;
-  height: 32px;
-  background: var(--color-divider-subtle);
-}
-
-.gym-stat-value {
-  font-size: 18px;
-  font-weight: 850;
-  color: var(--color-text-primary);
-}
-.gym-stat-value--gold { color: var(--color-accent-gold); }
-
-.gym-recovery-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.gym-recovery-badge.excellent {
-  background: rgba(52, 211, 153, 0.12);
-  color: var(--color-accent-green);
-  border: 1.5px solid rgba(52, 211, 153, 0.3);
-}
-.gym-recovery-badge.good {
-  background: rgba(56, 189, 248, 0.12);
-  color: var(--color-accent-blue);
-  border: 1.5px solid rgba(56, 189, 248, 0.3);
-}
-.gym-recovery-badge.poor {
-  background: rgba(248, 113, 113, 0.12);
-  color: var(--color-accent-red);
-  border: 1.5px solid rgba(248, 113, 113, 0.3);
-}
-.gym-recovery-badge.pending {
-  background: var(--color-surface-nested);
-  color: var(--color-text-muted);
-  border: 1.5px solid var(--color-border);
-}
-
-/* ---- Exercise Logger ---- */
-.gym-exercise-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-2);
-}
-.gym-exercise-inputs input[type="number"] { -moz-appearance: textfield; }
-.gym-exercise-inputs input[type="number"]::-webkit-inner-spin-button,
-.gym-exercise-inputs input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-.gym-exercise-name-row {
-  display: flex;
-  gap: 8px;
-  align-items: stretch;
-}
-.gym-exercise-name-row input { flex: 1; }
-.gym-exercise-name-row .btn {
-  width: 44px;
-  padding: 0;
-  flex-shrink: 0;
-  border-radius: 14px;
-}
-
-.gym-exercise-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
-
-.gym-exercise-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: var(--space-3) 0;
-  color: var(--color-text-muted);
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-.gym-exercise-divider::before,
-.gym-exercise-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--color-divider-subtle);
-}
-
-.gym-exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 280px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-.gym-exercise-list::-webkit-scrollbar { width: 4px; }
-.gym-exercise-list::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
-
-.gym-exercise-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: fadeInUp 0.35s ease both;
-}
-.gym-exercise-item:hover {
-  border-color: rgba(240, 196, 86, 0.25);
-  background: var(--color-glass-hover);
-  transform: translateX(3px);
-}
-
-.gym-exercise-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.gym-exercise-name { font-size: 13px; font-weight: 800; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gym-exercise-meta { font-size: 10px; font-weight: 700; color: var(--color-text-muted); }
-
-.gym-exercise-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.gym-exercise-weight { font-size: 13px; font-weight: 850; color: var(--color-accent-gold); }
-
-.gym-exercise-del {
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  color: var(--color-text-muted);
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  opacity: 0.4;
-}
-.gym-exercise-item:hover .gym-exercise-del { opacity: 1; }
-.gym-exercise-del:hover {
-  color: var(--color-accent-red);
-  background: rgba(248, 113, 113, 0.1);
-  opacity: 1;
-  transform: rotate(90deg);
-}
-
-.gym-exercise-empty {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 16px;
-  color: var(--color-text-muted);
-}
-.gym-exercise-empty .gym-empty-icon {
-  width: 40px;
-  height: 40px;
-  opacity: 0.25;
-  margin-bottom: 8px;
-  color: var(--color-text-muted);
-}
-.gym-exercise-empty .gym-empty-text { font-size: 12px; font-weight: 700; opacity: 0.5; }
-
-/* ---- Water Tracker ---- */
-.gym-water-body {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 8px 0 12px;
-}
-
-.gym-water-cup-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.gym-water-cup {
-  width: 80px;
-  height: 110px;
-  border: 2.5px solid var(--color-border);
-  border-top: none;
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
+/* ---------- HERO scorecard ---------- */
+.gh-hero-card {
   position: relative;
+  border-radius: var(--gh-radius);
+  padding: 26px;
   overflow: hidden;
-  background: var(--color-surface-nested);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
-}
-
-.gym-water-cup::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.06) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.06) 100%);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.gym-water-cup.gym-water-full {
-  border-color: var(--color-accent-blue);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
-}
-
-.gym-water-wave {
-  position: absolute;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.6), rgba(14, 165, 233, 0.85));
-  border-radius: 35%;
-  transition: top 1s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: waveSpin 5s infinite linear;
-}
-
-@keyframes waveSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.gym-water-pct {
-  font-size: 22px;
-  font-weight: 850;
-  color: var(--color-accent-blue);
-  line-height: 1;
-  transition: color 0.4s ease;
-}
-.gym-water-cup.gym-water-full ~ .gym-water-pct { color: var(--color-accent-green); }
-
-.gym-water-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.gym-water-amount {
-  font-size: 20px;
-  font-weight: 850;
-  color: var(--color-text-primary);
-  line-height: 1.2;
-}
-.gym-water-goal {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--color-text-muted);
-}
-
-.gym-water-controls {
+  background: var(--gh-surface);
+  border: 1px solid var(--gh-border);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: 4px;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  animation: ghRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-
-.gym-water-btn {
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 8px 4px;
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+[data-theme="light"] .gh-hero-card {
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.gh-hero-glow {
+  position: absolute; inset: -40% -10% auto auto;
+  width: 60%; height: 140%;
+  background: radial-gradient(circle at center, var(--gh-glow), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+.gh-hero-ring-wrap {
+  position: relative; width: 132px; height: 132px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.gh-hero-ring-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center;
 }
-.gym-water-btn:hover {
-  border-color: var(--color-accent-blue);
-  color: var(--color-accent-blue);
-  background: rgba(56, 189, 248, 0.06);
-  transform: translateY(-1px);
+.gh-hero-ring-num {
+  font-size: 34px; font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, var(--gh-primary), var(--gh-secondary));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.gym-water-btn:active { transform: scale(0.95); }
-.gym-water-btn--primary {
-  background: rgba(56, 189, 248, 0.1);
-  border-color: rgba(56, 189, 248, 0.25);
-  color: var(--color-accent-blue);
+.gh-hero-ring-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gh-text-muted); margin-top: 2px;
 }
-.gym-water-btn--primary:hover {
-  background: rgba(56, 189, 248, 0.18);
-  border-color: var(--color-accent-blue);
+.gh-hero-body { position: relative; min-width: 0; }
+.gh-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gh-primary);
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.22);
 }
-.gym-water-btn--subtle {
-  opacity: 0.5;
-}
-.gym-water-btn--subtle:hover {
-  opacity: 1;
-  border-color: var(--color-accent-red);
-  color: var(--color-accent-red);
-  background: rgba(248, 113, 113, 0.06);
-}
+[data-theme="light"] .gh-hero-eyebrow { background: rgba(8, 145, 178, 0.08); border-color: rgba(8, 145, 178, 0.2); }
+.gh-hero-title { font-size: 22px; font-weight: 800; color: var(--gh-text); margin: 8px 0 4px; line-height: 1.2; }
+.gh-hero-sub { font-size: 13px; color: var(--gh-text-2); margin-bottom: 12px; }
+.gh-hero-spark { width: 100%; max-width: 240px; height: 44px; color: var(--gh-primary); }
 
-/* ---- Macro & Diet ---- */
-.gym-macro-bar {
-  margin-bottom: 12px;
-  padding: 12px;
-  background: var(--color-surface-nested);
-  border-radius: 14px;
-  border: 1px solid var(--color-border);
+/* ---------- stat strip ---------- */
+.gh-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
 }
-.gym-macro-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
+.gh-stat-tile {
+  border-radius: var(--gh-radius-sm);
+  padding: 16px;
+  background: var(--gh-surface);
+  border: 1px solid var(--gh-border);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  display: flex; flex-direction: column; gap: 8px;
+  transition: transform var(--gh-transition), border-color var(--gh-transition);
+  animation: ghRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.gym-macro-target {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--color-accent-gold);
+.gh-stat-tile:nth-child(1) { animation-delay: 0.04s; }
+.gh-stat-tile:nth-child(2) { animation-delay: 0.08s; }
+.gh-stat-tile:nth-child(3) { animation-delay: 0.12s; }
+.gh-stat-tile:nth-child(4) { animation-delay: 0.16s; }
+.gh-stat-tile:hover { transform: translateY(-3px); border-color: var(--gh-border-strong); }
+.gh-stat-tile-head { display: flex; align-items: center; justify-content: space-between; }
+.gh-stat-ico {
+  width: 32px; height: 32px; border-radius: 38.5%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #03242b;
 }
+.gh-stat-ico--streak { background: linear-gradient(135deg, #fbbf24, #f97316); color: #2a1200; }
+.gh-stat-ico--vol { background: linear-gradient(135deg, var(--gh-primary), var(--gh-primary-strong)); color: #03242b; }
+.gh-stat-ico--sleep { background: linear-gradient(135deg, #818cf8, #6366f1); color: #fff; }
+.gh-stat-ico--water { background: linear-gradient(135deg, var(--gh-water), #0ea5e9); color: #03242b; }
+[data-theme="light"] .gh-stat-ico { color: #fff; }
+.gh-stat-value { font-size: 22px; font-weight: 800; color: var(--gh-text); line-height: 1; }
+.gh-stat-value-sub { font-size: 12px; font-weight: 600; color: var(--gh-text-muted); }
+.gh-stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--gh-text-muted); text-transform: uppercase; }
 
-.gym-progress-track {
-  height: 6px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 100px;
-  overflow: hidden;
+/* ---------- main grid ---------- */
+.gh-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
 }
-.gym-progress-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-gold));
-  border-radius: 100px;
-  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
+.gh-grid-right { display: flex; flex-direction: column; gap: var(--space-4); }
 
-.gym-calorie-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 8px;
-  padding: 8px 0;
+/* ---------- card ---------- */
+.gh-card {
+  position: relative;
+  border-radius: var(--gh-radius);
+  padding: 20px;
+  background: var(--gh-surface);
+  border: 1px solid var(--gh-border);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color var(--gh-transition), transform var(--gh-transition);
+  animation: ghRise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.gym-calorie-value {
-  font-size: 14px;
-  font-weight: 850;
-  color: var(--color-text-primary);
+[data-theme="light"] .gh-card { box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5); }
+.gh-card:hover { border-color: var(--gh-border-strong); }
+.gh-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 8px; }
+.gh-card-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--gh-text); }
+.gh-card-title-ico {
+  width: 30px; height: 30px; border-radius: 38.5%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #03242b; flex-shrink: 0;
 }
+.gh-card-title-ico.ico-workout { background: linear-gradient(135deg, var(--gh-primary), var(--gh-primary-strong)); color: #03242b; }
+.gh-card-title-ico.ico-sleep { background: linear-gradient(135deg, #818cf8, #6366f1); color: #fff; }
+.gh-card-title-ico.ico-water { background: linear-gradient(135deg, var(--gh-water), #0ea5e9); color: #03242b; }
+.gh-card-title-ico.ico-body { background: linear-gradient(135deg, var(--gh-secondary), #84cc16); color: #1a2400; }
+.gh-card-title-ico.ico-diet { background: linear-gradient(135deg, #fb923c, #f97316); color: #2a1200; }
+[data-theme="light"] .gh-card-title-ico { color: #fff; }
 
-/* Meals List */
-.gym-meals-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 180px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-.gym-meals-list::-webkit-scrollbar { width: 4px; }
-.gym-meals-list::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 10px; }
-
-.gym-meal-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
+/* ---------- inputs ---------- */
+.gh-input, .gh-select {
+  width: 100%;
+  padding: 11px 14px;
   border-radius: 12px;
-  transition: all 0.25s ease;
+  border: 1px solid var(--gh-border);
+  background: var(--gh-surface-2);
+  color: var(--gh-text);
+  font-size: 14px; font-family: inherit; font-weight: 500;
+  transition: border-color var(--gh-transition), background var(--gh-transition);
 }
-.gym-meal-item:hover {
-  border-color: rgba(240, 196, 86, 0.2);
+.gh-input::placeholder { color: var(--gh-text-muted); }
+.gh-input:focus, .gh-select:focus {
+  outline: none; border-color: var(--gh-primary);
+  background: var(--gh-surface-strong);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14);
 }
-
-.gym-meal-desc { font-size: 12px; font-weight: 800; color: var(--color-text-primary); }
-.gym-meal-meta { font-size: 10px; color: var(--color-text-muted); font-weight: 700; margin-top: 1px; }
-.gym-meal-val { font-size: 12px; font-weight: 850; color: var(--color-accent-gold); }
-
-.gym-meal-del-btn {
-  background: transparent;
-  border: none;
-  color: var(--color-text-muted);
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  opacity: 0.4;
+[data-theme="light"] .gh-input:focus { box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.14); }
+.gh-select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px;
 }
-.gym-meal-item:hover .gym-meal-del-btn { opacity: 1; }
-.gym-meal-del-btn:hover {
-  color: var(--color-accent-red);
-  opacity: 1;
+.gh-input-sm {
+  width: 100%; padding: 9px 12px; border-radius: 10px;
+  border: 1px solid var(--gh-border); background: var(--gh-surface-2);
+  color: var(--gh-text); font-size: 14px; font-weight: 600; font-family: inherit;
 }
-
-/* Presets */
-.gym-presets-row {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-  border-top: 1px solid var(--color-divider-subtle);
-  padding-top: 10px;
+.gh-input-sm:focus { outline: none; border-color: var(--gh-primary); }
+.gh-meta-label {
+  display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--gh-text-muted); margin-bottom: 5px;
 }
 
-.gym-preset-btn {
-  background: var(--color-glass-active);
-  border: 1.5px solid rgba(167, 139, 250, 0.15);
-  color: var(--color-accent-primary);
-  border-radius: 10px;
-  padding: 5px 10px;
-  font-size: 10px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  flex: 1;
-  min-width: 0;
-  letter-spacing: 0.3px;
+/* ---------- workout logger ---------- */
+.gh-workout-inputs { display: flex; flex-direction: column; gap: 12px; }
+.gh-input-row { display: flex; gap: 8px; }
+.gh-input-row .gh-input { flex: 1; }
+.gh-meta-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+.gh-templates { display: flex; gap: 7px; flex-wrap: wrap; }
+.gh-tpl {
+  padding: 6px 12px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--gh-border); background: var(--gh-surface-2);
+  color: var(--gh-text-2); transition: all var(--gh-transition); font-family: inherit;
 }
-.gym-preset-btn:hover {
-  background: rgba(167, 139, 250, 0.15);
-  border-color: var(--color-accent-primary);
-  transform: translateY(-1px);
+.gh-tpl:hover { border-color: var(--gh-primary); color: var(--gh-primary); transform: translateY(-1px); }
+.gh-tpl.active { background: linear-gradient(135deg, var(--gh-primary), var(--gh-primary-strong)); color: #03242b; border-color: transparent; }
+[data-theme="light"] .gh-tpl.active { color: #fff; }
+
+.gh-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 16px 0 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gh-text-muted);
+}
+.gh-divider::before, .gh-divider::after { content: ''; flex: 1; height: 1px; background: var(--gh-border); }
+
+.gh-exercise-list { display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+.gh-exercise-list::-webkit-scrollbar { width: 6px; }
+.gh-exercise-list::-webkit-scrollbar-thumb { background: var(--gh-border-strong); border-radius: 999px; }
+.gh-ex-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-radius: 12px;
+  background: var(--gh-surface-2); border: 1px solid var(--gh-border);
+  animation: ghPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: border-color var(--gh-transition);
+}
+.gh-ex-item:hover { border-color: var(--gh-border-strong); }
+.gh-ex-ico { width: 34px; height: 34px; border-radius: 10px; background: rgba(34, 211, 238, 0.12); color: var(--gh-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+[data-theme="light"] .gh-ex-ico { background: rgba(8, 145, 178, 0.1); }
+.gh-ex-info { flex: 1; min-width: 0; }
+.gh-ex-name { font-weight: 700; color: var(--gh-text); font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.gh-ex-pr { font-size: 9px; font-weight: 800; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 5px; background: linear-gradient(135deg, #fbbf24, #f97316); color: #2a1200; }
+.gh-ex-meta { font-size: 12px; color: var(--gh-text-muted); margin-top: 1px; }
+.gh-ex-weight { font-weight: 800; color: var(--gh-primary); font-size: 14px; }
+.gh-ex-del {
+  width: 28px; height: 28px; border-radius: 8px; border: none; cursor: pointer;
+  background: transparent; color: var(--gh-text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--gh-transition), color var(--gh-transition);
+}
+.gh-ex-del:hover { background: rgba(248, 113, 113, 0.14); color: var(--gh-poor); }
+
+.gh-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 30px 16px; text-align: center;
+  border: 1.5px dashed var(--gh-border); border-radius: var(--gh-radius-sm);
+  color: var(--gh-text-muted);
+}
+.gh-empty p { margin: 0; font-size: 13px; font-weight: 600; }
+
+/* ---------- sleep card ---------- */
+.gh-sleep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.gh-sleep-metrics { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; margin-top: 14px; }
+.gh-sleep-ring { position: relative; width: 88px; height: 88px; display: flex; align-items: center; justify-content: center; }
+.gh-sleep-ring svg { color: var(--gh-primary); }
+.gh-ring-value { position: absolute; font-weight: 800; font-size: 22px; color: var(--gh-text); }
+.gh-sleep-stats-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.gh-sleep-stat { display: flex; flex-direction: column; }
+.gh-sleep-stat strong { font-size: 14px; color: var(--gh-text); font-weight: 800; }
+.gh-sleep-times { display: flex; gap: 16px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--gh-border); }
+.gh-sleep-times strong { color: var(--gh-text); margin-left: 4px; }
+.gh-gap-val.positive { color: var(--gh-good); }
+.gh-gap-val.negative { color: var(--gh-poor); }
+
+/* badges */
+.gh-badge {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.06em;
+  padding: 4px 9px; border-radius: 999px; text-transform: uppercase;
+  background: var(--gh-surface-strong); color: var(--gh-text-muted);
+  border: 1px solid var(--gh-border);
+}
+.gh-badge.good { background: rgba(52, 211, 153, 0.14); color: var(--gh-good); border-color: rgba(52, 211, 153, 0.3); }
+.gh-badge.excellent { background: rgba(34, 211, 238, 0.14); color: var(--gh-primary); border-color: rgba(34, 211, 238, 0.3); }
+.gh-badge.poor { background: rgba(248, 113, 113, 0.14); color: var(--gh-poor); border-color: rgba(248, 113, 113, 0.3); }
+.gh-badge.pending { background: rgba(251, 191, 36, 0.14); color: var(--gh-warn); border-color: rgba(251, 191, 36, 0.3); }
+
+/* ---------- water card ---------- */
+.gh-water-body { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.gh-water-ring { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; }
+.gh-water-ring svg { color: var(--gh-water); }
+.gh-water-val { position: absolute; font-weight: 800; font-size: 16px; color: var(--gh-text); text-align: center; line-height: 1.1; }
+.gh-water-val small { display: block; font-size: 9px; font-weight: 700; color: var(--gh-text-muted); letter-spacing: 0.06em; }
+.gh-water-pct { font-size: 13px; font-weight: 800; color: var(--gh-water); }
+.gh-water-actions { display: flex; flex-direction: column; gap: 8px; }
+.gh-water-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.gh-btn-sm {
+  padding: 9px 4px; border-radius: 10px; border: 1px solid var(--gh-border);
+  background: var(--gh-surface-2); color: var(--gh-text-2);
+  font-weight: 700; font-size: 12px; cursor: pointer; transition: all var(--gh-transition); font-family: inherit;
+}
+.gh-btn-sm:hover { transform: translateY(-2px); border-color: var(--gh-water); color: var(--gh-water); }
+.gh-btn-sm:active { transform: scale(0.94); }
+.gh-btn-sm--primary { background: linear-gradient(135deg, var(--gh-water), #0ea5e9); color: #03242b; border-color: transparent; }
+[data-theme="light"] .gh-btn-sm--primary { color: #fff; }
+.gh-btn-sm--danger:hover { border-color: var(--gh-poor); color: var(--gh-poor); }
+.gh-water-goal { font-size: 11px; color: var(--gh-text-muted); text-align: center; font-weight: 600; }
+.gh-water-trend { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--gh-border); }
+.gh-water-trend-label { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gh-text-muted); margin-bottom: 6px; }
+.gh-water-trend svg { color: var(--gh-water); width: 100%; height: 50px; }
+
+/* ---------- body metrics card ---------- */
+.gh-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.gh-body-trend svg { color: var(--gh-secondary); width: 100%; height: 70px; }
+.gh-body-empty { font-size: 12px; color: var(--gh-text-muted); text-align: center; padding: 16px; }
+
+/* ---------- nutrition card (full width) ---------- */
+.gh-card--diet { grid-column: 1 / -1; }
+.gh-macros-rings { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: 16px; }
+.gh-macro-ring { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.gh-macro-ring-wrap { position: relative; width: 92px; height: 92px; display: flex; align-items: center; justify-content: center; }
+.gh-macro-ring-wrap svg.cg-ring { color: var(--gh-primary); }
+.gh-macro-ring-wrap.m-carbs svg.cg-ring { color: var(--gh-warn); }
+.gh-macro-ring-wrap.m-fats svg.cg-ring { color: var(--gh-secondary); }
+.gh-macro-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.gh-macro-ring-val { font-size: 18px; font-weight: 800; color: var(--gh-text); line-height: 1; }
+.gh-macro-ring-goal { font-size: 10px; color: var(--gh-text-muted); font-weight: 600; }
+.gh-macro-name { font-size: 12px; font-weight: 700; color: var(--gh-text-2); }
+
+.gh-meals-list { display: flex; flex-direction: column; gap: 7px; max-height: 220px; overflow-y: auto; padding-right: 4px; margin-bottom: 12px; }
+.gh-meals-list::-webkit-scrollbar { width: 6px; }
+.gh-meals-list::-webkit-scrollbar-thumb { background: var(--gh-border-strong); border-radius: 999px; }
+.gh-meal-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 11px;
+  background: var(--gh-surface-2); border: 1px solid var(--gh-border);
+  animation: ghPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.gh-meal-type {
+  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 6px; flex-shrink: 0;
+}
+.gh-meal-type.breakfast { background: rgba(251, 191, 36, 0.16); color: var(--gh-warn); }
+.gh-meal-type.lunch { background: rgba(34, 211, 238, 0.16); color: var(--gh-primary); }
+.gh-meal-type.dinner { background: rgba(129, 140, 248, 0.16); color: #818cf8; }
+.gh-meal-type.snack { background: rgba(163, 230, 53, 0.16); color: var(--gh-secondary); }
+.gh-meal-desc { flex: 1; min-width: 0; font-weight: 600; color: var(--gh-text); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gh-meal-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.gh-meal-protein { font-size: 11px; font-weight: 700; color: var(--gh-secondary); }
+.gh-meal-cal { font-size: 12px; font-weight: 800; color: var(--gh-text); }
+.gh-meal-del { width: 26px; height: 26px; border-radius: 7px; border: none; cursor: pointer; background: transparent; color: var(--gh-text-muted); display: flex; align-items: center; justify-content: center; transition: background var(--gh-transition), color var(--gh-transition); }
+.gh-meal-del:hover { background: rgba(248, 113, 113, 0.14); color: var(--gh-poor); }
+
+.gh-cal-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--gh-border); }
+.gh-cal-row strong { font-size: 18px; font-weight: 800; color: var(--gh-text); }
+.gh-presets { display: flex; gap: 7px; flex-wrap: wrap; }
+.gh-preset {
+  padding: 7px 13px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--gh-border); background: var(--gh-surface-2); color: var(--gh-text-2);
+  transition: all var(--gh-transition); font-family: inherit;
+}
+.gh-preset:hover { border-color: var(--gh-primary); color: var(--gh-primary); transform: translateY(-1px); }
+
+/* ---------- meal modal ---------- */
+.gh-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: ghFade 0.2s ease both;
+}
+[data-theme="light"] .gh-modal-overlay { background: rgba(15, 23, 42, 0.35); }
+.gh-modal {
+  width: 100%; max-width: 420px;
+  background: var(--color-bg-elevated, #172033);
+  border: 1px solid var(--gh-border-strong); border-radius: var(--gh-radius);
+  padding: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  animation: ghPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+[data-theme="light"] .gh-modal { background: #fff; }
+.gh-modal h3 { font-size: 18px; font-weight: 800; color: var(--gh-text); margin: 0 0 16px; }
+.gh-modal-field { margin-bottom: 12px; }
+.gh-modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gh-modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+.gh-modal-actions .gh-btn { flex: 1; justify-content: center; }
+.gh-seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.gh-seg-btn {
+  padding: 9px 4px; border-radius: 10px; border: 1px solid var(--gh-border);
+  background: var(--gh-surface-2); color: var(--gh-text-2);
+  font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: all var(--gh-transition);
+}
+.gh-seg-btn.active { background: linear-gradient(135deg, var(--gh-primary), var(--gh-primary-strong)); color: #03242b; border-color: transparent; }
+[data-theme="light"] .gh-seg-btn.active { color: #fff; }
+
+/* ---------- animations ---------- */
+@keyframes ghRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ghPop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes ghFade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .gh-card, .gh-stat-tile, .gh-hero-card, .gh-ex-item, .gh-meal-item { animation: none !important; }
+  .gh-ring-fill, .cg-ring-fill, .cg-spark-line, .cg-line-stroke { transition: none !important; }
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 900px) {
-  .gym-dashboard-row { grid-template-columns: 1fr; gap: var(--space-4); }
-  .gym-stats-summary { gap: 8px; }
-  .gym-stat-pill { padding: 12px 8px; }
-  .gym-stat-pill .stat-value { font-size: 17px; }
-  .gym-water-body { flex-direction: column; text-align: center; }
-  .gym-water-info { align-items: center; }
-  .gym-water-controls { grid-template-columns: repeat(2, 1fr); }
-  .gym-sleep-row { grid-template-columns: 1fr; }
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .gh-grid { grid-template-columns: 1fr; }
+  .gh-hero-card { grid-template-columns: 1fr; text-align: center; }
+  .gh-hero-ring-wrap { margin: 0 auto; }
+  .gh-hero-body { display: flex; flex-direction: column; align-items: center; }
 }
-
+@media (max-width: 640px) {
+  #section-gym .section-header { flex-direction: column; align-items: stretch; }
+  .gh-header-actions { justify-content: space-between; }
+  .gh-stat-strip { grid-template-columns: repeat(2, 1fr); }
+  .gh-hero-card { padding: 20px; }
+  .gh-macros-rings { gap: var(--space-2); }
+  .gh-macro-ring-wrap { width: 78px; height: 78px; }
+}
 @media (max-width: 480px) {
-  .gym-card { padding: var(--space-4); border-radius: 20px; }
-  .gym-water-cup { width: 70px; height: 100px; }
-  .gym-water-pct { font-size: 18px; }
-  .gym-water-amount { font-size: 17px; }
-  .gym-exercise-inputs input { font-size: 13px; }
-  .gym-exercise-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-  .gym-stat-pill { padding: 10px 6px; }
-  .gym-stat-pill .stat-value { font-size: 15px; }
-  .gym-stat-pill .stat-icon svg { width: 18px; height: 18px; }
-  .gym-sleep-stats { flex-wrap: wrap; gap: 4px; }
-  .gym-presets-row { gap: 4px; }
-  .gym-preset-btn { font-size: 9px; padding: 4px 6px; }
-  .gym-water-controls { grid-template-columns: repeat(2, 1fr); }
+  .gh-stat-strip { grid-template-columns: 1fr 1fr; }
+  .gh-water-body { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .gh-sleep-metrics { grid-template-columns: 1fr; justify-items: center; }
+  .gh-sleep-stats-col { width: 100%; }
+  .gh-meta-row { grid-template-columns: 1fr 1fr 1fr; }
+  .gh-card { padding: 16px; }
+  .gh-modal-row { grid-template-columns: 1fr; }
 }
