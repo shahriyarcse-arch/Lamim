@@ -1,0 +1,422 @@
+/* =============================================
+   LAMIM — HOME PAGE (Classic Simple Design)
+   Clean, Minimal, No Cards, No Animations
+   ============================================= */
+
+.home-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.home-greeting {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+[data-theme="light"] .home-greeting {
+  color: var(--home-name-color);
+}
+
+.home-time-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.home-clock {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  color: var(--home-time-color);
+  letter-spacing: 1px;
+}
+
+.home-date {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.home-spirit-badge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+}
+
+.home-spirit-value {
+  font-weight: 700;
+  color: var(--color-accent-primary);
+}
+
+.home-section {
+  margin-top: var(--space-6);
+}
+
+.home-section-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-divider-subtle);
+}
+
+.home-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-3);
+}
+
+.home-stat-box {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  text-align: center;
+}
+
+.home-stat-number {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-accent-gold);
+  line-height: 1.2;
+}
+
+.home-stat-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.home-prayer-dots {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  justify-content: center;
+}
+
+.home-prayer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+}
+
+.home-prayer-dot.active {
+  background: var(--color-jamaat);
+}
+
+.home-prayer-dot.partial {
+  background: var(--color-qaza);
+}
+
+.home-next-prayer-box {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.home-next-prayer-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.home-next-prayer-time {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-accent-primary);
+  margin-top: var(--space-1);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .home-container {
+    padding: var(--space-4) var(--space-3);
+  }
+  
+  .home-greeting {
+    font-size: var(--text-2xl);
+  }
+  
+  .home-clock {
+    font-size: 1.8rem;
+  }
+}
+
+.home-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top center, rgba(167, 139, 250, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.home-avatar-section {
+  position: relative;
+  z-index: 2;
+  margin-bottom: var(--space-6);
+}
+
+.home-avatar-orb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a78bfa, #c084fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 0 40px rgba(167, 139, 250, 0.4), inset 0 0 0 3px rgba(255,255,255,0.2);
+  animation: homePulse 4s ease-in-out infinite;
+}
+
+@keyframes homePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(167, 139, 250, 0.4); }
+  50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(167, 139, 250, 0.5); }
+}
+
+.home-salam {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-purple), var(--color-accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-2);
+}
+
+.home-time-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.home-time {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--home-time-color);
+  font-family: 'SF Mono', 'Monaco', monospace;
+  letter-spacing: 1px;
+}
+
+.home-date {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.home-spirit-score {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-glass);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+}
+
+.home-score-value {
+  font-weight: 800;
+  background: var(--gradient-stat-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-4);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.home-card {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.home-card--salah { --card-accent: var(--color-accent-gold); }
+.home-card--dhikr { --card-accent: var(--color-accent-teal); }
+.home-card--mujahid { --card-accent: var(--color-accent-red); }
+.home-card--gym { --card-accent: var(--color-accent-blue); }
+.home-card--career { --card-accent: var(--color-accent-green); }
+.home-card--finance { --card-accent: var(--fin-gold); }
+
+.home-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 70%, white));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--card-accent) 40%, transparent);
+}
+
+.home-card-icon svg {
+  width: 28px;
+  height: 28px;
+  color: #fff;
+}
+
+.home-card-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.home-card-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.home-card-stats {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.home-stat {
+  text-align: center;
+}
+
+.home-stat-value {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--card-accent);
+  line-height: 1;
+}
+
+.home-stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.home-card-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-divider-subtle);
+}
+
+.home-card-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 50%, transparent));
+  transition: width var(--transition-base);
+}
+
+.home-prayer-quick {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+}
+
+.home-prayer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+}
+
+.home-prayer-dot.active {
+  background: var(--color-jamaat);
+  box-shadow: 0 0 8px var(--color-jamaat);
+}
+
+.home-prayer-dot.partial {
+  background: var(--color-qaza);
+}
+
+/* Next Prayer Banner */
+.home-next-prayer {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(56, 189, 248, 0.1));
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.home-next-prayer-time {
+  font-weight: 700;
+  color: var(--color-accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+    padding: var(--space-3);
+  }
+  
+  .home-hero {
+    padding: var(--space-6) var(--space-3);
+  }
+  
+  .home-salam {
+    font-size: var(--text-2xl);
+  }
+  
+  .home-time {
+    font-size: 1.5rem;
+  }
+}
+
+/* Light Mode Adjustments */
+[data-theme="light"] .home-avatar-orb {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="light"] .home-card:hover {
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.1);
+}

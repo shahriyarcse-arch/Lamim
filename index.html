@@ -45,6 +45,7 @@
 
   <!-- Mujahid MUST load last to override all competing rules -->
   <link rel="stylesheet" href="css/mujahid.css?v=143">
+  <link rel="stylesheet" href="css/home.css?v=145">
   <script>
     (function() {
       const saved = localStorage.getItem('lamim_settings');
@@ -376,8 +377,9 @@
   <!-- Sidebar -->
   <nav class="sidebar" id="sidebar" aria-label="Main navigation">
     <div class="sidebar-logo"><div class="sidebar-logo-icon"><svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))" viewBox="0 0 512 512"><path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" fill="#ffffff" opacity="0.95"/><path d="M256 128l16 48 48 16-48 16-16 48-16-48-48-16 48-16z" fill="#fcd34d"/><path d="M368 180l10 30 30 10-30 10-10 30-10-30-30-10 30-10z" fill="#fde68a" opacity="0.8"/></svg></div><div class="sidebar-logo-text">Lamim</div></div>
-    <div class="sidebar-nav">
-      <div class="nav-item" data-section="salah"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-4 0-7 4-7 9v11h14V11c0-5-3-9-7-9z"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/></svg></span><span class="nav-label">Salah Tracker</span></div>
+<div class="sidebar-nav">
+       <div class="nav-item active" data-section="home"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="nav-label">Home</span></div>
+       <div class="nav-item" data-section="salah"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-4 0-7 4-7 9v11h14V11c0-5-3-9-7-9z"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/></svg></span><span class="nav-label">Salah Tracker</span></div>
       <div class="nav-item" data-section="dhikr"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></span><span class="nav-label">Dhikr Counter</span></div>
       <div class="nav-item" data-section="nafl"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M17 5h4"/></svg></span><span class="nav-label">Nafl Salah</span></div>
       <div class="nav-item" data-section="mujahid"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 11 2 2 4-4"/></svg></span><span class="nav-label">Mujahid</span></div>
@@ -404,12 +406,119 @@
         </div>
         <span class="topbar-brand-name">Lamim</span>
       </div>
-      <div class="flex items-center gap-2">
+<div class="flex items-center gap-2">
 <button class="btn btn-ghost btn-icon" onclick="Profile.toggleTheme()" title="Toggle Theme">🌓</button>
-        <button class="btn btn-ghost btn-icon" onclick="Profile.toggleTheme()" title="Toggle Theme">🌓</button>
         <div class="avatar avatar-sm" id="topbar-avatar" style="cursor:pointer" onclick="App.navigateTo('profile')">?</div>
       </div>
     </div>
+ 
+    <!-- ===== HOME PAGE (Classic Simple) ===== -->
+    <section class="section-panel active" id="section-home">
+      <div class="home-container">
+        <!-- Header -->
+        <div class="home-header">
+          <h1 class="home-greeting" id="home-greeting">Welcome</h1>
+          <div class="home-time-wrapper">
+            <span class="home-clock" id="home-clock">--:--</span>
+            <span class="home-date" id="home-date">Loading...</span>
+          </div>
+          <div class="home-spirit-badge">
+            <span>Spirit Score: </span><span class="home-spirit-value" id="home-spirit-score">0</span>
+          </div>
+        </div>
+        
+        <!-- Salah Section -->
+        <div class="home-section">
+          <div class="home-section-title">Today's Salah</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-salah-prayed">0/5</div>
+              <div class="home-stat-text">Prayers</div>
+            </div>
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-salah-streak">0</div>
+              <div class="home-stat-text">Streak</div>
+            </div>
+          </div>
+          <div class="home-prayer-dots" id="home-salah-grid"></div>
+          <div class="home-next-prayer-box" id="home-next-prayer" style="display:none">
+            <div class="home-next-prayer-label">Next Prayer</div>
+            <div class="home-next-prayer-time" id="home-next-prayer-name">--:--</div>
+          </div>
+        </div>
+        
+        <!-- Dhikr Section -->
+        <div class="home-section">
+          <div class="home-section-title">Dhikr</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-dhikr-count">0</div>
+              <div class="home-stat-text">Count</div>
+            </div>
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-dhikr-target">100</div>
+              <div class="home-stat-text">Target</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mujahid Section -->
+        <div class="home-section">
+          <div class="home-section-title">Mujahid</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-mujahid-active">0</div>
+              <div class="home-stat-text">Active Habits</div>
+            </div>
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-mujahid-streak">0</div>
+              <div class="home-stat-text">Best Streak</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gym Section -->
+        <div class="home-section">
+          <div class="home-section-title">Gym & Diet</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-gym-exercises">0</div>
+              <div class="home-stat-text">Exercises</div>
+            </div>
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-gym-water">0</div>
+              <div class="home-stat-text">Water (ml)</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Career Section -->
+        <div class="home-section">
+          <div class="home-section-title">Career</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-career-study">0</div>
+              <div class="home-stat-text">Mins Today</div>
+            </div>
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-career-goals">0/0</div>
+              <div class="home-stat-text">Goals</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Finance Section -->
+        <div class="home-section">
+          <div class="home-section-title">Finance</div>
+          <div class="home-stats-row">
+            <div class="home-stat-box">
+              <div class="home-stat-number" id="home-finance-net" style="color:var(--color-accent-green)">0</div>
+              <div class="home-stat-text">Monthly Net</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Section Topbar (non-home sections on mobile) -->
     <div class="topbar topbar-section" id="topbar-section" style="display:none">
@@ -1017,6 +1126,7 @@
 
   <!-- Bottom Nav (mobile) -->
   <nav class="bottom-nav" aria-label="Bottom navigation" style="overflow-x:auto; -webkit-overflow-scrolling:touch; justify-content:flex-start; gap:16px; padding:0 16px;">
+    <div class="bottom-nav-item active" data-section="home"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Home</span></div>
     <div class="bottom-nav-item" data-section="salah"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-4 0-7 4-7 9v11h14V11c0-5-3-9-7-9z"/><path d="M9 22v-5a3 3 0 0 1 6 0v5"/></svg></span><span data-i18n="Salah">Salah</span></div>
     <div class="bottom-nav-item" data-section="dhikr"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></span><span data-i18n="Dhikr">Dhikr</span></div>
     <div class="bottom-nav-item" data-section="nafl"><span class="bnav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M17 5h4"/></svg></span><span data-i18n="Nafl">Nafl</span></div>
@@ -1510,6 +1620,7 @@
   </style>
 
   <script src="js/prayer-notifier.js?v=2"></script>
+  <script src="js/home.js?v=145"></script>
   <script src="js/app.js?v=213"></script>
 
   <!-- Service Worker Registration handled in app.js -->

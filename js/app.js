@@ -88,8 +88,8 @@ updateSectionTitle() {
 
   // Section labels for the topbar
   sectionLabels: {
-    en: { salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', profile: 'Profile' },
-    bn: { salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', profile: 'প্রোফাইল' }
+    en: { home: 'Home', salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', profile: 'Profile' },
+    bn: { home: 'হোম', salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', profile: 'প্রোফাইল' }
   },
 
   async init() {
@@ -269,7 +269,7 @@ updateSectionTitle() {
     if (page === 'setup' && typeof Auth !== 'undefined') Auth.bindSetup();
   },
 
-  showDashboard(initialSection = 'salah') {
+  showDashboard(initialSection = 'home') {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const dash = document.getElementById('page-dashboard');
     if (dash) dash.classList.add('active');
@@ -327,17 +327,22 @@ updateSectionTitle() {
     const panel = document.getElementById('section-' + sectionId);
     if (panel) panel.classList.add('active');
 
-    // Toggle topbars
+    // Toggle topbars - home shows main topbar, others show section topbar
     const topbar = document.getElementById('topbar');
     const topbarSection = document.getElementById('topbar-section');
     if (topbar && topbarSection) {
-      topbar.style.display = 'none';
-      topbarSection.style.display = '';
-      this.updateSectionTitle();
+      if (sectionId === 'home') {
+        topbar.style.display = '';
+        topbarSection.style.display = 'none';
+      } else {
+        topbar.style.display = 'none';
+        topbarSection.style.display = '';
+        this.updateSectionTitle();
+      }
     }
 
     // Init section
-    const inits = { salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+    const inits = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
     inits[sectionId]?.init();
 
     // Close sidebar on mobile
@@ -430,7 +435,7 @@ updateSectionTitle() {
 
   refreshCurrentPage() {
     const s = this.currentSection;
-    const inits = { salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance };
+    const inits = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance };
     if (inits[s]) inits[s].init();
     this.updateAvatars();
   }
