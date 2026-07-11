@@ -1,6 +1,6 @@
 /* =============================================
-   LAMIM — HOME MODULE (Classic Simple Design)
-   Clean, Minimal, No Cards, No Animations
+   LAMIM — HOME MODULE (Minimal Classic)
+   Greetings, Date, Spirit Score, Prayers, Next Prayer
    ============================================= */
 const Home = {
   init() {
@@ -32,17 +32,12 @@ const Home = {
   startClock() {
     const updateClock = () => {
       const now = new Date();
-      const clockEl = document.getElementById('home-clock');
       const dateEl = document.getElementById('home-date');
-      
-      if (clockEl) {
-        clockEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-      }
       
       if (dateEl) {
         dateEl.textContent = now.toLocaleDateString(
           localStorage.getItem('lamim_lang') === 'bn' ? 'bn-BD' : 'en-US', 
-          { weekday: 'short', month: 'short', day: 'numeric' }
+          { weekday: 'long', month: 'long', day: 'numeric' }
         );
       }
     };
@@ -65,13 +60,8 @@ const Home = {
   },
 
   updateAllCards() {
-    this.updateSalahCard();
-    this.updateDhikrCard();
-    this.updateMujahidCard();
-    this.updateGymCard();
-    this.updateCareerCard();
-    this.updateFinanceCard();
     this.updateSpiritScore();
+    this.updateSalahCard();
   },
 
   updateSpiritScore() {
@@ -100,72 +90,8 @@ const Home = {
       grid.innerHTML = html;
     }
     
-    const prayedEl = document.getElementById('home-salah-prayed');
-    if (prayedEl) prayedEl.textContent = `${score.done}/5`;
-    
-    const streakEl = document.getElementById('home-salah-streak');
-    if (streakEl) streakEl.textContent = DB.getSalahStreak()?.perfect || 0;
-  },
-
-  updateDhikrCard() {
-    const today = Utils.todayStr();
-    const sessions = DB.getDhikr(today);
-    const count = Object.values(sessions).reduce((sum, s) => sum + (s || 0), 0);
-    
-    const countEl = document.getElementById('home-dhikr-count');
-    if (countEl) countEl.textContent = count.toLocaleString();
-    
-    const targetEl = document.getElementById('home-dhikr-target');
-    if (targetEl) targetEl.textContent = (DB.getSettings().dhikrTarget || 100).toLocaleString();
-  },
-
-  updateMujahidCard() {
-    const habits = DB.getMujahid();
-    const active = habits.filter(h => h.active).length;
-    const bestStreak = habits.reduce((max, h) => Math.max(max, h.streak || 0), 0);
-    
-    const activeEl = document.getElementById('home-mujahid-active');
-    if (activeEl) activeEl.textContent = active;
-    
-    const streakEl = document.getElementById('home-mujahid-streak');
-    if (streakEl) streakEl.textContent = bestStreak;
-  },
-
-  updateGymCard() {
-    const today = Utils.todayStr();
-    const gym = DB.getGym(today);
-    
-    const exercisesEl = document.getElementById('home-gym-exercises');
-    if (exercisesEl) exercisesEl.textContent = (gym.exercises?.length || 0);
-    
-    const waterEl = document.getElementById('home-gym-water');
-    if (waterEl) waterEl.textContent = (gym.water?.amount || 0);
-  },
-
-  updateCareerCard() {
-    const today = Utils.todayStr();
-    const career = DB.getCareer(today);
-    const goals = career.checklist || [];
-    const goalsDone = goals.filter(g => g.done).length;
-    const totalGoals = goals.length;
-    
-    const studyEl = document.getElementById('home-career-study');
-    if (studyEl) studyEl.textContent = (career.studyDuration || 0);
-    
-    const goalsEl = document.getElementById('home-career-goals');
-    if (goalsEl) goalsEl.textContent = totalGoals ? `${goalsDone}/${totalGoals}` : '0/0';
-  },
-
-  updateFinanceCard() {
-    const finance = DB.getFinance() || {};
-    const summary = finance.summary || {};
-    
-    const netEl = document.getElementById('home-finance-net');
-    if (netEl) {
-      const net = summary.monthNet || 0;
-      netEl.textContent = net >= 0 ? '+' + net.toLocaleString() : net.toLocaleString();
-      netEl.style.color = net >= 0 ? 'var(--color-accent-green)' : 'var(--color-accent-red)';
-    }
+    const countEl = document.getElementById('home-salah-count');
+    if (countEl) countEl.textContent = `${score.done}/5`;
   }
 };
 

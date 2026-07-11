@@ -412,110 +412,32 @@
       </div>
     </div>
  
-    <!-- ===== HOME PAGE (Classic Simple) ===== -->
+    <!-- ===== HOME PAGE (Minimal) ===== -->
     <section class="section-panel active" id="section-home">
       <div class="home-container">
-        <!-- Header -->
+        <!-- Header: Greeting, Date, Spirit Score -->
         <div class="home-header">
           <h1 class="home-greeting" id="home-greeting">Welcome</h1>
-          <div class="home-time-wrapper">
-            <span class="home-clock" id="home-clock">--:--</span>
-            <span class="home-date" id="home-date">Loading...</span>
-          </div>
-          <div class="home-spirit-badge">
-            <span>Spirit Score: </span><span class="home-spirit-value" id="home-spirit-score">0</span>
+          <div class="home-date" id="home-date">Loading...</div>
+          <div class="home-spirit-box">
+            <span class="home-spirit-label">Spirit Score: </span>
+            <span class="home-spirit-value" id="home-spirit-score">0</span>
           </div>
         </div>
         
-        <!-- Salah Section -->
-        <div class="home-section">
-          <div class="home-section-title">Today's Salah</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-salah-prayed">0/5</div>
-              <div class="home-stat-text">Prayers</div>
-            </div>
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-salah-streak">0</div>
-              <div class="home-stat-text">Streak</div>
-            </div>
-          </div>
-          <div class="home-prayer-dots" id="home-salah-grid"></div>
-          <div class="home-next-prayer-box" id="home-next-prayer" style="display:none">
-            <div class="home-next-prayer-label">Next Prayer</div>
-            <div class="home-next-prayer-time" id="home-next-prayer-name">--:--</div>
+        <!-- Prayers Section: How many prayed + dots -->
+        <div class="home-prayers-section">
+          <div class="home-section-label">Today's Salah</div>
+          <div class="home-prayers-row" id="home-salah-grid"></div>
+          <div class="home-count-row">
+            <span>Prayed: <span class="home-count-value" id="home-salah-count">0/5</span></span>
           </div>
         </div>
         
-        <!-- Dhikr Section -->
-        <div class="home-section">
-          <div class="home-section-title">Dhikr</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-dhikr-count">0</div>
-              <div class="home-stat-text">Count</div>
-            </div>
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-dhikr-target">100</div>
-              <div class="home-stat-text">Target</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Mujahid Section -->
-        <div class="home-section">
-          <div class="home-section-title">Mujahid</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-mujahid-active">0</div>
-              <div class="home-stat-text">Active Habits</div>
-            </div>
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-mujahid-streak">0</div>
-              <div class="home-stat-text">Best Streak</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Gym Section -->
-        <div class="home-section">
-          <div class="home-section-title">Gym & Diet</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-gym-exercises">0</div>
-              <div class="home-stat-text">Exercises</div>
-            </div>
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-gym-water">0</div>
-              <div class="home-stat-text">Water (ml)</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Career Section -->
-        <div class="home-section">
-          <div class="home-section-title">Career</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-career-study">0</div>
-              <div class="home-stat-text">Mins Today</div>
-            </div>
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-career-goals">0/0</div>
-              <div class="home-stat-text">Goals</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Finance Section -->
-        <div class="home-section">
-          <div class="home-section-title">Finance</div>
-          <div class="home-stats-row">
-            <div class="home-stat-box">
-              <div class="home-stat-number" id="home-finance-net" style="color:var(--color-accent-green)">0</div>
-              <div class="home-stat-text">Monthly Net</div>
-            </div>
-          </div>
+        <!-- Next Prayer Time -->
+        <div class="home-next-prayer" id="home-next-prayer" style="display:none">
+          <div class="home-next-label">Next Prayer</div>
+          <div class="home-next-time" id="home-next-prayer-name">--:--</div>
         </div>
       </div>
     </section>
