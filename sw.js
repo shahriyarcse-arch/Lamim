@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lamim-v145';
+const CACHE_NAME = 'lamim-v146';
 const ASSETS = [
   './',
   './index.html',
@@ -58,61 +58,24 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // LOCAL ASSETS (JS, CSS, images) → Network-First with Timeout (1.5s) fallback to Cache
-  // This ensures online users always get the latest updates instantly,
-  // while offline/slow-connection users get the cached version instantly.
+  // LOCAL ASSETS (JS, CSS, images, verses.json) → CACHE-FIRST
+  // Served instantly from cache on repeat launches. Assets carry a `?v=` cache-buster
+  // in their URL, so new deploys automatically fetch fresh copies (cache miss on new URL).
+  // verses.json (3.7 MB) is included here, so it is downloaded only ONCE, then instant.
   const isLocalAsset = e.request.url.startsWith(self.location.origin);
   if (isLocalAsset) {
     e.respondWith(
-      new Promise((resolve) => {
-        let resolved = false;
-
-        const timeoutId = setTimeout(() => {
-          if (!resolved) {
-            caches.match(e.request).then((cached) => {
-              if (!resolved) {
-                resolved = true;
-                if (cached) {
-                  console.log('[SW] Timeout fallback to cache for:', e.request.url);
-                  resolve(cached);
-                } else {
-                  // No cache AND network is slow — must resolve or the page hangs forever
-                  console.log('[SW] Timeout with no cache for:', e.request.url);
-                  resolve(new Response('Offline – resource unavailable', { status: 503, statusText: 'Service Unavailable' }));
-                }
-              }
-            });
-          }
-        }, 1500); // 1.5 seconds timeout
-
-        fetch(e.request, { cache: 'no-cache' })
+      caches.match(e.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(e.request, { cache: 'no-cache' })
           .then((res) => {
             if (res && res.ok) {
               const copy = res.clone();
               caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
-              
-              if (!resolved) {
-                clearTimeout(timeoutId);
-                resolved = true;
-                resolve(res);
-              }
-            } else {
-              if (!resolved) {
-                clearTimeout(timeoutId);
-                resolved = true;
-                caches.match(e.request).then((cached) => resolve(cached || res));
-              }
             }
+            return res;
           })
-          .catch(() => {
-            if (!resolved) {
-              clearTimeout(timeoutId);
-              resolved = true;
-              caches.match(e.request).then((cached) => {
-                resolve(cached || new Response('Offline', { status: 503, statusText: 'Service Unavailable' }));
-              });
-            }
-          });
+          .catch(() => new Response('Offline – resource unavailable', { status: 503, statusText: 'Service Unavailable' }));
       })
     );
     return;
