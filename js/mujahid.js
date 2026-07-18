@@ -353,7 +353,7 @@ const Mujahid = {
     
     // Listen for local data updates
     if (!this.dataUpdateBound) {
-      window.addEventListener('lamim:data-updated', () => {
+      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
         if (document.getElementById('section-mujahid')?.classList.contains('active')) {
           this.loadHabits();
           this.render();
@@ -391,8 +391,10 @@ const Mujahid = {
   },
 
   startLiveCounter() {
+    if (this._liveCounterInterval) clearInterval(this._liveCounterInterval);
     let lastSec = -1;
-      setInterval(() => {
+    this._liveCounterInterval = setInterval(() => {
+        if (!document.getElementById('section-mujahid')?.classList.contains('active')) return;
         const now = new Date();
         const currentSec = now.getSeconds();
         if (currentSec === lastSec) return;
@@ -418,6 +420,8 @@ const Mujahid = {
             nums[2].textContent = timeStats.minutes;
             nums[3].textContent = timeStats.seconds;
             
+            this.updateSpiritBarsLive();
+
             // MILESTONE SURGE: Detect Rank Change
             if (lastKnownDays !== timeStats.days && habitId) {
               const oldBadge = this.getBadgeForDays(lastKnownDays);
@@ -448,6 +452,24 @@ const Mujahid = {
           }
         });
       }, 500);
+  },
+
+  updateSpiritBarsLive() {
+    if (!document.getElementById('section-mujahid')?.classList.contains('active')) return;
+    const items = document.querySelectorAll('[data-spirit-item]');
+    if (items.length === 0) return;
+
+    items.forEach(item => {
+      const habitId = item.dataset.spiritItem;
+      const timeStats = this.getHabitTimeStats(habitId);
+      const fractional = timeStats.days + (timeStats.hours / 24) + (timeStats.minutes / 1440) + (timeStats.seconds / 86400);
+      const pct = this.getProgressPercent(fractional);
+
+      const fill = item.querySelector(`[data-spirit-fill="${habitId}"]`);
+      const pctEl = item.querySelector(`[data-spirit-pct="${habitId}"]`);
+      if (fill) fill.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct.toFixed(2) + '%';
+    });
   },
 
   loadHabits() {
@@ -493,14 +515,23 @@ const Mujahid = {
         ${this.renderHabitsList(skipAnim)}
       `;
     }
+    if (this._habitsDirty) {
+      this._habitsDirty = false;
+      this.saveHabits();
+    }
   },
 
   renderWarriorSpiritScore(skipAnim = false) {
     let totalDays = 0;
     const breakdown = this.habits.map(h => {
       const stats = this.getHabitStats(h.id);
+      const timeStats = this.getHabitTimeStats(h.id);
       totalDays += stats.currentStreak;
-      return { label: h.label, val: stats.currentStreak, color: h.color };
+      const fractional = timeStats.days + (timeStats.hours / 24) + (timeStats.minutes / 1440) + (timeStats.seconds / 86400);
+      const pct = this.getProgressPercent(fractional);
+      const nextBadge = this.badges.find(b => b.days > stats.currentStreak);
+      const nextInfo = nextBadge ? `${stats.currentStreak}/${nextBadge.days}d to ${nextBadge.name}` : 'Max rank reached';
+      return { id: h.id, label: h.label, val: stats.currentStreak, color: h.color, pct, nextInfo };
     });
 
     return `
@@ -513,8 +544,6 @@ const Mujahid = {
           
           <div class="spirit-breakdown">
             ${breakdown.map(b => {
-              const pct = totalDays > 0 ? (b.val / totalDays) * 100 : 0;
-              
               // Smart Short Code Logic
               let sc = b.label.toUpperCase();
               if (sc.startsWith('OVER')) sc = sc.replace('OVER', '');
@@ -523,11 +552,14 @@ const Mujahid = {
               if (sc.length > 6) sc = sc.substring(0, 5) + '.';
               
               return `
-                <div class="spirit-breakdown-item" title="${b.label}: ${b.val} days">
-                  <div class="spirit-bar-wrap">
-                    <div class="spirit-bar-fill" style="width:${pct}%; background:${b.color}; box-shadow:0 0 10px ${b.color}40;"></div>
+                <div class="spirit-breakdown-item" data-spirit-item="${b.id}" title="${b.label}: ${b.val} days · ${b.nextInfo}">
+                  <div class="spirit-bar-head">
+                    <span class="spirit-bar-label">${sc}</span>
+                    <span class="spirit-bar-pct" data-spirit-pct="${b.id}">${b.pct.toFixed(2)}%</span>
                   </div>
-                  <div class="spirit-bar-label">${sc}</div>
+                  <div class="spirit-bar-wrap">
+                    <div class="spirit-bar-fill" data-spirit-fill="${b.id}" style="width:${b.pct}%; background:${b.color}; box-shadow:0 0 10px ${b.color}40;"></div>
+                  </div>
                 </div>
               `;
             }).join('')}
@@ -541,7 +573,7 @@ const Mujahid = {
     return `
       <div class="mujahid-habits-container">
         ${this.habits.map(h => this.renderHabitCard(h, skipAnim)).join('')}
-        <div class="mujahid-add-pillar-wrap ${skipAnim ? '' : 'anim-fade-in'}" onclick="Mujahid.showAddModal()">
+        <div class="mujahid-add-pillar-wrap ${skipAnim ? '' : 'anim-fade-in'}" role="button" tabindex="0" onclick="Mujahid.showAddModal()">
           <div class="mujahid-add-pillar">
             <div class="mujahid-add-pillar-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
@@ -656,8 +688,10 @@ const Mujahid = {
       dateStr = dateStr.substring(0, 16);
     }
     
-    document.getElementById('mujahid-startdate-input').value = dateStr;
-    document.getElementById('mujahid-startdate-habit-id').value = habitId;
+    const startInput = document.getElementById('mujahid-startdate-input');
+    const habitIdInput = document.getElementById('mujahid-startdate-habit-id');
+    if (startInput) startInput.value = dateStr;
+    if (habitIdInput) habitIdInput.value = habitId;
     modal.classList.remove('hidden');
   },
 
@@ -667,9 +701,16 @@ const Mujahid = {
   },
 
   saveStartDate() {
-    const habitId = document.getElementById('mujahid-startdate-habit-id').value;
-    const dateStr = document.getElementById('mujahid-startdate-input').value; // YYYY-MM-DDTHH:mm
+    const habitIdEl = document.getElementById('mujahid-startdate-habit-id');
+    const dateStrEl = document.getElementById('mujahid-startdate-input');
+    const habitId = habitIdEl ? habitIdEl.value : '';
+    const dateStr = dateStrEl ? dateStrEl.value : '';
     
+    if (!habitId || !dateStr) {
+      this.hideStartDateModal();
+      return;
+    }
+
     let isoString = new Date(dateStr).toISOString();
     
     this.setStartDate(habitId, isoString);
@@ -752,7 +793,7 @@ const Mujahid = {
             <div class="mujahid-hero-icon-glow"></div>
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
-          <h2 style="font-size:32px; font-weight:900; margin-bottom:12px; background:linear-gradient(to bottom, #fff, rgba(255,255,255,0.7)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-1px;">The Forge of Resolve</h2>
+          <h2 class="mujahid-forge-title" style="font-size:32px; font-weight:900; margin-bottom:12px; background:linear-gradient(to bottom, #fff, rgba(255,255,255,0.7)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-1px;">The Forge of Resolve</h2>
           <p style="color:var(--color-text-muted); line-height:1.6; max-width:320px; margin:0 auto 32px; font-size:16px;">Every warrior starts with a single decision. Forge your first tracker to begin your journey toward mastery.</p>
           <button class="forge-action-btn pulse-indigo" onclick="Mujahid.showAddModal()" style="max-width:260px; margin:0 auto;">Initiate First Habit</button>
         </div>
@@ -816,8 +857,8 @@ const Mujahid = {
           </div>
         </div>
 
-        <div class="iw-habit-pill" onclick="Mujahid.showProgressPulse('${habit.id}')">
-          ${isMaster ? '<span style="color:#000;font-weight:900;margin-right:8px;background:#fff;padding:2px 6px;border-radius:4px;">MASTER:</span>' : isDivine ? '<span style="color:#00f2ff;font-weight:900;margin-right:8px;text-shadow:0 0 10px #00f2ff;">SOVEREIGN:</span>' : isLegendary ? '<span style="color:#ffd700;font-weight:800;margin-right:8px;">LEGEND:</span>' : ''}${habit.label}
+        <div class="iw-habit-pill" role="button" tabindex="0" onclick="Mujahid.showProgressPulse('${habit.id}')">
+          ${isMaster ? '<span class="iw-rank-tag" style="color:#000;background:#ffd700;">MASTER</span>' : isDivine ? '<span class="iw-rank-tag" style="color:#00f2ff;text-shadow:0 0 10px #00f2ff;">SOVEREIGN</span>' : isLegendary ? '<span class="iw-rank-tag" style="color:#ffd700;">LEGEND</span>' : ''}${habit.label}
           ${isLegendary ? `<span class="iw-year-tag">${years} Years</span>` : ''}
         </div>
 
@@ -831,7 +872,7 @@ const Mujahid = {
         <div class="iw-timer-circle-wrap">
           <div class="iw-timer-circle mujahid-live-time" data-habit-id="${habit.id}">
             <div class="iw-timer-label">It has been</div>
-            <div class="iw-timer-days-row" onclick="event.stopPropagation(); Mujahid.showStartDateModal('${habit.id}')" style="cursor:pointer;" title="Adjust Timer (Secret)">
+            <div class="iw-timer-days-row" role="button" tabindex="0" onclick="event.stopPropagation(); Mujahid.showStartDateModal('${habit.id}')" style="cursor:pointer;" title="Adjust Timer (Secret)">
               <div class="iw-timer-days"><span class="mujahid-time-num">${timeStats.days}</span></div>
               <div class="iw-days-text">days</div>
             </div>
@@ -906,7 +947,7 @@ const Mujahid = {
     if (currentStreak > longestStreak) {
       longestStreak = currentStreak;
       habit.longestStreak = longestStreak;
-      this.saveHabits();
+      this._habitsDirty = true;
     }
 
     return { currentStreak, longestStreak, totalDays, relapses };
@@ -978,12 +1019,12 @@ const Mujahid = {
     const currentBadge = this.getBadgeForDays(streak);
     if (!currentBadge) {
       const nextBadge = this.badges.find(b => b.days > streak);
-      return nextBadge ? (streak / nextBadge.days) * 100 : 0;
+      return nextBadge ? Math.min(100, (streak / nextBadge.days) * 100) : 0;
     }
     const nextBadge = this.badges.find(b => b.days > currentBadge.days);
     if (!nextBadge) return 100;
     const progress = ((streak - currentBadge.days) / (nextBadge.days - currentBadge.days)) * 100;
-    return Math.min(100, ((streak / nextBadge.days) * 100));
+    return Math.min(100, Math.max(0, progress));
   },
 
   showAddModal() {
@@ -996,7 +1037,7 @@ const Mujahid = {
 
     const list = document.getElementById('mujahid-default-habits');
     list.innerHTML = this.defaultHabits.map(h => `
-      <div class="mujahid-habit-option" onclick="Mujahid.selectDefaultHabit('${h.id}')" style="--habit-color: ${h.color || '#6366f1'};">
+      <div class="mujahid-habit-option" role="button" tabindex="0" onclick="Mujahid.selectDefaultHabit('${h.id}')" style="--habit-color: ${h.color || '#6366f1'};">
         <span class="mujahid-habit-option-icon">${h.icon}</span>
         <span class="mujahid-habit-option-label">${h.label}</span>
       </div>
@@ -1030,7 +1071,7 @@ const Mujahid = {
     const dtDisplay = document.getElementById('mujahid-dt-display');
     if (dtDisplay) {
       dtDisplay.innerText = '🕒 Starting: Right Now';
-      dtDisplay.style.color = '#10b981';
+      dtDisplay.style.color = 'var(--color-accent-green)';
     }
     const customControls = document.getElementById('mujahid-custom-dt-controls');
     if (customControls) customControls.style.display = 'none';
@@ -1112,7 +1153,6 @@ const Mujahid = {
   },
 
   addCustomHabit() {
-    console.log('Mujahid: Forging new habit...');
     const input = document.getElementById('mujahid-custom-habit-input');
     const label = input ? input.value.trim() : '';
     
@@ -1165,7 +1205,6 @@ const Mujahid = {
       this.render(true);
       if (input) input.value = '';
       Utils.toast('Habit forged! Your journey begins ⚔️', 'success');
-      console.log('Mujahid: Habit forged successfully:', habit.id);
 
     } catch (error) {
       console.error('Mujahid: Failed to forge habit:', error);
@@ -1195,7 +1234,7 @@ const Mujahid = {
       startInput.value = '';
       if (dtDisplay) {
         dtDisplay.innerText = '🕒 Starting: Right Now';
-        dtDisplay.style.color = '#10b981';
+        dtDisplay.style.color = 'var(--color-accent-green)';
       }
     } else {
       const date = new Date();
@@ -1339,6 +1378,7 @@ const Mujahid = {
 
     const newHabit = {
       ...habit,
+      label: Utils.escapeHTML(habit.label || ''),
       startDate,
       history: []
     };
@@ -1392,7 +1432,7 @@ const Mujahid = {
     this.hideRelapseModal();
     
     // Show Undo Toast
-    Utils.toast(`Relapse recorded. <a href="#" onclick="event.preventDefault(); Mujahid.undoRelapse();" style="color:#fff; text-decoration:underline; margin-left:8px; font-weight:900;">UNDO?</a>`, 'warning');
+    Utils.toast('Relapse recorded. Tap Undo in the habit card to restore.', 'warning');
   },
 
   undoRelapse() {
@@ -1461,7 +1501,13 @@ const Mujahid = {
     let html = '';
     
     if (slips.length === 0) {
-      html += `<div style="text-align:center;color:var(--color-text-muted);padding:20px;">No relapses recorded! Keep up the great work! 🎉</div>`;
+      html += `<div class="iw-relapse-empty">
+        <div class="iw-relapse-empty-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <p>No relapses recorded yet.</p>
+        <span>Keep up the great work!</span>
+      </div>`;
     } else {
       html += slips.map(s => {
         const d = new Date(s.timestamp || s.date);
@@ -1469,12 +1515,12 @@ const Mujahid = {
         const timeStr = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
         
         return `
-          <div style="background:var(--color-surface-nested);padding:12px;border-radius:10px;margin-bottom:12px;border-left:4px solid #ef4444;display:flex;flex-direction:column;gap:4px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-weight:700;font-size:14px;color:#fff;">${dateStr}</span>
-              <span style="font-size:12px;color:#ef4444;font-weight:600;background:rgba(239,68,68,0.1);padding:2px 8px;border-radius:4px;">${timeStr}</span>
+          <div class="iw-relapse-item">
+            <div class="iw-relapse-item-head">
+              <span class="iw-relapse-date">${dateStr}</span>
+              <span class="iw-relapse-time">${timeStr}</span>
             </div>
-            <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.4;">${s.reason || 'No reason recorded.'}</div>
+            <div class="iw-relapse-reason">${s.reason || 'No reason recorded.'}</div>
           </div>
         `;
       }).join('');
@@ -1500,13 +1546,14 @@ const Mujahid = {
 
   renderBadgeGuide() {
     return this.badges.map(b => `
-      <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--color-surface-card);border-radius:10px;border:1px solid var(--color-surface-nested);">
-        <div style="width:36px;height:36px;border-radius:8px;background:${b.color}20;border:1px solid ${b.color}40;display:flex;align-items:center;justify-content:center;color:${b.color};">
-          ${b.emoji.replace('width="24" height="24"', 'width="20" height="20"')}
+      <div style="position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--color-surface-card);border-radius:16px;border:1px solid var(--color-surface-nested);overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg, ${b.color}, ${b.color}66);"></div>
+        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg, ${b.color}26, ${b.color}0d);border:1px solid ${b.color}40;display:flex;align-items:center;justify-content:center;color:${b.color};box-shadow:0 0 18px ${b.color}33;flex-shrink:0;">
+          ${b.emoji.replace('width="24" height="24"', 'width="22" height="22"')}
         </div>
         <div style="flex:1;">
-          <div style="font-size:14px;font-weight:600;color:var(--color-text-primary);">${b.name}</div>
-          <div style="font-size:11px;color:var(--color-text-muted);">Unlocked at ${b.days} days</div>
+          <div style="font-size:14px;font-weight:700;color:var(--color-text-primary);letter-spacing:-0.01em;">${b.name}</div>
+          <div style="font-size:12px;color:var(--color-text-muted);margin-top:2px;">Unlocked at <span style="color:${b.color};font-weight:600;">${b.days}</span> days</div>
         </div>
       </div>
     `).join('');
@@ -1640,7 +1687,7 @@ const Mujahid = {
     const phase = document.getElementById('breathe-phase');
     const timer = document.getElementById('breathe-timer');
     
-    if (!orb || !text || !timer) return;
+    if (!orb || !outer || !text || !phase || !timer) return;
 
     if (this.breatheInterval) clearTimeout(this.breatheInterval);
     if (this.breatheTimerInterval) clearInterval(this.breatheTimerInterval);
@@ -1670,7 +1717,16 @@ const Mujahid = {
     prompt.classList.add('hidden');
     text.style.display = 'block';
     phase.style.display = 'block';
-    
+
+    // Explicitly reset orb to resting state so every cycle (incl. Repeat) starts clean & synced
+    orb.style.transition = 'none';
+    orb.style.transform = 'scale(1)';
+    outer.style.transition = 'none';
+    outer.style.transform = 'scale(1)';
+    outer.style.opacity = '0.3';
+    // Force reflow so the reset is applied before the inhale transition begins
+    void orb.offsetWidth;
+
     const runPhase = (currentPhase) => {
       const modal = document.getElementById('mujahid-breathe-pro');
       if (!modal || modal.classList.contains('hidden')) return;
@@ -1679,10 +1735,10 @@ const Mujahid = {
         case 0: // Inhale (8s)
           text.textContent = 'Breathe In';
           phase.textContent = '8 Seconds Inhale';
-          orb.style.transform = 'scale(1.5)';
           orb.style.transition = 'transform 8s linear';
-          outer.style.transform = 'scale(1.2)';
+          orb.style.transform = 'scale(1.5)';
           outer.style.transition = 'transform 8s linear';
+          outer.style.transform = 'scale(1.2)';
           outer.style.opacity = '1';
           startCountdown(8);
           this.breatheInterval = setTimeout(() => runPhase(1), 8000);
@@ -1696,10 +1752,10 @@ const Mujahid = {
         case 2: // Exhale (20s)
           text.textContent = 'Breathe Out';
           phase.textContent = '20 Seconds Release';
-          orb.style.transform = 'scale(1)';
           orb.style.transition = 'transform 20s linear';
-          outer.style.transform = 'scale(1)';
+          orb.style.transform = 'scale(1)';
           outer.style.transition = 'transform 20s linear';
+          outer.style.transform = 'scale(1)';
           outer.style.opacity = '0.3';
           startCountdown(20);
           this.breatheInterval = setTimeout(() => {
@@ -1713,11 +1769,25 @@ const Mujahid = {
           break;
       }
     };
-    
-    // Initial delay
-    text.textContent = 'Ready?';
-    this.breatheInterval = setTimeout(() => {
-      runPhase(0);
-    }, 1500);
+
+    // Start immediately — no dead "Ready?" delay
+    runPhase(0);
+  },
+
+  destroy() {
+    if (this._liveCounterInterval) {
+      clearInterval(this._liveCounterInterval);
+      this._liveCounterInterval = null;
+    }
+    if (this.breatheInterval) {
+      clearTimeout(this.breatheInterval);
+      this.breatheInterval = null;
+    }
+    if (this.breatheTimerInterval) {
+      clearInterval(this.breatheTimerInterval);
+      this.breatheTimerInterval = null;
+    }
+    this.initialized = false;
   }
 };
+window.Mujahid = Mujahid;

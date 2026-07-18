@@ -36,7 +36,7 @@ const Salah = {
           this.renderAll(true);
         }
       }, 300);
-      window.addEventListener('lamim:data-updated', () => this._debouncedRender());
+      this._dataUpdateHandler = Utils.safeAddEventListener(window, 'lamim:data-updated', () => this._debouncedRender());
       this._dataUpdateBound = true;
     }
 
@@ -48,9 +48,7 @@ const Salah = {
   },
 
   renderAll(skipAnim = false) {
-    this.renderHeader();
     this.renderPrayerTimes();
-    this.renderStats();
     this.renderPrayerCards(this.selectedDate, skipAnim);
     this.renderCalendar();
   },
@@ -62,17 +60,21 @@ const Salah = {
     const dateLabel = document.getElementById('salah-date-label');
     const nextBtn = document.getElementById('salah-next-day');
 
+    const sub = document.getElementById('salah-date-sub');
+    const dObj = new Date(date + 'T00:00:00');
+    const locale = (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US';
+
     if (dateLabel) {
       if (isToday) {
         dateLabel.textContent = window.t ? window.t('Today') : 'Today';
       } else {
-        const dObj = new Date(date + 'T00:00:00');
-        const formatted = dObj.toLocaleDateString(
-          (typeof App !== 'undefined' && App.lang === 'bn') ? 'bn-BD' : 'en-US',
-          { month: 'short', day: 'numeric' }
-        );
+        const formatted = dObj.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
         dateLabel.textContent = window.n ? window.n(formatted) : formatted;
       }
+    }
+    if (sub) {
+      const subStr = dObj.toLocaleDateString(locale, isToday ? { weekday: 'short' } : { year: 'numeric' });
+      sub.textContent = window.n ? window.n(subStr) : subStr;
     }
 
     if (nextBtn) {
@@ -125,6 +127,19 @@ const Salah = {
         </div>
       `;
     }).join('');
+
+    // Warn if prayer times are using default Dhaka coordinates (no real location)
+    const notice = document.getElementById('salah-location-notice');
+    if (notice) {
+      if (Utils._usingDefaultLocation) {
+        notice.hidden = false;
+        notice.textContent = window.t
+          ? window.t('Using default Dhaka times. Enable location for accurate prayer times.')
+          : 'Using default Dhaka times. Enable location for accurate prayer times.';
+      } else {
+        notice.hidden = true;
+      }
+    }
   },
 
   scrollToPrayer(prayer) {
@@ -488,7 +503,7 @@ this.renderPrayerCards(date, true); // true = skipAnim
 
       if (!isFuture) {
         if (score.done === 5) {
-          color = '#10b981'; 
+          color = 'var(--color-accent-green)'; 
           
           // 0 or 1 Qaza (90-100 pts) -> Maximum (Live glossy animation)
           if (score.pct >= 90) {
@@ -921,7 +936,10 @@ this.renderPrayerCards(date, true); // true = skipAnim
     });
 
     // Dismiss on mobile when clicking outside
-    document.addEventListener('click', (e) => {
+    if (this._docClickHandler) {
+      document.removeEventListener('click', this._docClickHandler);
+    }
+    this._docClickHandler = (e) => {
       const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 768;
       if (isMobile) {
         if (!e.target.closest('.salah-cal-cell') && !e.target.closest('#salah-cal-tooltip')) {
@@ -929,7 +947,25 @@ this.renderPrayerCards(date, true); // true = skipAnim
            tooltip.dataset.activeDate = '';
         }
       }
-    });
+    };
+    document.addEventListener('click', this._docClickHandler);
+  },
+
+  destroy() {
+    if (this._docClickHandler) {
+      document.removeEventListener('click', this._docClickHandler);
+      this._docClickHandler = null;
+    }
+    if (this._dataUpdateHandler) {
+      window.removeEventListener('lamim:data-updated', this._dataUpdateHandler);
+      this._dataUpdateHandler = null;
+      this._dataUpdateBound = false;
+    }
+    const tooltip = document.getElementById('salah-cal-tooltip');
+    if (tooltip) {
+      delete tooltip.dataset.initialized;
+      tooltip.dataset.activeDate = '';
+    }
   },
 
   resetToday() {
@@ -949,3 +985,4 @@ this.renderPrayerCards(date, true); // true = skipAnim
     });
   }
 };
+window.Salah = Salah;

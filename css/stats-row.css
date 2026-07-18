@@ -30,6 +30,11 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
+[data-theme="light"] .sa-stat-card:hover {
+  border-color: rgba(15, 23, 42, 0.16) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+}
+
 [data-theme="light"] .sa-stat-label {
   color: #64748B !important;
 }
@@ -57,7 +62,7 @@
 .sa-stat-label {
   font-size: 10px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 4px;

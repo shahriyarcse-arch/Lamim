@@ -154,9 +154,9 @@ div#nafl-night-grid .salah-options-grid {
 
 /* Modal Container */
 #nafl-history-modal .history-modal-content-container {
-  background: linear-gradient(180deg, #0c1322 0%, #020408 100%) !important;
-  border: 1px solid rgba(168, 85, 247, 0.2) !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 40px rgba(168, 85, 247, 0.15) !important;
+  background: linear-gradient(180deg, #0b1a18 0%, #050d0c 100%) !important;
+  border: 1px solid rgba(20, 184, 166, 0.22) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 40px rgba(20, 184, 166, 0.12) !important;
   border-radius: 28px !important;
   padding: 28px !important;
   width: 92% !important;
@@ -178,7 +178,7 @@ div#nafl-night-grid .salah-options-grid {
 #nafl-history-modal .modal-title {
   font-size: 22px !important;
   font-weight: 800 !important;
-  background: linear-gradient(135deg, #c084fc, #f472b6) !important;
+  background: linear-gradient(135deg, #5eead4, #14b8a6) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   margin: 0 !important;
@@ -216,8 +216,10 @@ div#nafl-night-grid .salah-options-grid {
 }
 
 #nafl-history-modal .h-summary-card {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  --dc: #14b8a6;
+  position: relative;
+  background: color-mix(in srgb, var(--dc) 8%, rgba(255, 255, 255, 0.04)) !important;
+  border: 1px solid color-mix(in srgb, var(--dc) 22%, rgba(255, 255, 255, 0.08)) !important;
   border-radius: 20px !important;
   padding: 16px 12px !important;
   text-align: center !important;
@@ -226,7 +228,20 @@ div#nafl-night-grid .salah-options-grid {
   display: flex !important;
   flex-direction: column !important;
   gap: 4px !important;
+  overflow: hidden;
 }
+#nafl-history-modal .h-summary-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--dc);
+  opacity: 0.8;
+}
+
+#nafl-history-modal .h-summary-card:nth-child(1) { --dc: #14b8a6; }
+#nafl-history-modal .h-summary-card:nth-child(2) { --dc: #2dd4bf; }
+#nafl-history-modal .h-summary-card:nth-child(3) { --dc: #34d399; }
 
 #nafl-history-modal .h-sum-val {
   font-size: 20px !important;
@@ -247,13 +262,20 @@ div#nafl-night-grid .salah-options-grid {
 #nafl-history-modal .history-list-header {
   font-size: 13px !important;
   font-weight: 700 !important;
-  color: #c084fc !important;
+  color: #2dd4bf !important;
   text-transform: uppercase !important;
   letter-spacing: 0.1em !important;
   margin-bottom: 16px !important;
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
+}
+#nafl-history-modal .history-list-header::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #14b8a6;
+  box-shadow: 0 0 8px rgba(20, 184, 166, 0.6);
 }
 
 /* History List Scroll Area */
@@ -276,43 +298,54 @@ div#nafl-night-grid .salah-options-grid {
 }
 
 #nafl-history-modal .history-list-modern::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(20, 184, 166, 0.3) !important;
   border-radius: 3px !important;
 }
 
 #nafl-history-modal .history-list-modern::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(20, 184, 166, 0.5) !important;
 }
 
 /* History Items */
 #nafl-history-modal .history-item-modern {
+  --dc: #14b8a6;
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-left: 3px solid var(--dc) !important;
   border-radius: 18px !important;
-  padding: 16px !important;
+  padding: 14px 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   gap: 16px !important;
   transition: all 0.2s ease !important;
 }
+#nafl-history-modal .history-item-modern:nth-child(3n+1) { --dc: #14b8a6; }
+#nafl-history-modal .history-item-modern:nth-child(3n+2) { --dc: #2dd4bf; }
+#nafl-history-modal .history-item-modern:nth-child(3n+3) { --dc: #34d399; }
 
 #nafl-history-modal .history-item-modern:hover {
   background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(168, 85, 247, 0.3) !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+  transform: translateX(3px);
 }
 
 #nafl-history-modal .history-item-modern.all-missed {
   opacity: 0.6 !important;
   background: rgba(248, 81, 73, 0.02) !important;
   border-color: rgba(248, 81, 73, 0.1) !important;
+  border-left-color: #f85149 !important;
 }
 
 #nafl-history-modal .h-item-date {
-  font-size: 13px !important;
+  font-size: 12px !important;
   font-weight: 700 !important;
-  color: #94a3b8 !important;
-  min-width: 65px !important;
+  color: #cbd5e1 !important;
+  min-width: 64px !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  text-align: center;
 }
 
 #nafl-history-modal .h-item-content {
@@ -330,12 +363,13 @@ div#nafl-night-grid .salah-options-grid {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(20, 184, 166, 0.1) !important;
+  border: 1px solid rgba(20, 184, 166, 0.2) !important;
   padding: 4px 10px !important;
   border-radius: 12px !important;
   font-size: 12px !important;
   font-weight: 600 !important;
-  color: #e2e8f0 !important;
+  color: #ccfbf1 !important;
 }
 
 #nafl-history-modal .h-pill .dot {
@@ -347,7 +381,22 @@ div#nafl-night-grid .salah-options-grid {
 
 #nafl-history-modal .h-pill.missed {
   background: rgba(248, 81, 73, 0.1) !important;
-  color: #f85149 !important;
+  border-color: rgba(248, 81, 73, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+#nafl-history-modal .h-item-total {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #5eead4 !important;
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 2px !important;
+}
+#nafl-history-modal .h-item-total small {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
 }
 
 #nafl-history-modal .empty-state {
@@ -357,3 +406,39 @@ div#nafl-night-grid .salah-options-grid {
   font-size: 14px !important;
   font-weight: 600 !important;
 }
+
+/* Light mode */
+[data-theme="light"] #nafl-history-modal .history-modal-content-container {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15) !important;
+  color: #0f172a !important;
+}
+[data-theme="light"] #nafl-history-modal .h-summary-card {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: none !important;
+}
+[data-theme="light"] #nafl-history-modal .h-sum-val { color: #0f172a !important; }
+[data-theme="light"] #nafl-history-modal .h-sum-label { color: #64748b !important; }
+[data-theme="light"] #nafl-history-modal .history-item-modern {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  border-left: 3px solid var(--dc);
+}
+[data-theme="light"] #nafl-history-modal .history-item-modern:hover {
+  background: #ffffff !important;
+  border-color: #14b8a6 !important;
+}
+[data-theme="light"] #nafl-history-modal .h-item-date {
+  color: #475569 !important;
+  background: #e2e8f0 !important;
+}
+[data-theme="light"] #nafl-history-modal .h-pill {
+  background: rgba(20, 184, 166, 0.12) !important;
+  color: #0f766e !important;
+}
+[data-theme="light"] #nafl-history-modal .h-item-total { color: #0f766e !important; }
+[data-theme="light"] #nafl-history-modal .h-item-total small { color: #64748b !important; }
+[data-theme="light"] #nafl-history-modal .history-list-header { color: #0d9488 !important; }
+[data-theme="light"] #nafl-history-modal .empty-state { color: #64748b !important; }

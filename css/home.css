@@ -1,565 +1,788 @@
 /* =============================================
-   LAMIM — HOME PAGE (Full Screen, Large Elements)
-   Big typography, centered, responsive
+   LAMIM — HOME PAGE (Ultra-Modern Bento Box)
    ============================================= */
 
+/* 1. Base Layout & Aurora Background */
 .home-container {
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.bento-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-row {
+  display: flex;
+  gap: 16px;
+  /* balanced spacing between columns */
+  width: 100%;
+}
+
+.bento-half {
+  flex: 1;
+}
+
+/* Background */
+.home-aurora-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(55px);
+  opacity: 0.2;
+  animation: float-aurora 20s ease-in-out infinite alternate;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Pause aurora animation when Home is not the active section (saves CPU/repaint) */
+body:not(.home-active) .home-aurora-bg .aurora-blob {
+  animation-play-state: paused;
+}
+
+/* Pause aurora animation while scrolling so the section scrolls as smoothly
+   as the other (non-animated) sections — eliminates per-frame blur repaint on scroll */
+.home-aurora-bg.is-scrolling .aurora-blob {
+  animation-play-state: paused;
+}
+
+.aurora-1 {
+  width: 350px;
+  height: 350px;
+  background: var(--color-accent-purple);
+  top: -100px;
+  right: -100px;
+}
+
+.aurora-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--color-accent-teal);
+  bottom: 10%;
+  left: -100px;
+  animation-delay: -7s;
+}
+
+@keyframes float-aurora {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-40px, 60px) scale(1.1) rotate(10deg);
+  }
+}
+
+/* 2. Ultra-Glass Cards */
+.glass-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 18px 20px;
+  /* premium, spacious padding */
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  transform: translateZ(0);
+  will-change: transform;
+  contain: paint;
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(25, 27, 33, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.bento-hover:active {
+  transform: scale(0.97);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02);
+}
+
+/* Cinematic Typography */
+.cinematic-num {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+/* 3. Hero Card (Greeting & Spirit Orb) */
+.home-hero-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+}
+
+[data-theme="dark"] .home-hero-card {
+  background: linear-gradient(135deg, rgba(30, 32, 40, 0.55), rgba(20, 22, 28, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.home-hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.home-greeting-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.home-greeting {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.home-date {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.home-hijri-date {
+  font-size: 11px;
+  color: var(--color-text-on-gold, var(--color-accent-gold));
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(212, 168, 67, 0.08);
+  border: 1px solid rgba(212, 168, 67, 0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-top: 2px;
+}
+
+/* Spirit Orb Container - Borderless Glass Tray */
+.home-spirit-orb-container {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+  padding: 4px;
+}
+
+[data-theme="dark"] .home-spirit-orb-container {
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.home-spirit-score-inner {
+  position: absolute;
+  z-index: 2;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-6) var(--space-4);
-  max-width: none;
-  text-align: center;
+  inset: 0;
 }
 
-.home-header {
-  margin-bottom: var(--space-8);
+#home-spirit-score {
+  font-size: 26px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #a855f7 0%, #fbbf24 50%, #3b82f6 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -1px;
+  animation: scoreShimmer 4s linear infinite;
 }
 
-.home-greeting {
-  font-size: clamp(2.5rem, 8vw, 4rem);
-  font-weight: 800;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-2);
-  letter-spacing: -0.03em;
+[data-theme="light"] #home-spirit-score {
+  background: linear-gradient(135deg, #7c3aed 0%, #d97706 50%, #2563eb 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-[data-theme="light"] .home-greeting {
-  color: var(--home-name-color);
+@keyframes scoreShimmer {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
 
-.home-date {
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
+.spirit-label {
+  font-size: 8px;
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
-  font-weight: 500;
-}
-
-.home-spirit-box {
-  display: inline-block;
-  padding: var(--space-3) var(--space-6);
-  background: var(--color-surface-nested);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
-}
-
-.home-spirit-label {
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.home-spirit-value {
-  font-weight: 800;
-  color: var(--color-accent-gold);
-  font-size: 1.4em;
-  margin-left: var(--space-1);
-}
-
-.home-prayers-section {
-  margin-bottom: var(--space-8);
-}
-
-.home-section-label {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  color: var(--color-text-secondary);
-  font-weight: 600;
-  margin-bottom: var(--space-3);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 1px;
+  font-weight: 800;
+  margin-top: 1px;
 }
 
-.home-prayers-row {
+[data-theme="dark"] #home-spirit-score {
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .spirit-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 4. Next Prayer Countdown */
+.home-next-prayer-card {
   display: flex;
-  gap: var(--space-3);
-  justify-content: center;
-  margin-bottom: var(--space-3);
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(59, 130, 246, 0.04));
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.02);
 }
 
-.home-prayer-dot {
-  width: clamp(16px, 4vw, 24px);
-  height: clamp(16px, 4vw, 24px);
-  border-radius: 50%;
-  background: var(--color-text-muted);
-  border: 2px solid var(--color-border);
+[data-theme="dark"] .home-next-prayer-card {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 41, 59, 0.25));
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(14, 165, 233, 0.05);
 }
 
-.home-prayer-dot.active {
-  background: var(--color-jamaat);
-  border-color: var(--color-jamaat);
+.next-prayer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.home-prayer-dot.partial {
-  background: var(--color-qaza);
-  border-color: var(--color-qaza);
-}
-
-.home-count-row {
-  font-size: clamp(1.3rem, 3.5vw, 1.6rem);
-}
-
-.home-count-value {
-  font-weight: 800;
-  color: var(--color-accent-gold);
-  margin-left: var(--space-1);
-}
-
-.home-next-prayer {
-  padding: var(--space-5) var(--space-8);
-  background: var(--color-surface-card);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  text-align: center;
-  min-width: 280px;
-}
-
-.home-next-label {
-  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: var(--space-2);
-}
-
-.home-next-time {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
-  color: var(--color-accent-primary);
-  font-family: 'SF Mono', 'Monaco', monospace;
-  letter-spacing: 2px;
-}
-
-/* For smaller screens */
-@media (max-width: 640px) {
-  .home-container {
-    padding: var(--space-4) var(--space-3);
-  }
-  
-  .home-greeting {
-    font-size: 2.2rem;
-  }
-  
-  .home-spirit-box {
-    padding: var(--space-2) var(--space-4);
-  }
-  
-  .home-next-prayer {
-    padding: var(--space-4) var(--space-5);
-    min-width: 200px;
-  }
-}
-
-.home-header {
-  text-align: center;
-  margin-bottom: var(--space-8);
-}
-
-.home-greeting {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-1);
-}
-
-[data-theme="light"] .home-greeting {
-  color: var(--home-name-color);
-}
-
-.home-time-wrapper {
+.next-prayer-label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-2);
-}
-
-.home-clock {
-  font-size: 2.5rem;
-  font-weight: 700;
-  font-family: 'SF Mono', 'Monaco', monospace;
-  color: var(--home-time-color);
-  letter-spacing: 1px;
-}
-
-.home-date {
-  font-size: var(--text-base);
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.home-spirit-badge {
-  display: inline-block;
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  margin-top: var(--space-2);
-}
-
-.home-spirit-value {
-  font-weight: 700;
-  color: var(--color-accent-primary);
-}
-
-.home-section {
-  margin-top: var(--space-6);
-}
-
-.home-section-title {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-3);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--color-divider-subtle);
-}
-
-.home-stats-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--space-3);
-}
-
-.home-stat-box {
-  background: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-  text-align: center;
-}
-
-.home-stat-number {
-  font-size: var(--text-2xl);
+  gap: 8px;
+  font-size: 11px;
   font-weight: 800;
-  color: var(--color-accent-gold);
-  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-secondary);
 }
 
-.home-stat-text {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-  margin-top: var(--space-1);
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-blue);
+  box-shadow: 0 0 10px var(--color-accent-blue);
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.next-prayer-name {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0284c7;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.04);
 }
 
-.home-prayer-dots {
+[data-theme="dark"] .next-prayer-name {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.08);
+}
+
+.next-prayer-countdown-wrap {
   display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
-.home-prayer-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--color-text-muted);
-}
-
-.home-prayer-dot.active {
-  background: var(--color-jamaat);
-}
-
-.home-prayer-dot.partial {
-  background: var(--color-qaza);
-}
-
-.home-next-prayer-box {
-  margin-top: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-surface-nested);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  text-align: center;
-}
-
-.home-next-prayer-label {
-  font-size: var(--text-xs);
+.next-prayer-time {
+  font-size: 20px;
+  font-weight: 800;
   color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: -0.5px;
 }
 
-.home-next-prayer-time {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-accent-primary);
-  margin-top: var(--space-1);
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .home-container {
-    padding: var(--space-4) var(--space-3);
-  }
-  
-  .home-greeting {
-    font-size: var(--text-2xl);
-  }
-  
-  .home-clock {
-    font-size: 1.8rem;
-  }
-}
-
-.home-hero-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top center, rgba(167, 139, 250, 0.08) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.home-avatar-section {
-  position: relative;
-  z-index: 2;
-  margin-bottom: var(--space-6);
-}
-
-.home-avatar-orb {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #a78bfa, #c084fc);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #fff;
-  box-shadow: 0 0 40px rgba(167, 139, 250, 0.4), inset 0 0 0 3px rgba(255,255,255,0.2);
-  animation: homePulse 4s ease-in-out infinite;
-}
-
-@keyframes homePulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(167, 139, 250, 0.4); }
-  50% { transform: scale(1.02); box-shadow: 0 0 50px rgba(167, 139, 250, 0.5); }
-}
-
-.home-salam {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-purple), var(--color-accent-blue));
+.next-prayer-countdown {
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--color-text-primary) 50%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: var(--space-2);
-}
-
-.home-time-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-.home-time {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--home-time-color);
-  font-family: 'SF Mono', 'Monaco', monospace;
-  letter-spacing: 1px;
-}
-
-.home-date {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.home-spirit-score {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-glass);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  margin-bottom: var(--space-6);
-}
-
-.home-score-value {
-  font-weight: 800;
-  background: var(--gradient-stat-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-4);
-  padding: var(--space-4);
-  max-width: var(--content-max);
-  margin: 0 auto;
-}
-
-.home-card {
-  background: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-5);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.home-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.home-card--salah { --card-accent: var(--color-accent-gold); }
-.home-card--dhikr { --card-accent: var(--color-accent-teal); }
-.home-card--mujahid { --card-accent: var(--color-accent-red); }
-.home-card--gym { --card-accent: var(--color-accent-blue); }
-.home-card--career { --card-accent: var(--color-accent-green); }
-.home-card--finance { --card-accent: var(--fin-gold); }
-
-.home-card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 70%, white));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--space-3);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--card-accent) 40%, transparent);
-}
-
-.home-card-icon svg {
-  width: 28px;
-  height: 28px;
-  color: #fff;
-}
-
-.home-card-title {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-1);
-}
-
-.home-card-desc {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
-}
-
-.home-card-stats {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.home-stat {
-  text-align: center;
-}
-
-.home-stat-value {
-  font-size: var(--text-xl);
-  font-weight: 800;
-  color: var(--card-accent);
   line-height: 1;
 }
 
-.home-stat-label {
-  font-size: var(--text-xs);
+[data-theme="dark"] .next-prayer-countdown {
+  background: linear-gradient(135deg, var(--color-text-primary) 40%, var(--color-accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 5. Bento Insights Squares */
+.bento-square {
+  background: var(--color-surface-card);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 12px 16px !important;
+}
+
+.bento-square:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.bento-square:nth-child(3) {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, var(--color-surface-card) 60%);
+}
+
+.bento-square:nth-child(4) {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.04) 0%, var(--color-surface-card) 60%);
+}
+
+[data-theme="dark"] .bento-square:nth-child(3) {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
+  border-color: rgba(20, 184, 166, 0.12);
+}
+
+[data-theme="dark"] .bento-square:nth-child(4) {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
+  border-color: rgba(249, 115, 22, 0.12);
+}
+
+.insight-card {
+  padding: 12px 14px !important;
+  /* Smaller padding */
+  border-radius: 16px !important;
+  display: flex;
+  justify-content: center;
+}
+
+.insight-box-modern {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.insight-icon {
+  width: 32px;
+  height: 32px;
+  /* Smaller icon box */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .insight-icon {
+  border-color: rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.insight-data {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.insight-value {
+  font-size: 20px;
+  /* Slightly smaller text */
+  font-weight: 900;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.insight-label {
+  font-size: 10px;
+  font-weight: 700;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.home-card-progress {
+/* 6. Salah Timeline - Vertical Liquid Energy Cell Concept */
+.home-salah-timeline-card {
+  padding: var(--space-5) var(--space-4);
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.card-title-sm {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.salah-count-badge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--color-surface-nested);
+  color: var(--color-text-primary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.home-timeline-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0;
+}
+
+.home-timeline-container::before,
+.home-timeline-container::after {
+  display: none;
+}
+
+/* Each prayer = a mini glass tile card */
+.timeline-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+}
+
+/* ── Chain Bridge (fills the 8px gap between nodes) ── */
+.timeline-node::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 3px;
+  border-radius: 2px;
+  background: transparent;
+  z-index: 3;
+  transition: all 0.5s ease;
+}
+
+.timeline-node:first-child::before {
+  display: none;
+}
+
+/* ── Flow-based Bridge Logic ── */
+
+/* 🟢 Jamaat (Left) → Bridge inherits Jamaat Green */
+.timeline-node.status-jamaat+.timeline-node::before {
+  background: var(--color-jamaat);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+/* 🔵 Alone (Left) → Bridge inherits Alone Blue */
+.timeline-node.status-alone+.timeline-node::before {
+  background: var(--color-alone);
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+/* 🟡 Qaza (Left) → Bridge inherits Qaza Amber */
+.timeline-node.status-qaza+.timeline-node::before {
+  background: var(--color-qaza);
+  box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
+}
+
+/* 🔴 Missed (Left) → Bridge inherits Missed Red */
+.timeline-node.status-missed+.timeline-node::before {
+  background: var(--color-missed);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+/* Optional soft pulsing on active bridges to keep it feeling premium */
+.timeline-node:is(.status-jamaat, .status-alone, .status-qaza, .status-missed)+.timeline-node::before {
+  animation: bridgeFlowPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes bridgeFlowPulse {
+  0% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+    filter: brightness(1.15);
+  }
+}
+
+/* ── Tile Dot ── */
+.timeline-dot {
+  width: 100%;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-text-muted);
+  transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.6s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-theme="dark"] .timeline-dot {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Liquid Fill Layer (rises from bottom) ── */
+.timeline-dot::after {
+  content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--color-divider-subtle);
+  height: 0%;
+  z-index: -1;
+  border-radius: 14px;
+  transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.home-card-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 50%, transparent));
-  transition: width var(--transition-base);
-}
-
-.home-prayer-quick {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  margin-top: var(--space-3);
-}
-
-.home-prayer-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--color-text-muted);
-}
-
-.home-prayer-dot.active {
-  background: var(--color-jamaat);
-  box-shadow: 0 0 8px var(--color-jamaat);
-}
-
-.home-prayer-dot.partial {
-  background: var(--color-qaza);
-}
-
-/* Next Prayer Banner */
-.home-next-prayer {
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(56, 189, 248, 0.1));
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  border-radius: var(--radius-full);
-  padding: var(--space-3) var(--space-5);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-}
-
-.home-next-prayer-time {
+.timeline-label {
+  font-size: 8px;
   font-weight: 700;
-  color: var(--color-accent-primary);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+  transition: color 0.4s ease;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .home-grid {
-    grid-template-columns: 1fr;
-    padding: var(--space-3);
+/* ──── Completed Statuses ──── */
+
+/* Jamaat - Green Liquid Fill */
+.timeline-node.status-jamaat .timeline-dot {
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.timeline-node.status-jamaat .timeline-dot::after {
+  height: 100%;
+  background: linear-gradient(to top, #059669, #34d399);
+}
+
+.timeline-node.status-jamaat .timeline-label {
+  color: #10b981;
+  font-weight: 800;
+}
+
+/* Alone - Blue Liquid Fill */
+.timeline-node.status-alone .timeline-dot {
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+.timeline-node.status-alone .timeline-dot::after {
+  height: 100%;
+  background: linear-gradient(to top, #2563eb, #60a5fa);
+}
+
+.timeline-node.status-alone .timeline-label {
+  color: #3b82f6;
+  font-weight: 800;
+}
+
+/* Qaza - Amber Liquid Fill */
+.timeline-node.status-qaza .timeline-dot {
+  border-color: rgba(217, 119, 6, 0.3);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25);
+}
+
+.timeline-node.status-qaza .timeline-dot::after {
+  height: 100%;
+  background: linear-gradient(to top, #b45309, #fbbf24);
+}
+
+.timeline-node.status-qaza .timeline-label {
+  color: #d97706;
+  font-weight: 800;
+}
+
+/* Missed - Red Liquid Fill */
+.timeline-node.status-missed .timeline-dot {
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25);
+}
+
+.timeline-node.status-missed .timeline-dot::after {
+  height: 100%;
+  background: linear-gradient(to top, #dc2626, #f87171);
+}
+
+.timeline-node.status-missed .timeline-label {
+  color: #ef4444;
+  font-weight: 800;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  .next-prayer-countdown {
+    font-size: 34px;
   }
-  
-  .home-hero {
-    padding: var(--space-6) var(--space-3);
+
+  .insight-value {
+    font-size: 30px;
   }
-  
-  .home-salam {
-    font-size: var(--text-2xl);
-  }
-  
-  .home-time {
-    font-size: 1.5rem;
+
+  .home-greeting {
+    font-size: 22px;
   }
 }
 
-/* Light Mode Adjustments */
-[data-theme="light"] .home-avatar-orb {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+/* ── Daily Inspiration Quote Card Styles ── */
+.home-quote-card {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.04) 0%, var(--color-surface-card) 60%);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Text stays at top */
+  gap: 12px;
+  overflow: visible !important;
 }
 
-[data-theme="light"] .home-card:hover {
-  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.1);
+[data-theme="dark"] .home-quote-card {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
+  border-color: rgba(167, 139, 250, 0.12);
+}
+
+.quote-header {
+  display: flex;
+  align-items: center;
+}
+
+.quote-badge {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-accent-purple);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quote-badge svg {
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 0 !important;
+  top: 0 !important;
+}
+
+.quote-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px;
+}
+
+.quote-arabic {
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  /* Further adjusted size */
+  line-height: 1.8;
+  color: var(--color-text-primary);
+  text-align: right;
+  direction: rtl;
+  margin: 0;
+  font-weight: 700;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.quote-translation {
+  font-size: 16px;
+  /* Bigger translation */
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  font-style: italic;
+  font-weight: 500;
+  margin: 0;
+  text-align: left;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* JS will toggle this class before and after changing text */
+.quote-anim-hidden .quote-arabic,
+.quote-anim-hidden .quote-translation {
+  opacity: 0 !important;
+  transform: translateY(10px);
 }

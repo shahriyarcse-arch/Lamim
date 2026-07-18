@@ -1,72 +1,125 @@
 /* =============================================
-   LAMIM — HOME MODULE (Full Screen, Large Elements)
-   Big typography, centered, responsive, with Hijri date
+   LAMIM — HOME MODULE
    ============================================= */
 const Home = {
+  countdownInterval: null,
+  _clockInterval: null,
+
   init() {
     this.render();
     this.startClock();
     this.updateNextPrayer();
-    this.updateAllCards();
+    this.updateSpiritScore();
+    this.updateSalahTimeline();
+    this.renderDailyInsights();
+    this.bindAuroraScrollPause();
+    if (!this._dataUpdateBound) {
+      this._dataUpdateBound = true;
+      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
+        this.updateNextPrayer();
+        this.updateSalahTimeline();
+      });
+    }
+  },
+
+  bindAuroraScrollPause() {
+    if (this._auroraBound) return;
+    this._auroraBound = true;
+    const bg = document.querySelector('.home-aurora-bg');
+    if (!bg) return;
+    let timer;
+    window.addEventListener('scroll', () => {
+      if (!document.body.classList.contains('home-active')) return;
+      bg.classList.add('is-scrolling');
+      clearTimeout(timer);
+      timer = setTimeout(() => bg.classList.remove('is-scrolling'), 120);
+    }, { passive: true });
+  },
+
+  destroy() {
+    if (this._clockInterval) {
+      clearInterval(this._clockInterval);
+      this._clockInterval = null;
+    }
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
+    }
   },
 
   render() {
     const greeting = this.getGreeting();
-    
+    const user = DB.getUser() || {};
     const greetingEl = document.getElementById('home-greeting');
-    if (greetingEl) greetingEl.textContent = greeting;
+    if (greetingEl) {
+      greetingEl.textContent = user.name ? `${greeting}, ${user.name}` : greeting;
+    }
   },
 
   getGreeting() {
     const hour = new Date().getHours();
-    const lang = localStorage.getItem('lamim_lang') || 'en';
-    
+    const lang = (typeof App !== 'undefined' && App.lang) || 'en';
     const greetings = {
       en: hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening',
       bn: hour < 12 ? 'সুপ্রভাত' : hour < 18 ? 'শুভ অপরাহ্ন' : 'শুভ সন্ধ্যা'
     };
-    
     return greetings[lang] || greetings.en;
   },
 
   startClock() {
+    if (this._clockInterval) clearInterval(this._clockInterval);
+
     const updateClock = () => {
       const now = new Date();
       const dateEl = document.getElementById('home-date');
       const hijriEl = document.getElementById('home-hijri-date');
-      
+
       if (dateEl) {
         dateEl.textContent = now.toLocaleDateString(
-          localStorage.getItem('lamim_lang') === 'bn' ? 'bn-BD' : 'en-US', 
+          (typeof App !== 'undefined' && App.lang) === 'bn' ? 'bn-BD' : 'en-US',
           { weekday: 'long', month: 'long', day: 'numeric' }
         );
       }
-      
-      if (hijriEl) {
+      if (hijriEl && Utils.toHijri) {
         hijriEl.textContent = Utils.toHijri(now);
       }
+      
+      // Update quote & insights every minute dynamically
+      this.renderDailyInsights();
     };
-    
+
     updateClock();
-    setInterval(updateClock, 60000);
+    this._clockInterval = setInterval(updateClock, 60000);
   },
 
   updateNextPrayer() {
     const times = Utils.calcPrayerTimes();
     const next = Utils.getNextPrayer(times);
-    
-    const nextEl = document.getElementById('home-next-prayer');
-    const nameEl = document.getElementById('home-next-prayer-name');
-    
-    if (next && nextEl) {
-      nextEl.style.display = 'block';
-      if (nameEl) nameEl.textContent = next.label;
-    }
-  },
 
-  updateAllCards() {
-    this.updateSpiritScore();
-    this.updateSalahCard();
+    const cardEl = document.getElementById('home-next-prayer');
+    const nameEl = document.getElementById('home-next-prayer-name');
+    const timeEl = document.getElementById('home-next-prayer-time');
+    const countdownEl = document.getElementById('home-next-prayer-countdown');
+
+    if (next && cardEl) {
+      cardEl.style.display = 'flex';
+      if (nameEl) nameEl.textContent = next.name.charAt(0).toUpperCase() + next.name.slice(1);
+      if (timeEl) timeEl.textContent = next.label;
+
+      if (this.countdownInterval) clearInterval(this.countdownInterval);
+      
+      const updateCountdown = () => {
+        if (countdownEl) {
+          countdownEl.textContent = Utils.countdownTo(next.time);
+          if (next.time - new Date() <= 0) {
+            clearInterval(this.countdownInterval);
+            setTimeout(() => this.updateNextPrayer(), 1000);
+          }
+        }
+      };
+      updateCountdown();
+      this.countdownInterval = setInterval(updateCountdown, 1000);
+    }
   },
 
   updateSpiritScore() {
@@ -77,26 +130,80 @@ const Home = {
     }
   },
 
-  updateSalahCard() {
+  updateSalahTimeline() {
     const today = Utils.todayStr();
     const salah = DB.getSalah(today);
     const score = Utils.salahScore(salah);
-    const grid = document.getElementById('home-salah-grid');
-    
-    if (grid) {
+    const container = document.getElementById('home-salah-timeline');
+    const countBadge = document.getElementById('home-salah-count-badge');
+
+    if (countBadge) countBadge.textContent = `${score.done}/5`;
+
+    if (container) {
       let html = '';
-      ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'].forEach(prayer => {
-        const status = salah[prayer];
-        let className = '';
-        if (status === 'jamaat' || status === 'alone') className = 'active';
-        else if (status === 'qaza') className = 'partial';
-        html += `<div class="home-prayer-dot ${className}"></div>`;
+      const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      prayers.forEach(p => {
+        const key = p.toLowerCase();
+        const status = salah[key];
+        let statusClass = status ? `status-${status}` : '';
+        
+        // Initial letter for the dot
+        const initial = p.charAt(0);
+        
+        html += `
+          <div class="timeline-node ${statusClass}">
+            <div class="timeline-dot">${initial}</div>
+            <span class="timeline-label">${p}</span>
+          </div>
+        `;
       });
-      grid.innerHTML = html;
+      container.innerHTML = html;
     }
+  },
+
+  renderDailyInsights() {
+    // 1. Dhikr Count
+    const today = Utils.todayStr();
+    const dhikrData = DB.getDhikr(today) || {};
+    let totalDhikr = 0;
+    Object.values(dhikrData).forEach(v => {
+      if (typeof v === 'number') totalDhikr += v;
+    });
+    const dhikrEl = document.getElementById('home-insight-dhikr');
+    if (dhikrEl) dhikrEl.textContent = totalDhikr;
+
+    // 2. Streak — use Salah streak (perfect days)
+    const salahStreak = DB.getSalahStreak();
+    const streakEl = document.getElementById('home-insight-streak');
+    if (streakEl) streakEl.textContent = salahStreak.perfect || 0;
+
+    // 3. Dynamic Daily Quote
+    const quote = Utils.getQuote();
+    const arabicEl = document.getElementById('home-quote-arabic');
+    const translationEl = document.getElementById('home-quote-translation');
+    const cardEl = document.querySelector('.home-quote-card');
     
-    const countEl = document.getElementById('home-salah-count');
-    if (countEl) countEl.textContent = `${score.done}/5`;
+    if (arabicEl && translationEl && quote) {
+      // First load check
+      if (arabicEl.textContent === '...' || arabicEl.textContent.trim() === '') {
+        arabicEl.textContent = quote.arabic;
+        translationEl.textContent = quote.translation;
+      } 
+      // If the quote has changed, animate it
+      else if (arabicEl.textContent !== quote.arabic) {
+        if (cardEl) {
+          cardEl.classList.add('quote-anim-hidden');
+          setTimeout(() => {
+            arabicEl.textContent = quote.arabic;
+            translationEl.textContent = quote.translation;
+            cardEl.classList.remove('quote-anim-hidden');
+          }, 500); // 500ms matches the CSS transition time
+        } else {
+          arabicEl.textContent = quote.arabic;
+          translationEl.textContent = quote.translation;
+        }
+      }
+    }
   }
 };
 

@@ -95,11 +95,16 @@ const Utils = {
     let lat = settings.lat || 23.8103;
     let lng = settings.lng || 90.4125;
 
-    // Automatic Location Detection (if not set)
-    if (!settings.lat && navigator.geolocation) {
+    // Flag whether we are using the default Dhaka location (no real coords set)
+    this._usingDefaultLocation = !settings.lat || !settings.lng;
+
+    // Automatic Location Detection (if not set) — only attempt once
+    if (!settings.lat && !this._geoAttempted && navigator.geolocation) {
+      this._geoAttempted = true;
       navigator.geolocation.getCurrentPosition((pos) => {
         const newSettings = { ...settings, lat: pos.coords.latitude, lng: pos.coords.longitude };
         DB.setSettings(newSettings);
+        this._usingDefaultLocation = false;
         window.dispatchEvent(new CustomEvent('lamim:data-updated'));
       }, null, { timeout: 5000 });
     }
@@ -203,6 +208,59 @@ const Utils = {
     return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   },
 
+  // Auto re-detect location when the user has travelled to a new area.
+  // Only runs if the user already GRANTED location (no surprise prompts),
+  // is throttled to once per 15 min, and only updates when moved > ~30 km.
+  async autoUpdateLocationOnTravel() {
+    const settings = DB.getSettings();
+    if (!settings.lat || !settings.lng) return;
+    if (!navigator.geolocation) return;
+
+    // Respect privacy: only auto-update when the user already GRANTED location.
+    // (For 'prompt'/'denied' we return WITHOUT consuming the throttle window.)
+    try {
+      if (navigator.permissions && navigator.permissions.query) {
+        const perm = await navigator.permissions.query({ name: 'geolocation' });
+        if (perm.state !== 'granted') return;
+      }
+    } catch (e) { /* permission query unsupported — proceed */ }
+
+    const now = Date.now();
+    if (this._lastTravelCheck && now - this._lastTravelCheck < 15 * 60 * 1000) return;
+    this._lastTravelCheck = now;
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const nLat = pos.coords.latitude;
+      const nLng = pos.coords.longitude;
+      if (this._haversineKm(settings.lat, settings.lng, nLat, nLng) < 30) return;
+
+      const s = DB.getSettings();
+      s.lat = nLat;
+      s.lng = nLng;
+      try {
+        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${nLat}&longitude=${nLng}&localityLanguage=en`);
+        const data = await res.json();
+        const city = data.city || data.locality || '';
+        const country = data.countryName || '';
+        s.locationName = city && country ? `${city}, ${country}` : `${nLat.toFixed(2)}, ${nLng.toFixed(2)}`;
+      } catch (e) {
+        // Offline / geocoder down — keep real coordinates so the move is still recorded
+        s.locationName = `${nLat.toFixed(2)}, ${nLng.toFixed(2)}`;
+      }
+      DB.setSettings(s);
+      window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+      Utils.toast(`Location updated: ${s.locationName}`, 'success');
+    }, () => { /* denied / unavailable — keep previous location */ }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 600000 });
+  },
+
+  _haversineKm(la1, lo1, la2, lo2) {
+    const R = 6371;
+    const dLat = (la2 - la1) * Math.PI / 180;
+    const dLon = (lo2 - lo1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(la1 * Math.PI / 180) * Math.cos(la2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  },
+
   uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); },
 
   // Toast
@@ -212,7 +270,13 @@ const Utils = {
     if (!container) return;
     const el = document.createElement('div');
     el.className = `toast toast-${type}`;
-    el.innerHTML = `<span class="toast-icon">${icons[type]}</span><span>${msg}</span>`;
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'toast-icon';
+    iconSpan.textContent = icons[type] || '';
+    const msgSpan = document.createElement('span');
+    msgSpan.textContent = msg;
+    el.appendChild(iconSpan);
+    el.appendChild(msgSpan);
     container.appendChild(el);
     setTimeout(() => { el.classList.add('hiding'); setTimeout(() => el.remove(), 350); }, duration);
   },
@@ -259,16 +323,21 @@ const Utils = {
     return { done, total: 5, pct: pctScore };
   },
 
-  // Motivational quotes
+  // Motivational quotes (updates every minute with Bengali translation)
   getQuote() {
-    const quotes = [
-      { arabic: 'إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا', translation: 'Indeed, prayer has been decreed upon the believers a decree of specified times. (4:103)' },
-      { arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ', translation: 'Verily, in the remembrance of Allah do hearts find rest. (13:28)' },
-      { arabic: 'وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ', translation: 'Seek help through patience and prayer. (2:45)' },
-      { arabic: 'إِنَّ مَعَ الْعُسْرِ يُسْرًا', translation: 'Indeed, with hardship comes ease. (94:6)' },
-      { arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي', translation: 'My Lord, expand for me my breast. (20:25)' },
+    const defaultQuotes = [
+      { arabic: 'إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا', translation: 'নিশ্চয়ই সালাত বিশ্বাসীদের ওপর নির্দিষ্ট সময়ের জন্য নির্ধারিত। (৪:১০৩)' },
+      { arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ', translation: 'জেনে রেখো, আল্লাহর স্মরণেই কেবল অন্তরসমূহ প্রশান্তি পায়। (১৩:২৮)' },
+      { arabic: 'وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ', translation: 'ধৈর্য ও সালাতের মাধ্যমে তোমরা সাহায্য প্রার্থনা করো। (২:৪৫)' },
     ];
-    return quotes[new Date().getDate() % quotes.length];
+    
+    // Use the 6000+ fetched verses if available, else fallback
+    const quotes = (window.LamimVerses && window.LamimVerses.length > 0) ? window.LamimVerses : defaultQuotes;
+
+    // Cycle quotes every minute based on total minutes since epoch to avoid repeats
+    const now = new Date();
+    const totalMinutes = Math.floor(now.getTime() / 60000);
+    return quotes[totalMinutes % quotes.length];
   },
 
   // Accurate Confirmation Modal
@@ -285,9 +354,9 @@ const Utils = {
     }
 
     const types = {
-      danger: { icon: '🗑️', color: '#ff3b30', bg: 'rgba(255, 59, 48, 0.1)', btn: '#ff3b30' },
-      warning: { icon: '⚠️', color: '#ff9500', bg: 'rgba(255, 149, 0, 0.1)', btn: '#ff9500' },
-      info: { icon: 'ℹ️', color: '#007aff', bg: 'rgba(0, 122, 255, 0.1)', btn: '#007aff' }
+      danger: { icon: '🗑️', color: 'var(--fin-red)', bg: 'rgba(248, 113, 113, 0.1)', btn: 'var(--fin-red)' },
+      warning: { icon: '⚠️', color: 'var(--fin-orange)', bg: 'rgba(251, 191, 36, 0.1)', btn: 'var(--fin-orange)' },
+      info: { icon: 'ℹ️', color: 'var(--fin-blue)', bg: 'rgba(56, 189, 248, 0.1)', btn: 'var(--fin-blue)' }
     };
 
     const config = types[type] || types.warning;
@@ -314,6 +383,49 @@ const Utils = {
     if (modal) modal.classList.add('hidden');
   },
 
+  // Themed confirmation for destructive actions (Logout / Delete / Factory Reset).
+  // opts: { title, message, icon, color, confirmText, onConfirm }
+  dangerConfirm(opts) {
+    const modal = document.getElementById('danger-confirm-modal');
+    if (!modal) {
+      if (window.confirm((opts.title || '') + '\n' + (opts.message || ''))) opts.onConfirm && opts.onConfirm();
+      return;
+    }
+    const titleEl = document.getElementById('danger-title');
+    const msgEl = document.getElementById('danger-msg');
+    const iconEl = document.getElementById('danger-icon');
+    const proceed = document.getElementById('danger-proceed');
+    const color = opts.color || '#ef4444';
+
+    if (titleEl) titleEl.textContent = opts.title || 'Are you sure?';
+    if (msgEl) msgEl.textContent = opts.message || '';
+    if (iconEl) {
+      iconEl.innerHTML = opts.icon || '⚠️';
+      iconEl.style.background = color + '1f';
+      iconEl.style.color = color;
+      iconEl.style.boxShadow = `0 0 0 6px ${color}12, 0 12px 30px ${color}2e`;
+    }
+    if (proceed) {
+      proceed.textContent = opts.confirmText || 'Proceed';
+      proceed.style.background = `linear-gradient(135deg, ${color}, ${color}cc)`;
+      proceed.style.boxShadow = `0 10px 24px ${color}3d`;
+    }
+    this._dangerOnConfirm = opts.onConfirm;
+    modal.classList.remove('hidden');
+  },
+
+  closeDangerConfirm() {
+    const modal = document.getElementById('danger-confirm-modal');
+    if (modal) modal.classList.add('hidden');
+    this._dangerOnConfirm = null;
+  },
+
+  _confirmDanger() {
+    const cb = this._dangerOnConfirm;
+    this.closeDangerConfirm();
+    if (cb) cb();
+  },
+
   timeAgo(d) {
     if (!d) return '—';
     const s = (Date.now() - new Date(d).getTime()) / 1000;
@@ -337,42 +449,6 @@ const Utils = {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
-  }
-};
-
-const UI = {
-  showSettingsModal(opts) {
-    const modal = document.getElementById('section-settings-modal');
-    const title = document.getElementById('settings-modal-title');
-    const desc = document.getElementById('settings-modal-desc');
-    const confirmBtn = document.getElementById('settings-confirm-btn');
-    const iconOrb = document.getElementById('settings-modal-icon');
-
-    if (!modal) return;
-
-    if (opts.title) title.textContent = opts.title;
-    if (opts.desc) desc.textContent = opts.desc;
-    if (opts.confirmText) confirmBtn.textContent = opts.confirmText;
-    
-    // Dynamic Icon/Color
-    if (opts.type === 'danger') {
-      iconOrb.style.background = 'rgba(248,113,113,0.1)';
-      iconOrb.style.color = '#f87171';
-      confirmBtn.style.background = '#f87171';
-    }
-
-    // Set callback
-    confirmBtn.onclick = () => {
-      if (opts.onConfirm) opts.onConfirm();
-      this.hideSettingsModal();
-    };
-
-    modal.classList.remove('hidden');
-  },
-
-  hideSettingsModal() {
-    const modal = document.getElementById('section-settings-modal');
-    if (modal) modal.classList.add('hidden');
   },
 
   loadScript(url) {
@@ -404,5 +480,73 @@ const UI = {
 
       document.head.appendChild(script);
     });
+  },
+
+  safeRun(fn, context = 'Unknown') {
+    try {
+      return fn();
+    } catch (err) {
+      console.error(`[Error Boundary] Crash detected in context: ${context}`, err);
+      if (typeof Utils !== 'undefined' && Utils.toast) {
+        Utils.toast(`Something went wrong in ${context}. Please try again or refresh.`, 'error');
+      }
+      return null;
+    }
+  },
+
+  safeAddEventListener(target, type, listener, options) {
+    if (!target) return;
+    const safeListener = (...args) => {
+      Utils.safeRun(() => listener.apply(target, args), `${type} event listener`);
+    };
+    target.addEventListener(type, safeListener, options);
+    return safeListener;
+  }
+};
+
+const UI = {
+  showSettingsModal(opts) {
+    const modal = document.getElementById('section-settings-modal');
+    const title = document.getElementById('settings-modal-title');
+    const desc = document.getElementById('settings-modal-desc');
+    const confirmBtn = document.getElementById('settings-confirm-btn');
+    const iconOrb = document.getElementById('settings-modal-icon');
+
+    if (!modal) return;
+
+    if (opts.title && title) title.textContent = opts.title;
+    if (opts.desc && desc) desc.textContent = opts.desc;
+    if (opts.confirmText && confirmBtn) confirmBtn.textContent = opts.confirmText;
+
+    // Dynamic Icon/Color theming
+    if (opts.type === 'danger' && iconOrb && confirmBtn) {
+      iconOrb.style.background = 'rgba(248,113,113,0.1)';
+      iconOrb.style.color = '#f87171';
+      iconOrb.style.borderColor = 'rgba(248,113,113,0.2)';
+      confirmBtn.style.background = '#ef4444';
+    }
+
+    // Reset to default if not danger
+    if (opts.type !== 'danger' && iconOrb && confirmBtn) {
+      iconOrb.style.background = '';
+      iconOrb.style.color = '';
+      iconOrb.style.borderColor = '';
+      confirmBtn.style.background = '';
+    }
+
+    // Set callback
+    if (confirmBtn) {
+      confirmBtn.onclick = () => {
+        if (opts.onConfirm) opts.onConfirm();
+        this.hideSettingsModal();
+      };
+    }
+
+    modal.classList.remove('hidden');
+  },
+
+  hideSettingsModal() {
+    const modal = document.getElementById('section-settings-modal');
+    if (modal) modal.classList.add('hidden');
   }
 };

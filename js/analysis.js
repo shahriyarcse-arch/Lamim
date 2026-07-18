@@ -29,7 +29,7 @@ const Analysis = {
         }
       }, 300);
 
-      window.addEventListener('lamim:data-updated', () => {
+      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
         this._cachedHabits = null; // Invalidate cache on data change
         this._debouncedRender();
       });
@@ -208,9 +208,9 @@ const Analysis = {
             </button>
           </div>
 
-          <button class="btn-report-link" onclick="Analysis.exportMonthlyReport('${monthVal}')" style="flex-shrink: 0; padding: 5px 10px; font-size: 10px;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>PDF</span>
+          <button class="btn-report-link" onclick="Analysis.exportMonthlyReport('${monthVal}')" title="Export monthly PDF report">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>PDF Report</span>
           </button>
         </div>
 
@@ -580,31 +580,8 @@ const Analysis = {
       return;
     }
 
-    if (typeof html2pdf === 'undefined') {
-      Utils.toast('Loading PDF generator, please wait...', 'info');
-      Utils.loadScript('js/html2pdf.bundle.min.js')
-        .then(() => {
-          this.exportMonthlyReport();
-        })
-        .catch(err => {
-          console.error("Failed to load html2pdf", err);
-          Utils.toast('Failed to load PDF library.', 'error');
-        });
-      return;
-    }
-
     const avgSHS = (totalSHS / daysAnalyzed).toFixed(1);
     const user = DB.getUser() || { name: 'User' };
-
-    const element = document.createElement('div');
-    element.style.width = '720px';
-    element.style.padding = '0';
-    element.style.fontFamily = "'Inter', 'Segoe UI', Roboto, sans-serif";
-    element.style.color = '#1e293b';
-    element.style.lineHeight = '1.6';
-    element.style.background = '#f8fafc';
-    element.style.position = 'relative';
-    element.style.overflow = 'hidden';
 
     const getBadgeStyle = (rating) => {
       if (rating === 'Muttaqi') return 'background: rgba(251, 191, 36, 0.15); color: #b45309; border: 1px solid rgba(251, 191, 36, 0.3);';
@@ -613,10 +590,11 @@ const Analysis = {
       return 'background: rgba(248, 113, 113, 0.15); color: #b91c1c; border: 1px solid rgba(248, 113, 113, 0.3);';
     };
 
-    element.innerHTML = `
+    const innerHTML = `
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #f8fafc; }
         .pdf-wrapper { background: #f8fafc; width: 100%; min-height: 1122px; position: relative; }
         
         .header-banner { 
@@ -625,6 +603,7 @@ const Analysis = {
           padding: 50px 40px; 
           position: relative;
           overflow: hidden;
+          box-shadow: 0 14px 38px -16px rgba(124, 58, 237, 0.55);
         }
         .header-bg-shape {
           position: absolute; right: -50px; top: -50px; width: 300px; height: 300px;
@@ -683,7 +662,13 @@ const Analysis = {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          position: relative;
+          overflow: hidden;
         }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--sc, #6366f1); }
+        .stat-card:nth-child(1) { --sc: #6366f1; }
+        .stat-card:nth-child(2) { --sc: #10b981; }
+        .stat-card:nth-child(3) { --sc: #f59e0b; }
         .stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .stat-val { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1.1; margin-bottom: 4px; }
         .stat-label { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -691,11 +676,11 @@ const Analysis = {
         .section-title { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .section-title::before { content: ''; display: block; width: 4px; height: 18px; background: #6366f1; border-radius: 2px; }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; }
-        th { text-align: left; background: #f8fafc; padding: 14px 16px; font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; border-bottom: 1px solid #e2e8f0; letter-spacing: 0.5px; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; }
+        th { text-align: left; background: linear-gradient(180deg, #7c3aed, #6d28d9); padding: 14px 16px; font-size: 11px; text-transform: uppercase; color: #fff; font-weight: 700; border-bottom: 1px solid #e2e8f0; letter-spacing: 0.5px; }
         td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #334155; font-weight: 500; }
         tr:last-child td { border-bottom: none; }
-        tr:nth-child(even) td { background: #fafafa; }
+        tr:nth-child(even) td { background: #fafbfc; }
         
         .score-highlight { font-weight: 700; color: #0f172a; }
         .rating-badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
@@ -709,7 +694,7 @@ const Analysis = {
           align-items: center;
         }
         .footer-text { font-size: 11px; color: #94a3b8; font-weight: 500; }
-        .footer-logo { font-size: 14px; font-weight: 800; color: #cbd5e1; letter-spacing: 1px; }
+        .footer-logo { font-size: 14px; font-weight: 800; color: #6366f1; letter-spacing: 1px; }
       </style>
       
       <div class="pdf-wrapper">
@@ -792,28 +777,23 @@ const Analysis = {
       </div>
     `;
 
-    this._isGeneratingPDF = true;
-    Utils.toast('Generating PDF...', 'info');
-
-    html2pdf()
-      .set({
-        margin: [10, 0, 10, 0], // top, left, bottom, right
-        filename: `Lamim_Spiritual_Report_${monthName}_${currentYear}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, windowWidth: 720, width: 720 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(element)
-      .save()
-      .then(() => {
-        Utils.toast('Download complete!', 'success');
-      })
-      .catch((err) => {
-        console.error(err);
-        Utils.toast('Error generating PDF', 'error');
-      })
-      .finally(() => {
-        this._isGeneratingPDF = false;
-      });
+    const genDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    const win = window.open('', '_blank');
+    if (!win) {
+      if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Please allow popups to export PDF', 'error');
+      return;
+    }
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Lamim Spiritual Report — ${monthName} ${currentYear}</title>
+      <style>
+        @page { size: A4; margin: 16mm; }
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      </style>${innerHTML}</body></html>`);
+    win.document.close();
+    setTimeout(() => { win.print(); }, 800);
+  },
+  destroy() {
+    if (this._debouncedRender) this._debouncedRender.cancel && this._debouncedRender.cancel();
+    this._dataUpdateBound = false;
   }
 };
+window.Analysis = Analysis;

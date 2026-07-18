@@ -1,6 +1,19 @@
 /* =============================================
    LAMIM — MAIN APP ROUTER & INIT
    ============================================= */
+
+// Load Quran verses
+window.LamimVerses = [];
+const _versesController = new AbortController();
+const _versesTimeout = setTimeout(() => _versesController.abort(), 5000);
+fetch('js/verses.json', { signal: _versesController.signal })
+  .then(res => res.json())
+  .then(data => { window.LamimVerses = data; })
+  .catch(err => {
+    if (err.name !== 'AbortError') console.error('Failed to load verses:', err);
+  })
+  .finally(() => clearTimeout(_versesTimeout));
+
 const App = {
   currentSection: '',
   lang: localStorage.getItem('lamim_lang') || 'en',
@@ -27,13 +40,27 @@ const App = {
     // 1. Update dynamic module renders FIRST so they inject fresh English text
     this.updateSectionTitle();
     const current = this.currentSection;
-    if (current === 'dhikr' && typeof Dhikr !== 'undefined') { Dhikr.renderMarquee(); Dhikr.renderSessionHistory(); Dhikr.renderHero(); Dhikr.renderPresetRow(); }
-    if (current === 'profile' && typeof Profile !== 'undefined') { Profile.renderSettings(); }
-    if (current === 'salah' && typeof Salah !== 'undefined') { Salah.renderAll(); }
-    if (current === 'nafl' && typeof Goals !== 'undefined') { Goals.render(); }
-    if (current === 'finance' && typeof Finance !== 'undefined') { Finance.render(); }
-    if (current === 'analysis' && typeof Analysis !== 'undefined') { Analysis.init(); }
-    if (current === 'mujahid' && typeof Mujahid !== 'undefined') { Mujahid.render(); }
+    if (current === 'dhikr' && typeof Dhikr !== 'undefined') {
+      Utils.safeRun(() => { Dhikr.renderMarquee(); Dhikr.renderSessionHistory(); Dhikr.renderHero(); Dhikr.renderPresetRow(); }, 'Dhikr Render');
+    }
+    if (current === 'profile' && typeof Profile !== 'undefined') {
+      Utils.safeRun(() => Profile.renderSettings(), 'Profile Render');
+    }
+    if (current === 'salah' && typeof Salah !== 'undefined') {
+      Utils.safeRun(() => Salah.renderAll(), 'Salah Render');
+    }
+    if (current === 'nafl' && typeof Goals !== 'undefined') {
+      Utils.safeRun(() => Goals.render(), 'Goals Render');
+    }
+    if (current === 'finance' && typeof Finance !== 'undefined') {
+      Utils.safeRun(() => Finance.render(), 'Finance Render');
+    }
+    if (current === 'analysis' && typeof Analysis !== 'undefined') {
+      Utils.safeRun(() => Analysis.init(), 'Analysis Render');
+    }
+    if (current === 'mujahid' && typeof Mujahid !== 'undefined') {
+      Utils.safeRun(() => Mujahid.render(), 'Mujahid Render');
+    }
 
 
     // Pre-calculate reverse dictionary for fast translation lookup (O(1))
@@ -54,7 +81,7 @@ const App = {
     const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
     let n;
     while (n = walk.nextNode()) {
-      if (n.parentElement && (n.parentElement.tagName === 'SCRIPT' || n.parentElement.hasAttribute('data-i18n') || n.parentElement.closest('[data-i18n]'))) continue;
+      if (n.parentElement && (n.parentElement.tagName === 'SCRIPT' || n.parentElement.tagName === 'STYLE' || n.parentElement.hasAttribute('data-i18n') || n.parentElement.closest('[data-i18n]'))) continue;
 
       let text = n.nodeValue.trim();
       if (!text) continue;
@@ -88,8 +115,8 @@ updateSectionTitle() {
 
   // Section labels for the topbar
   sectionLabels: {
-    en: { home: 'Home', salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', profile: 'Profile' },
-    bn: { home: 'হোম', salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', profile: 'প্রোফাইল' }
+    en: { home: 'Home', salah: 'Salah Tracker', dhikr: 'Dhikr Counter', nafl: 'Nafl Salah', mujahid: 'Mujahid', finance: 'Islamic Finance', analysis: 'Analysis', gym: 'Gym Tracker', career: 'Career Builder', profile: 'Profile' },
+    bn: { home: 'হোম', salah: 'সালাত ট্র্যাকার', dhikr: 'যিকির কাউন্টার', nafl: 'নফল সালাত', mujahid: 'মুজাহিদ', finance: 'ইসলামিক অর্থনীতি', analysis: 'বিশ্লেষণ', gym: 'জিম ট্র্যাকার', career: 'ক্যারিয়ার বিল্ডার', profile: 'প্রোফাইল' }
   },
 
   async init() {
@@ -139,7 +166,6 @@ updateSectionTitle() {
         navigator.serviceWorker.getRegistrations().then((registrations) => {
           for (let registration of registrations) {
             registration.unregister();
-            console.log('[Dev] Unregistered Service Worker on localhost');
           }
         });
       } else {
@@ -157,7 +183,6 @@ updateSectionTitle() {
             const currentVersion = DB.rawGet('lamim_current_sw_version');
             if (currentVersion !== event.data.version) {
               DB.rawSet('lamim_current_sw_version', event.data.version);
-              console.log('[App] New version detected:', event.data.version, '— auto-refreshing...');
               
               // Clear caches before reloading to ensure absolute fresh assets
               if ('caches' in window) {
@@ -182,7 +207,6 @@ updateSectionTitle() {
     const startupDate = Utils.todayStr();
     setInterval(() => {
       if (Utils.todayStr() !== startupDate) {
-        console.log("[App] Midnight rollover detected. Reloading app state...");
         window.location.reload();
       }
     }, 60000);
@@ -190,19 +214,15 @@ updateSectionTitle() {
     // Splash → route (offline boot sequence)
     this._bootComplete = false;
     setTimeout(() => {
-      console.log('[Boot] Starting initialization...');
       document.getElementById('splash')?.classList.add('hidden');
       
       const user = DB.getUser();
       
       if (user) {
-        console.log('[Boot] Local user found:', user.name);
         if (DB.refreshSpiritScore) DB.refreshSpiritScore();
         this.showDashboard();
-        console.log('[Boot] Dashboard loaded successfully');
         this.checkBackupReminder();
       } else {
-        console.log('[Boot] No local user → setup');
         this.showPage('setup');
       }
       this._bootComplete = true;
@@ -236,6 +256,12 @@ updateSectionTitle() {
     window.addEventListener('offline', () => {
       Utils.toast(this.lang === 'bn' ? 'আপনি এখন অফলাইনে আছেন। ডাটা লোকালি সেভ হবে।' : 'You are offline. Data will be saved locally.', 'warning');
     });
+
+    // Auto re-detect location after travelling (app returns to foreground / relaunch)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') Utils.autoUpdateLocationOnTravel();
+    });
+    setTimeout(() => Utils.autoUpdateLocationOnTravel(), 4000);
 
     // Android hardware back button support
     window.addEventListener('popstate', (e) => {
@@ -310,6 +336,12 @@ updateSectionTitle() {
       return;
     }
 
+    // Cleanup outgoing section
+    const sections = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+    if (this.currentSection && sections[this.currentSection] && sections[this.currentSection].destroy) {
+      Utils.safeRun(() => sections[this.currentSection].destroy(), `${this.currentSection} Cleanup`);
+    }
+
     this.currentSection = sectionId;
 
     // Push history state for Android back button (skip if this IS a back navigation)
@@ -327,6 +359,9 @@ updateSectionTitle() {
     const panel = document.getElementById('section-' + sectionId);
     if (panel) panel.classList.add('active');
 
+    // Toggle Home-active flag (pauses aurora animation when away from Home)
+    document.body.classList.toggle('home-active', sectionId === 'home');
+
     // Toggle topbars - home shows main topbar, others show section topbar
     const topbar = document.getElementById('topbar');
     const topbarSection = document.getElementById('topbar-section');
@@ -343,13 +378,15 @@ updateSectionTitle() {
 
     // Init section
     const inits = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
-    inits[sectionId]?.init();
+    if (inits[sectionId]) {
+      Utils.safeRun(() => inits[sectionId].init(), `${sectionId} Initialization`);
+    }
 
     // Close sidebar on mobile
     if (window.innerWidth <= 1024) this.closeSidebar();
 
-    // Scroll top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll top (instant — global smooth-scroll makes this janky on long sections)
+    window.scrollTo(0, 0);
   },
 
   bindNav() {
@@ -408,8 +445,8 @@ updateSectionTitle() {
       return;
     }
 
-    const lastDate = new Date(lastBackup);
-    const currDate = new Date(today);
+    const lastDate = new Date(lastBackup + 'T00:00:00');
+    const currDate = new Date(today + 'T00:00:00');
     const diffTime = Math.abs(currDate - lastDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 

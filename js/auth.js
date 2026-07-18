@@ -52,14 +52,14 @@ const Auth = {
     if (currentStep === 1) {
       const nameInput = document.getElementById('setup-name');
       const err = document.getElementById('setup-name-err');
-      const name = nameInput.value.trim();
+      const name = nameInput ? nameInput.value.trim() : '';
       if (!name) {
-        nameInput.classList.add('input-error');
+        if (nameInput) nameInput.classList.add('input-error');
         if (err) { err.textContent = 'Name is required'; err.classList.add('show'); }
-        nameInput.focus();
+        if (nameInput) nameInput.focus();
         return;
       }
-      nameInput.classList.remove('input-error');
+      if (nameInput) nameInput.classList.remove('input-error');
       if (err) err.classList.remove('show');
     }
     
@@ -258,7 +258,15 @@ const Auth = {
       const lat = parseFloat(latInput.value);
       const lng = parseFloat(lngInput.value);
       const gender = this.selectedGender || 'male';
-      const dob = dobInput ? dobInput.value : '';
+      let dob = dobInput ? dobInput.value : '';
+      if (dob) {
+        const parts = dob.split('-');
+        if (parts.length === 3) {
+          const y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+          const maxDay = new Date(y, m, 0).getDate();
+          if (d > maxDay) dob = `${y}-${String(m).padStart(2,'0')}-${String(maxDay).padStart(2,'0')}`;
+        }
+      }
       const bio = bioInput ? bioInput.value.trim() : '';
 
       const user = {
@@ -279,6 +287,12 @@ const Auth = {
       settings.currency = currency;
       settings.lat = lat;
       settings.lng = lng;
+
+      // Generate a unique virtual card number for this account at creation time
+      if (!settings.cardNumber) {
+        const grp = () => Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
+        settings.cardNumber = grp() + grp() + grp() + grp();
+      }
 
       const statusText = document.getElementById('setup-location-status');
       if (statusText && statusText.textContent.startsWith('Detected: ')) {
@@ -304,85 +318,32 @@ const Auth = {
   bindSetup() {
     if (this._setupBound) return;
     this._setupBound = true;
-    const form = document.getElementById('setup-form');
-    if (!form) return;
-    
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const nameInput = document.getElementById('setup-name');
-      const err = document.getElementById('setup-name-err');
-      const name = nameInput.value.trim();
-      
-      if (!name) {
-        this.goToStep(1);
-        nameInput.classList.add('input-error');
-        if (err) { err.textContent = 'Name is required'; err.classList.add('show'); }
-        return;
-      }
-
-      const langSelect = document.getElementById('setup-lang');
-      const currencySelect = document.getElementById('setup-currency');
-      const latInput = document.getElementById('setup-lat');
-      const lngInput = document.getElementById('setup-lng');
-
-      const language = langSelect ? langSelect.value : 'en';
-      const currency = currencySelect ? currencySelect.value : 'USD';
-      const lat = latInput ? parseFloat(latInput.value) : 23.8103;
-      const lng = lngInput ? parseFloat(lngInput.value) : 90.4125;
-
-      const user = { 
-        id: 'local_' + Date.now(), 
-        name: name, 
-        email: 'local@lamim.offline',
-        role: 'user',
-        gender: '',
-        age: '',
-        avatar: null, 
-        location: '', 
-        createdAt: new Date().toISOString()
-      };
-      
-      const settings = DB.getSettings();
-      settings.language = language;
-      settings.currency = currency;
-      settings.lat = lat;
-      settings.lng = lng;
-      
-      const statusText = document.getElementById('setup-location-status');
-      if (statusText && statusText.textContent.startsWith('Detected: ')) {
-        settings.locationName = statusText.textContent.replace('Detected: ', '');
-      } else {
-        settings.locationName = lat.toFixed(2) + ', ' + lng.toFixed(2);
-      }
-
-      DB.setUser(user);
-      DB.setSettings(settings);
-
-      if (typeof Home !== 'undefined') Home.render();
-      if (typeof Salah !== 'undefined') Salah.init();
-      if (typeof Profile !== 'undefined') {
-        Profile.renderSettings();
-        Profile.render();
-      }
-
-      Utils.toast('Welcome, ' + name + '!', 'success');
-      
-      setTimeout(() => {
-        App.showDashboard();
-      }, 500);
-    });
+    const nameInput = document.getElementById('setup-name');
+    if (nameInput) {
+      nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); this.submitSetup(); }
+      });
+    }
   },
 
   logout() {
-    Utils.confirm(
-      'Reset Data',
-      'Are you sure you want to delete your profile? This will log you out but keep your local data.',
-      () => {
+    const isBn = (localStorage.getItem('lamim_lang') || 'en') === 'bn';
+    const title = isBn ? 'লগ আউট' : 'Log Out';
+    const msg = isBn
+      ? 'লগ আউট করবেন এবং ওয়েলকাম স্ক্রিনে ফিরে যাবেন। আপনার লোকাল ডাটা এই ডিভাইসেই থাকবে।'
+      : 'Log out and return to the welcome screen. Your local data stays on this device.';
+    Utils.dangerConfirm({
+      title,
+      message: msg,
+      icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>',
+      color: '#8b5cf6',
+      confirmText: isBn ? 'লগ আউট' : 'Log Out',
+      onConfirm: () => {
         DB.remove('lamim_user');
-        Utils.toast('Logged out successfully', 'info');
+        document.body.classList.remove('home-active');
+        Utils.toast(isBn ? 'লগ আউট করা হয়েছে' : 'Logged out', 'info');
         setTimeout(() => App.showPage('setup'), 500);
       }
-    );
+    });
   }
 };

@@ -41,7 +41,10 @@ const Goals = {
 
     const isToday = this.currentDate === Utils.todayStr();
     const label = document.getElementById('nafl-date-label');
-    if (label) label.textContent = isToday ? 'Today' : new Date(this.currentDate + 'T00:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    const sub = document.getElementById('nafl-date-sub');
+    const dObj = new Date(this.currentDate + 'T00:00:00');
+    if (label) label.textContent = isToday ? 'Today' : dObj.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    if (sub) sub.textContent = isToday ? dObj.toLocaleDateString('en-US', {weekday:'short'}) : dObj.toLocaleDateString('en-US', {year:'numeric'});
 
     // TEMPORAL LOCK: Use explicit ID
     const nextBtn = document.getElementById('nafl-next-btn');
@@ -154,7 +157,6 @@ const Goals = {
         
         this.render(true); // skip animation on reset
         Utils.toast('Nafl data cleared', 'info');
-        console.log("[Goals] Data reset for sync:", this.currentDate);
       }
     });
   },
@@ -601,9 +603,10 @@ const Goals = {
     const TOTAL_MAX = trackingDays * MAX_PTS_PER_DAY;
     const completion = TOTAL_MAX > 0 ? ((totalPoints / TOTAL_MAX) * 100).toFixed(1) : '0.0';
 
-    document.getElementById('h-sum-total').textContent = totalRakat + ' RK';
-    document.getElementById('h-sum-streak').textContent = streak + 'd';
-    document.getElementById('h-sum-avg').textContent = completion + '%';
+    const el = (id) => document.getElementById(id);
+    if (el('h-sum-total')) el('h-sum-total').textContent = totalRakat + ' RK';
+    if (el('h-sum-streak')) el('h-sum-streak').textContent = streak + 'd';
+    if (el('h-sum-avg')) el('h-sum-avg').textContent = completion + '%';
 
     list.innerHTML = history.map(day => {
       const isPastDay = day.date !== Utils.todayStr();
@@ -663,3 +666,4 @@ const Goals = {
     document.getElementById('nafl-history-modal')?.classList.add('hidden');
   }
 };
+window.Goals = Goals;

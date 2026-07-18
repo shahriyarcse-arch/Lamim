@@ -30,6 +30,7 @@
   --color-accent-amber:   #fbbf24;
   --color-accent-orange:  #fb923c;
   --color-accent-red:     #f87171;
+  --color-danger-bg:      rgba(248, 113, 113, 0.1);
   --color-accent-purple:  #c084fc;
   --color-accent-teal:    #2dd4bf;
   --color-accent-blue:    #38bdf8;
@@ -250,7 +251,6 @@
   --fin-green: #047857;
   --fin-red: #B91C1C;
   --fin-blue: #1D4ED8;
-  --fin-purple: #6D28D9;
   --fin-purple: #6D28D9;
   --fin-orange: #B45309;
   --fin-gold: #A16207;

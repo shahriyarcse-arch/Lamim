@@ -1,2 +1,19 @@
-.vercel
+# Dependencies / build artifacts
+node_modules/
+dist/
+build/
+.cache/
+
+# Local environment / secrets
+.env
 .env*.local
+.vercel
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+# Local AI tooling config (not part of the app)
+.claude/
+.agents/

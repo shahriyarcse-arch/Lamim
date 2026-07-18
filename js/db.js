@@ -100,8 +100,6 @@ const DB = {
 
     if (keysToMigrate.length === 0) return Promise.resolve();
 
-    console.log(`[DB] Migrating ${keysToMigrate.length} keys from localStorage to IndexedDB...`);
-
     return new Promise((resolve) => {
       try {
         const transaction = this._db.transaction(['keyvalue'], 'readwrite');
@@ -114,7 +112,6 @@ const DB = {
         });
 
         transaction.oncomplete = () => {
-          console.log("[DB] Migration transaction complete. Clearing localStorage...");
           keysToMigrate.forEach(key => {
             if (key !== 'lamim_lang' && key !== 'lamim_settings') {
               localStorage.removeItem(key);
@@ -144,6 +141,7 @@ const DB = {
       req.onerror = (e) => {
         const err = e.target.error;
         console.error(`[DB] Async write failed for key: ${key}`, err);
+        delete this._cache[key];
         if (err && (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
           if (typeof Utils !== 'undefined') {
             Utils.toast('Storage limit reached! Please backup and clear some data.', 'error');
@@ -152,6 +150,7 @@ const DB = {
       };
     } catch (e) {
       console.error(`[DB] Async write failed for key: ${key}`, e);
+      delete this._cache[key];
     }
   },
 
@@ -167,14 +166,19 @@ const DB = {
   },
 
   _asyncClear() {
-    if (!this._db) return;
-    try {
-      const transaction = this._db.transaction(['keyvalue'], 'readwrite');
-      const store = transaction.objectStore(['keyvalue']);
-      store.clear();
-    } catch (e) {
-      console.error('[DB] Async clear failed:', e);
-    }
+    return new Promise((resolve) => {
+      if (!this._db) { resolve(); return; }
+      try {
+        const transaction = this._db.transaction(['keyvalue'], 'readwrite');
+        const store = transaction.objectStore(['keyvalue']);
+        store.clear();
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = (e) => { console.error('[DB] Async clear failed:', e.target.error); resolve(); };
+      } catch (e) {
+        console.error('[DB] Async clear failed:', e);
+        resolve();
+      }
+    });
   },
 
   get(key) {
@@ -192,7 +196,9 @@ const DB = {
       const strVal = JSON.stringify(val);
       this._cache[key] = strVal;
 
-      if (key === 'lamim_lang' || key === 'lamim_settings') {
+      if (!this._db) {
+        try { localStorage.setItem(key, strVal); } catch {}
+      } else if (key === 'lamim_lang' || key === 'lamim_settings') {
         try { localStorage.setItem(key, strVal); } catch {}
       }
 
@@ -232,10 +238,17 @@ const DB = {
     }
   },
 
-  clear() {
+  async clear() {
     this._cache = {};
-    try { localStorage.clear(); } catch {}
-    this._asyncClear();
+    try {
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('lamim_')) keysToRemove.push(k);
+      }
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+    } catch {}
+    await this._asyncClear();
   },
 
   keys() {
@@ -358,7 +371,7 @@ const DB = {
   // Dhikr history
   getDhikrHistory(days = 30) {
     const result = [];
-    const d = new Date();
+    const d = Utils.getOffsetDate();
     for (let i = days - 1; i >= 0; i--) {
       const dd = new Date(d); dd.setDate(d.getDate() - i);
       const ds = Utils.dateStr(dd);
@@ -382,7 +395,7 @@ const DB = {
           this.setUser(user);
         }
       }
-    }, 500);
+    }, 2000);
   },
 
   // Sleep & Gym — keyed by date YYYY-MM-DD
@@ -409,10 +422,20 @@ const DB = {
   setPRs(p) { return this.set('lamim_gym_prs', p); },
 
   getCareer(date) {
-    const def = { focusTopic: "", category: "coding", studyDuration: 0, notes: "", checklist: [ { id: 1, text: "Solve 1 DSA Problem", done: false }, { id: 2, text: "Read 10 Pages of a book", done: false } ], streak: 0 };
+    const def = { focusTopic: "", category: "coding", studyDuration: 0, notes: "", checklist: [], streak: 0 };
     const v = this.get(`lamim_career_${date}`);
     if (!v) return def;
-    return { ...def, ...v, checklist: Array.isArray(v.checklist) ? v.checklist : def.checklist };
+    const checklist = Array.isArray(v.checklist) ? v.checklist.map((item, idx) => {
+      if (typeof item === 'string') return { id: idx + 1, text: item, done: false, category: 'general' };
+      if (!item || typeof item !== 'object') return { id: idx + 1, text: '', done: false, category: 'general' };
+      return {
+        id: item.id || idx + 1,
+        text: item.text || '',
+        done: !!item.done,
+        category: item.category || 'general'
+      };
+    }) : def.checklist;
+    return { ...def, ...v, checklist };
   },
   setCareer(date, d) { return this.set(`lamim_career_${date}`, d); },
   getCareerTargets() { return this.get('lamim_career_targets') || { studyHoursTarget: 15, goalsTarget: 10 }; },
@@ -466,11 +489,8 @@ const DB = {
     if (oldFin) {
       if (!this.rawGet('lamim_finance')) {
         this.rawSet('lamim_finance', oldFin);
-        console.log("Finance data migrated to new key.");
       }
       this.remove('lamim_finance_data');
     }
-    
-    console.log("LAMIM: Storage housekeeping complete.");
   }
 };

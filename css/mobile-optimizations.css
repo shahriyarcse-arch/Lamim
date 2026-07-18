@@ -14,24 +14,40 @@
     font-size: 1.3rem;
   }
 
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-bg-tertiary);
-  border: 1.5px solid var(--color-border);
-  transition: all 0.15s ease;
-}
+  .dhikr-preset-arabic {
+    font-size: 10px;
+  }
 
-.dhikr-beads-container .bead.lit {
-  background: linear-gradient(45deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24,
-      #a855f7);
-  background-size: 300% 300%;
-  animation: fluidGradient 6s ease-in-out infinite;
-  border-color: transparent;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  .dhikr-preset-name {
+    font-size: 10px;
+  }
+
+  .dhikr-beads-container {
+    width: 220px;
+    gap: 3px;
+  }
+
+  .dhikr-beads-container .bead {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-bg-tertiary);
+    border: 1.5px solid var(--color-border);
+    transition: all 0.15s ease;
+  }
+
+  .dhikr-beads-container .bead.lit {
+    background: linear-gradient(45deg,
+        #34d399,
+        #14b8a6,
+        #06b6d4,
+        #fbbf24,
+        #34d399);
+    background-size: 300% 300%;
+    animation: fluidGradient 6s ease-in-out infinite;
+    border-color: transparent;
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
+  }
 }
 
 /* Horizontal scroll for presets */
@@ -184,41 +200,6 @@
   margin-top: 2px;
   display: none;
   /* Hide on mobile to save space */
-}
-
-/* === MOBILE OPTIMIZATIONS === */
-@media (max-width: 480px) {
-  .dhikr-hero-section {
-    padding: var(--space-3) var(--space-1);
-  }
-
-  .dhikr-preset-card {
-    width: 75px;
-    min-height: 75px;
-    padding: var(--space-1);
-  }
-
-  .dhikr-preset-icon {
-    font-size: 1.3rem;
-  }
-
-  .dhikr-preset-arabic {
-    font-size: 10px;
-  }
-
-  .dhikr-preset-name {
-    font-size: 10px;
-  }
-
-  .dhikr-beads-container {
-    width: 220px;
-    gap: 3px;
-  }
-
-  .dhikr-beads-container .bead {
-    width: 10px;
-    height: 10px;
-  }
 }
 
 /* Dhikr Keyframes */

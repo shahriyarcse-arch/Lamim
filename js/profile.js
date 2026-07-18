@@ -37,7 +37,12 @@ const Profile = {
       </div>
       <div class="profile-name" id="prof-display-name"></div>
       <div class="profile-bio" id="prof-display-bio"></div>
-      ${user.createdAt ? `<div class="profile-joined">Warrior since ${new Date(user.createdAt).toLocaleDateString('en-US', {month:'long', year:'numeric'})}</div>` : ''}
+      <div class="profile-meta">
+        ${user.gender ? `<span class="profile-chip gender-${user.gender}">${user.gender === 'male'
+          ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"></circle><line x1="19" y1="5" x2="13.5" y2="10.5"></line><line x1="15" y1="2" x2="22" y2="9"></line><line x1="14" y1="9" x2="21" y2="16"></line></svg> Male'
+          : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><line x1="12" y1="14" x2="12" y2="22"></line><line x1="9" y1="19" x2="15" y2="19"></line></svg> Female'}</span>` : ''}
+        ${user.createdAt ? `<span class="profile-chip">Joined ${new Date(user.createdAt).toLocaleDateString('en-US', {month:'short', year:'numeric'})}</span>` : ''}
+      </div>
 
       <div class="profile-stats">
         <div class="streak-badge active streak-perfect" style="background:rgba(255,214,10,0.1); border-color:rgba(255,214,10,0.3); color:var(--color-accent-gold);" title="Your Lamim Spiritual Score (LSS)">
@@ -89,7 +94,7 @@ const Profile = {
     // Personal Info
     const pi = document.getElementById('profile-personal-info');
     if (pi) pi.innerHTML = `
-      <div class="settings-item" onclick="Profile.editField('name')">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.editField('name')">
         <div class="settings-item-left"><div class="settings-item-icon ic-blue">${icons.user}</div><div><div class="settings-item-label" data-i18n="Name">Name</div><div class="settings-item-value">${Utils.escapeHTML(user?.name || '—')}</div></div></div>
         <div class="settings-item-right"><span>›</span></div>
       </div>
@@ -99,23 +104,26 @@ const Profile = {
           <div class="lang-toggle-pill">
             <button class="${user?.gender==='male'?'active':''}" onclick="Profile.updateGender('male')">M</button>
             <button class="${user?.gender==='female'?'active':''}" onclick="Profile.updateGender('female')">F</button>
+            <button class="${!user?.gender?'active':''}" onclick="Profile.updateGender('')" title="Clear">—</button>
           </div>
         </div>
       </div>
-      <div class="settings-item" onclick="Profile.editField('bio')">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.editField('bio')">
         <div class="settings-item-left"><div class="settings-item-icon ic-teal">${icons.pen}</div><div><div class="settings-item-label">Bio / Status</div><div class="settings-item-value">${Utils.escapeHTML(user?.bio || 'Not set')}</div></div></div>
         <div class="settings-item-right"><span>›</span></div>
       </div>
-      <div class="settings-item" onclick="Profile.editField('dob')">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.editField('dob')">
         <div class="settings-item-left"><div class="settings-item-icon ic-orange">${icons.calendar}</div><div><div class="settings-item-label">Date of Birth</div><div class="settings-item-value">${(() => {
           if (!user?.dob) return 'Not set';
-          const d = new Date(user.dob);
-          if (isNaN(d.getTime())) return 'Not set';
-          const age = Math.floor((new Date() - d) / (1000 * 60 * 60 * 24 * 365.25));
+          const d = Profile._parseDob(user.dob);
+          if (!d) return 'Not set';
+          let age = new Date().getFullYear() - d.getFullYear();
+          const m = new Date().getMonth() - d.getMonth();
+          if (m < 0 || (m === 0 && new Date().getDate() < d.getDate())) age--;
           return age + ' years old';
         })()}</div></div></div>
         <div class="settings-item-right">
-          <div class="dob-pill">${(() => { if (!user?.dob) return '<span class="dob-seg dob-placeholder">DD</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">MM</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">YYYY</span>'; const d = new Date(user.dob); if (isNaN(d.getTime())) return '<span class="dob-seg dob-placeholder">DD</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">MM</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">YYYY</span>'; return `<span class="dob-seg">${String(d.getDate()).padStart(2,'0')}</span><span class="dob-sep">/</span><span class="dob-seg">${String(d.getMonth()+1).padStart(2,'0')}</span><span class="dob-sep">/</span><span class="dob-seg">${d.getFullYear()}</span>`; })()}</div>
+          <div class="dob-pill">${(() => { if (!user?.dob) return '<span class="dob-seg dob-placeholder">DD</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">MM</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">YYYY</span>'; const d = Profile._parseDob(user.dob); if (!d) return '<span class="dob-seg dob-placeholder">DD</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">MM</span><span class="dob-sep">/</span><span class="dob-seg dob-placeholder">YYYY</span>'; return `<span class="dob-seg">${String(d.getDate()).padStart(2,'0')}</span><span class="dob-sep">/</span><span class="dob-seg">${String(d.getMonth()+1).padStart(2,'0')}</span><span class="dob-sep">/</span><span class="dob-seg">${d.getFullYear()}</span>`; })()}</div>
         </div>
       </div>
     `;
@@ -123,11 +131,11 @@ const Profile = {
     // Prayer settings
     const ps = document.getElementById('profile-prayer-settings');
     if (ps) ps.innerHTML = `
-      <div class="settings-item" onclick="Profile.toggleJumuahMode()">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.toggleJumuahMode()">
         <div class="settings-item-left"><div class="settings-item-icon ic-violet">${icons.mosque}</div><div><div class="settings-item-label">Jumu'ah Mode</div><div class="settings-item-value">Show Jumu'ah on Fridays</div></div></div>
         <div class="settings-item-right"><div class="toggle ${settings.jumuahMode?'active':''}"></div></div>
       </div>
-      <div class="settings-item" onclick="Profile.toggleNotifications()">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.toggleNotifications()">
         <div class="settings-item-left"><div class="settings-item-icon ic-amber">${icons.bell}</div><div><div class="settings-item-label">Prayer Notifications</div><div class="settings-item-value">Alerts for next waqt</div></div></div>
         <div class="settings-item-right"><div class="toggle ${settings.notifications?'active':''}"></div></div>
       </div>
@@ -154,7 +162,7 @@ const Profile = {
           </select>
         </div>
       </div>
-      <div class="settings-item" onclick="Profile.detectLocation(event)">
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.detectLocation(event)">
         <div class="settings-item-left"><div class="settings-item-icon ic-teal">${icons.globe}</div><div><div class="settings-item-label">Detect Location</div><div class="settings-item-value">${settings.locationName || (settings.lat ? settings.lat.toFixed(2) + ', ' + settings.lng.toFixed(2) : 'Not set')}</div></div></div>
         <div class="settings-item-right"><span>↻</span></div>
       </div>
@@ -172,16 +180,16 @@ const Profile = {
     // Danger
     const dg = document.getElementById('profile-danger');
     if (dg) dg.innerHTML = `
-      <div class="settings-item" onclick="Auth.logout()">
-        <div class="settings-item-left"><div class="settings-item-icon ic-red">${icons.logout}</div><div><div class="settings-item-label" style="color:var(--color-accent-red)" data-i18n="Logout">Logout</div></div></div>
+      <div class="settings-item" role="button" tabindex="0" onclick="Auth.logout()">
+        <div class="settings-item-left"><div class="settings-item-icon ic-red">${icons.logout}</div><div><div class="settings-item-label" style="color:var(--color-accent-red)" data-i18n="Log Out (Keep Data)">Log Out (Keep Data)</div></div></div>
         <div class="settings-item-right"><span>›</span></div>
       </div>
-      <div class="settings-item" onclick="Profile.deleteAccount()">
-        <div class="settings-item-left"><div class="settings-item-icon ic-red">${icons.trash}</div><div><div class="settings-item-label" style="color:var(--color-accent-red)" data-i18n="Delete Account">Wipe Data</div></div></div>
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.deleteAccount()">
+        <div class="settings-item-left"><div class="settings-item-icon ic-red">${icons.trash}</div><div><div class="settings-item-label" style="color:var(--color-accent-red)" data-i18n="Delete Account & All Data">Delete Account & All Data</div></div></div>
         <div class="settings-item-right"><span>›</span></div>
       </div>
-      <div class="settings-item" onclick="Profile.fullReset()">
-        <div class="settings-item-left"><div class="settings-item-icon ic-orange">${icons.refresh}</div><div><div class="settings-item-label" style="color:#f97316" data-i18n="Hard Reset App">Hard Reset App</div><div class="settings-item-value">Clear cache & all data</div></div></div>
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.fullReset()">
+        <div class="settings-item-left"><div class="settings-item-icon ic-orange">${icons.refresh}</div><div><div class="settings-item-label" style="color:#f97316" data-i18n="Factory Reset App">Factory Reset App</div><div class="settings-item-value" data-i18n="Factory Reset Sub">Erase app, data &amp; cache</div></div></div>
         <div class="settings-item-right"><span>›</span></div>
       </div>
     `;
@@ -189,9 +197,9 @@ const Profile = {
     // About
     const ab = document.getElementById('profile-about');
     if (ab) ab.innerHTML = `
-      <div class="settings-item" onclick="Profile.showAppInfo()">
-        <div class="settings-item-left"><div class="settings-item-icon ic-slate">${icons.info}</div><div><div class="settings-item-label" data-i18n="App Version">App Version</div><div class="settings-item-value">Tap to see app info</div></div></div>
-        <div class="settings-item-right"><span>v4.0.0</span><span>›</span></div>
+      <div class="settings-item" role="button" tabindex="0" onclick="Profile.showAppInfo()">
+        <div class="settings-item-left"><div class="settings-item-icon ic-slate">${icons.info}</div><div><div class="settings-item-label" data-i18n="App Version">App Version</div><div class="settings-item-value">Release notes & build info</div></div></div>
+        <div class="settings-item-right"><span class="ver-chip">v4.0.0</span><span>›</span></div>
       </div>
     `;
   },
@@ -207,6 +215,7 @@ const Profile = {
     const title = document.getElementById('profile-edit-title');
     const label = document.getElementById('profile-edit-label');
     const input = document.getElementById('profile-edit-input');
+    if (!modal || !title || !label || !input) return;
     title.textContent = 'Edit ' + (labels[field] || field);
     label.textContent = labels[field] || field;
     if (field === 'dob') {
@@ -219,6 +228,31 @@ const Profile = {
       input.placeholder = 'Enter ' + (labels[field] || field).toLowerCase();
     }
     input.style.display = 'block';
+
+    // Live character counter for length-limited fields (e.g. bio: 150)
+    const countEl = document.getElementById('profile-edit-count');
+    const maxLen = (field === 'bio') ? 150 : (field === 'name' ? 50 : 0);
+    if (countEl) {
+      if (maxLen > 0) {
+        input.maxLength = maxLen;
+        // Count the length AFTER the same sanitization saveEditModal applies (trim + collapse spaces)
+        const updateCount = () => {
+          const sanitized = input.value.trim().replace(/\s+/g, ' ');
+          countEl.textContent = `${sanitized.length}/${maxLen}`;
+          const ratio = sanitized.length / maxLen;
+          countEl.classList.toggle('warn', ratio >= 0.85 && ratio < 1);
+          countEl.classList.toggle('max', ratio >= 1);
+        };
+        input.oninput = updateCount;
+        updateCount();
+        countEl.style.display = 'block';
+      } else {
+        input.removeAttribute('maxLength');
+        input.oninput = null;
+        countEl.style.display = 'none';
+      }
+    }
+
     modal.classList.remove('hidden');
     setTimeout(() => input.focus(), 100);
     
@@ -263,7 +297,7 @@ const Profile = {
     
     // Validation: Date of Birth
     if (this._editingField === 'dob' && val) {
-      const selectedDate = new Date(val);
+      const selectedDate = Profile._parseDob(val) || new Date(val);
       
       if (isNaN(selectedDate.getTime())) {
         Utils.toast('Please enter a valid date', 'error');
@@ -284,13 +318,18 @@ const Profile = {
       }
     }
     const labels = { name: 'Your Name', bio: 'Bio / Status', dob: 'Date of Birth' };
-    user[this._editingField] = val;
+    const field = this._editingField;
+    user[field] = val;
     DB.setUser(user);
     this.closeEditModal();
     this.renderProfile();
     this.renderSettings();
     if (typeof App !== 'undefined') App.updateAvatars();
-    Utils.toast((labels[this._editingField] || this._editingField) + ' updated!', 'success');
+    if (field === 'dob' && !val) {
+      Utils.toast('Date of Birth cleared', 'info');
+    } else {
+      Utils.toast((labels[field] || field) + ' updated!', 'success');
+    }
     
     this._editingField = null;
   },
@@ -298,23 +337,36 @@ const Profile = {
   closeEditModal() {
     const modal = document.getElementById('profile-edit-modal');
     const input = document.getElementById('profile-edit-input');
-    modal.classList.add('hidden');
-    input.type = 'text';
-    input.style.display = 'block';
+    if (modal) modal.classList.add('hidden');
+    if (input) {
+      input.type = 'text';
+      input.style.display = 'block';
+    }
     this._editingField = null;
   },
 
 
 
   updateGender(val) {
-    if (val !== 'male' && val !== 'female') return;
     const user = DB.getUser();
     if (!user) return;
-    user.gender = val;
+    user.gender = (val === 'male' || val === 'female') ? val : null;
     DB.setUser(user);
     this.renderProfile();
     this.renderSettings();
-    Utils.toast('Gender updated!', 'success');
+    Utils.toast(user.gender ? 'Gender updated!' : 'Gender cleared', 'success');
+  },
+
+  // Parse a stored "YYYY-MM-DD" (or ISO) DOB as a LOCAL date to avoid UTC off-by-one-day bugs.
+  _parseDob(str) {
+    if (!str) return null;
+    const parts = String(str).split('T')[0].split('-');
+    if (parts.length === 3) {
+      const y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+      if (y > 0 && m >= 1 && m <= 12 && d >= 1 && d <= 31) return new Date(y, m - 1, d);
+    }
+    const fallback = new Date(str);
+    return isNaN(fallback.getTime()) ? null : fallback;
   },
 
   saveSetting(key, val) {
@@ -344,8 +396,8 @@ const Profile = {
     s.theme = theme;
     DB.setSettings(s);
     document.documentElement.setAttribute('data-theme', theme);
+    window.dispatchEvent(new CustomEvent('lamim:theme-changed', { detail: { theme } }));
     this.renderSettings();
-    Profile.renderSettings();
   },
 
   toggleNotifications() {
@@ -356,18 +408,28 @@ const Profile = {
     const s = DB.getSettings();
     s.notifications = !s.notifications;
     DB.setSettings(s);
-    if (s.notifications && 'Notification' in window) {
-      Notification.requestPermission().then(p => { 
-        if (p === 'granted') {
-          Utils.toast('Notifications enabled 🔔', 'success'); 
-          if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
-        }
-      });
+    if (s.notifications) {
+      // Turning ON
+      if (Notification.permission === 'granted') {
+        Utils.toast('Notifications enabled 🔔', 'success');
+        if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
+      } else if (Notification.permission === 'denied') {
+        Utils.toast('Notifications blocked by browser. Enable from browser address bar settings.', 'error');
+      } else {
+        // First time — ask permission
+        Notification.requestPermission().then(p => {
+          if (p === 'granted') {
+            Utils.toast('Notifications enabled 🔔', 'success');
+            if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
+          }
+        });
+      }
     } else {
+      // Turning OFF
       if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.stop();
+      Utils.toast('Notifications disabled', 'info');
     }
     this.renderSettings();
-    Profile.renderSettings();
   },
 
   toggleJumuahMode() {
@@ -375,7 +437,6 @@ const Profile = {
     s.jumuahMode = s.jumuahMode === undefined ? true : !s.jumuahMode;
     DB.setSettings(s);
     this.renderSettings();
-    Profile.renderSettings();
   },
 
 
@@ -383,82 +444,144 @@ const Profile = {
 
 
   showAppInfo() {
+    const APP_VERSION = '4.0.0';
+    const CODENAME = 'Sovereign';
+    const CHANGELOG = [
+      {
+        version: '4.0.0', codename: 'Sovereign', date: '2026-07-19', tag: 'Latest',
+        notes: [
+          'Rebuilt Finance as a realistic, professional money manager with an available-balance, vault-savings and net-worth model.',
+          'Accurate currency handling with live USD→BDT conversion and clearly visible symbols in both light and dark themes.',
+          'Fixed critical data-integrity bugs — deleting a vault no longer erases saved money, and month-over-month trends now compare income vs spending correctly.',
+          'Redesigned the Home dashboard as a premium bento layout with spirit score, next-prayer countdown and daily verse.',
+          'Resolved Home scroll performance by removing a nested-scroll trap for smooth single-gesture scrolling.',
+          'Hardened security across the app: input validation, safe HTML escaping and insufficient-balance guards on vault deposits.'
+        ]
+      },
+      {
+        version: '3.5.0', codename: 'Aurora', date: '2026-05-02', tag: 'Previous',
+        notes: [
+          'Introduced the aurora theming engine and a cohesive glassmorphism design system.',
+          'Added the analysis dashboard with spirit-score insights.',
+          'Offline-first service worker with silent background auto-update.'
+        ]
+      },
+      {
+        version: '3.0.0', codename: 'Foundation', date: '2026-02-14', tag: 'Previous',
+        notes: [
+          'Unified Salah, Dhikr, Nafl and Mujahid tracking under a single app.',
+          'Local-only encrypted IndexedDB storage — no account or server required.',
+          'Multi-language support (English / বাংলা) with a clean bilingual interface.'
+        ]
+      }
+    ];
+
     const totalKeys = DB.keys().filter(k => k.startsWith('lamim_')).length;
     let storageBytes = 0;
-    for (let i = 0; i < DB.keys().length; i++) {
-      const k = DB.keys()[i];
-      if (k.startsWith('lamim_')) storageBytes += (DB.rawGet(k)?.length || 0) * 2;
-    }
+    DB.keys().forEach(k => { if (k.startsWith('lamim_')) storageBytes += (DB.rawGet(k)?.length || 0) * 2; });
     const storageMB = (storageBytes / 1024 / 1024).toFixed(2);
     const user = DB.getUser();
     const createdDate = user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown';
+    const isInstalled = navigator.standalone || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+    const distribution = isInstalled ? 'Installed App' : 'Browser PWA';
 
-    const modal = document.getElementById('profile-edit-modal');
-    const title = document.getElementById('profile-edit-title');
-    const label = document.getElementById('profile-edit-label');
-    const input = document.getElementById('profile-edit-input');
-    title.textContent = 'App Info';
-    label.innerHTML = `
-      <div style="font-size:14px;line-height:1.8;color:var(--color-text-secondary)">
-        <div><strong>App Name:</strong> Lamim Spirituality</div>
-        <div><strong>Version:</strong> 4.0.0 "Sovereign"</div>
-        <div><strong>Account Created:</strong> ${createdDate}</div>
-        <div><strong>Data Entries:</strong> ${totalKeys} keys</div>
-        <div><strong>Storage Used:</strong> ${storageMB} MB</div>
-        <div><strong>Platform:</strong> Standalone Offline PWA</div>
-        <div><strong>Developer:</strong> Shamim Shahriyar</div>
+    const pill = document.getElementById('ver-pill-version');
+    if (pill) pill.innerHTML = `<span class="ver-pill-dot"></span> v${APP_VERSION} <span class="ver-pill-code">“${CODENAME}”</span>`;
+    const released = document.getElementById('ver-released');
+    if (released) released.textContent = CHANGELOG[0].date;
+
+    const cl = document.getElementById('ver-changelog');
+    if (cl) cl.innerHTML = CHANGELOG.map(r => `
+      <div class="ver-log-item">
+        <div class="ver-log-head">
+          <span class="ver-log-ver">v${Utils.escapeHTML(r.version)}</span>
+          <span class="ver-log-code">“${Utils.escapeHTML(r.codename)}”</span>
+          ${r.tag ? `<span class="ver-log-tag">${Utils.escapeHTML(r.tag)}</span>` : ''}
+          <span class="ver-log-date">${Utils.escapeHTML(r.date)}</span>
+        </div>
+        <ul class="ver-log-notes">
+          ${r.notes.map(n => `<li>${Utils.escapeHTML(n)}</li>`).join('')}
+        </ul>
       </div>
+    `).join('');
+
+    const dev = document.getElementById('ver-device');
+    if (dev) dev.innerHTML = `
+      <div class="ver-device-row"><span>Account Created</span><b>${Utils.escapeHTML(createdDate)}</b></div>
+      <div class="ver-device-row"><span>Local Data</span><b>${totalKeys} entries</b></div>
+      <div class="ver-device-row"><span>Storage Used</span><b>${storageMB} MB</b></div>
+      <div class="ver-device-row"><span>Distribution</span><b>${Utils.escapeHTML(distribution)}</b></div>
+      <div class="ver-device-row"><span>Developer</span><b>Shamim Shahriyar</b></div>
     `;
-    input.style.display = 'none';
-    modal.classList.remove('hidden');
-    this._editingField = '__info__';
+
+    const modal = document.getElementById('profile-version-modal');
+    if (modal) modal.classList.remove('hidden');
+  },
+
+  closeVersionModal() {
+    const modal = document.getElementById('profile-version-modal');
+    if (modal) modal.classList.add('hidden');
   },
 
   deleteAccount() {
-    Utils.confirm(
-      'Wipe All Local Data?', 
-      'This will permanently delete all your data from this device. Are you sure?', 
-      () => {
+    const isBn = (localStorage.getItem('lamim_lang') || 'en') === 'bn';
+    const title = isBn ? 'অ্যাকাউন্ট ও সব ডাটা মুছুন' : 'Delete Account & All Data';
+    const msg = isBn
+      ? 'আপনার প্রোফাইল এবং সব লোকাল ডাটা (নামাজ, জিকির, গোল, ফাইন্যান্স, ভল্ট, সেটিংস) স্থায়ীভাবে মুছে ফেলবে। এটি ফেরানো যাবে না।'
+      : 'This will permanently delete your profile and ALL local data on this device — salah, dhikr, goals, finance, vault, settings and preferences. This cannot be undone.';
+    Utils.dangerConfirm({
+      title,
+      message: msg,
+      icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>',
+      color: '#ef4444',
+      confirmText: isBn ? 'সব মুছুন' : 'Delete Everything',
+      onConfirm: () => {
         DB.clearAllUserData();
+        DB.remove('lamim_settings');
         DB.remove('lamim_user');
-        Utils.toast('Local data wiped.', 'success');
-        setTimeout(() => App.showPage('setup'), 1000);
+        try { localStorage.removeItem('lamim_lang'); } catch (e) {}
+        Utils.toast(isBn ? 'অ্যাকাউন্ট ও সব ডাটা মুছে ফেলা হয়েছে।' : 'Account and all data wiped.', 'success');
+        setTimeout(() => App.showPage('setup'), 800);
       }
-    );
+    });
   },
 
   fullReset() {
-    Utils.confirm(
-      'Hard Reset App?', 
-      'This will wipe all data, clear the app cache, and reset everything (useful for fixing issues on iPhone). Are you sure?', 
-      async () => {
-        // Clear database and local storage
-        DB.clear();
-        
+    const isBn = (localStorage.getItem('lamim_lang') || 'en') === 'bn';
+    const title = isBn ? 'ফ্যাক্টরি রিসেট' : 'Factory Reset App';
+    const msg = isBn
+      ? 'সব লোকাল ডাটা মুছে ফেলবে, সার্ভিস ওয়ার্কার আনরেজিস্টার করবে এবং ক্যাশে করা ফাইল পরিষ্কার করে রিলোড দেবে। জটিল সমস্যা ঠিক করতে ব্যবহার করুন। ফেরানো যাবে না।'
+      : 'This will erase ALL local data, unregister the service worker and clear cached files, then reload the app. Use this to fix stubborn issues. Cannot be undone.';
+    Utils.dangerConfirm({
+      title,
+      message: msg,
+      icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>',
+      color: '#f97316',
+      confirmText: isBn ? 'রিসেট করুন' : 'Reset App',
+      onConfirm: async () => {
+        // Clear all local data (awaited so IndexedDB is fully wiped before reload)
+        await DB.clear();
+
         // Unregister service workers
         if ('serviceWorker' in navigator) {
           try {
             const registrations = await navigator.serviceWorker.getRegistrations();
-            for (let reg of registrations) {
-              await reg.unregister();
-            }
-          } catch(e) { console.error('SW unregister error', e); }
+            await Promise.all(registrations.map(r => r.unregister()));
+          } catch (e) { console.error('SW unregister error', e); }
         }
-        
+
         // Clear caches
         if ('caches' in window) {
           try {
             const keys = await caches.keys();
-            for (let key of keys) {
-              await caches.delete(key);
-            }
-          } catch(e) { console.error('Cache delete error', e); }
+            await Promise.all(keys.map(k => caches.delete(k)));
+          } catch (e) { console.error('Cache delete error', e); }
         }
-        
-        Utils.toast('App reset successfully! Reloading...', 'success');
-        setTimeout(() => window.location.reload(true), 1500);
+
+        Utils.toast(isBn ? 'অ্যাপ রিসেট হয়েছে! রিলোড হচ্ছে...' : 'App reset successfully! Reloading...', 'success');
+        setTimeout(() => window.location.reload(true), 1200);
       }
-    );
+    });
   },
 
   exportData() {
@@ -510,6 +633,7 @@ const Profile = {
               restored++;
             }
           }
+          DB._streakCache = null;
           if (restored > 0) {
             Utils.toast('Backup restored successfully! Reloading...', 'success');
             setTimeout(() => window.location.reload(), 1500);
@@ -530,10 +654,13 @@ const Profile = {
 
   // Task 1: Avatar Upload (Local Storage Only)
   removeAvatar() {
-    Utils.confirm(
-      'Remove Photo',
-      'Are you sure you want to remove your profile picture?',
-      () => {
+    Utils.dangerConfirm({
+      title: 'Remove Photo',
+      message: 'Remove your current profile picture? You can add a new one anytime.',
+      icon: '<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="2" x2="22" y2="22"></line><path d="M10.41 10.41a2 2 0 1 1-2.83-2.83"></path><line x1="13.5" y1="13.5" x2="6" y2="21"></line><line x1="18" y1="12" x2="21" y2="15"></line><path d="M3.59 3.59A2 2 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.05-.22 1.41-.59"></path><path d="M21 15V5a2 2 0 0 0-2-2H9"></path></svg>',
+      color: '#64748b',
+      confirmText: 'Remove',
+      onConfirm: () => {
         const user = DB.getUser();
         if (!user) return;
 
@@ -553,7 +680,7 @@ const Profile = {
           Utils.toast("Failed to remove photo", "error");
         }
       }
-    );
+    });
   },
 
   async handleAvatarUpload(e) {
@@ -587,7 +714,7 @@ const Profile = {
             const canvas = document.createElement('canvas');
             let width = img.width;
             let height = img.height;
-            const MAX_DIMENSION = 200; // Optimal for avatars and localStorage
+            const MAX_DIMENSION = 320; // Crisp on retina while staying small for localStorage
 
             if (width > height) {
               if (width > MAX_DIMENSION) {
@@ -605,8 +732,8 @@ const Profile = {
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
             
-            // Heavy compression to prevent blowing up localStorage
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.5); 
+            // Good balance of quality and localStorage size
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); 
             resolve(dataUrl);
           };
           img.onerror = reject;
@@ -676,6 +803,8 @@ try {
 
        DB.setSettings(settings);
        this.renderSettings();
+       // Recompute prayer times / timeline for the new location
+       window.dispatchEvent(new CustomEvent('lamim:data-updated'));
        const successMsg = settings.locationName ? `Location synced: ${settings.locationName}` : 'Location updated successfully!';
        Utils.toast(successMsg, 'success');
        icons.forEach(icon => icon.classList.remove('rotating'));
@@ -707,3 +836,4 @@ try {
     );
   }
 };
+window.Profile = Profile;

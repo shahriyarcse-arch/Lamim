@@ -5,29 +5,31 @@
    ============================================= */
 
 const PrayerNotifier = {
-  _lastNotifiedPrayer: null,
+  _notified: null,          // Map of prayerKey -> true (today's sent notifications)
   _intervalId: null,
-  _checkInterval: 30000, // Check every 30 seconds
+  _checkInterval: 30000,    // Check every 30 seconds
+  _catchUpWindow: 30 * 60 * 1000, // Catch up on prayers missed up to 30 min ago (tab throttled)
 
   init() {
-    if (this._intervalId) return; // Already running
+    if (this._intervalId) return;
     
     const settings = DB.getSettings();
     if (!settings.notifications) return;
     
-    // Request permission if not granted
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
+    // Only start if permission is already granted — NEVER auto-prompt here
+    if (!('Notification' in window) || Notification.permission !== 'granted') {
+      return;
     }
 
-    // Reset the last notified prayer at midnight
-    this._lastNotifiedPrayer = localStorage.getItem('lamim_last_notified_prayer') || null;
-    const lastNotifiedDate = localStorage.getItem('lamim_last_notified_date') || '';
-    const todayStr = new Date().toISOString().split('T')[0];
-    if (lastNotifiedDate !== todayStr) {
-      this._lastNotifiedPrayer = null;
-      localStorage.removeItem('lamim_last_notified_prayer');
+    // Load today's already-sent notifications from localStorage, reset on new local day
+    let notified = {};
+    try { notified = JSON.parse(localStorage.getItem('lamim_notified') || '{}'); } catch (e) { notified = {}; }
+    const lastDate = localStorage.getItem('lamim_notified_date') || '';
+    if (lastDate !== Utils.todayStr()) {
+      notified = {};
+      localStorage.removeItem('lamim_notified');
     }
+    this._notified = notified;
 
     // Start the checker loop
     this._intervalId = setInterval(() => this.check(), this._checkInterval);
@@ -35,7 +37,6 @@ const PrayerNotifier = {
     // Also check immediately
     setTimeout(() => this.check(), 2000);
     
-    console.log('[PrayerNotifier] Initialized');
   },
 
   stop() {
@@ -47,7 +48,7 @@ const PrayerNotifier = {
 
   restart() {
     this.stop();
-    this._lastNotifiedPrayer = null;
+    this._notified = null;
     this.init();
   },
 
@@ -60,25 +61,33 @@ const PrayerNotifier = {
     if (!times || times.length === 0) return;
 
     const now = new Date();
-    const todayStr = now.toISOString().split('T')[0];
+    const todayStr = Utils.todayStr();
 
-    // Find which prayer just started (within the last 2 minutes)
+    // Roll over to a new local day: clear sent notifications
+    if (localStorage.getItem('lamim_notified_date') !== todayStr) {
+      this._notified = {};
+      localStorage.removeItem('lamim_notified');
+      localStorage.setItem('lamim_notified_date', todayStr);
+    }
+
+    // Notify for any prayer whose time has just started OR was missed while the
+    // tab was throttled/backgrounded (within the catch-up window)
     for (const prayer of times) {
       const diff = now.getTime() - prayer.time.getTime();
-      
-      // If we're within 0 to 120 seconds AFTER the prayer time
-      if (diff >= 0 && diff < 120000) {
+
+      if (diff >= 0 && diff < this._catchUpWindow) {
         const prayerKey = `${todayStr}_${prayer.name}`;
-        
-        // Don't notify twice for the same prayer
-        if (this._lastNotifiedPrayer === prayerKey) return;
-        
-        this._lastNotifiedPrayer = prayerKey;
-        localStorage.setItem('lamim_last_notified_prayer', prayerKey);
-        localStorage.setItem('lamim_last_notified_date', todayStr);
-        
-        this.sendNotification(prayer);
-        return;
+
+        if (!this._notified[prayerKey]) {
+          this._notified[prayerKey] = true;
+          try {
+            localStorage.setItem('lamim_notified', JSON.stringify(this._notified));
+            localStorage.setItem('lamim_notified_date', todayStr);
+          } catch (e) { /* storage full / disabled — in-memory dedupe still works */ }
+
+          this.sendNotification(prayer);
+          return;
+        }
       }
     }
   },
@@ -129,7 +138,6 @@ const PrayerNotifier = {
         });
       }
 
-      console.log(`[PrayerNotifier] Sent notification for ${prayer.name}`);
     } catch (e) {
       console.error('[PrayerNotifier] Failed to send notification:', e);
     }

@@ -110,86 +110,86 @@ const Finance = {
     { id: 'hospital_bill', name: 'Hospital Bill', icon: '🏥', color: '#FF3B30', section: 'Medical' },
     { id: 'dental', name: 'Dental Care', icon: '🦷', color: '#5AC8FA', section: 'Medical' },
     { id: 'optometry', name: 'Glasses / Eyes', icon: '👓', color: '#5856D6', section: 'Medical' },
-    { id: 'physio', name: 'Physiotherapy', icon: '🧘', color: '#34C759', section: 'Medical' },
+    { id: 'physio', name: 'Physiotherapy', icon: '💆', color: '#34C759', section: 'Medical' },
     { id: 'scrubs', name: 'Scrubs / Lab Coat', icon: '🥼', color: '#007AFF', section: 'Medical' },
-    { id: 'med_journal', name: 'Medical Journal', icon: '📖', color: '#5856D6', section: 'Medical' },
-    { id: 'stethoscope', name: 'Medical Equipment', icon: '🩹', color: '#8E8E93', section: 'Medical' },
-    { id: 'med_license', name: 'BMDC / License', icon: '📜', color: '#34C759', section: 'Medical' },
+    { id: 'med_journal', name: 'Medical Journal', icon: '📕', color: '#5856D6', section: 'Medical' },
+    { id: 'stethoscope', name: 'Medical Equipment', icon: '🩺', color: '#8E8E93', section: 'Medical' },
+    { id: 'med_license', name: 'BMDC / License', icon: '🪪', color: '#34C759', section: 'Medical' },
 
     { id: 'school_fee', name: 'School Fees', icon: '🏫', color: '#5AC8FA', section: 'Education' },
-    { id: 'coaching', name: 'Coaching / Tuition', icon: '✏️', color: '#AF52DE', section: 'Education' },
+    { id: 'coaching', name: 'Coaching / Tuition', icon: '👨‍🏫', color: '#AF52DE', section: 'Education' },
     { id: 'books', name: 'Books / Stationery', icon: '📚', color: '#FF9500', section: 'Education' },
-    { id: 'photocopy', name: 'Photocopy / Print', icon: '📄', color: '#8E8E93', section: 'Education' },
-    { id: 'library', name: 'Library Membership', icon: '🔖', color: '#5856D6', section: 'Education' },
-    { id: 'project_mat', name: 'Project Materials', icon: '🧪', color: '#5856D6', section: 'Education' },
-    { id: 'canteen', name: 'Canteen / Tiffin', icon: '🥪', color: '#FFCC00', section: 'Education' },
+    { id: 'photocopy', name: 'Photocopy / Print', icon: '📠', color: '#8E8E93', section: 'Education' },
+    { id: 'library', name: 'Library Membership', icon: '📚', color: '#5856D6', section: 'Education' },
+    { id: 'project_mat', name: 'Project Materials', icon: '📐', color: '#5856D6', section: 'Education' },
+    { id: 'canteen', name: 'Canteen / Tiffin', icon: '🍱', color: '#FFCC00', section: 'Education' },
     { id: 'internship', name: 'Internship Cost', icon: '💼', color: '#34C759', section: 'Education' },
-    { id: 'hostel_rent', name: 'Hostel / Mess', icon: '🏢', color: '#5856D6', section: 'Education' },
-    { id: 'admission_fee', name: 'Admission Fee', icon: '📝', color: '#FF9500', section: 'Education' },
-    { id: 'exam_fee', name: 'Exam Fee', icon: '📑', color: '#FF2D55', section: 'Education' },
+    { id: 'hostel_rent', name: 'Hostel / Mess', icon: '🏠', color: '#5856D6', section: 'Education' },
+    { id: 'admission_fee', name: 'Admission Fee', icon: '🎓', color: '#FF9500', section: 'Education' },
+    { id: 'exam_fee', name: 'Exam Fee', icon: '📝', color: '#FF2D55', section: 'Education' },
 
     { id: 'seeds', name: 'Seeds / Saplings', icon: '🌱', color: '#34C759', section: 'Agro & Farming' },
     { id: 'fertilizer', name: 'Fertilizer', icon: '🧪', color: '#FF9500', section: 'Agro & Farming' },
-    { id: 'pesticide', name: 'Pesticides', icon: '☠️', color: '#8E8E93', section: 'Agro & Farming' },
-    { id: 'irrigation', name: 'Irrigation / Water', icon: '🚿', color: '#007AFF', section: 'Agro & Farming' },
+    { id: 'pesticide', name: 'Pesticides', icon: '🧴', color: '#8E8E93', section: 'Agro & Farming' },
+    { id: 'irrigation', name: 'Irrigation / Water', icon: '💦', color: '#007AFF', section: 'Agro & Farming' },
     { id: 'feed', name: 'Cattle/Bird Feed', icon: '🌾', color: '#FFD60A', section: 'Agro & Farming' },
-    { id: 'vet_visit', name: 'Vet / Animal Med', icon: '🐕', color: '#FF2D55', section: 'Agro & Farming' },
-    { id: 'harvest_labor', name: 'Harvest Labor', icon: '👨‍🌾', color: '#FF9500', section: 'Agro & Farming' },
+    { id: 'vet_visit', name: 'Vet / Animal Med', icon: '🐾', color: '#FF2D55', section: 'Agro & Farming' },
+    { id: 'harvest_labor', name: 'Harvest Labor', icon: '🌾', color: '#FF9500', section: 'Agro & Farming' },
     { id: 'farm_tools', name: 'Tool Repair', icon: '🔨', color: '#8E8E93', section: 'Agro & Farming' },
 
     { id: 'art_supplies', name: 'Art Supplies', icon: '🎨', color: '#FF2D55', section: 'Creative' },
     { id: 'camera_gear', name: 'Camera / Lens', icon: '📷', color: '#000000', section: 'Creative' },
     { id: 'lighting', name: 'Studio Lighting', icon: '💡', color: '#FFD60A', section: 'Creative' },
-    { id: 'printing_large', name: 'Canvas / Print', icon: '🖼️', color: '#5856D6', section: 'Creative' },
+    { id: 'printing_large', name: 'Canvas / Print', icon: '🖨️', color: '#5856D6', section: 'Creative' },
     { id: 'memory_card', name: 'Memory Cards', icon: '💾', color: '#8E8E93', section: 'Creative' },
-    { id: 'gallery_fee', name: 'Gallery / Exhibition', icon: '🏛️', color: '#AF52DE', section: 'Creative' },
+    { id: 'gallery_fee', name: 'Gallery / Exhibition', icon: '🖼️', color: '#AF52DE', section: 'Creative' },
 
-    { id: 'zakat', name: 'Zakat Payment', icon: '🕋', color: '#34C759', section: 'Social & Religious' },
+    { id: 'zakat', name: 'Zakat Payment', icon: '🕌', color: '#34C759', section: 'Social & Religious' },
     { id: 'sadaqah', name: 'Sadaqah / Charity', icon: '🤲', color: '#5AC8FA', section: 'Social & Religious' },
     { id: 'masjid_don', name: 'Masjid Donation', icon: '🕌', color: '#5856D6', section: 'Social & Religious' },
     { id: 'madrasa_don', name: 'Madrasa Donation', icon: '📖', color: '#FF9500', section: 'Social & Religious' },
-    { id: 'qurbani', name: 'Qurbani Expense', icon: '🐄', color: '#FF3B30', section: 'Social & Religious' },
-    { id: 'fitra', name: 'Fitra', icon: '🌾', color: '#FFCC00', section: 'Social & Religious' },
+    { id: 'qurbani', name: 'Qurbani Expense', icon: '🐐', color: '#FF3B30', section: 'Social & Religious' },
+    { id: 'fitra', name: 'Fitra', icon: '🍚', color: '#FFCC00', section: 'Social & Religious' },
     { id: 'wedding_gift', name: 'Wedding Gift', icon: '🎁', color: '#FF2D55', section: 'Social & Religious' },
     { id: 'birthday_gift', name: 'Birthday Gift', icon: '🎂', color: '#FF9500', section: 'Social & Religious' },
-    { id: 'relatives', name: 'Family Support', icon: '👨‍👩‍👧‍👦', color: '#5AC8FA', section: 'Social & Religious' },
-    { id: 'beggar', name: 'Poor / Beggar', icon: '🙌', color: '#8E8E93', section: 'Social & Religious' },
-    { id: 'iftar_party', name: 'Iftar Party', icon: '🌙', color: '#FF9500', section: 'Social & Religious' },
-    { id: 'mezbani', name: 'Mezbani', icon: '🍛', color: '#FF3B30', section: 'Social & Religious' },
+    { id: 'relatives', name: 'Family Support', icon: '👪', color: '#5AC8FA', section: 'Social & Religious' },
+    { id: 'beggar', name: 'Poor / Beggar', icon: '🙏', color: '#8E8E93', section: 'Social & Religious' },
+    { id: 'iftar_party', name: 'Iftar Party', icon: '🍽️', color: '#FF9500', section: 'Social & Religious' },
+    { id: 'mezbani', name: 'Mezbani', icon: '🍲', color: '#FF3B30', section: 'Social & Religious' },
 
     { id: 'recharge', name: 'Mobile Recharge', icon: '📱', color: '#34C759', section: 'Personal & Grooming' },
     { id: 'mobile_data', name: 'Mobile Data', icon: '📶', color: '#007AFF', section: 'Personal & Grooming' },
-    { id: 'clothing', name: 'Clothing / Dress', icon: '👗', color: '#FF2D55', section: 'Personal & Grooming' },
-    { id: 'shoes', name: 'Shoes / Footwear', icon: '👞', color: '#8E8E93', section: 'Personal & Grooming' },
-    { id: 'panjabi', name: 'Panjabi / Lungi', icon: '👳', color: '#5856D6', section: 'Personal & Grooming' },
-    { id: 'sharee', name: 'Sharee / Salwar', icon: '💃', color: '#AF52DE', section: 'Personal & Grooming' },
+    { id: 'clothing', name: 'Clothing / Dress', icon: '👕', color: '#FF2D55', section: 'Personal & Grooming' },
+    { id: 'shoes', name: 'Shoes / Footwear', icon: '👟', color: '#8E8E93', section: 'Personal & Grooming' },
+    { id: 'panjabi', name: 'Panjabi / Lungi', icon: '👔', color: '#5856D6', section: 'Personal & Grooming' },
+    { id: 'sharee', name: 'Sharee / Salwar', icon: '👗', color: '#AF52DE', section: 'Personal & Grooming' },
     { id: 'tailoring', name: 'Tailoring Cost', icon: '✂️', color: '#FF3B30', section: 'Personal & Grooming' },
-    { id: 'saloon', name: 'Barber / Saloon', icon: '💈', color: '#5AC8FA', section: 'Personal & Grooming' },
-    { id: 'parlor', name: 'Beauty Parlor', icon: '💄', color: '#FF2D55', section: 'Personal & Grooming' },
+    { id: 'saloon', name: 'Barber / Saloon', icon: '💇', color: '#5AC8FA', section: 'Personal & Grooming' },
+    { id: 'parlor', name: 'Beauty Parlor', icon: '💅', color: '#FF2D55', section: 'Personal & Grooming' },
     { id: 'shaving_kit', name: 'Shaving / Deodorant', icon: '🪒', color: '#8E8E93', section: 'Personal & Grooming' },
-    { id: 'perfume', name: 'Perfume / Attar', icon: '✨', color: '#AF52DE', section: 'Personal & Grooming' },
-    { id: 'gym', name: 'Gym / Fitness', icon: '💪', color: '#34C759', section: 'Personal & Grooming' },
-    { id: 'supplements', name: 'Gym Supplements', icon: '🥤', color: '#FF9500', section: 'Personal & Grooming' },
+    { id: 'perfume', name: 'Perfume / Attar', icon: '🌸', color: '#AF52DE', section: 'Personal & Grooming' },
+    { id: 'gym', name: 'Gym / Fitness', icon: '🏋️', color: '#34C759', section: 'Personal & Grooming' },
+    { id: 'supplements', name: 'Gym Supplements', icon: '💊', color: '#FF9500', section: 'Personal & Grooming' },
     { id: 'pet_food', name: 'Pet Food / Care', icon: '🐾', color: '#FF9500', section: 'Personal & Grooming' },
-    { id: 'paan', name: 'Paan / Supari', icon: '🍃', color: '#34C759', section: 'Personal & Grooming' },
+    { id: 'paan', name: 'Paan / Supari', icon: '🌿', color: '#34C759', section: 'Personal & Grooming' },
     { id: 'smoking', name: 'Tea / Smoking', icon: '🚬', color: '#8E8E93', section: 'Personal & Grooming' },
 
     { id: 'bank_fee', name: 'Bank Fees / Tax', icon: '🏦', color: '#8E8E93', section: 'Finance & Legal' },
     { id: 'insurance', name: 'Insurance', icon: '🛡️', color: '#5AC8FA', section: 'Finance & Legal' },
-    { id: 'loan_inst', name: 'Loan Installment', icon: '💸', color: '#FF2D55', section: 'Finance & Legal' },
-    { id: 'gold', name: 'Gold / Jewelry', icon: '💍', color: '#FFCC00', section: 'Finance & Legal' },
+    { id: 'loan_inst', name: 'Loan Installment', icon: '💳', color: '#FF2D55', section: 'Finance & Legal' },
+    { id: 'gold', name: 'Gold / Jewelry', icon: '🪙', color: '#FFCC00', section: 'Finance & Legal' },
     { id: 'legal_fee', name: 'Lawyer / Legal', icon: '⚖️', color: '#5856D6', section: 'Finance & Legal' },
-    { id: 'police_fine', name: 'Police Fine', icon: '👮', color: '#FF3B30', section: 'Finance & Legal' },
+    { id: 'police_fine', name: 'Police Fine', icon: '🚨', color: '#FF3B30', section: 'Finance & Legal' },
     { id: 'passport', name: 'Passport / Visa', icon: '🛂', color: '#5AC8FA', section: 'Finance & Legal' },
 
     { id: 'cinema', name: 'Cinema / Movies', icon: '🎬', color: '#FF3B30', section: 'Entertainment' },
     { id: 'games', name: 'Video Games', icon: '🎮', color: '#5856D6', section: 'Entertainment' },
-    { id: 'steam_games', name: 'Steam / Epic', icon: '🕹️', color: '#000000', section: 'Entertainment' },
-    { id: 'tour', name: 'Travel / Tour', icon: '🗺️', color: '#34C759', section: 'Entertainment' },
+    { id: 'steam_games', name: 'Steam / Epic', icon: '🎮', color: '#000000', section: 'Entertainment' },
+    { id: 'tour', name: 'Travel / Tour', icon: '✈️', color: '#34C759', section: 'Entertainment' },
     { id: 'park', name: 'Amusement Park', icon: '🎡', color: '#FF9500', section: 'Entertainment' },
-    { id: 'streaming', name: 'Netflix / Spotify', icon: '🎧', color: '#007AFF', section: 'Entertainment' },
-    { id: 'hobbies', name: 'Hobby / Sports', icon: '🏸', color: '#AF52DE', section: 'Entertainment' },
-    { id: 'other', name: 'Other Expense', icon: '✨', color: '#8E8E93', section: 'Other' }
+    { id: 'streaming', name: 'Netflix / Spotify', icon: '📺', color: '#007AFF', section: 'Entertainment' },
+    { id: 'hobbies', name: 'Hobby / Sports', icon: '🎯', color: '#AF52DE', section: 'Entertainment' },
+    { id: 'other', name: 'Other Expense', icon: '📦', color: '#8E8E93', section: 'Other' }
   ],
 
   currentMonth: new Date().getMonth(),
@@ -222,7 +222,7 @@ const Finance = {
 
     // Listen for local data updates
     if (!this.dataUpdateBound) {
-      window.addEventListener('lamim:data-updated', () => {
+      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
         if (document.getElementById('section-finance')?.classList.contains('active')) {
           this.loadData();
           this.render();
@@ -230,11 +230,47 @@ const Finance = {
       });
       this.dataUpdateBound = true;
     }
+
+    // Re-render on theme switch so the chart picks up the new theme colors
+    if (!this.globalListenersBound) {
+      Utils.safeAddEventListener(window, 'lamim:theme-changed', () => {
+        if (document.getElementById('section-finance')?.classList.contains('active')) {
+          this.render();
+        }
+      });
+
+      // Close custom date picker on outside click
+      Utils.safeAddEventListener(document, 'click', (e) => {
+        if (!e.target.closest('.fin-date-trigger') && !e.target.closest('.fin-date-pop')) {
+          document.querySelectorAll('.fin-date-pop').forEach(p => p.classList.add('hidden'));
+          document.querySelectorAll('.fin-date-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
+        }
+      }, true);
+
+      // Hide picker on scroll/resize so it never drifts off-position
+      const hidePicker = () => {
+        document.querySelectorAll('.fin-date-pop').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.fin-date-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
+      };
+      Utils.safeAddEventListener(window, 'scroll', hidePicker, true);
+      Utils.safeAddEventListener(window, 'resize', hidePicker);
+
+      this.globalListenersBound = true;
+    }
   },
 
   setChartView(view) {
+    if (this.chartView === view) return;
     this.chartView = view;
-    this.render();
+    const stats = this.getStats(this.currentViewDate);
+    document.querySelectorAll('.fin-chart-tabs .fin-chart-tab').forEach(t => t.classList.remove('active'));
+    const tabs = document.querySelectorAll('.fin-chart-tabs .fin-chart-tab');
+    if (tabs[view === 'daily' ? 0 : 1]) tabs[view === 'daily' ? 0 : 1].classList.add('active');
+    const sub = document.querySelector('.fin-section-subtitle');
+    if (sub) sub.textContent = view === 'daily'
+      ? this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' breakdown'
+      : 'Monthly overview of ' + this.currentViewDate.getFullYear();
+    this.initChart(stats);
   },
 
   async fetchExchangeRate() {
@@ -262,7 +298,19 @@ const Finance = {
 
   setCurrency(code) {
     const s = DB.getSettings(); s.currency = code; DB.setSettings(s);
-    this.render(); Utils.toast(`Switched to ${code}`, 'info');
+    const toggle = document.querySelector('.fin-currency-toggle');
+    if (toggle) {
+      toggle.querySelectorAll('.fin-currency-btn').forEach(b => b.classList.remove('active'));
+      const btns = toggle.querySelectorAll('.fin-currency-btn');
+      if (btns[0] && code === 'USD') btns[0].classList.add('active');
+      if (btns[1] && code === 'BDT') btns[1].classList.add('active');
+      const thumb = toggle.querySelector('.fin-currency-thumb');
+      if (thumb) { thumb.classList.add('slide'); thumb.classList.toggle('right', code === 'BDT'); }
+      setTimeout(() => this.render(), 340);
+    } else {
+      this.render();
+    }
+    Utils.toast(`Switched to ${code}`, 'info');
   },
 
   formatVal(val) {
@@ -272,12 +320,32 @@ const Finance = {
 
   loadData() {
     const stored = DB.getFinance();
+    // Card number is tied to the account (settings), generated at account creation.
+    let cardNumber = DB.getSettings().cardNumber;
+    if (!cardNumber) {
+      cardNumber = this.generateCardNumber();
+      const s = DB.getSettings();
+      s.cardNumber = cardNumber;
+      DB.setSettings(s);
+    }
     this.data = { 
       expenses: stored.expenses || [], 
       savings: stored.savings || [], 
-      income: stored.income || [] 
+      income: stored.income || [],
+      cardNumber
     };
     this.currentViewDate = new Date();
+  },
+
+  generateCardNumber() {
+    const grp = () => Array.from({ length: 4 }, () => Math.floor(Math.random() * 10)).join('');
+    return grp() + grp() + grp() + grp();
+  },
+
+  formatCardNumber() {
+    const raw = (this.data.cardNumber || this.generateCardNumber()).replace(/\D/g, '');
+    const grouped = raw.replace(/(.{4})(?=.)/g, '$1 ');
+    return `LAMIM ${grouped}`;
   },
 
   saveData() { DB.setFinance(this.data); },
@@ -291,7 +359,7 @@ const Finance = {
       <div class="finance-container" style="position:relative;">
         <div class="finance-aurora-bg"></div>
         ${this.renderMonthSelector()}
-        ${this.renderSummary(stats)}
+        <div id="fin-summary-card">${this.renderSummary(stats)}</div>
         ${this.renderQuickAdd()}
         
         <div class="fin-chart-header">
@@ -308,13 +376,13 @@ const Finance = {
           <canvas id="finance-main-chart"></canvas>
         </div>
 
-        <div class="finance-premium-card">${this.renderExpensesList(this.currentViewDate)}</div>
+        <div class="finance-premium-card" id="fin-activity-card">${this.renderExpensesList(this.currentViewDate)}</div>
         <div class="finance-premium-card">${this.renderSavingsSection()}</div>
         
         <!-- Zakat & Sadaqah Hub: Coming Soon -->
         <div class="finance-premium-card" style="text-align: center; padding: 32px 24px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.01) 100%); border: 1px dashed rgba(255, 255, 255, 0.08); border-radius: 20px; position: relative; overflow: hidden; box-shadow: var(--shadow-sm);">
           <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 2; position: relative;">
-            <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(212, 163, 89, 0.1); border: 1px solid rgba(212, 163, 89, 0.2); display: flex; align-items: center; justify-content: center; color: var(--color-accent-gold); font-size: 22px; box-shadow: 0 0 20px rgba(212, 163, 89, 0.15); animation: float 6s ease-in-out infinite;">🕋</div>
+            <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(212, 163, 89, 0.1); border: 1px solid rgba(212, 163, 89, 0.2); display: flex; align-items: center; justify-content: center; color: var(--color-accent-gold); box-shadow: 0 0 20px rgba(212, 163, 89, 0.15); animation: float 6s ease-in-out infinite;">${this.renderIcon('mosque', 26)}</div>
             <div style="font-weight: 800; font-size: 16px; color: var(--color-text-primary); letter-spacing: 0.5px;">Zakat & Sadaqah Hub</div>
             <div style="font-size: 12px; color: var(--color-text-subtitle); max-width: 320px; line-height: 1.5; font-weight: 500; margin-bottom: 4px;">Comprehensive Zakat calculations, custom assets bookkeeping, live Nisab thresholds, and Sadaqah charity tracking are coming in the next update.</div>
             <div style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--color-accent-gold); padding: 4px 14px; background: rgba(212, 163, 89, 0.08); border-radius: 20px; border: 1px solid rgba(212, 163, 89, 0.15);">Coming Soon</div>
@@ -331,26 +399,57 @@ const Finance = {
   },
 
   renderMonthSelector() {
-    const monthStr = this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-    const isCurrent = this.currentViewDate.getMonth() === new Date().getMonth() && this.currentViewDate.getFullYear() === new Date().getFullYear();
-    const settings = DB.getSettings();
-
     return `
       <div class="finance-month-navigator">
-        <div class="fin-unified-controls">
-          <button onclick="Finance.changeMonth(-1)" class="finance-nav-btn">❮</button>
-          <div style="font-size:15px; font-weight:800; min-width:120px; text-align:center;">${monthStr}</div>
-          <button onclick="Finance.changeMonth(1)" class="finance-nav-btn ${isCurrent ? 'hidden' : ''}">❯</button>
-        </div>
-        <div style="display:flex; align-items:center;">
-          <div class="fin-control-divider"></div>
-          <div class="fin-currency-toggle">
-            <div class="fin-currency-btn ${settings.currency === 'USD' ? 'active' : ''}" onclick="Finance.setCurrency('USD')">USD</div>
-            <div class="fin-currency-btn ${settings.currency === 'BDT' ? 'active' : ''}" onclick="Finance.setCurrency('BDT')">BDT</div>
-          </div>
-        </div>
+        <div class="fin-month-control" id="fin-month-control">${this.renderMonthControl()}</div>
+        ${this.renderCurrencyToggle()}
       </div>
     `;
+  },
+
+  renderMonthControl() {
+    const monthStr = this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+    const isCurrent = this.currentViewDate.getMonth() === new Date().getMonth() && this.currentViewDate.getFullYear() === new Date().getFullYear();
+
+    return `
+      <button onclick="Finance.changeMonth(-1)" class="fin-nav-arrow" aria-label="Previous month">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div class="fin-month-label">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span>${monthStr}</span>
+      </div>
+      ${isCurrent ? '' : `<button onclick="Finance.goToCurrentMonth()" class="fin-today-chip">Today</button>`}
+      <button onclick="Finance.changeMonth(1)" class="fin-nav-arrow ${isCurrent ? 'hidden' : ''}" aria-label="Next month">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    `;
+  },
+
+  renderCurrencyToggle() {
+    const settings = DB.getSettings();
+    return `
+      <div class="fin-currency-toggle">
+        <span class="fin-currency-thumb ${settings.currency === 'BDT' ? 'right' : ''}"></span>
+        <div class="fin-currency-btn ${settings.currency === 'USD' ? 'active' : ''}" role="button" tabindex="0" onclick="Finance.setCurrency('USD')"><span class="fin-cur-sym">$</span>USD</div>
+        <div class="fin-currency-btn ${settings.currency === 'BDT' ? 'active' : ''}" role="button" tabindex="0" onclick="Finance.setCurrency('BDT')"><span class="fin-cur-sym">৳</span>BDT</div>
+      </div>
+    `;
+  },
+
+  updateMonthViews() {
+    const stats = this.getStats(this.currentViewDate);
+    const mc = document.getElementById('fin-month-control');
+    if (mc) mc.innerHTML = this.renderMonthControl();
+    const sub = document.querySelector('.fin-section-subtitle');
+    if (sub) sub.textContent = this.chartView === 'daily'
+      ? this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' }) + ' breakdown'
+      : 'Monthly overview of ' + this.currentViewDate.getFullYear();
+    const sum = document.getElementById('fin-summary-card');
+    if (sum) sum.innerHTML = this.renderSummary(stats);
+    const act = document.getElementById('fin-activity-card');
+    if (act) act.innerHTML = this.renderExpensesList(this.currentViewDate);
+    this.initChart(stats);
   },
 
   changeMonth(delta) {
@@ -358,83 +457,90 @@ const Finance = {
     if (nextDate > new Date()) return;
     this.currentViewDate = nextDate; 
     this.showAllActivity = false; // Reset when changing month
-    this.render();
+    this.updateMonthViews();
+  },
+
+  goToCurrentMonth() {
+    this.currentViewDate = new Date();
+    this.showAllActivity = false;
+    this.updateMonthViews();
   },
 
   renderSummary(stats) {
     const sym = this.getSymbol();
     const m = this.currentViewDate.getMonth(), y = this.currentViewDate.getFullYear();
-    const curExps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, e) => s + e.amount, 0);
-    const prevMonth = new Date(y, m - 1, 1);
-    const prevExps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === prevMonth.getMonth() && d.getFullYear() === prevMonth.getFullYear(); }).reduce((s, e) => s + e.amount, 0);
-    
+
+    // Trend = month-over-month comparison of Income and Spending vs the previous calendar month
+    const symFmt = (v) => sym + this.formatVal(Math.abs(v));
+    const col = (label, cur, prev, upIsGood) => {
+      const change = cur - prev;
+      const lbl = `<span class="lbl">${label}</span>`;
+      if (Math.abs(change) < 1e-9) {
+        return `<div class="trend-col">${lbl}<span class="amt flat">অপরিবর্তিত</span></div>`;
+      }
+      const isUp = change > 0;
+      const good = upIsGood ? isUp : !isUp;
+      const cls = good ? 'up' : 'down';
+      const word = isUp ? 'বেড়েছে' : 'কমেছে';
+      return `<div class="trend-col">${lbl}<span class="amt ${cls}"><span class="ar">${isUp ? '↗' : '↘'}</span> <span class="aw">${word}</span> <span class="av">${symFmt(change)}</span></span></div>`;
+    };
+    const noPrevData = Math.abs(stats.prevIncome) < 1e-9 && Math.abs(stats.prevExpenses) < 1e-9;
     let trendHtml = '';
-    if (prevExps > 0) {
-      const diff = ((curExps - prevExps) / prevExps) * 100;
-      const isIncrease = curExps > prevExps;
-      const trendColor = isIncrease ? 'var(--fin-red)' : 'var(--fin-green)'; 
-      const icon = isIncrease ? '↗' : '↘';
-      trendHtml = `<span style="color:${trendColor} !important; font-weight:800; display:inline-flex; align-items:center; gap:4px;">${icon} ${Math.abs(diff).toFixed(1)}%</span>`;
+    if (noPrevData) {
+      trendHtml = `<span class="trend-flat">নতুন মাস শুরু</span>`;
     } else {
-      trendHtml = `<span style="opacity:0.4; font-size:11px;">New month started</span>`;
+      trendHtml = `<div class="trend-box">`
+        + col('Income', stats.income, stats.prevIncome, true)
+        + `<div class="trend-div"></div>`
+        + col('Spending', stats.expenses, stats.prevExpenses, false)
+        + `</div>`;
     }
 
     const catWeights = {};
     this.data.expenses.forEach(e => {
       const d = new Date(e.date);
-      if (d.getMonth() === m && d.getFullYear() === y) catWeights[e.category] = (catWeights[e.category] || 0) + e.amount;
+      if (d.getMonth() === m && d.getFullYear() === y && e.category !== 'transfer') catWeights[e.category] = (catWeights[e.category] || 0) + e.amount;
     });
 
     const sortedCats = Object.entries(catWeights).sort((a,b) => b[1] - a[1]);
+    const catColor = (catId) => { const c = this.categories.find(x => x.id === catId); return c ? c.color : '#8E8E93'; };
     const gCols = [
-      sortedCats[0] ? this.getResolvedColor(this.categories.find(c=>c.id===sortedCats[0][0]).color) : this.getResolvedColor('#ff3b30'),
-      sortedCats[1] ? this.getResolvedColor(this.categories.find(c=>c.id===sortedCats[1][0]).color) : this.getResolvedColor('#ff9500'),
+      sortedCats[0] ? this.getResolvedColor(catColor(sortedCats[0][0])) : this.getResolvedColor('#ff3b30'),
+      sortedCats[1] ? this.getResolvedColor(catColor(sortedCats[1][0])) : this.getResolvedColor('#ff9500'),
       this.getResolvedColor('#007aff'), this.getResolvedColor('#af52de')
     ];
 
-    const isNegative = stats.totalAllTime < 0;
-    // More robust date detection
-    const allDates = [
-      ...this.data.expenses.map(e => new Date(e.date)),
-      ...this.data.income.map(i => new Date(i.date)),
-      ...this.data.savings.map(s => s.createdAt ? new Date(s.createdAt) : null)
-    ].filter(d => d && !isNaN(d.getTime()) && d.getFullYear() >= 2024);
-
-    // If no valid data found, or data is older than current year but user says they just started
-    const firstTrans = allDates.length > 0 ? new Date(Math.min(...allDates)) : new Date();
-    
-    // Safety check: If the detected month is before April 2026 and user insists it's April
-    let creationYear = firstTrans.getFullYear();
-    let creationMonth = firstTrans.getMonth() + 1;
-
-    if (creationYear === 2026 && creationMonth < 4) {
-      creationYear = 2026;
-      creationMonth = 4;
-    }
-
-    const cardId = `LAMIM-${creationYear}-${String(creationMonth).padStart(2, '0')}`;
+    const totalSaved = this.data.savings.reduce((sum, g) => sum + (Number(g.saved) || 0), 0);
+    const available = stats.closingBalance;
+    const netWorth = available + totalSaved;
+    const isNegative = available < 0;
 
     return `
-      <div class="finance-premium-card card-main-balance ${stats.totalAllTime < 0 ? 'is-negative' : ''}">
-        <div class="card-glow-layer"><div class="card-glow-orb"></div></div>
-        <div class="card-monogram-l">
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="url(#rainbow-grad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-            <defs>
-              <linearGradient id="rainbow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00f2ff" />
-                <stop offset="50%" stop-color="#7a00ff" />
-                <stop offset="100%" stop-color="#ff00c8" />
-              </linearGradient>
-            </defs>
-            <path d="M7 4v16h10"/>
-          </svg>
+      <div class="finance-premium-card card-main-balance ${available < 0 ? 'is-negative' : ''}">
+        <div class="balance-card-top">
+          <div class="balance-card-info">
+            <span class="balance-label">${available < 0 ? 'Overdrawn' : 'Available Balance'}</span>
+            <div class="balance-value">${sym}${this.formatVal(available)}</div>
+            <div class="balance-sub">
+              <span>Vault-এ জমা ${sym}${this.formatVal(totalSaved)}</span>
+              <span class="sub-dot">•</span>
+              <span>Net Worth ${sym}${this.formatVal(netWorth)}</span>
+            </div>
+          </div>
+          <div class="balance-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/><path d="M3 7l2-3h14l2 3"/><circle cx="17" cy="13" r="1.4"/></svg>
+          </div>
         </div>
-        <div>
-          <span class="balance-label">${stats.totalAllTime < 0 ? 'Total Debt' : 'Total Balance'}</span>
-          <div class="balance-value">${sym}${this.formatVal(stats.totalAllTime)}</div>
+        <div class="balance-meta">
+          <div class="trend-section">
+            <div class="trend-head">এ মাস বনাম গত মাস</div>
+            ${trendHtml}
+          </div>
+          <div class="card-number-row">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 14h4"/></svg>
+            <span class="card-number">${this.formatCardNumber()}</span>
+          </div>
         </div>
-        <div class="balance-trend">${trendHtml}<span style="opacity:0.5; font-size:12px; margin-left:4px;"> vs last month</span></div>
-        <div class="card-identity-id">${cardId}</div>
       </div>
       <div class="fin-stats-row">
         <div class="fin-stat-card">
@@ -487,7 +593,7 @@ const Finance = {
         return 0;
       });
 
-    const totalExp = exps.reduce((s, e) => s + e.amount, 0);
+    const totalExp = exps.filter(e => e.category !== 'transfer').reduce((s, e) => s + e.amount, 0);
 
     if (!allActivity.length) return `<div class="fin-section-title">${v.toLocaleString('default',{month:'long'})} Activity</div><p style="text-align:center; opacity:0.3; padding:40px; font-size:14px;">No records for this month</p>`;
 
@@ -513,7 +619,7 @@ const Finance = {
       const dObj = new Date(date);
       const isToday = date === Utils.todayStr();
       const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-      const isYesterday = date === yesterday.toISOString().split('T')[0];
+      const isYesterday = date === Utils.dateStr(yesterday);
       
       let label = dObj.toLocaleDateString('default', { day: 'numeric', month: 'short' });
       if (isToday) label = 'Today';
@@ -541,7 +647,8 @@ const Finance = {
       }
     }
 
-    const showMoreBtn = hasMore || this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === m && d.getFullYear() === y; }).length > LIMIT ? `
+    const scrollActivity = count > 3;
+    const showMoreBtn = hasMore || allActivity.length > LIMIT ? `
       <div style="text-align:center; margin: 20px 0;">
         <button class="fin-show-more-btn" onclick="Finance.showFullHistory()">
           View History
@@ -558,7 +665,7 @@ const Finance = {
           Export Statement
         </button>
       </div>
-      ${listHtml}
+      <div class="fin-activity-scroll${scrollActivity ? ' has-scroll' : ''}">${listHtml}</div>
       ${showMoreBtn}
       <div class="ledger-summary">
         <div class="ledger-total-label">Monthly Spending</div>
@@ -591,7 +698,7 @@ const Finance = {
       <div class="transaction-item-wrapper" style="position: relative;">
         <div class="transaction-timeline-connector" style="--timeline-dot-color: ${isInc ? '#34C759' : '#FF2D55'};"></div>
         <div class="transaction-item" style="animation-delay: ${index * 0.05}s;">
-          <div class="transaction-icon" style="background:${resolvedColor}15; color:${resolvedColor}">${c.icon}</div>
+          <div class="transaction-icon" style="background:${resolvedColor}22; color:${resolvedColor}">${c.icon}</div>
           <div class="transaction-info">
             <div class="transaction-name">${Utils.escapeHTML(isInc ? e.description : c.name)}</div>
             <div class="transaction-meta">${isInc ? 'Deposit' : c.section}</div>
@@ -611,24 +718,29 @@ const Finance = {
     const sym = this.getSymbol();
     const total = this.data.savings.reduce((sum, goal) => sum + (Number(goal.saved) || 0), 0);
     const hasVaults = this.data.savings.length > 0;
+    const displayedVaults = Math.min(4, this.data.savings.length);
+    const scrollVaults = hasVaults && displayedVaults > 2;
 
     return `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <div>
-          <div class="fin-section-title" style="margin-bottom:2px;">Vaults</div>
+      <div class="vault-section-head">
+        <div class="vault-section-titles">
+          <div class="fin-section-title">Vaults</div>
           ${hasVaults ? `
-            <div style="font-size:12px; font-weight:700; color:var(--color-text-muted);">
-              Total Saved: <span style="color:#6366f1; font-weight:800;">${sym}${this.formatVal(total)}</span>
+            <div class="vault-total-pill">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Total Saved: <span>${sym}${this.formatVal(total)}</span>
             </div>
-          ` : ''}
+          ` : `
+            <div class="fin-section-subtitle">Set a goal & start saving</div>
+          `}
         </div>
-        <button class="fin-save-btn" style="width:auto; padding:0 16px; height:40px; gap:8px; font-size:13px; font-weight:800;" onclick="Finance.showSavingsModal()">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        <button class="fin-create-vault-btn" onclick="Finance.showSavingsModal()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
           Create New Vault
         </button>
       </div>
-      
-      <div class="vault-grid">
+
+      <div class="vault-grid${scrollVaults ? ' vault-grid--scroll' : ''}">
         ${hasVaults ? (() => {
           const LIMIT = 4;
           const reversedVaults = [...this.data.savings].reverse();
@@ -636,7 +748,7 @@ const Finance = {
           return displayVaults.map(s => this.renderSavingsItem(s)).join('');
         })() : `
           <div class="vault-empty-state" onclick="Finance.showSavingsModal()">
-            <div class="vault-empty-icon">💎</div>
+            <div class="vault-empty-icon">${this.renderIcon('gem', 32)}</div>
             <div style="font-weight:700; font-size:14px; color:var(--color-text-muted);">Secure your future</div>
             <div style="font-size:12px; color:var(--color-text-muted); opacity:0.6; margin-top:4px;">Tap to create your first savings goal</div>
           </div>
@@ -656,125 +768,236 @@ const Finance = {
 
   getVaultIcon(name) {
     const n = name.toLowerCase();
-    if (n.includes('iphone') || n.includes('phone') || n.includes('mobile')) return '📱';
-    if (n.includes('macbook') || n.includes('laptop')) return '💻';
-    if (n.includes('pc') || n.includes('desktop') || n.includes('computer') || n.includes('monitor')) return '🖥️';
-    if (n.includes('watch') || n.includes('iwatch')) return '⌚';
-    if (n.includes('game') || n.includes('ps5') || n.includes('xbox') || n.includes('console') || n.includes('gaming')) return '🎮';
-    if (n.includes('camera') || n.includes('dslr') || n.includes('lens')) return '📷';
-    if (n.includes('tech') || n.includes('gadget')) return '🔌';
-    if (n.includes('car') || n.includes('auto')) return '🚗';
-    if (n.includes('bike') || n.includes('motorcycle')) return '🏍️';
-    if (n.includes('cycle') || n.includes('bicycle')) return '🚲';
-    if (n.includes('hajj') || n.includes('umrah') || n.includes('makkah')) return '🕋';
-    if (n.includes('islamic') || n.includes('mosque') || n.includes('madina')) return '🕌';
-    if (n.includes('charity') || n.includes('zakat') || n.includes('sadaqah')) return '🤲';
-    if (n.includes('house') || n.includes('home') || n.includes('flat') || n.includes('rent')) return '🏠';
-    if (n.includes('wedding') || n.includes('marriage') || n.includes('nikah')) return '💍';
-    if (n.includes('travel') || n.includes('trip') || n.includes('tour') || n.includes('flight')) return '✈️';
-    if (n.includes('food') || n.includes('bazaar') || n.includes('grocery')) return '🛒';
-    if (n.includes('gift') || n.includes('birthday')) return '🎁';
-    if (n.includes('education') || n.includes('book') || n.includes('course') || n.includes('university')) return '📚';
-    if (n.includes('business') || n.includes('office') || n.includes('startup')) return '💼';
-    if (n.includes('invest') || n.includes('stock') || n.includes('crypto')) return '📈';
-    if (n.includes('emergency') || n.includes('medical') || n.includes('health')) return '🏥';
-    if (n.includes('money') || n.includes('cash') || n.includes('save')) return '💰';
-    return '💎'; 
+    if (n.includes('iphone') || n.includes('phone') || n.includes('mobile')) return 'phone';
+    if (n.includes('macbook') || n.includes('laptop')) return 'laptop';
+    if (n.includes('watch') || n.includes('iwatch')) return 'watch';
+    if (n.includes('game') || n.includes('ps5') || n.includes('xbox') || n.includes('console') || n.includes('gaming')) return 'game';
+    if (n.includes('camera') || n.includes('dslr') || n.includes('lens')) return 'camera';
+    if (n.includes('car') || n.includes('auto')) return 'car';
+    if (n.includes('bike') || n.includes('motorcycle')) return 'bike';
+    if (n.includes('cycle') || n.includes('bicycle')) return 'bicycle';
+    if (n.includes('hajj') || n.includes('umrah') || n.includes('makkah') || n.includes('mosque') || n.includes('madina') || n.includes('islamic')) return 'mosque';
+    if (n.includes('charity') || n.includes('zakat') || n.includes('sadaqah')) return 'charity';
+    if (n.includes('house') || n.includes('home') || n.includes('flat') || n.includes('rent')) return 'home';
+    if (n.includes('wedding') || n.includes('marriage') || n.includes('nikah')) return 'ring';
+    if (n.includes('travel') || n.includes('trip') || n.includes('tour') || n.includes('flight')) return 'plane';
+    if (n.includes('food') || n.includes('bazaar') || n.includes('grocery')) return 'cart';
+    if (n.includes('gift') || n.includes('birthday')) return 'gift';
+    if (n.includes('education') || n.includes('book') || n.includes('course') || n.includes('university')) return 'book';
+    if (n.includes('business') || n.includes('office') || n.includes('startup')) return 'briefcase';
+    if (n.includes('invest') || n.includes('stock') || n.includes('crypto')) return 'trend';
+    if (n.includes('emergency') || n.includes('medical') || n.includes('health')) return 'health';
+    return 'gem';
+  },
+
+  renderIcon(key, size) {
+    const s = size || 22;
+    const p = Finance.iconPaths[key] || Finance.iconPaths.gem;
+    return `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  },
+
+  iconPaths: {
+    phone: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
+    laptop: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/>',
+    watch: '<circle cx="12" cy="12" r="6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>',
+    game: '<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3M15.5 11.5h.01M18 13.5h.01"/>',
+    camera: '<path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/>',
+    car: '<path d="M5 11l1.5-4h11L19 11M4 11h16v6H4z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/>',
+    bike: '<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-7h5l3 7"/>',
+    bicycle: '<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-7h5l3 7M9 10h4"/>',
+    mosque: '<path d="M12 2c2 2 3 4 3 6v1a3 3 0 0 1-6 0v-1c0-2 1-4 3-6z"/><path d="M4 21V10l8-5 8 5v11z"/><path d="M9 21v-6h6v6"/>',
+    charity: '<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/>',
+    home: '<path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+    ring: '<path d="M12 2l3 4-3 3-3-3z"/><path d="M7 9l5 12 5-12"/>',
+    plane: '<path d="M21 16l-9-4V5a1.5 1.5 0 0 0-3 0v7l-9 4v2l9-2v4l-2 1v2l4-1 4 1v-2l-2-1v-4l9 2z"/>',
+    cart: '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 13h11l2-9H6"/>',
+    gift: '<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13"/><path d="M12 8C9 8 8 4 12 4s3 4 0 4z"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h12"/>',
+    briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/>',
+    trend: '<path d="M3 17l6-6 4 4 7-7"/><path d="M14 8h7v7"/>',
+    health: '<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+    gem: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 6 3-6"/>',
+    food: '<path d="M5 3v8a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 3-3 6s1 5 3 5v7"/>',
+    bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    drop: '<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>',
+    flame: '<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 1 2 2 2 3 2 0-3-1-5 0-8z"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    tv: '<rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M12 18v3"/>',
+    wifi: '<path d="M2 8a14 14 0 0 1 20 0M5 12a9 9 0 0 1 14 0M8 16a4 4 0 0 1 8 0"/><circle cx="12" cy="20" r="0.5"/>',
+    cloud: '<path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9-2 4 4 0 0 1 1 10z"/>',
+    brush: '<path d="M9 11l-4 4a2 2 0 0 0 3 3l4-4M15 5l4 4-7 7-4-4z"/>',
+    code: '<path d="M9 8l-5 4 5 4M15 8l5 4-5 4"/>',
+    robot: '<rect x="5" y="8" width="14" height="10" rx="2"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M12 4v4M9 4h6"/>',
+    box: '<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
+    store: '<path d="M4 9l1-4h14l1 4M4 9h16v11H4zM4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/>',
+    cash: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+    bag: '<path d="M6 8h12l1 12H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    megaphone: '<path d="M4 10v4a1 1 0 0 0 1 1h3l9 4V5l-9 4H5a1 1 0 0 0-1 1z"/>',
+    chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    tool: '<path d="M14 7a4 4 0 0 0-5 5l-6 6 3 3 6-6a4 4 0 0 0 5-5l-3 3-3-3z"/>',
+    printer: '<rect x="6" y="3" width="12" height="6"/><path d="M6 9v10h12V9M9 14h6"/>',
+    stethoscope: '<path d="M5 3v5a4 4 0 0 0 8 0V3M9 16a4 4 0 0 0 8 0v-3M17 11v2a5 5 0 0 1-5 5"/><circle cx="19" cy="13" r="2"/>',
+    pill: '<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(45 12 12)"/><path d="M9 9l6 6"/>',
+    microscope: '<path d="M5 21h14M9 3v6a3 3 0 0 0 5 2M14 5l4 4M11 17l4-4"/>',
+    hospital: '<path d="M4 21V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16M12 7v6M9 10h6"/>',
+    tooth: '<path d="M12 3c-3 0-5 2-5 5 0 3 1 4 2 7s1 5 3 5 2-3 3-5 2-4 2-7c0-3-2-5-5-5z"/>',
+    diploma: '<path d="M4 6h10v9H4zM14 9l6-3-6-3z"/>',
+    seedling: '<path d="M12 21v-7M12 14c0-4 4-6 8-6 0 5-4 8-8 6zM12 14c0-3-3-5-7-5 0 4 3 7 7 5z"/>',
+    tractor: '<circle cx="6" cy="17" r="3"/><circle cx="17" cy="17" r="2.5"/><path d="M3 17h3l2-6h7v6M9 11h7"/>',
+    palette: '<path d="M12 3a9 9 0 1 0 0 18c2 0 2-1.5 2-2.5S13 15 15 15h2a3 3 0 0 0 3-3c0-5-4-9-8-9z"/><circle cx="8" cy="9" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="9" r="1"/>',
+    users: '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-5-5"/>',
+    mosque2: '<path d="M12 2v3M5 21V10l7-5 7 5v11zM9 21v-6h6v6"/>',
+    scissors: '<circle cx="7" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><path d="M9 8l11 9M9 16L20 7"/>',
+    shield: '<path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"/>',
+    key: '<circle cx="8" cy="12" r="4"/><path d="M11 12h9M17 12v3"/>',
+    ticket: '<path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/>',
+    film: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v16M16 4v16M3 9h5M16 9h5M3 15h5M16 15h5"/>',
+    music: '<path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/>',
+    sparkles: '<path d="M12 3l1.5 4L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1z"/>',
+    heart: '<path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z"/>',
+    shirt: '<path d="M8 3l4 3 4-3 5 3-2 4-2-1v11H7V9L5 6z"/>',
+    lightbulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
+    coffee: '<path d="M4 8h13v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4zM17 9h2a2 2 0 0 1 0 6h-2M7 3v2M11 3v2"/>',
+    wrench: '<path d="M14 7a4 4 0 0 0-5 5l-6 6 3 3 6-6a4 4 0 0 0 5-5l-3 3-3-3z"/>',
+    bus: '<rect x="4" y="4" width="16" height="13" rx="2"/><circle cx="8" cy="18" r="1.5"/><circle cx="16" cy="18" r="1.5"/><path d="M4 11h16"/>',
+    ship: '<path d="M3 14l2 5h14l2-5M5 14V8h14v6M12 4v4M9 6h6"/>',
+    train: '<rect x="5" y="3" width="14" height="14" rx="2"/><path d="M5 11h14M8 21l-2-3M16 21l2-3"/><circle cx="9" cy="14" r="0.5"/><circle cx="15" cy="14" r="0.5"/>',
+    bridge: '<path d="M3 21V9a9 9 0 0 1 18 0v12M3 13h18M6 21v-4M18 21v-4M3 9c2 0 3-2 3-2M21 9c-2 0-3-2-3-2"/>',
+    trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+    gem2: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 6 3-6"/>'
+  },
+
+  sectionIcons: {
+    'Bazar & Food': 'food',
+    'Transport': 'car',
+    'Household': 'home',
+    'Tech & Freelance': 'code',
+    'Business & Office': 'briefcase',
+    'Medical': 'health',
+    'Education': 'book',
+    'Agro & Farming': 'seedling',
+    'Creative': 'palette',
+    'Social & Religious': 'mosque',
+    'Personal & Grooming': 'shirt',
+    'Finance & Legal': 'cash',
+    'Entertainment': 'film',
+    'Other': 'sparkles'
+  },
+
+  getCatSvg(id, section) {
+    const specific = {
+      bazar: 'cart', fish: 'food', meat: 'food', chicken: 'food', grocery: 'cart', rice: 'food',
+      oil: 'flame', dal: 'food', bread: 'food', fruit: 'food', milk: 'drop', egg: 'food',
+      sweet: 'food', tea: 'coffee', snacks: 'food', water: 'drop', juice: 'drop', restaurant: 'food',
+      cafe: 'coffee', fastfood: 'food', biryani: 'food', streetfood: 'food',
+      rickshaw: 'bicycle', cng: 'bike', bus: 'bus', uber: 'car', fuel: 'bolt', carrepair: 'wrench',
+      carwash: 'drop', tyre: 'tool', battery: 'bolt', parking: 'ticket', toll: 'bridge',
+      launch: 'ship', train: 'train', flight: 'plane',
+      rent: 'home', electricity: 'bolt', wasa: 'drop', gas: 'flame', internet: 'wifi', cabletv: 'tv',
+      garbage: 'trash', maid: 'home', guard: 'shield', laundry: 'shirt', homerepair: 'wrench',
+      kitchen: 'tool', cleaning_kit: 'sparkles', furniture: 'home', bedding: 'home', plants: 'seedling', bulb: 'lightbulb',
+      domain: 'globe', hosting: 'cloud', saas: 'cloud', creative_cloud: 'cloud', github: 'code', chatgpt: 'robot',
+      cloud_storage: 'cloud', app_store: 'store', freelance_fee: 'cash', pc_hardware: 'laptop', keyboard_mouse: 'tool',
+      monitor: 'laptop', coworking: 'store', vpn: 'shield', software_lic: 'key',
+      wholesale: 'box', shop_rent: 'store', staff_salary: 'cash', staff_lunch: 'food', packaging: 'bag',
+      marketing: 'megaphone', trade_license: 'ticket', business_tax: 'chart', shop_repair: 'wrench', delivery_cost: 'box',
+      pos_software: 'printer', notebooks: 'book', ink_toner: 'printer',
+      doctor: 'stethoscope', medicine: 'pill', diagnostic: 'microscope', hospital_bill: 'hospital', dental: 'tooth',
+      education_generic: 'book', course: 'book', university: 'book',
+      gift: 'gift', zakat: 'charity', sadaqah: 'charity', donation: 'charity', hajj: 'mosque', umrah: 'mosque',
+      gym: 'health', sport: 'health', pet: 'heart', salary: 'cash', tax: 'chart', insurance: 'shield',
+      subscription: 'cloud', netflix: 'film', music: 'music', game_pass: 'game', movie: 'film',
+      travel: 'plane', hotel: 'home', shopping: 'bag', clothing: 'shirt', electronics: 'laptop'
+    };
+    const key = specific[id] || this.sectionIcons[section] || 'sparkles';
+    return this.renderIcon(key, 18);
   },
 
   renderSavingsItem(g) {
     const p = g.target > 0 ? (g.saved / g.target) * 100 : 0;
     const displayP = Math.floor(p);
     const sym = this.getSymbol();
-    const icon = this.getVaultIcon(g.name);
-
-    // Dynamic high-contrast gradients based on completion progress
-    let fillGradient = 'linear-gradient(90deg, #8B5CF6 0%, #3B82F6 100%)'; // Starting (0-40%): Royal Purple to Blue
-    let glowColor = 'rgba(139, 92, 246, 0.4)';
-    
-    if (p >= 100) {
-      fillGradient = 'linear-gradient(90deg, #FFD60A 0%, #FF9F0A 100%)'; // Completed: Radiant Amber Gold
-      glowColor = 'rgba(255, 214, 10, 0.5)';
-    } else if (p >= 75) {
-      fillGradient = 'linear-gradient(90deg, #34C759 0%, #00F2FF 100%)'; // Advanced (75-99%): Emerald to Bright Cyan
-      glowColor = 'rgba(52, 199, 89, 0.4)';
-    } else if (p >= 40) {
-      fillGradient = 'linear-gradient(90deg, #FF2D55 0%, #AF52DE 100%)'; // Mid-way (40-74%): Electric Rose to Amethyst
-      glowColor = 'rgba(255, 45, 85, 0.4)';
-    }
+    const icon = this.renderIcon(this.getVaultIcon(g.name), 22);
+    const completed = p >= 100;
 
     return `
-      <div class="vault-card ${p >= 100 ? 'completed' : ''}" onclick="Finance.addToSavings('${g.id}')">
-        <div class="vault-header">
-          <div class="vault-icon-box" style="background:${p >= 100 ? 'rgba(255,214,10,0.1)' : ''}; color:${p >= 100 ? '#FFD60A' : ''}; box-shadow:${p >= 100 ? '0 0 20px rgba(255,214,10,0.15)' : ''};">${icon}</div>
+      <div class="vault-card ${completed ? 'completed' : ''}">
+        <div class="vault-top-row">
+          <div class="vault-icon-box ${completed ? 'is-complete' : ''}">${icon}</div>
           <div class="vault-info">
             <div class="vault-name">${Utils.escapeHTML(g.name)}</div>
-            <div class="vault-status">${displayP}% Completed</div>
+            <div class="vault-status">${displayP}% Complete</div>
           </div>
-          <div class="vault-action-slot">
-            <div class="vault-add-btn" onclick="event.stopPropagation(); Finance.addToSavings('${g.id}')">
-              ${p >= 100 ? 
-                `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>` :
-                `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>`
-              }
-            </div>
-            <button class="fin-delete-btn" style="width:36px; height:36px; border-radius:12px; background:rgba(255,59,48,0.05); color:rgba(255,59,48,0.4);" onclick="event.stopPropagation(); Finance.deleteVault('${g.id}')">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
-            </button>
+          <div class="vault-pct-badge ${completed ? 'is-complete' : ''}">${displayP}%</div>
+        </div>
+
+        <div class="vault-progress-track">
+          <div class="vault-progress-fill" style="width:${Math.min(100, p)}%;"></div>
+        </div>
+
+        <div class="vault-metrics-row">
+          <div class="vault-metric">
+            <span class="vault-metric-label">Saved</span>
+            <span class="vault-metric-value">${sym}${this.formatVal(g.saved)}</span>
+          </div>
+          <div class="vault-metric" style="text-align:right;">
+            <span class="vault-metric-label">Target</span>
+            <span class="vault-metric-value">${sym}${this.formatVal(g.target)}</span>
           </div>
         </div>
-        <div class="vault-progress-container">
-          <div class="vault-metrics-row">
-            <div class="vault-metric">
-              <span class="vault-metric-label">Saved</span>
-              <span class="vault-metric-value">${sym}${this.formatVal(g.saved)}</span>
-            </div>
-            <div class="vault-metric" style="text-align:right;">
-              <span class="vault-metric-label">Target</span>
-              <span class="vault-metric-value">${sym}${this.formatVal(g.target)}</span>
-            </div>
+
+        <div class="vault-action-slot">
+          <div class="vault-add-btn" onclick="event.stopPropagation(); Finance.addToSavings('${g.id}')">
+            ${completed
+              ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+              : `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>`}
+            <span>${completed ? 'Achieved' : 'Add'}</span>
           </div>
-          <div class="vault-progress-track">
-            <div class="vault-progress-fill" style="width:${Math.min(100, p)}%; background:${fillGradient}; box-shadow: 0 0 14px ${glowColor};">
-              <div class="vault-progress-glow" style="box-shadow: 0 0 15px #fff, 0 0 30px ${p >= 100 ? '#FFD60A' : '#00f2ff'};"></div>
-            </div>
-          </div>
+          <button class="fin-delete-btn" onclick="event.stopPropagation(); Finance.deleteVault('${g.id}')" title="Delete Vault">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+          </button>
         </div>
       </div>
     `;
   },
 
   showExpenseModal() {
-    const sym = this.getSymbol(); 
+    const sym = this.getSymbol();
     this.selectedCategory = 'bazar';
     const now = new Date();
     let defaultDate = this.currentViewDate;
     if (now.getMonth() === this.currentViewDate.getMonth() && now.getFullYear() === this.currentViewDate.getFullYear()) {
       defaultDate = now;
     }
-    const dateStr = defaultDate.toISOString().split('T')[0];
-    
+    const dateStr = Utils.dateStr(defaultDate);
+
     const html = `
-      <div class="finance-modal-content" style="max-width:500px;">
-        <div class="fin-modal-header">
-          <div class="fin-modal-title">Log Spending</div>
-          <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
-        </div>
-        
-        <div class="fin-modal-amount-wrap">
-          <div style="display:flex; align-items:center; justify-content:center;">
-            <span class="fin-modal-currency" style="color:var(--fin-red); font-size:32px;">${sym}</span>
-            <input type="number" id="finance-expense-amount" placeholder="0.00" class="fin-modal-amount-input" autofocus style="width:180px;">
+      <div class="finance-modal-content fin-deposit-modal fin-spend-modal">
+        <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <div class="fin-deposit-hero fin-spend-hero">
+          <div class="fin-deposit-icon fin-spend-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>
+          </div>
+          <div class="fin-deposit-label">Log Spending</div>
+          <div class="fin-deposit-amount-row">
+            <span class="fin-modal-currency" style="color:var(--fin-red);">${sym}</span>
+            <input type="number" id="finance-expense-amount" placeholder="0.00" class="fin-modal-amount-input fin-spend-amount" autofocus onkeydown="Finance.advanceFromAmount(event, 'fin-cat-search-input')" onblur="Finance.advanceToField(event, 'fin-cat-search-input')">
           </div>
         </div>
 
         <div class="fin-field-group">
-          <label class="fin-field-label">Category</label>
+          <label class="fin-field-label">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><path d="M14 4h7v7M14 14h7v7M3 14h7v7"/></svg>
+              Category
+            </span>
+          </label>
           <div class="fin-modal-search-box">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" placeholder="Search 250+ categories..." oninput="Finance.handleCatSearch(this.value)" class="fin-cat-search-input">
+            <input type="text" placeholder="Search categories..." oninput="Finance.handleCatSearch(this.value)" class="fin-cat-search-input">
           </div>
           <div class="fin-cat-grid" id="fin-cat-list">
             ${this.renderCategoryGrid('')}
@@ -782,16 +1005,28 @@ const Finance = {
         </div>
 
         <div class="fin-field-group">
-          <label class="fin-field-label">Date</label>
-          <input type="date" id="finance-expense-date" value="${dateStr}" class="fin-field-input">
+          <label class="fin-field-label">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Date
+            </span>
+          </label>
+          <button type="button" class="fin-date-trigger" id="finance-expense-date-trigger" onclick="Finance.openDatePicker('finance-expense-date')">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span id="finance-expense-date-label">${this.formatPickerDate(dateStr)}</span>
+            <svg class="fin-date-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <input type="hidden" id="finance-expense-date" value="${dateStr}">
+          <div class="fin-date-pop hidden" id="finance-expense-date-pop"></div>
         </div>
 
         <div class="fin-modal-actions">
-          <button class="fin-save-btn expense" onclick="Finance.saveExpense()" style="width:100%; height:50px; font-size:15px; border-radius:16px;">Confirm Payment</button>
+          <button class="fin-save-btn expense" onclick="Finance.saveExpense()">Confirm Payment</button>
         </div>
       </div>
     `;
     this.showModal(html);
+    setTimeout(() => { const el = document.getElementById('finance-expense-amount'); if (el) el.focus(); }, 60);
   },
 
   handleCatSearch(val) {
@@ -856,42 +1091,313 @@ const Finance = {
     if (now.getMonth() === this.currentViewDate.getMonth() && now.getFullYear() === this.currentViewDate.getFullYear()) {
       defaultDate = now;
     }
-    const dateStr = defaultDate.toISOString().split('T')[0];
-    const html = `<div class="finance-modal-content"><div class="fin-modal-header"><div class="fin-modal-title">Add Deposit</div></div><div class="fin-modal-amount-wrap"><div style="display:flex; align-items:center;"><span class="fin-modal-currency">${sym}</span><input type="number" id="finance-income-amount" placeholder="0.00" class="fin-modal-amount-input" autofocus></div></div><div class="fin-field-group"><label class="fin-field-label">Source</label><input type="text" id="finance-income-desc" placeholder="Salary, Gift etc." class="fin-field-input"></div><div class="fin-field-group"><label class="fin-field-label">Date</label><input type="date" id="finance-income-date" value="${dateStr}" class="fin-field-input"></div><div class="fin-modal-actions"><button class="fin-save-btn income" onclick="Finance.saveIncome()">Confirm</button><button class="fin-cancel-btn" onclick="Finance.closeModal()">Cancel</button></div></div>`;
+    const dateStr = Utils.dateStr(defaultDate);
+    const html = `
+      <div class="finance-modal-content fin-deposit-modal">
+        <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <div class="fin-deposit-hero">
+          <div class="fin-deposit-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="fin-deposit-label">Add Deposit</div>
+          <div class="fin-deposit-amount-row">
+            <span class="fin-modal-currency">${sym}</span>
+            <input type="number" id="finance-income-amount" placeholder="0.00" class="fin-modal-amount-input" autofocus onkeydown="Finance.advanceFromAmount(event, 'finance-income-desc')" onblur="Finance.advanceToField(event, 'finance-income-desc')">
+          </div>
+        </div>
+
+        <div class="fin-field-group">
+          <label class="fin-field-label">Source</label>
+          <input type="text" id="finance-income-desc" placeholder="Salary, Gift etc." class="fin-field-input">
+        </div>
+
+        <div class="fin-field-group">
+          <label class="fin-field-label">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Date
+            </span>
+          </label>
+          <button type="button" class="fin-date-trigger" id="finance-income-date-trigger" onclick="Finance.openDatePicker('finance-income-date')">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span id="finance-income-date-label">${this.formatPickerDate(dateStr)}</span>
+            <svg class="fin-date-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <input type="hidden" id="finance-income-date" value="${dateStr}">
+          <div class="fin-date-pop hidden" id="finance-income-date-pop"></div>
+        </div>
+
+        <div class="fin-modal-actions">
+          <button class="fin-cancel-btn" onclick="Finance.closeModal()">Cancel</button>
+          <button class="fin-save-btn income" onclick="Finance.saveIncome()">Confirm Deposit</button>
+        </div>
+      </div>
+    `;
     this.showModal(html);
+    setTimeout(() => { const el = document.getElementById('finance-income-amount'); if (el) el.focus(); }, 60);
+  },
+
+  advanceFromAmount(e, nextTarget) {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const next = typeof nextTarget === 'string' && nextTarget.startsWith('.')
+      ? document.querySelector(nextTarget)
+      : document.getElementById(nextTarget);
+    if (next) next.focus();
+  },
+
+  advanceToField(e, nextTarget) {
+    const rel = e.relatedTarget;
+    if (rel && (rel.closest('.fin-modal-actions') || rel.closest('.fin-date-trigger') || rel.id === nextTarget)) return;
+    const next = typeof nextTarget === 'string' && nextTarget.startsWith('.')
+      ? document.querySelector(nextTarget)
+      : document.getElementById(nextTarget);
+    if (next && !rel) {
+      setTimeout(() => {
+        if (document.activeElement === document.body || !document.activeElement || document.activeElement === e.target) next.focus();
+      }, 10);
+    }
   },
 
   saveIncome() { const desc = document.getElementById('finance-income-desc').value; let a = parseFloat(document.getElementById('finance-income-amount').value); const d = document.getElementById('finance-income-date').value; if (!desc || isNaN(a) || a <= 0) return Utils.toast('Fill valid fields','error'); if (DB.getSettings().currency==='BDT') a /= this.exchangeRate; this.data.income.push({ id: Utils.uid(), description: desc, amount: a, date: d }); this.saveData(); this.closeModal(); this.render(); },
+
+  formatPickerDate(iso) {
+    if (!iso) return 'Select date';
+    const d = new Date(iso + 'T00:00:00');
+    if (isNaN(d.getTime())) return 'Select date';
+    return d.toLocaleDateString('default', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  },
+
+  openDatePicker(targetId) {
+    const pop = document.getElementById(targetId + '-pop');
+    if (!pop) return;
+    if (!pop.classList.contains('hidden')) { pop.classList.add('hidden'); return; }
+    document.querySelectorAll('.fin-date-pop').forEach(p => { if (p.id !== pop.id) p.classList.add('hidden'); });
+    this._datePickerTarget = targetId;
+    this._datePickerView = new Date((document.getElementById(targetId).value || Utils.todayStr()) + 'T00:00:00');
+    this.renderDatePop(targetId);
+    pop.classList.remove('hidden');
+    const trigger = document.getElementById(targetId + '-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+  },
+
+  renderDatePop(targetId) {
+    const pop = document.getElementById(targetId + '-pop');
+    if (!pop) return;
+    const view = this._datePickerView || new Date();
+    const y = view.getFullYear(), m = view.getMonth();
+    const first = new Date(y, m, 1);
+    const startDay = first.getDay();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    const selVal = document.getElementById(targetId).value;
+    const todayStr = Utils.todayStr();
+    const monthName = view.toLocaleDateString('default', { month: 'long', year: 'numeric' });
+
+    let cells = '';
+    for (let i = 0; i < startDay; i++) cells += '<div class="fin-date-empty"></div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      const cls = ['fin-date-cell'];
+      if (iso === selVal) cls.push('selected');
+      if (iso === todayStr) cls.push('today');
+      cells += `<div class="${cls.join(' ')}" onclick="Finance.pickDate('${targetId}','${iso}')">${d}</div>`;
+    }
+
+    pop.innerHTML = `
+      <div class="fin-date-pop-head">
+        <button type="button" class="fin-date-nav" onclick="Finance.shiftDatePicker('${targetId}',-1)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="fin-date-pop-title">${monthName}</div>
+        <button type="button" class="fin-date-nav" onclick="Finance.shiftDatePicker('${targetId}',1)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="fin-date-grid-head">
+        ${['S','M','T','W','T','F','S'].map(w => `<span>${w}</span>`).join('')}
+      </div>
+      <div class="fin-date-grid">${cells}</div>
+      <button type="button" class="fin-date-today" onclick="Finance.pickDate('${targetId}','${todayStr}')">Today</button>
+    `;
+  },
+
+  shiftDatePicker(targetId, delta) {
+    this._datePickerView = new Date(this._datePickerView.getFullYear(), this._datePickerView.getMonth() + delta, 1);
+    this.renderDatePop(targetId);
+  },
+
+  pickDate(targetId, iso) {
+    document.getElementById(targetId).value = iso;
+    const label = document.getElementById(targetId + '-label');
+    if (label) label.textContent = this.formatPickerDate(iso);
+    const pop = document.getElementById(targetId + '-pop');
+    if (pop) pop.classList.add('hidden');
+    const trigger = document.getElementById(targetId + '-trigger');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  },
   
   deleteExpense(id) {
-    Utils.confirm('Delete Record', 'Are you sure you want to delete this transaction?', () => {
-      this.data.expenses = this.data.expenses.filter(e => e.id !== id);
-      this.saveData(); this.render();
-      if (document.getElementById('finance-history-overlay')?.classList.contains('show')) this.renderHistoryItems();
-      Utils.toast('Deleted', 'info');
-    }, 'danger');
+    const e = this.data.expenses.find(x => x.id === id);
+    if (!e) return;
+    const sym = this.getSymbol();
+    const c = this.getCategory(e.category);
+    const html = `
+      <div class="finance-modal-content fin-delete-modal fin-delete-record">
+        <div class="fin-delete-hero">
+          <div class="fin-delete-icon">
+            <span class="fin-delete-icon-ring"></span>
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
+          </div>
+          <div class="fin-delete-title">Delete Record?</div>
+          <div class="fin-delete-name">${Utils.escapeHTML(c.name)} &middot; ${sym}${this.formatVal(e.amount)}</div>
+        </div>
+
+        <p class="fin-delete-warn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          This spending record will be removed. You can't undo this!
+        </p>
+
+        <div class="fin-modal-actions">
+          <button class="fin-cancel-btn" onclick="Finance.closeModal()">Keep It</button>
+          <button class="fin-save-btn fin-delete-confirm" onclick="Finance.confirmDeleteExpense('${id}')">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+    this.showModal(html);
   },
+
+  confirmDeleteExpense(id) {
+    this.data.expenses = this.data.expenses.filter(e => e.id !== id);
+    this.saveData(); this.closeModal(); this.render();
+    if (document.getElementById('finance-history-overlay')?.classList.contains('show')) this.renderHistoryItems();
+    Utils.toast('Record deleted', 'info');
+  },
+
   deleteIncome(id) {
-    Utils.confirm('Delete Deposit', 'Are you sure you want to remove this income record?', () => {
-      this.data.income = this.data.income.filter(e => e.id !== id);
-      this.saveData(); this.render();
-      if (document.getElementById('finance-history-overlay')?.classList.contains('show')) this.renderHistoryItems();
-      Utils.toast('Deleted', 'info');
-    }, 'danger');
+    const e = this.data.income.find(x => x.id === id);
+    if (!e) return;
+    const sym = this.getSymbol();
+    const html = `
+      <div class="finance-modal-content fin-delete-modal fin-delete-record fin-delete-income">
+        <div class="fin-delete-hero">
+          <div class="fin-delete-icon">
+            <span class="fin-delete-icon-ring"></span>
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
+          </div>
+          <div class="fin-delete-title">Delete Deposit?</div>
+          <div class="fin-delete-name">${Utils.escapeHTML(e.description || 'Deposit')} &middot; ${sym}${this.formatVal(e.amount)}</div>
+        </div>
+
+        <p class="fin-delete-warn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          This deposit record will be removed. You can't undo this!
+        </p>
+
+        <div class="fin-modal-actions">
+          <button class="fin-cancel-btn" onclick="Finance.closeModal()">Keep It</button>
+          <button class="fin-save-btn fin-delete-confirm" onclick="Finance.confirmDeleteIncome('${id}')">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+    this.showModal(html);
+  },
+
+  confirmDeleteIncome(id) {
+    this.data.income = this.data.income.filter(e => e.id !== id);
+    this.saveData(); this.closeModal(); this.render();
+    if (document.getElementById('finance-history-overlay')?.classList.contains('show')) this.renderHistoryItems();
+    Utils.toast('Deposit deleted', 'info');
   },
   deleteVault(id) {
-    Utils.confirm('Remove Vault', 'This will delete this vault and all recorded savings inside it. Continue?', () => {
-      this.data.savings = this.data.savings.filter(v => v.id !== id);
-      this.saveData(); this.render();
-      if (document.getElementById('finance-vault-overlay')?.classList.contains('show')) this.renderVaultOverlayItems();
-      Utils.toast('Vault removed', 'info');
-    }, 'danger');
+    const g = this.data.savings.find(v => v.id === id);
+    if (!g) return;
+    const sym = this.getSymbol();
+    const p = g.target > 0 ? Math.floor((g.saved / g.target) * 100) : 0;
+    const html = `
+      <div class="finance-modal-content fin-delete-modal">
+        <div class="fin-delete-hero">
+          <div class="fin-delete-icon">
+            <span class="fin-delete-icon-ring"></span>
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
+          </div>
+          <div class="fin-delete-title">Remove Vault?</div>
+          <div class="fin-delete-name">${Utils.escapeHTML(g.name)}</div>
+        </div>
+
+        <div class="fin-delete-info">
+          <div class="fin-delete-stat"><span>Saved</span><b style="color:${p >= 100 ? '#FFB020' : 'var(--fin-green)'}">${sym}${this.formatVal(g.saved)}</b></div>
+          <div class="fin-delete-stat"><span>Target</span><b>${sym}${this.formatVal(g.target)}</b></div>
+          <div class="fin-delete-stat"><span>Progress</span><b>${p}%</b></div>
+        </div>
+
+        <p class="fin-delete-warn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          This vault &amp; all its savings will be gone for good. No take-backs!
+        </p>
+
+        <div class="fin-modal-actions">
+          <button class="fin-cancel-btn" onclick="Finance.closeModal()">Keep It</button>
+          <button class="fin-save-btn fin-delete-confirm" onclick="Finance.confirmDeleteVault('${id}')">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            Delete Vault
+          </button>
+        </div>
+      </div>
+    `;
+    this.showModal(html);
+  },
+
+  confirmDeleteVault(id) {
+    this.data.savings = this.data.savings.filter(v => v.id !== id);
+    // Also remove the transfer expenses tied to this vault so net worth stays consistent
+    this.data.expenses = this.data.expenses.filter(e => e.vaultId !== id);
+    this.saveData(); this.closeModal(); this.render();
+    if (document.getElementById('finance-vault-overlay')?.classList.contains('show')) this.renderVaultOverlayItems();
+    Utils.toast('Vault removed', 'info');
   },
 
   showSavingsModal() {
     const sym = this.getSymbol();
-    const html = `<div class="finance-modal-content"><div class="fin-modal-header"><div class="fin-modal-title">Create Vault</div></div><div class="fin-modal-amount-wrap"><div style="display:flex; align-items:center;"><span class="fin-modal-currency" style="color:var(--fin-green);">${sym}</span><input type="number" id="finance-savings-target" placeholder="0.00" class="fin-modal-amount-input" autofocus></div></div><div class="fin-field-group"><label class="fin-field-label">Vault Name</label><input type="text" id="finance-savings-name" placeholder="e.g. Dream House" class="fin-field-input"></div><div class="fin-modal-actions"><button class="fin-save-btn" style="background:var(--fin-green);" onclick="Finance.saveSavingsGoal()">Create</button><button class="fin-cancel-btn" onclick="Finance.closeModal()">Cancel</button></div></div>`;
+    const html = `
+      <div class="finance-modal-content fin-deposit-modal fin-vault-create-modal">
+        <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <div class="fin-deposit-hero fin-vault-hero">
+          <div class="fin-deposit-icon fin-vault-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v2"/><path d="M3 7h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/><path d="M12 11v5M9.5 13.5h5"/></svg>
+          </div>
+          <div class="fin-deposit-label">Create Vault</div>
+          <div class="fin-deposit-sub">Set your goal & start saving</div>
+          <div class="fin-deposit-amount-row">
+            <span class="fin-modal-currency" style="color:var(--fin-green);">${sym}</span>
+            <input type="number" id="finance-savings-target" placeholder="0.00" class="fin-modal-amount-input" autofocus onkeydown="Finance.advanceFromAmount(event, 'finance-savings-name')" onblur="Finance.advanceToField(event, 'finance-savings-name')">
+          </div>
+        </div>
+
+        <div class="fin-field-group">
+          <label class="fin-field-label">Vault Name</label>
+          <input type="text" id="finance-savings-name" placeholder="e.g. Dream House, iPhone 16, Hajj Fund" class="fin-field-input">
+        </div>
+
+        <div class="fin-modal-actions">
+          <button class="fin-cancel-btn" onclick="Finance.closeModal()">Cancel</button>
+          <button class="fin-save-btn income" style="background:var(--fin-green);" onclick="Finance.saveSavingsGoal()">Create Vault</button>
+        </div>
+      </div>
+    `;
     this.showModal(html);
+    setTimeout(() => { const el = document.getElementById('finance-savings-target'); if (el) el.focus(); }, 60);
   },
 
   saveSavingsGoal() {
@@ -912,7 +1418,7 @@ const Finance = {
     if (!goal) return;
 
     if (goal.saved >= goal.target) {
-      return Utils.toast('Goal already achieved! 🏆', 'info');
+      return Utils.toast('Goal already achieved!', 'info');
     }
 
     const mult = DB.getSettings().currency === 'BDT' ? this.exchangeRate : 1;
@@ -935,7 +1441,7 @@ const Finance = {
         <div class="fin-modal-amount-wrap" style="margin-bottom:20px;">
           <div style="display:flex; align-items:center;">
             <span class="fin-modal-currency" style="color:var(--fin-green);">${sym}</span>
-            <input type="number" id="vault-deposit-amount" placeholder="0.00" class="fin-modal-amount-input" autofocus>
+            <input type="number" id="vault-deposit-amount" placeholder="0.00" class="fin-modal-amount-input">
           </div>
         </div>
 
@@ -951,6 +1457,7 @@ const Finance = {
       </div>
     `;
     this.showModal(html);
+    setTimeout(() => { const el = document.getElementById('vault-deposit-amount'); if (el) el.focus(); }, 60);
   },
 
   confirmVaultDeposit(id) {
@@ -968,6 +1475,15 @@ const Finance = {
     let amountInBase = amount;
     if (DB.getSettings().currency === 'BDT') amountInBase = amount / this.exchangeRate;
 
+    // Genuine behaviour: cannot deposit more cash than you actually have on hand
+    const allIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
+    const allExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
+    const availCash = allIncome - allExpenses;
+    if (amountInBase > availCash + 0.0001) {
+      const sym = this.getSymbol();
+      return Utils.toast(`Insufficient balance! Available: ${sym}${this.formatVal(availCash)}`, 'error');
+    }
+
     // Strict validation: Prevent depositing more than remaining target (with a 0.01 tolerance for currency conversions)
     if (amountInBase > remainingInBase + 0.0001) {
       const remainingDisplay = remainingInBase * mult;
@@ -984,6 +1500,7 @@ const Finance = {
       description: `Vault Deposit: ${goal.name}`, 
       amount: amountInBase, 
       category: 'transfer', 
+      vaultId: goal.id,
       date: Utils.todayStr() 
     });
 
@@ -995,14 +1512,14 @@ const Finance = {
       this.renderVaultOverlayItems();
     }
 
-    Utils.toast(`Deposited successfully! 💰`, 'success');
+    Utils.toast(`Deposited successfully!`, 'success');
     if (!wasComplete && goal.saved >= goal.target) {
-      setTimeout(() => Utils.toast(`🏆 Goal "${goal.name}" Completed!`, 'success'), 500);
+      setTimeout(() => Utils.toast(`Goal "${goal.name}" Completed!`, 'success'), 500);
     }
   },
 
   toggleActivityLimit() {
-    this.showAllActivity = true;
+    this.showAllActivity = !this.showAllActivity;
     this.render();
   },
 
@@ -1012,7 +1529,10 @@ const Finance = {
   },
 
   showModal(c) { let o = document.getElementById('finance-modal-overlay'); if (!o) { o = document.createElement('div'); o.id = 'finance-modal-overlay'; o.className = 'finance-modal-overlay'; document.body.appendChild(o); } o.innerHTML = c; o.classList.add('show'); o.onclick = (e) => { if(e.target === o) this.closeModal(); }; },
-  closeModal() { const o = document.getElementById('finance-modal-overlay'); if (o) o.classList.remove('show'); },
+  closeModal() {
+    const o = document.getElementById('finance-modal-overlay');
+    if (o) o.classList.remove('show');
+  },
 
   showFullHistory() {
     this.historySearch = '';
@@ -1220,30 +1740,32 @@ const Finance = {
   },
   showToolsModal() {
     const exchangeRateText = this.exchangeRate ? `1 USD = ${this.exchangeRate.toFixed(2)} BDT` : 'Loading rates...';
-    
+
     const html = `
-      <div class="finance-modal-content" style="max-width:400px;">
+      <div class="finance-modal-content">
         <div class="fin-modal-header">
           <div class="fin-modal-title">Finance Settings</div>
           <button class="fin-modal-close" onclick="Finance.closeModal()" aria-label="Close">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
-        
-        <div style="padding: 12px 0 20px;">
+
+        <div style="padding: 8px 22px 22px;">
+          <div class="fin-settings-section-label">Market</div>
           <div class="fin-exchange-card">
-            <div class="fin-live-badge">
-              <span class="fin-pulse-dot"></span>
-              Live Market Rate
+            <div>
+              <div class="fin-live-badge">
+                <span class="fin-pulse-dot"></span>
+                Live Market Rate
+              </div>
+              <div style="font-size:20px; font-weight:800; color:var(--color-text-primary); margin-top:6px;">${exchangeRateText}</div>
             </div>
-            <div style="font-size:20px; font-weight:800; color:var(--color-text-primary);">${exchangeRateText}</div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:12px; margin-top:20px;">
-            <div style="font-size:11px; font-weight:800; color:var(--fin-red); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; opacity:0.6;">Danger Zone</div>
-
+          <div class="fin-settings-section-label" style="color:var(--fin-red); margin-top:24px;">Danger Zone</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
             <button class="fin-tool-btn" onclick="Finance.resetCurrentMonth()">
-              <div class="fin-tool-icon" style="background:rgba(255,149,0,0.1); color:#FF9500;">
+              <div class="fin-tool-icon" style="background:rgba(255,149,0,0.12); color:#FF9500;">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
               </div>
               <div style="text-align:left;">
@@ -1253,7 +1775,7 @@ const Finance = {
             </button>
 
             <button class="fin-tool-btn" onclick="Finance.resetAllData()">
-              <div class="fin-tool-icon" style="background:rgba(255,59,48,0.1); color:var(--fin-red);">
+              <div class="fin-tool-icon" style="background:rgba(255,59,48,0.12); color:var(--fin-red);">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M5 12h14"/></svg>
               </div>
               <div style="text-align:left;">
@@ -1273,6 +1795,16 @@ const Finance = {
     const monthName = this.currentViewDate.toLocaleString('default', { month: 'long' });
     
     Utils.confirm('Reset Month', `Delete all transactions and records for ${monthName} ${y}?`, () => {
+      // Decrement any vault savings that were funded by transfers in this month
+      this.data.expenses.forEach(e => {
+        if (e.category === 'transfer' && e.vaultId) {
+          const d = new Date(e.date);
+          if (d.getMonth() === m && d.getFullYear() === y) {
+            const v = this.data.savings.find(s => s.id === e.vaultId);
+            if (v) v.saved = Math.max(0, (Number(v.saved) || 0) - e.amount);
+          }
+        }
+      });
       this.data.expenses = this.data.expenses.filter(e => { const d = new Date(e.date); return !(d.getMonth() === m && d.getFullYear() === y); });
       this.data.income = this.data.income.filter(i => { const d = new Date(i.date); return !(d.getMonth() === m && d.getFullYear() === y); });
       this.saveData();
@@ -1295,10 +1827,12 @@ const Finance = {
   exportPDF() {
     const v = this.currentViewDate, sym = this.getSymbol();
     const mStr = v.toLocaleString('default', { month: 'long', year: 'numeric' });
-    const exps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear(); });
+    const exps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear() && e.category !== 'transfer'; });
     const incs = this.data.income.filter(i => { const d = new Date(i.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear(); });
     const total = exps.reduce((s, e) => s + e.amount, 0);
     const stats = this.getStats(v);
+    const totalSaved = this.data.savings.reduce((sum, g) => sum + (Number(g.saved) || 0), 0);
+    const netWorth = stats.closingBalance + totalSaved;
 
     // Merge both income and expenses into a unified list, sorted chronologically (newest first)
     const txs = [
@@ -1307,6 +1841,10 @@ const Finance = {
     ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const win = window.open('', '_blank');
+    if (!win) {
+      Utils.toast('Please allow popups to export statement', 'error');
+      return;
+    }
     win.document.write(`
       <html>
         <head>
@@ -1351,7 +1889,8 @@ const Finance = {
             .report-title { font-size: 52px; font-weight: 900; letter-spacing: -3px; margin: 0; color: #1e1b4b; line-height: 1; }
             .report-date { font-size: 16px; font-weight: 600; color: #6366f1; margin-top: 10px; opacity: 0.8; }
 
-            .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 50px; }
+            .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+            .networth-line { text-align: center; font-size: 13px; font-weight: 800; color: #475569; background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.12); border-radius: 14px; padding: 12px; }
             .stat-card { 
               background: white; padding: 24px; border-radius: 28px; 
               box-shadow: 0 10px 25px rgba(0,0,0,0.03);
@@ -1409,24 +1948,25 @@ const Finance = {
               <div class="report-date">Automated Financial Asset Report • ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</div>
             </div>
 
-            <div class="stats-grid">
-              <div class="stat-card">
-                <span class="label">Opening Balance</span>
-                <div class="val" style="color: #64748b;">${sym}${this.formatVal(stats.openingBalance)}</div>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <span class="label">Opening Balance</span>
+                  <div class="val" style="color: #64748b;">${sym}${this.formatVal(stats.openingBalance)}</div>
+                </div>
+                <div class="stat-card">
+                  <span class="label">Total Income</span>
+                  <div class="val pos">+${sym}${this.formatVal(stats.income)}</div>
+                </div>
+                <div class="stat-card">
+                  <span class="label">Monthly Spend</span>
+                  <div class="val neg">-${sym}${this.formatVal(total)}</div>
+                </div>
+                <div class="stat-card dark">
+                  <span class="label" style="color:rgba(255,255,255,0.4)">Closing Balance</span>
+                  <div class="val">${sym}${this.formatVal(stats.closingBalance)}</div>
+                </div>
               </div>
-              <div class="stat-card">
-                <span class="label">Total Income</span>
-                <div class="val pos">+${sym}${this.formatVal(stats.income)}</div>
-              </div>
-              <div class="stat-card">
-                <span class="label">Monthly Spend</span>
-                <div class="val neg">-${sym}${this.formatVal(total)}</div>
-              </div>
-              <div class="stat-card dark">
-                <span class="label" style="color:rgba(255,255,255,0.4)">Closing Balance</span>
-                <div class="val">${sym}${this.formatVal(stats.closingBalance)}</div>
-              </div>
-            </div>
+              <div class="networth-line">Vault Savings: ${sym}${this.formatVal(totalSaved)} &nbsp;•&nbsp; Net Worth: ${sym}${this.formatVal(netWorth)}</div>
 
             <div class="ledger-header">
               <div class="ledger-title">Transaction Ledger</div>
@@ -1479,7 +2019,16 @@ const Finance = {
   initChart(stats) {
     const canvas = document.getElementById('finance-main-chart');
     if (!canvas) return;
-    if (typeof Chart === 'undefined') return;
+    if (typeof Chart === 'undefined') {
+      Utils.loadScript('https://cdn.jsdelivr.net/npm/chart.js')
+        .then(() => {
+          this.initChart(stats);
+        })
+        .catch(err => {
+          console.error("Failed to load Chart.js from CDN", err);
+        });
+      return;
+    }
     if (this.mainChart) this.mainChart.destroy();
 
     Chart.defaults.font.family = "'Outfit','Plus Jakarta Sans',system-ui,-apple-system,sans-serif";
@@ -1488,132 +2037,209 @@ const Finance = {
     const container = canvas.parentElement;
     const containerHeight = container ? container.clientHeight : 240;
 
-    let labels = [], data = [];
+    let labels = [], spend = [], income = [];
     const v = this.currentViewDate;
     const m = v.getMonth(), y = v.getFullYear();
 
     if (this.chartView === 'daily') {
       const daysInMonth = new Date(y, m + 1, 0).getDate();
-      data = new Array(daysInMonth).fill(0);
+      spend = new Array(daysInMonth).fill(0);
+      income = new Array(daysInMonth).fill(0);
       this.data.expenses.forEach(e => {
+        if (e.category === 'transfer') return;
         const d = new Date(e.date);
-        if (d.getMonth() === m && d.getFullYear() === y) {
-          data[d.getDate() - 1] += e.amount;
-        }
+        if (d.getMonth() === m && d.getFullYear() === y) spend[d.getDate() - 1] += e.amount;
+      });
+      this.data.income.forEach(e => {
+        const d = new Date(e.date);
+        if (d.getMonth() === m && d.getFullYear() === y) income[d.getDate() - 1] += e.amount;
       });
       labels = Array.from({ length: daysInMonth }, (_, i) => i + 1);
     } else {
       labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      data = new Array(12).fill(0);
-      this.data.expenses.filter(e => new Date(e.date).getFullYear() === y).forEach(e => {
-        data[new Date(e.date).getMonth()] += e.amount;
-      });
+      spend = new Array(12).fill(0);
+      income = new Array(12).fill(0);
+      this.data.expenses.filter(e => new Date(e.date).getFullYear() === y && e.category !== 'transfer').forEach(e => { spend[new Date(e.date).getMonth()] += e.amount; });
+      this.data.income.filter(e => new Date(e.date).getFullYear() === y).forEach(e => { income[new Date(e.date).getMonth()] += e.amount; });
     }
 
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const sym = this.getSymbol();
-    const currencyMult = DB.getSettings().currency === 'BDT' ? this.exchangeRate : 1;
-    const displayData = data.map(v => v * currencyMult);
     const isDaily = this.chartView === 'daily';
 
-    const accentColor = isDaily ? '#3b82f6' : '#a855f7';
-    const fillGradient = ctx.createLinearGradient(0, 0, 0, containerHeight);
-    
-    if (isDaily) {
-      fillGradient.addColorStop(0, 'rgba(59, 130, 246, 0.28)');
-      fillGradient.addColorStop(0.6, 'rgba(59, 130, 246, 0.06)');
-      fillGradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-    } else {
-      fillGradient.addColorStop(0, 'rgba(168, 85, 247, 0.28)');
-      fillGradient.addColorStop(0.6, 'rgba(168, 85, 247, 0.06)');
-      fillGradient.addColorStop(1, 'rgba(168, 85, 247, 0.0)');
-    }
+    // Amounts are stored in USD base; formatVal() applies the live exchange rate for BDT display.
+    const spendData = spend;
+    const incomeData = income;
 
-    const tickColor = isDark ? '#cbd5e1' : '#334155';
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(99, 102, 241, 0.08)';
+    // Theme-consistent, clearly distinct colors
+    const spendStroke = isDark ? '#16a34a' : '#15803d';
+    const spendFill = ctx.createLinearGradient(0, 0, 0, containerHeight);
+    spendFill.addColorStop(0, isDark ? 'rgba(22, 163, 74, 0.30)' : 'rgba(21, 128, 61, 0.26)');
+    spendFill.addColorStop(0.6, isDark ? 'rgba(22, 163, 74, 0.07)' : 'rgba(21, 128, 61, 0.06)');
+    spendFill.addColorStop(1, 'rgba(22, 163, 74, 0.0)');
+
+    const incomeStroke = isDark ? '#f59e0b' : '#D97706';
+    const haloColor = isDark ? 'rgba(10,15,28,0.85)' : 'rgba(255,255,255,0.0)';
+
+    const tickColor = isDark ? '#cbd5e1' : '#475569';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(100, 116, 139, 0.14)';
+
+    const pointBase = isDaily ? 3 : 4.5;
+    const makePoints = (arr) => arr.map(val => val > 0 ? pointBase : 0);
+    const makeHover = (arr) => arr.map(val => val > 0 ? pointBase + 3 : 0);
+
+    // Hover crosshair plugin for an interactive feel
+    const crosshair = {
+      id: 'crosshair',
+      afterDraw(chart) {
+        const active = chart.getActiveElements && chart.getActiveElements();
+        if (!active || !active.length) return;
+        const x = active[0].element.x;
+        const { top, bottom } = chart.chartArea;
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.beginPath();
+        ctx2.moveTo(x, top);
+        ctx2.lineTo(x, bottom);
+        ctx2.lineWidth = 1.5;
+        ctx2.strokeStyle = isDark ? 'rgba(255,255,255,0.22)' : 'rgba(15,23,42,0.18)';
+        ctx2.setLineDash([4, 4]);
+        ctx2.stroke();
+        ctx2.restore();
+      }
+    };
+
+    const datasets = [
+      {
+        label: 'Spending',
+        data: spendData,
+        borderColor: spendStroke,
+        tension: 0.4,
+        fill: true,
+        backgroundColor: spendFill,
+        borderWidth: 3.5,
+        pointRadius: makePoints(spendData),
+        pointHoverRadius: makeHover(spendData),
+        pointHitRadius: 16,
+        pointBackgroundColor: isDark ? '#0a0f1c' : '#ffffff',
+        pointBorderColor: isDark ? '#16a34a' : '#15803d',
+        pointBorderWidth: 2.5,
+        borderCapStyle: 'round',
+        borderJoinStyle: 'round',
+        clip: false,
+        spanGaps: true,
+      },
+      {
+        label: 'Income',
+        data: incomeData,
+        borderColor: haloColor,
+        borderWidth: 6,
+        tension: 0.4,
+        fill: false,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        pointHitRadius: 0,
+        borderCapStyle: 'round',
+        borderJoinStyle: 'round',
+        clip: false,
+        isHalo: true,
+      },
+      {
+        label: 'Income',
+        data: incomeData,
+        borderColor: incomeStroke,
+        borderWidth: 4,
+        tension: 0.4,
+        fill: false,
+        pointRadius: makePoints(incomeData),
+        pointHoverRadius: makeHover(incomeData),
+        pointHitRadius: 16,
+        pointBackgroundColor: '#f59e0b',
+        pointBorderColor: isDark ? '#0a0f1c' : '#ffffff',
+        pointBorderWidth: 2,
+        borderCapStyle: 'round',
+        borderJoinStyle: 'round',
+        clip: false,
+        spanGaps: true,
+      }
+    ];
 
     this.mainChart = new Chart(ctx, {
       type: 'line',
-      data: {
-        labels,
-        datasets: [{
-          label: isDaily ? 'Daily Spend' : 'Monthly Spend',
-          data: displayData,
-          borderColor: accentColor,
-          borderWidth: 3.5,
-          tension: 0.35,
-          fill: true,
-          backgroundColor: fillGradient,
-          pointRadius: displayData.map(v => v > 0 ? 7 : 0),
-          pointHoverRadius: displayData.map(v => v > 0 ? 9 : 0),
-          pointHitRadius: 12,
-          pointBackgroundColor: isDark ? '#0a0f1c' : '#ffffff',
-          pointBorderColor: accentColor,
-          pointBorderWidth: 2.5,
-          clip: false,
-        }]
-      },
+      data: { labels, datasets },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: {
-          padding: { top: 14, bottom: 4, left: 8, right: 8 }
-        },
+        layout: { padding: { top: 12, bottom: 4, left: 8, right: 8 } },
         animation: {
-          y: { type: 'number', easing: 'easeOutQuart', duration: 800, from: (c) => c.chart.scales.y.getPixelForValue(0) }
-        },
-        transitions: {
-          show: { animations: { x: { from: 0 }, y: { from: 0 } } }
+          y: { type: 'number', easing: 'easeOutQuart', duration: 800, from: (c) => (c.chart.scales.y ? c.chart.scales.y.getPixelForValue(0) : 0) }
         },
         interaction: { intersect: false, mode: 'index' },
+        onHover: (e, els) => { if (e && e.native) e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
         plugins: {
-          legend: { display: false },
+          legend: {
+            display: true,
+            align: 'end',
+            labels: {
+              boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle',
+              color: tickColor, font: { size: 11, weight: '700', family: "'Outfit', system-ui, sans-serif" },
+              padding: 14,
+              filter: (item) => !datasets[item.datasetIndex].isHalo
+            }
+          },
           tooltip: {
             backgroundColor: isDark ? 'rgba(20,20,25,0.96)' : 'rgba(255,255,255,0.98)',
             titleColor: isDark ? '#ffffff' : '#0f172a',
-            bodyColor: isDark ? '#ffffff' : '#0f172a',
+            bodyColor: isDark ? '#e2e8f0' : '#334155',
             borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
             borderWidth: 1,
             cornerRadius: 12,
-            padding: 10,
-            displayColors: false,
+            padding: 12,
+            usePointStyle: true,
+            filter: (item) => !datasets[item.datasetIndex].isHalo,
             callbacks: {
               title: (items) => isDaily ? `Day ${items[0].label}` : items[0].label,
-              label: (item) => `Spent: ${sym}${this.formatVal(item.parsed.y / currencyMult)}`
-            }
+              label: (item) => ` ${item.dataset.label}: ${sym}${this.formatVal(item.parsed.y)}`,
+              footer: (items) => {
+                const sp = items.find(i => i.dataset.label === 'Spending');
+                const inc = items.find(i => i.dataset.label === 'Income');
+                if (!sp || !inc) return '';
+                const net = inc.parsed.y - sp.parsed.y;
+                const sign = net >= 0 ? '+' : '-';
+                return `Net: ${sign}${sym}${this.formatVal(Math.abs(net))}`;
+              }
+            },
+            footerColor: isDark ? '#a7f3d0' : '#059669',
+            footerFont: { weight: '800', size: 12 }
           }
         },
         scales: {
-          x: { 
-            grid: { display: false }, 
-            ticks: { 
+          x: {
+            grid: { display: false },
+            ticks: {
               color: tickColor,
-              font: { size: 10, weight: '700' }, 
-              autoSkip: true, 
-              maxTicksLimit: 12 
-            } 
+              font: { size: 10, weight: '700' },
+              maxRotation: 0,
+              minRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: isDaily ? 10 : 12
+            }
           },
-          y: { 
-            position: 'right', 
-            beginAtZero: true, 
-            grace: '15%',
-            grid: { 
-              color: gridColor,
-              drawBorder: false 
-            }, 
-            ticks: { 
+          y: {
+            position: 'right',
+            beginAtZero: true,
+            grace: '12%',
+            grid: { color: gridColor, drawBorder: false },
+            ticks: {
               color: tickColor,
-              font: { size: 10, weight: '700' }, 
-              callback: (v) => {
-                if (v <= 0) return '';
-                const baseVal = v / currencyMult;
-                const converted = DB.getSettings().currency === 'BDT' ? baseVal * this.exchangeRate : baseVal;
-                return sym + Math.round(converted).toLocaleString();
-              }
-            } 
+              font: { size: 10, weight: '700' },
+              padding: 6,
+              callback: (val) => val <= 0 ? '' : sym + this.formatVal(val)
+            }
           }
         }
-      }
+      },
+      plugins: [crosshair]
     });
   },
 
@@ -1621,13 +2247,15 @@ const Finance = {
     const m = v.getMonth(), y = v.getFullYear();
     const endOfViewMonth = new Date(y, m + 1, 0, 23, 59, 59); // Last second of the viewed month
 
-    // Monthly View Stats (Specific to this month)
+    // Monthly View Stats (Specific to this month) — exclude vault transfers so Spending matches the ledger
     const monthlyIncome = this.data.income.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
-    const monthlyExpenses = this.data.expenses.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y; }).reduce((s, o) => s + o.amount, 0);
-    
-    // Absolute Current Balance (Total money currently on hand across all time)
-    const totalIncome = this.data.income.reduce((s, o) => s + o.amount, 0);
-    const totalExpenses = this.data.expenses.reduce((s, o) => s + o.amount, 0);
+    const monthlyExpenses = this.data.expenses.filter(o => { const d = new Date(o.date); return d.getMonth() === m && d.getFullYear() === y && o.category !== 'transfer'; }).reduce((s, o) => s + o.amount, 0);
+
+    // Previous calendar month stats (for month-over-month comparison)
+    const pm = m === 0 ? 11 : m - 1;
+    const py = m === 0 ? y - 1 : y;
+    const prevIncome = this.data.income.filter(o => { const d = new Date(o.date); return d.getMonth() === pm && d.getFullYear() === py; }).reduce((s, o) => s + o.amount, 0);
+    const prevExpenses = this.data.expenses.filter(o => { const d = new Date(o.date); return d.getMonth() === pm && d.getFullYear() === py && o.category !== 'transfer'; }).reduce((s, o) => s + o.amount, 0);
 
     // Closing Balance of the viewed month (Cumulative up to the end of the viewed month)
     const closingIncome = this.data.income.filter(o => new Date(o.date) <= endOfViewMonth).reduce((s, o) => s + o.amount, 0);
@@ -1642,10 +2270,19 @@ const Finance = {
     return { 
       income: monthlyIncome, 
       expenses: monthlyExpenses, 
+      prevIncome: prevIncome,
+      prevExpenses: prevExpenses,
       balance: monthlyIncome - monthlyExpenses,
-      totalAllTime: totalIncome - totalExpenses,
       closingBalance: closingIncome - closingExpenses,
       openingBalance: openingBalance
     };
+  },
+
+  destroy() {
+    if (this.rateInterval) {
+      clearInterval(this.rateInterval);
+      this.rateInterval = null;
+    }
   }
 };
+window.Finance = Finance;

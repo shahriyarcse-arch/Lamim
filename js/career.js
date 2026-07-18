@@ -32,11 +32,60 @@ const Career = {
     { key: 'goals25', label: '25 Goals Done', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' }
   ],
 
+  _GOAL_MAX_LEN: 120,
+
+  _emojiRe: /^(?:💻|📖|🎓|🌐|💼|💪|✨|✍️|🎨|🎯)\s*/u,
+
   init() {
     this.selectedDate = Utils.todayStr();
+    this._migrateChecklist();
     this.renderAll();
     this.bindEvents();
     this.initTimer();
+  },
+
+  destroy() {
+    ['career-prev-day', 'career-next-day', 'career-today-btn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) delete el.dataset.bound;
+    });
+    const goalForm = document.getElementById('career-goal-form');
+    if (goalForm) delete goalForm.dataset.bound;
+    const checklistContainer = document.getElementById('career-checklist-container');
+    if (checklistContainer) delete checklistContainer.dataset.bound;
+    const topicInput = document.getElementById('career-study-topic');
+    if (topicInput) delete topicInput.dataset.bound;
+    if (this._timerRAF) {
+      cancelAnimationFrame(this._timerRAF);
+      this._timerRAF = null;
+    }
+  },
+
+  _migrateChecklist() {
+    const today = Utils.todayStr();
+    const data = DB.getCareer(today);
+    const list = data.checklist || [];
+    let changed = false;
+    for (let i = 0; i < list.length; i++) {
+      let item = list[i];
+      if (typeof item === 'string') {
+        list[i] = { id: i + 1, text: item, done: false };
+        item = list[i];
+        changed = true;
+      }
+      if (!item || typeof item !== 'object') {
+        list[i] = { id: i + 1, text: '', done: false };
+        item = list[i];
+        changed = true;
+      }
+      if (typeof item.id !== 'number') { item.id = i + 1; changed = true; }
+      if (typeof item.text !== 'string') { item.text = ''; changed = true; }
+      if (typeof item.done !== 'boolean') { item.done = false; changed = true; }
+      const cleaned = item.text.replace(this._emojiRe, '');
+      if (cleaned !== item.text) { item.text = cleaned; changed = true; }
+      if ('category' in item) { delete item.category; changed = true; }
+    }
+    if (changed) DB.setCareer(today, data);
   },
 
   renderAll() {
@@ -47,11 +96,11 @@ const Career = {
     this.renderChecklist();
     this.renderGoalsProgress();
     this.renderHeatMap();
-    this.renderWeekChart();
     this.renderSkillProgress();
     this.renderCharts();
     this.renderAchievements();
     this.updateHeroMetrics();
+    this.switchProgressTab(this._activeProgressTab || 'weekly');
   },
 
   renderHeader() {
@@ -70,6 +119,8 @@ const Career = {
     }
     const nextBtn = document.getElementById('career-next-day');
     if (nextBtn) nextBtn.style.display = isToday ? 'none' : 'inline-flex';
+    const todayBtn = document.getElementById('career-today-btn');
+    if (todayBtn) todayBtn.style.display = isToday ? 'none' : 'inline-flex';
   },
 
   bindEvents() {
@@ -77,11 +128,32 @@ const Career = {
     const next = document.getElementById('career-next-day');
     if (prev && !prev.dataset.bound) { prev.dataset.bound = '1'; prev.addEventListener('click', () => this.changeDay(-1)); }
     if (next && !next.dataset.bound) { next.dataset.bound = '1'; next.addEventListener('click', () => this.changeDay(1)); }
+    const todayBtn = document.getElementById('career-today-btn');
+    if (todayBtn && !todayBtn.dataset.bound) { todayBtn.dataset.bound = '1'; todayBtn.addEventListener('click', () => { this.selectedDate = Utils.todayStr(); this.renderAll(); }); }
 
-    const goalInput = document.getElementById('career-new-goal-text');
-    if (goalInput && !goalInput.dataset.bound) {
-      goalInput.dataset.bound = '1';
-      goalInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.addChecklistItem(); } });
+    const goalForm = document.getElementById('career-goal-form');
+    if (goalForm && !goalForm.dataset.bound) {
+      goalForm.dataset.bound = '1';
+      goalForm.addEventListener('submit', (e) => { e.preventDefault(); this.addChecklistItem(); });
+    }
+
+    const checklistContainer = document.getElementById('career-checklist-container');
+    if (checklistContainer && !checklistContainer.dataset.bound) {
+      checklistContainer.dataset.bound = '1';
+      checklistContainer.addEventListener('click', (e) => {
+        const delBtn = e.target.closest('.cb-check-del');
+        if (delBtn) {
+          e.stopPropagation();
+          const id = parseInt(delBtn.dataset.id, 10);
+          if (!isNaN(id)) this.deleteChecklistItem(id);
+          return;
+        }
+        const itemEl = e.target.closest('.cb-check-item');
+        if (itemEl) {
+          const id = parseInt(itemEl.dataset.id, 10);
+          if (!isNaN(id)) this.toggleChecklistItem(id, e);
+        }
+      });
     }
 
     const topicInput = document.getElementById('career-study-topic');
@@ -280,7 +352,8 @@ const Career = {
   _elapsedMs() {
     const state = DB.getCareerTimer();
     if (!state.running) return state.accumMs || 0;
-    return (state.accumMs || 0) + (Date.now() - (state.startedAt || Date.now()));
+    const delta = Math.min(Date.now() - (state.startedAt || Date.now()), 86400000);
+    return (state.accumMs || 0) + delta;
   },
 
   _renderTimerDisplay(ms) {
@@ -306,8 +379,13 @@ const Career = {
 
   _startTimerLoop() {
     if (this._timerRAF) return;
+    let lastTick = 0;
     const tick = () => {
-      this._renderTimerDisplay(this._elapsedMs());
+      const now = performance.now();
+      if (now - lastTick >= 250) {
+        lastTick = now;
+        this._renderTimerDisplay(this._elapsedMs());
+      }
       this._timerRAF = requestAnimationFrame(tick);
     };
     this._timerRAF = requestAnimationFrame(tick);
@@ -322,6 +400,7 @@ const Career = {
     if (state.running) return;
     state.running = true;
     state.startedAt = Date.now();
+    state.startedDate = this.selectedDate;
     DB.setCareerTimer(state);
     this._renderTimerButtons(true);
     this._startTimerLoop();
@@ -343,10 +422,12 @@ const Career = {
     const ms = this._elapsedMs();
     const minutes = Math.max(1, Math.round(ms / 60000));
     if (ms < 1000) return;
-    const data = DB.getCareer(this.selectedDate);
+    const state = DB.getCareerTimer();
+    const targetDate = state.startedDate || this.selectedDate;
+    const data = DB.getCareer(targetDate);
     data.studyDuration = (data.studyDuration || 0) + minutes;
     if (!data.focusTopic) data.focusTopic = 'Timed session';
-    DB.setCareer(this.selectedDate, data);
+    DB.setCareer(targetDate, data);
     DB.setCareerTimer({ running: false, startedAt: 0, accumMs: 0, topic: '', category: 'coding' });
     this._stopTimerLoop();
     this._renderTimerButtons(false);
@@ -381,6 +462,12 @@ const Career = {
     if (pctEl) pctEl.textContent = n(pct) + '%';
     if (fillEl) fillEl.style.width = pct + '%';
 
+    const badgeEl = document.getElementById('cb-goals-badge');
+    if (badgeEl) {
+      badgeEl.textContent = n(done) + ' / ' + n(total);
+      badgeEl.className = 'gh-badge ' + (pct >= 100 ? 'excellent' : pct >= 50 ? 'good' : 'pending');
+    }
+
     const suggEl = document.getElementById('career-suggested-goals');
     if (suggEl) {
       suggEl.innerHTML = '';
@@ -402,18 +489,19 @@ const Career = {
     container.innerHTML = '';
 
     if (list.length === 0) {
-      container.innerHTML = `<div class="cb-empty-state"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>No goals yet — add one above</p></div>`;
+      container.innerHTML = '<div class="cb-empty-state"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><p>No goals yet — add one above</p></div>';
       return;
     }
 
-    list.forEach(item => {
+    list.forEach((item) => {
+      if (!item || typeof item !== 'object' || typeof item.id !== 'number') return;
+      const text = String(item.text || '');
       const div = document.createElement('div');
       div.className = 'cb-check-item' + (item.done ? ' done' : '');
-      div.onclick = (e) => { if (e.target.closest('.cb-check-del')) return; this.toggleChecklistItem(item.id, e); };
+      div.dataset.id = item.id;
       div.innerHTML =
-        `<div class="cb-checkbox">${item.done ? '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}</div>` +
-        `<div class="cb-check-text">${Utils.escapeHTML(item.text)}</div>` +
-        `<button class="cb-check-del" onclick="event.stopPropagation();Career.deleteChecklistItem(${item.id})"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+        '<div class="cb-check-main"><div class="cb-check-text">' + Utils.escapeHTML(text) + '</div></div>' +
+        '<button class="cb-check-del" data-id="' + item.id + '" aria-label="Delete goal"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>';
       container.appendChild(div);
     });
   },
@@ -422,52 +510,75 @@ const Career = {
     const data = DB.getCareer(this.selectedDate);
     const item = (data.checklist || []).find(x => x.id === id);
     if (!item) return;
-    const wasUndone = !item.done;
     item.done = !item.done;
     DB.setCareer(this.selectedDate, data);
-    if (item.done && wasUndone && event) {
+
+    if (event) {
       this.triggerGoalConfetti(event);
     }
+
     this.renderChecklist();
     this.renderGoalsProgress();
     this.renderStatStrip();
     this.updateHeroMetrics();
     this.checkAchievements();
+    this.switchProgressTab(this._activeProgressTab || 'weekly');
     window.dispatchEvent(new CustomEvent('lamim:data-updated'));
   },
 
   addChecklistItem() {
     const input = document.getElementById('career-new-goal-text');
     if (!input) return;
-    const text = input.value.trim();
+    let text = String(input.value || '').trim();
     if (!text) { input.focus(); return; }
+
+    if (text.length > this._GOAL_MAX_LEN) {
+      text = text.substring(0, this._GOAL_MAX_LEN);
+    }
+
     const data = DB.getCareer(this.selectedDate);
     if (!data.checklist) data.checklist = [];
-    const maxId = data.checklist.reduce((m, x) => Math.max(m, x.id || 0), 0);
-    data.checklist.push({ id: maxId + 1, text, done: false });
+
+    const lowerText = text.toLowerCase();
+    if (data.checklist.some(x => typeof x.text === 'string' && x.text.toLowerCase() === lowerText)) {
+      if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Already in your list', 'error');
+      input.value = '';
+      return;
+    }
+
+    const maxId = data.checklist.reduce((m, x) => Math.max(m, (typeof x.id === 'number' ? x.id : 0)), 0);
+    data.checklist.push({ id: maxId + 1, text: text, done: false });
     DB.setCareer(this.selectedDate, data);
     input.value = '';
     this.renderChecklist();
     this.renderGoalsProgress();
     this.renderStatStrip();
     this.updateHeroMetrics();
+    this.switchProgressTab(this._activeProgressTab || 'weekly');
     window.dispatchEvent(new CustomEvent('lamim:data-updated'));
   },
 
   addSuggestedGoal(text) {
+    text = String(text || '').trim();
+    if (!text) return;
+
+    if (text.length > this._GOAL_MAX_LEN) {
+      text = text.substring(0, this._GOAL_MAX_LEN);
+    }
+
     const data = DB.getCareer(this.selectedDate);
     if (!data.checklist) data.checklist = [];
-    if (data.checklist.some(x => x.text === text)) {
+
+    const lowerText = text.toLowerCase();
+    if (data.checklist.some(x => typeof x.text === 'string' && x.text.toLowerCase() === lowerText)) {
       if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Already in your list', 'error');
       return;
     }
-    const maxId = data.checklist.reduce((m, x) => Math.max(m, x.id || 0), 0);
-    data.checklist.push({ id: maxId + 1, text, done: false });
+
+    const maxId = data.checklist.reduce((m, x) => Math.max(m, (typeof x.id === 'number' ? x.id : 0)), 0);
+    data.checklist.push({ id: maxId + 1, text: text, done: false });
     DB.setCareer(this.selectedDate, data);
-    this.renderChecklist();
-    this.renderGoalsProgress();
-    this.renderStatStrip();
-    this.updateHeroMetrics();
+    this.renderAll();
     window.dispatchEvent(new CustomEvent('lamim:data-updated'));
   },
 
@@ -480,6 +591,7 @@ const Career = {
     this.renderGoalsProgress();
     this.renderStatStrip();
     this.updateHeroMetrics();
+    this.switchProgressTab(this._activeProgressTab || 'weekly');
     window.dispatchEvent(new CustomEvent('lamim:data-updated'));
   },
 
@@ -572,22 +684,9 @@ const Career = {
     this.renderAll();
   },
 
-  /* ---------- week chart (real) ---------- */
+  /* ---------- week chart (compat wrapper) ---------- */
   renderWeekChart() {
-    const container = document.getElementById('career-chart-container');
-    if (!container || !window.Charts) return;
-    const data = [];
-    const dayNames = (typeof App !== 'undefined' && App.lang === 'bn')
-      ? ['শনি', 'রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র']
-      : ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(Utils.todayStr() + 'T00:00:00');
-      d.setDate(d.getDate() - i);
-      const ds = Utils.dateStr(d);
-      const c = DB.getCareer(ds);
-      data.push({ label: dayNames[(d.getDay() + 1) % 7], value: (c.studyDuration || 0), highlight: ds === this.selectedDate });
-    }
-    Charts.barChart(container, data, { color: 'var(--cb-primary)', height: 110 });
+    this.renderProgressWeekly();
   },
 
   /* ---------- skill bars ---------- */
@@ -633,44 +732,27 @@ const Career = {
     });
   },
 
-  /* ---------- charts (donut + trend) ---------- */
-  renderCharts() {
-    const stats = this._calcCategoryStats();
-    const donutEl = document.getElementById('cb-donut');
-    if (donutEl && window.Charts) {
-      const colorMap = { coding: '#818cf8', reading: '#fbbf24', language: '#38bdf8', business: '#34d399', general: '#fb923c' };
-      const segs = this._catOptions.map(o => ({ value: stats[o.key] || 0, color: colorMap[o.key], label: o.label })).filter(s => s.value > 0);
-      const totalMin = segs.reduce((s, x) => s + x.value, 0);
-      if (totalMin === 0) {
-        Charts.donut(donutEl, [{ value: 1, color: 'rgba(129,140,248,0.15)' }], { size: 120, thickness: 14, centerText: '0h', centerSub: 'this month' });
-      } else {
-        Charts.donut(donutEl, segs, { size: 120, thickness: 14, centerText: (window.n ? window.n((totalMin / 60).toFixed(0)) : Math.round(totalMin / 60)) + 'h', centerSub: 'this month' });
-      }
-    }
-    const trendEl = document.getElementById('cb-trend');
-    if (trendEl && window.Charts) {
-      const data = [];
-      for (let i = 13; i >= 0; i--) {
-        const d = new Date(this.selectedDate + 'T00:00:00');
-        d.setDate(d.getDate() - i);
-        const c = DB.getCareer(Utils.dateStr(d));
-        data.push({ label: '', value: (c.studyDuration || 0) });
-      }
-      Charts.lineChart(trendEl, data, { color: 'var(--cb-secondary)', height: 90 });
-    }
-  },
+  /* ---------- charts (donut + trend) — now handled by progress tabs ---------- */
+  renderCharts() {},
 
   /* ---------- achievements ---------- */
   checkAchievements() {
     const ach = DB.getCareerAchievements();
     const streak = DB.getCareerStreak();
 
-    let totalMins = 0;
-    for (let i = 0; i < 365; i++) {
-      const d = new Date(Utils.todayStr() + 'T00:00:00');
-      d.setDate(d.getDate() - i);
-      const c = DB.getCareer(Utils.dateStr(d));
-      totalMins += (c.studyDuration || 0);
+    // Skip the expensive 365-day scan once the top achievement is already unlocked
+    let totalMins = ach.totalStudyMins || 0;
+    if (!ach.hours50) {
+      if (!totalMins) {
+        for (let i = 0; i < 365; i++) {
+          const d = new Date(Utils.todayStr() + 'T00:00:00');
+          d.setDate(d.getDate() - i);
+          const c = DB.getCareer(Utils.dateStr(d));
+          totalMins += (c.studyDuration || 0);
+          if (totalMins >= 3000) break; // highest threshold reached, no need to continue
+        }
+      }
+      ach.totalStudyMins = totalMins;
     }
 
     const newly = [];
@@ -720,55 +802,89 @@ const Career = {
 
   /* ---------- PDF export ---------- */
   exportPDF() {
+    const esc = (s) => (typeof Utils !== 'undefined' && Utils.escapeHTML) ? Utils.escapeHTML(s) : String(s || '').replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
     const year = this.selectedDate.slice(0, 4);
     const month = this.selectedDate.slice(5, 7);
     const monthName = new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+    const todayStr = Utils.todayStr();
 
-    let totalMins = 0, studyDays = 0, totalGoals = 0, goalsDone = 0;
-    const catTotals = { coding: 0, reading: 0, language: 0, business: 0, general: 0 };
+    let totalGoals = 0, goalsDone = 0, daysWithGoals = 0, perfectDays = 0;
     const rows = [];
+    const goalsMap = {};
 
     for (let day = 1; day <= daysInMonth; day++) {
       const dateStr = `${year}-${month}-${String(day).padStart(2, '0')}`;
-      const isFuture = dateStr > Utils.todayStr();
-      const c = DB.getCareer(dateStr);
-      const mins = c.studyDuration || 0;
+      const isFuture = dateStr > todayStr;
+      const c = isFuture ? { checklist: [] } : DB.getCareer(dateStr);
       const list = c.checklist || [];
       const done = list.filter(x => x.done).length;
       if (!isFuture) {
-        totalMins += mins;
-        if (mins > 0) studyDays++;
         totalGoals += list.length;
         goalsDone += done;
-        const cat = c.category || 'coding';
-        if (catTotals[cat] !== undefined) catTotals[cat] += mins;
+        if (list.length) daysWithGoals++;
+        if (list.length > 0 && list.every(x => x.done)) perfectDays++;
+        if (list.length) goalsMap[day] = list.map(x => ({ text: x.text || '', done: !!x.done }));
       }
-      rows.push({ day, mins, goals: list.length, done, topic: c.focusTopic || '—', isFuture });
+      rows.push({ day, goals: list.length, done, isFuture });
     }
 
-    const streak = DB.getCareerStreak();
-    const avgDaily = studyDays ? (totalMins / studyDays).toFixed(0) : 0;
-    const activePct = Math.round((studyDays / daysInMonth) * 100);
-    let tier = 'NEEDS WORK', tierColor = '#fbbf24';
-    if (activePct >= 80) { tier = 'EXCELLENT'; tierColor = '#34d399'; }
-    else if (activePct >= 50) { tier = 'GOOD'; tierColor = '#818cf8'; }
+    const completionPct = totalGoals ? Math.round((goalsDone / totalGoals) * 100) : 0;
+    const goalStreak = DB.getCareerStreak();
 
-    const catColors = { coding: '#818cf8', reading: '#fbbf24', language: '#38bdf8', business: '#34d399', general: '#fb923c' };
-    const maxCat = Math.max(...Object.values(catTotals), 1);
-    const skillHtml = Object.entries(catTotals).map(([k, v]) => {
-      const pct = (v / maxCat) * 100;
-      return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:700;text-transform:capitalize">${k}</span><span style="color:#64748b">${(v / 60).toFixed(1)}h</span></div><div style="height:8px;background:#f1f5f9;border-radius:999px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${catColors[k]};border-radius:999px"></div></div></div>`;
+    /* Month-over-month trend (last 6 months, real stored data) */
+    const monthNames = (typeof App !== 'undefined' && App.lang === 'bn')
+      ? ['জানু', 'ফেব্রু', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগ', 'সেপ্ট', 'অক্ট', 'নভে', 'ডিসে']
+      : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const nowD = new Date(this.selectedDate + 'T00:00:00');
+    const todayDate = new Date();
+    const trend = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(nowD.getFullYear(), nowD.getMonth() - i, 1);
+      const y = d.getFullYear(), m = d.getMonth();
+      const dim = new Date(y, m + 1, 0).getDate();
+      let mDone = 0, mTotal = 0;
+      for (let day = 1; day <= dim; day++) {
+        const dt = new Date(y, m, day);
+        if (dt > todayDate) break;
+        const c = DB.getCareer(Utils.dateStr(dt));
+        const cl = c.checklist || [];
+        mTotal += cl.length;
+        mDone += cl.filter(x => x.done).length;
+      }
+      trend.push({ label: monthNames[m], pct: mTotal > 0 ? Math.round((mDone / mTotal) * 100) : 0, done: mDone, total: mTotal, isCurrent: (y === nowD.getFullYear() && m === nowD.getMonth()) });
+    }
+    const maxTrend = Math.max(...trend.map(t => t.pct), 1);
+    const trendBars = trend.map(t => {
+      const h = Math.max(6, (t.pct / maxTrend) * 100);
+      const g1 = t.pct === 100 ? '#34d399' : t.pct >= 50 ? '#fbbf24' : '#818cf8';
+      const g2 = t.pct === 100 ? '#0d9488' : t.pct >= 50 ? '#f59e0b' : '#4f46e5';
+      const ring = t.isCurrent ? `box-shadow:0 0 0 2px #fff,0 0 0 4px ${g2};` : '';
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div style="font-size:13px;font-weight:800;color:${t.isCurrent ? g2 : '#475569'}">${t.pct}%</div>
+        <div style="width:100%;height:110px;display:flex;align-items:flex-end">
+          <div style="width:100%;height:${h}%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg, ${g1} 0%, ${g2} 100%);${ring}"></div>
+        </div>
+        <div style="font-size:11px;color:${t.isCurrent ? '#0f172a' : '#64748b'};font-weight:${t.isCurrent ? 800 : 600}">${t.label}</div>
+        <div style="font-size:10px;color:#94a3b8">${t.done}/${t.total}</div>
+      </div>`;
     }).join('');
 
     const rowHtml = rows.map(r => {
-      if (r.isFuture) return `<tr><td colspan="5" style="text-align:center;color:#94a3b8;font-style:italic;padding:8px">Not yet</td></tr>`;
+      if (r.isFuture) {
+        return `<tr>
+          <td style="padding:8px;border-bottom:1px solid #e2e8f0;font-weight:700;color:#94a3b8">${r.day}</td>
+          <td style="padding:8px;border-bottom:1px solid #e2e8f0;text-align:center;color:#cbd5e1">—</td>
+          <td style="padding:8px;border-bottom:1px solid #e2e8f0;color:#cbd5e1">—</td>
+        </tr>`;
+      }
+      const goalsCell = goalsMap[r.day]
+        ? `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start">` + goalsMap[r.day].map(g => `<span style="display:inline-block;font-size:10px;line-height:1.3;padding:2px 7px;border-radius:999px;white-space:nowrap;${g.done ? 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0' : 'background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0'}">${g.done ? '✓' : '○'} ${esc(g.text)}</span>`).join('') + `</div>`
+        : '—';
       return `<tr>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:700">${r.day}</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0">${r.topic}</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.mins ? r.mins + 'm' : '—'}</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.done}/${r.goals}</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.mins >= 120 ? '✓' : ''}</td>
+        <td style="padding:8px;border-bottom:1px solid #e2e8f0;font-weight:700;vertical-align:top">${r.day}</td>
+        <td style="padding:8px;border-bottom:1px solid #e2e8f0;text-align:center;vertical-align:top">${r.goals ? r.done + '/' + r.goals : '—'}</td>
+        <td style="padding:8px;border-bottom:1px solid #e2e8f0;vertical-align:top">${goalsCell}</td>
       </tr>`;
     }).join('');
 
@@ -777,28 +893,48 @@ const Career = {
       if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Please allow popups to export PDF', 'error');
       return;
     }
+    const genDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Career Report — ${monthName}</title>
     <style>
       @page { size: A4; margin: 16mm; }
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: 'Inter', -apple-system, sans-serif; color: #0f172a; background: #fff; }
-      .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #818cf8; padding-bottom: 16px; margin-bottom: 20px; }
-      .logo { font-size: 22px; font-weight: 900; letter-spacing: 0.18em; background: linear-gradient(135deg, #6366f1, #2dd4bf); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-      .subtitle { font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.05em; }
-      .meta { text-align: right; font-size: 12px; color: #475569; }
-      .meta strong { display: block; font-size: 15px; color: #0f172a; margin-bottom: 2px; }
-      .consistency { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; background: ${tierColor}22; color: ${tierColor}; margin-bottom: 14px; }
-      .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
-      .sum-card { background: #f8fafc; border-radius: 14px; padding: 16px; border: 1px solid #e2e8f0; }
-      .sum-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; font-weight: 700; }
-      .sum-val { font-size: 22px; font-weight: 800; color: #6366f1; margin-top: 4px; }
-      .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
-      .panel { background: #f8fafc; border-radius: 14px; padding: 16px; border: 1px solid #e2e8f0; }
-      .panel h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; margin-bottom: 12px; }
-      table { width: 100%; border-collapse: collapse; font-size: 12px; }
-      th { background: #f1f5f9; padding: 10px; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
-      th:first-child, th:nth-child(2) { text-align: left; }
-      .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #94a3b8; font-style: italic; }
+      * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif; color: #1e293b; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; line-height: 1.5; }
+      .header { position: relative; display: flex; justify-content: space-between; align-items: flex-end; padding: 26px 28px; margin-bottom: 26px; border-radius: 20px; overflow: hidden; background: linear-gradient(120deg, #4f46e5 0%, #6366f1 40%, #0d9488 100%); color: #fff; box-shadow: 0 14px 38px -16px rgba(79, 70, 229, 0.55); }
+      .header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 240px; height: 240px; background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%); }
+      .logo { font-size: 26px; font-weight: 900; letter-spacing: 0.22em; position: relative; }
+      .subtitle { font-size: 11px; color: rgba(255,255,255,0.82); font-weight: 600; letter-spacing: 0.14em; margin-top: 6px; }
+      .meta { text-align: right; font-size: 12px; color: rgba(255,255,255,0.88); position: relative; }
+      .meta strong { display: block; font-size: 17px; color: #fff; margin-bottom: 3px; font-weight: 800; letter-spacing: 0.02em; }
+      .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0; }
+      .sum-card { background: #fff; border-radius: 16px; padding: 18px 18px 16px; border: 1px solid #eef0f4; box-shadow: 0 6px 18px -10px rgba(15, 23, 42, 0.18); position: relative; overflow: hidden; }
+      .sum-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--c, #6366f1); }
+      .sum-card:nth-child(1) { --c: #6366f1; }
+      .sum-card:nth-child(2) { --c: #0d9488; }
+      .sum-card:nth-child(3) { --c: #f59e0b; }
+      .sum-card:nth-child(4) { --c: #ec4899; }
+      .sum-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700; }
+      .sum-val { font-size: 28px; font-weight: 800; color: #0f172a; margin-top: 8px; letter-spacing: -0.02em; }
+      .panel { background: #fff; border-radius: 16px; padding: 20px 22px; border: 1px solid #eef0f4; box-shadow: 0 6px 18px -12px rgba(15, 23, 42, 0.15); margin: 22px 0; }
+      .panel h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 16px; display: flex; align-items: center; gap: 9px; font-weight: 800; }
+      .panel h3::before { content: ''; width: 5px; height: 15px; border-radius: 4px; background: linear-gradient(180deg, #6366f1, #0d9488); }
+      .ov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .ov-item { background: linear-gradient(180deg, #f8fafc, #fff); border: 1px solid #eef0f4; border-radius: 13px; padding: 16px; }
+      .ov-num { font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
+      .ov-lab { font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 3px; }
+      .comp-bar { height: 12px; background: #eef2f7; border-radius: 999px; overflow: hidden; margin-top: 14px; }
+      .comp-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #34d399, #0d9488); }
+      .comp-cap { font-size: 12px; color: #475569; margin-top: 8px; font-weight: 600; }
+      table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid #eef0f4; border-radius: 16px; overflow: hidden; }
+      th { background: linear-gradient(180deg, #6366f1, #4f46e5); color: #fff; padding: 13px 14px; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
+      th:first-child { text-align: left; }
+      td { padding: 10px 14px; border-top: 1px solid #f1f5f9; }
+      tbody tr:nth-child(even) { background: #fafbfc; }
+      tbody tr:first-child td { border-top: none; }
+      .footer { margin-top: 30px; padding-top: 18px; border-top: 1px solid #eef0f4; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #94a3b8; }
+      .footer .quote { font-style: italic; }
+      .footer .brand { font-weight: 800; letter-spacing: 0.12em; color: #6366f1; }
+      .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.07em; color: #475569; margin: 28px 0 14px; font-weight: 800; display: flex; align-items: center; gap: 9px; }
+      .section-title::before { content: ''; width: 5px; height: 16px; border-radius: 4px; background: linear-gradient(180deg, #6366f1, #0d9488); }
     </style></head><body>
     <div class="header">
       <div>
@@ -810,31 +946,437 @@ const Career = {
         REF: CBR-${year}${month}
       </div>
     </div>
-    <div class="consistency">${tier} · ${activePct}% ACTIVE</div>
     <div class="summary">
-      <div class="sum-card"><div class="sum-label">Study Time</div><div class="sum-val">${(totalMins / 60).toFixed(1)}h</div></div>
-      <div class="sum-card"><div class="sum-label">Study Days</div><div class="sum-val">${studyDays}</div></div>
-      <div class="sum-card"><div class="sum-label">Goals Done</div><div class="sum-val">${goalsDone}/${totalGoals}</div></div>
-      <div class="sum-card"><div class="sum-label">Streak</div><div class="sum-val">${streak} days</div></div>
+      <div class="sum-card"><div class="sum-label">Goals Set</div><div class="sum-val">${totalGoals}</div></div>
+      <div class="sum-card"><div class="sum-label">Goals Done</div><div class="sum-val">${goalsDone}</div></div>
+      <div class="sum-card"><div class="sum-label">Completion</div><div class="sum-val">${completionPct}%</div></div>
+      <div class="sum-card"><div class="sum-label">Goal Streak</div><div class="sum-val">${goalStreak} days</div></div>
     </div>
-    <div class="two-col">
-      <div class="panel"><h3>Skill Breakdown</h3>${skillHtml}</div>
-      <div class="panel"><h3>Quick Stats</h3>
-        <div style="font-size:13px;color:#475569;line-height:2">
-          <strong>Avg / study day:</strong> ${avgDaily} min<br>
-          <strong>Total focus topics:</strong> ${rows.filter(r => r.topic !== '—').length}<br>
-          <strong>Goals completion:</strong> ${totalGoals ? Math.round((goalsDone / totalGoals) * 100) : 0}%
-        </div>
+    <div class="panel"><h3>Monthly Overview</h3>
+      <div class="comp-bar"><div class="comp-fill" style="width:${completionPct}%"></div></div>
+      <div class="comp-cap">Overall goal completion — ${completionPct}%</div>
+      <div class="ov-grid" style="margin-top:18px">
+        <div class="ov-item"><div class="ov-num">${daysWithGoals}</div><div class="ov-lab">Days with goals</div></div>
+        <div class="ov-item"><div class="ov-num">${perfectDays}</div><div class="ov-lab">Perfect days (all done)</div></div>
       </div>
     </div>
+    <div class="panel"><h3>6-Month Goal Trend</h3>
+      <div style="display:flex;gap:14px;align-items:flex-end;padding:8px 2px 0">${trendBars}</div>
+      <div style="font-size:11px;color:#94a3b8;margin-top:16px;border-top:1px solid #f1f5f9;padding-top:12px">Monthly completion rate — goals done vs set · current month highlighted</div>
+    </div>
+    <div class="section-title">Daily Goals Log</div>
     <table>
-      <thead><tr><th>Date</th><th>Focus Topic</th><th>Study</th><th>Goals</th><th>2h+?</th></tr></thead>
+      <thead><tr><th>Date</th><th>Done / Total</th><th>Goals</th></tr></thead>
       <tbody>${rowHtml}</tbody>
     </table>
-    <div class="footer">"The secret of getting ahead is getting started." — Mark Twain</div>
+    <div class="footer">
+      <span class="quote">"The secret of getting ahead is getting started." — Mark Twain</span>
+      <span class="brand">LAMIM · ${genDate}</span>
+    </div>
     <script>setTimeout(() => { window.print(); }, 800);</script>
     </body></html>`);
     win.document.close();
+  },
+
+  /* ---------- progress tab switching ---------- */
+  switchProgressTab(tab) {
+    this._activeProgressTab = tab;
+    const card = document.getElementById('cb-progress-card');
+    if (!card) return;
+    card.querySelectorAll('.cb-progress-tab').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+    });
+    if (tab === 'weekly') this.renderProgressWeekly();
+    else if (tab === 'monthly') this.renderProgressMonthly();
+    else if (tab === 'yearly') this.renderProgressYearly();
+  },
+
+  /* ---------- progress: weekly ---------- */
+  renderProgressWeekly() {
+    const statsEl = document.getElementById('cb-progress-stats');
+    const chartEl = document.getElementById('cb-progress-chart');
+    if (!statsEl) return;
+
+    const selectedStr = this.selectedDate;
+    const todayStr = Utils.todayStr();
+    const isSelectedToday = selectedStr === todayStr;
+
+    const dayData = DB.getCareer(selectedStr);
+    const dayList = dayData.checklist || [];
+    const dayDone = dayList.filter(x => x.done).length;
+    const dayTotal = dayList.length;
+
+    let streak = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(this.selectedDate + 'T00:00:00');
+      d.setDate(d.getDate() - i);
+      const c = DB.getCareer(Utils.dateStr(d));
+      const cl = c.checklist || [];
+      const done = cl.filter(x => x.done).length;
+      streak += cl.length > 0 ? done / cl.length : 0;
+    }
+    streak = Math.round(streak * 100) / 100;
+
+    let weekGoalsDone = 0, weekGoalsTotal = 0, perfectDays = 0;
+    const dayPctList = [];
+    const dayNames = (typeof App !== 'undefined' && App.lang === 'bn')
+      ? ['শনি', 'রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র']
+      : ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(selectedStr + 'T00:00:00');
+      d.setDate(d.getDate() - i);
+      const ds = Utils.dateStr(d);
+      const c = DB.getCareer(ds);
+      const cl = c.checklist || [];
+      const dDone = cl.filter(x => x.done).length;
+      weekGoalsTotal += cl.length;
+      weekGoalsDone += dDone;
+      const pct = cl.length > 0 ? Math.round((dDone / cl.length) * 100) : 0;
+      dayPctList.push({ label: dayNames[(d.getDay() + 1) % 7], pct, done: dDone, total: cl.length, isToday: ds === todayStr });
+      if (cl.length > 0 && cl.every(x => x.done)) perfectDays++;
+    }
+    const weekPct = weekGoalsTotal > 0 ? Math.round(((weekGoalsDone / weekGoalsTotal) * 100) * 10) / 10 : 0;
+
+    const t = (v) => window.n ? window.n(v) : v;
+    const dayPct = dayTotal > 0 ? Math.round((dayDone / dayTotal) * 100) : 0;
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(7) + '🔥' : '—';
+    const heroLabel = isSelectedToday ? 'Today\'s Goals' : 'Day\'s Goals';
+
+    statsEl.innerHTML = `
+      <div class="cb-progress-hero-tile">
+        <div class="cb-progress-ring-wrap" id="cb-progress-today-ring"></div>
+        <div class="cb-progress-hero-info">
+          <div class="cb-progress-hero-label">${heroLabel}</div>
+          <div class="cb-progress-hero-val">${t(dayDone)} / ${t(dayTotal)}</div>
+          <div class="cb-progress-hero-sub">${dayPct}% completed</div>
+        </div>
+      </div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Goal Streak</div><div class="cb-month-stat-val">${streakText}</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Week Rate</div><div class="cb-month-stat-val">${t(weekPct)}/100%</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Perfect Days</div><div class="cb-month-stat-val">${t(perfectDays)}/7</div></div>`;
+
+    const ringEl = document.getElementById('cb-progress-today-ring');
+    if (ringEl && window.Charts) {
+      Charts.ring(ringEl, { size: 64, thickness: 7, value: 0, color: 'var(--cb-primary)', colorEnd: 'var(--cb-accent)' });
+      setTimeout(() => Charts.animateRing(ringEl, dayPct, { size: 64, thickness: 7 }), 100);
+    }
+
+    if (chartEl) {
+      const svgH = 190;
+      const padTop = 24;
+      const padBot = 28;
+      const barArea = svgH - padTop - padBot;
+      const svgW = 280;
+      const cellW = svgW / 7;
+      const isFirstRender = !chartEl.querySelector('svg');
+
+      let svg = '';
+      dayPctList.forEach((d, i) => {
+        const h = d.total > 0 ? Math.max(6, (d.pct / 100) * barArea) : 6;
+        const x = i * cellW + 5;
+        const y = padTop + barArea - h;
+        const w = cellW - 10;
+
+        const gradId = 'bg' + i;
+        const g1 = d.pct === 100 ? '#34d399' : d.pct >= 50 ? '#fbbf24' : '#818cf8';
+        const g2 = d.pct === 100 ? '#10b981' : d.pct >= 50 ? '#f59e0b' : '#6366f1';
+
+        svg += `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${g1}"/><stop offset="100%" stop-color="${g2}"/>
+        </linearGradient></defs>`;
+
+        if (isFirstRender) {
+          svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="url(#${gradId})" opacity="${d.isToday ? '1' : '0.8'}">
+            <animate attributeName="height" from="0" to="${h}" dur="0.5s" fill="freeze"/>
+            <animate attributeName="y" from="${padTop + barArea}" to="${y}" dur="0.5s" fill="freeze"/>
+          </rect>`;
+        } else {
+          svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="url(#${gradId})" opacity="${d.isToday ? '1' : '0.8'}"/>`;
+        }
+
+        if (d.isToday) {
+          svg += `<rect x="${x - 1}" y="${y - 1}" width="${w + 2}" height="${h + 2}" rx="7" fill="none" stroke="${g1}" stroke-width="1.5" opacity="0.5"/>`;
+        }
+
+        if (d.total > 0) {
+          svg += `<text x="${x + w/2}" y="${y - 7}" text-anchor="middle" fill="${g1}" font-size="10" font-weight="700">${d.done}/${d.total}</text>`;
+        }
+
+        const labelColor = d.isToday ? 'var(--cb-text)' : 'var(--cb-text-muted)';
+        const fw = d.isToday ? '700' : '500';
+        svg += `<text x="${x + w/2}" y="${svgH - 8}" text-anchor="middle" fill="${labelColor}" font-size="11" font-weight="${fw}">${d.label}</text>`;
+      });
+
+      chartEl.innerHTML = `<svg width="100%" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet">${svg}</svg>`;
+    }
+  },
+
+  /* ---------- progress: monthly ---------- */
+  renderProgressMonthly() {
+    const statsEl = document.getElementById('cb-progress-stats');
+    const chartEl = document.getElementById('cb-progress-chart');
+    const extraEl = document.getElementById('cb-progress-extra');
+    if (!statsEl) return;
+
+    const now = new Date(this.selectedDate + 'T00:00:00');
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const todayStr = Utils.todayStr();
+    const today = new Date();
+    const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
+
+    let monthGoalsDone = 0, monthGoalsTotal = 0, perfectDays = 0;
+    const dayPctList = [];
+    const todayDate = today.getDate();
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dt = new Date(year, month, d);
+      const ds = Utils.dateStr(dt);
+      const isFuture = isCurrentMonth && d > todayDate;
+      const c = isFuture ? { checklist: [] } : DB.getCareer(ds);
+      const cl = c.checklist || [];
+      const dDone = cl.filter(x => x.done).length;
+      if (!isFuture) {
+        monthGoalsTotal += cl.length;
+        monthGoalsDone += dDone;
+      }
+      const pct = cl.length > 0 ? Math.round((dDone / cl.length) * 100) : 0;
+      dayPctList.push({ label: String(d), pct, done: dDone, total: cl.length, isToday: ds === todayStr, isFuture });
+      if (!isFuture && cl.length > 0 && cl.every(x => x.done)) perfectDays++;
+    }
+
+    const monthPct = monthGoalsTotal > 0 ? Math.round(((monthGoalsDone / monthGoalsTotal) * 100) * 10) / 10 : 0;
+
+    let streak = 0;
+    for (let i = 0; i < daysInMonth; i++) {
+      const d = new Date(this.selectedDate + 'T00:00:00');
+      d.setDate(d.getDate() - i);
+      if (d.getMonth() !== month) break;
+      const c = DB.getCareer(Utils.dateStr(d));
+      const cl = c.checklist || [];
+      const done = cl.filter(x => x.done).length;
+      streak += cl.length > 0 ? done / cl.length : 0;
+    }
+    streak = Math.round(streak * 100) / 100;
+
+    const t = (v) => window.n ? window.n(v) : v;
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(daysInMonth) + '🔥' : '—';
+
+    statsEl.innerHTML = `
+      <div class="cb-progress-hero-tile">
+        <div class="cb-progress-ring-wrap" id="cb-progress-monthly-ring"></div>
+        <div class="cb-progress-hero-info">
+          <div class="cb-progress-hero-label">Month's Goals</div>
+          <div class="cb-progress-hero-val">${t(monthGoalsDone)} / ${t(monthGoalsTotal)}</div>
+          <div class="cb-progress-hero-sub">${monthPct}% completed</div>
+        </div>
+      </div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Goal Streak</div><div class="cb-month-stat-val">${streakText}</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Month Rate</div><div class="cb-month-stat-val">${t(monthPct)}/100%</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Perfect Days</div><div class="cb-month-stat-val">${t(perfectDays)}/${t(daysInMonth)}</div></div>`;
+
+    const ringEl = document.getElementById('cb-progress-monthly-ring');
+    if (ringEl && window.Charts) {
+      Charts.ring(ringEl, { size: 64, thickness: 7, value: 0, color: 'var(--cb-primary)', colorEnd: 'var(--cb-accent)' });
+      setTimeout(() => Charts.animateRing(ringEl, monthPct, { size: 64, thickness: 7 }), 100);
+    }
+
+    if (chartEl) {
+      const count = dayPctList.length;
+      const svgH = 190;
+      const padTop = 24;
+      const padBot = 28;
+      const barArea = svgH - padTop - padBot;
+      const svgW = count * 30;
+      const cellW = svgW / count;
+      const isFirstRender = !chartEl.querySelector('svg');
+
+      let svg = '';
+      dayPctList.forEach((d, i) => {
+        const h = d.isFuture ? 4 : (d.total > 0 ? Math.max(6, (d.pct / 100) * barArea) : 6);
+        const x = i * cellW + 2;
+        const y = padTop + barArea - h;
+        const w = Math.max(4, cellW - 4);
+
+        if (d.isFuture) {
+          svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
+        } else {
+          const gradId = 'mg' + i;
+          const g1 = d.pct === 100 ? '#34d399' : d.pct >= 50 ? '#fbbf24' : '#818cf8';
+          const g2 = d.pct === 100 ? '#10b981' : d.pct >= 50 ? '#f59e0b' : '#6366f1';
+
+          svg += `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${g1}"/><stop offset="100%" stop-color="${g2}"/></linearGradient></defs>`;
+
+          if (isFirstRender) {
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="url(#${gradId})" opacity="${d.isToday ? '1' : '0.7'}">
+              <animate attributeName="height" from="0" to="${h}" dur="0.5s" fill="freeze"/>
+              <animate attributeName="y" from="${padTop + barArea}" to="${y}" dur="0.5s" fill="freeze"/>
+            </rect>`;
+          } else {
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="url(#${gradId})" opacity="${d.isToday ? '1' : '0.7'}"/>`;
+          }
+
+          if (d.isToday) {
+            svg += `<rect x="${x - 1}" y="${y - 1}" width="${w + 2}" height="${h + 2}" rx="4" fill="none" stroke="${g1}" stroke-width="1.5" opacity="0.5"/>`;
+          }
+
+          if (d.total > 0) {
+            const labelText = d.done + '/' + d.total;
+            const labelW = labelText.length * 7.5 + 10;
+            const labelH = 16;
+            const labelX = x + w / 2;
+            const labelY = y - 6;
+            svg += `<rect x="${labelX - labelW/2}" y="${labelY - labelH + 2}" width="${labelW}" height="${labelH}" rx="8" fill="${g1}" opacity="0.2"/>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" fill="${g1}" font-size="11" font-weight="800" letter-spacing="0.3">${labelText}</text>`;
+          }
+        }
+      });
+
+      dayPctList.forEach((d, i) => {
+        const x = i * cellW + cellW / 2;
+        const labelColor = d.isFuture ? 'rgba(255,255,255,0.15)' : (d.isToday ? 'var(--cb-text)' : 'var(--cb-text-muted)');
+        svg += `<text x="${x}" y="${svgH - 8}" text-anchor="middle" fill="${labelColor}" font-size="10" font-weight="${d.isToday ? '700' : '500'}">${d.label}</text>`;
+      });
+
+      chartEl.innerHTML = `<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none"><svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" style="display:block;min-width:${svgW}px">${svg}</svg></div>`;
+    }
+
+    if (extraEl) extraEl.innerHTML = '';
+  },
+
+  /* ---------- progress: yearly ---------- */
+  renderProgressYearly() {
+    const statsEl = document.getElementById('cb-progress-stats');
+    const chartEl = document.getElementById('cb-progress-chart');
+    const extraEl = document.getElementById('cb-progress-extra');
+    if (!statsEl) return;
+
+    const now = new Date(this.selectedDate + 'T00:00:00');
+    const year = now.getFullYear();
+    const today = new Date();
+    const todayStr = Utils.todayStr();
+    const isCurrentYear = year === today.getFullYear();
+
+    let yearGoalsDone = 0, yearGoalsTotal = 0, perfectDays = 0, totalDays = 0;
+    const monthData = [];
+    const monthNames = (typeof App !== 'undefined' && App.lang === 'bn')
+      ? ['জানু', 'ফেব্রু', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগ', 'সেপ্ট', 'অক্টো', 'নভে', 'ডিসে']
+      : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    for (let m = 0; m < 12; m++) {
+      const daysInMonth = new Date(year, m + 1, 0).getDate();
+      let mDone = 0, mTotal = 0, mPerfect = 0, mDaysCounted = 0;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dt = new Date(year, m, d);
+        if (isCurrentYear && dt > today) break;
+        totalDays++;
+        mDaysCounted++;
+        const ds = Utils.dateStr(dt);
+        const c = DB.getCareer(ds);
+        const cl = c.checklist || [];
+        const dDone = cl.filter(x => x.done).length;
+        mTotal += cl.length;
+        mDone += dDone;
+        yearGoalsTotal += cl.length;
+        yearGoalsDone += dDone;
+        if (cl.length > 0 && cl.every(x => x.done)) { mPerfect++; perfectDays++; }
+      }
+      const mPct = mTotal > 0 ? Math.round((mDone / mTotal) * 100) : 0;
+      monthData.push({ label: monthNames[m], pct: mPct, done: mDone, total: mTotal, isCurrent: m === now.getMonth() });
+    }
+
+    const yearPct = yearGoalsTotal > 0 ? Math.round(((yearGoalsDone / yearGoalsTotal) * 100) * 10) / 10 : 0;
+
+    let streak = 0;
+    for (let i = 0; i < 366; i++) {
+      const d = new Date(this.selectedDate + 'T00:00:00');
+      d.setDate(d.getDate() - i);
+      if (d.getFullYear() !== year) break;
+      const c = DB.getCareer(Utils.dateStr(d));
+      const cl = c.checklist || [];
+      const done = cl.filter(x => x.done).length;
+      streak += cl.length > 0 ? done / cl.length : 0;
+    }
+    streak = Math.round(streak * 100) / 100;
+
+    const t = (v) => window.n ? window.n(v) : v;
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(totalDays) + '🔥' : '—';
+
+    statsEl.innerHTML = `
+      <div class="cb-progress-hero-tile">
+        <div class="cb-progress-ring-wrap" id="cb-progress-yearly-ring"></div>
+        <div class="cb-progress-hero-info">
+          <div class="cb-progress-hero-label">Year's Goals</div>
+          <div class="cb-progress-hero-val">${t(yearGoalsDone)} / ${t(yearGoalsTotal)}</div>
+          <div class="cb-progress-hero-sub">${yearPct}% completed</div>
+        </div>
+      </div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Goal Streak</div><div class="cb-month-stat-val">${streakText}</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Year Rate</div><div class="cb-month-stat-val">${t(yearPct)}/100%</div></div>
+      <div class="cb-month-stat-card"><div class="cb-month-stat-label">Perfect Days</div><div class="cb-month-stat-val">${t(perfectDays)}/${t(totalDays)}</div></div>`;
+
+    const ringEl = document.getElementById('cb-progress-yearly-ring');
+    if (ringEl && window.Charts) {
+      Charts.ring(ringEl, { size: 64, thickness: 7, value: 0, color: 'var(--cb-primary)', colorEnd: 'var(--cb-accent)' });
+      setTimeout(() => Charts.animateRing(ringEl, yearPct, { size: 64, thickness: 7 }), 100);
+    }
+
+    if (chartEl) {
+      const svgH = 190;
+      const padTop = 24;
+      const padBot = 28;
+      const barArea = svgH - padTop - padBot;
+      const svgW = 280;
+      const cellW = svgW / 12;
+      const isFirstRender = !chartEl.querySelector('svg');
+
+      let svg = '';
+      monthData.forEach((d, i) => {
+        const h = d.total > 0 ? Math.max(6, (d.pct / 100) * barArea) : 6;
+        const x = i * cellW + 3;
+        const y = padTop + barArea - h;
+        const w = cellW - 6;
+
+        const gradId = 'yg' + i;
+        const g1 = d.pct === 100 ? '#34d399' : d.pct >= 50 ? '#fbbf24' : '#818cf8';
+        const g2 = d.pct === 100 ? '#10b981' : d.pct >= 50 ? '#f59e0b' : '#6366f1';
+
+        svg += `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${g1}"/><stop offset="100%" stop-color="${g2}"/></linearGradient></defs>`;
+
+        if (isFirstRender) {
+          svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#${gradId})" opacity="${d.isCurrent ? '1' : '0.8'}">
+            <animate attributeName="height" from="0" to="${h}" dur="0.5s" fill="freeze"/>
+            <animate attributeName="y" from="${padTop + barArea}" to="${y}" dur="0.5s" fill="freeze"/>
+          </rect>`;
+        } else {
+          svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#${gradId})" opacity="${d.isCurrent ? '1' : '0.8'}"/>`;
+        }
+
+        if (d.isCurrent) {
+          svg += `<rect x="${x - 1}" y="${y - 1}" width="${w + 2}" height="${h + 2}" rx="5" fill="none" stroke="${g1}" stroke-width="1.5" opacity="0.5"/>`;
+        }
+
+        if (d.total > 0) {
+          const labelText = d.done + '/' + d.total;
+          const labelW = labelText.length * 7 + 8;
+          const labelH = 14;
+          const labelX = x + w / 2;
+          const labelY = y - 6;
+          svg += `<rect x="${labelX - labelW/2}" y="${labelY - labelH + 2}" width="${labelW}" height="${labelH}" rx="7" fill="${g1}" opacity="0.18"/>`;
+          svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" fill="${g1}" font-size="10" font-weight="800" letter-spacing="0.2">${labelText}</text>`;
+        }
+
+        const labelColor = d.isCurrent ? 'var(--cb-text)' : 'var(--cb-text-muted)';
+        const fw = d.isCurrent ? '700' : '500';
+        svg += `<text x="${x + w/2}" y="${svgH - 8}" text-anchor="middle" fill="${labelColor}" font-size="9" font-weight="${fw}">${d.label}</text>`;
+      });
+
+      chartEl.innerHTML = `<svg width="100%" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" preserveAspectRatio="xMidYMid meet">${svg}</svg>`;
+    }
+
+    if (extraEl) extraEl.innerHTML = '';
   }
 };
 

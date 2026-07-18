@@ -56,10 +56,11 @@ const Dhikr = {
     this.renderHero();
     this.renderPresetRow();
     this.renderSessionHistory();
+    this.renderLogDate();
 
     // Listen for cloud/local data updates
     if (!this.dataUpdateBound) {
-      window.addEventListener('lamim:data-updated', () => {
+      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
         if (document.getElementById('section-dhikr')?.classList.contains('active')) {
           const freshCount = DB.getDhikr(Utils.todayStr())[this.currentId] || 0;
           // Only re-render if count actually changed (to avoid interrupting active tapping)
@@ -91,13 +92,16 @@ const Dhikr = {
     if (!grid) return;
     const presets = this.getAllPresets();
 
-    grid.innerHTML = presets.map(p => `
-      <div class="dhikr-preset-card ${p.id === this.currentId ? 'active' : ''}" onclick="Dhikr.selectDhikr('${p.id}')">
-        <div class="dhikr-preset-name">${p.latin}</div>
-      </div>
-    `).join('') + `
-      <div class="dhikr-preset-card" onclick="Dhikr.showAddModal()" style="border-style:dashed">
-        <div class="dhikr-preset-name" style="font-size:16px">+</div>
+    grid.innerHTML = presets.map((p) => {
+      const color = p.color || '#14b8a6';
+      return `
+        <div class="dhikr-preset-card ${p.id === this.currentId ? 'active' : ''}" role="button" tabindex="0" onclick="Dhikr.selectDhikr('${p.id}')" style="--dc:${color}">
+          <div class="dhikr-preset-name">${p.latin}</div>
+        </div>
+      `;
+    }).join('') + `
+      <div class="dhikr-preset-card dhikr-add-card" role="button" tabindex="0" onclick="Dhikr.showAddModal()" style="--dc:#14b8a6">
+        <div class="dhikr-preset-name">Add</div>
       </div>
     `;
   },
@@ -206,12 +210,14 @@ const Dhikr = {
   },
 
   bindKeyboard() {
-    document.addEventListener('keydown', e => {
+    if (this._keyHandler) document.removeEventListener('keydown', this._keyHandler);
+    this._keyHandler = (e) => {
       if (e.code === 'Space' && document.getElementById('section-dhikr')?.classList.contains('active')) {
         e.preventDefault();
         this.tap();
       }
-    });
+    };
+    document.addEventListener('keydown', this._keyHandler);
   },
 
   renderSessionHistory() {
@@ -232,52 +238,66 @@ const Dhikr = {
       return;
     }
 
-    // If grid doesn't exist, render it fully
     let grid = el.querySelector('.dhikr-session-grid');
     if (!grid) {
       el.innerHTML = '<div class="dhikr-session-grid"></div>';
       grid = el.querySelector('.dhikr-session-grid');
     }
 
-    // Update or append items
     entries.forEach(([id, cnt]) => {
       const itemEl = document.getElementById(`session-item-${id}`);
+      const preset = this.getAllPresets().find(p => p.id === id) || { latin: id, icon: Icons.tasbeeh, target: 0, color: '' };
+      const target = preset.target || 0;
+      const pct = target > 0 ? Math.min(100, Math.round((cnt / target) * 100)) : 0;
+      const color = preset.color || '#14b8a6';
+
       if (itemEl) {
-        // Just update the count text
         const countEl = document.getElementById(`session-count-${id}`);
         if (countEl && countEl.textContent !== cnt.toString()) {
           countEl.textContent = cnt;
           countEl.style.transform = 'scale(1.1)';
-
           if (countEl.timeoutId) clearTimeout(countEl.timeoutId);
-          countEl.timeoutId = setTimeout(() => {
-            countEl.style.transform = 'scale(1)';
-          }, 100);
+          countEl.timeoutId = setTimeout(() => { countEl.style.transform = 'scale(1)'; }, 100);
+        }
+        const bar = itemEl.querySelector('.ds-bar-fill');
+        if (bar) { bar.style.width = pct + '%'; bar.style.background = color; }
+        if (target > 0) {
+          const tEl = itemEl.querySelector('.ds-target');
+          if (tEl) tEl.textContent = `/ ${target}`;
         }
       } else {
-        // Item doesn't exist yet, append it
-        const preset = this.getAllPresets().find(p => p.id === id) || { latin: id, icon: Icons.tasbeeh };
         const temp = document.createElement('div');
         temp.innerHTML = `
-          <div class="dhikr-session-item anim-fade-in" id="session-item-${id}">
+          <div class="dhikr-session-item anim-fade-in" id="session-item-${id}" ${color ? `style="--dc:${color}"` : ''}>
             <div class="ds-icon">${preset.icon}</div>
             <div class="ds-info">
+              ${preset.arabic ? `<div class="ds-arabic">${preset.arabic}</div>` : ''}
               <div class="ds-name">${preset.latin}</div>
-              <div class="ds-count" id="session-count-${id}" style="transition: all 0.15s ease; display: inline-block;">${cnt}</div>
+              <div class="ds-count-row">
+                <span class="ds-count" id="session-count-${id}" style="transition: all 0.15s ease; display: inline-block;">${cnt}</span>
+                ${target > 0 ? `<span class="ds-target">/ ${target}</span>` : ''}
+              </div>
+              ${target > 0 ? `<div class="ds-bar"><div class="ds-bar-fill" style="width:${pct}%;background:${color}"></div></div>` : ''}
             </div>
+            ${target > 0 && cnt >= target ? '<div class="ds-done">✓</div>' : ''}
           </div>
         `;
         grid.appendChild(temp.firstElementChild);
       }
     });
 
-    // Remove any items that are in the DOM but no longer in the entries list (e.g. reset to 0)
     const validIds = entries.map(([id]) => `session-item-${id}`);
     Array.from(grid.children).forEach(child => {
-      if (!validIds.includes(child.id)) {
-        grid.removeChild(child);
-      }
+      if (!validIds.includes(child.id)) grid.removeChild(child);
     });
+  },
+
+  renderLogDate() {
+    const el = document.getElementById('dhikr-log-date');
+    if (!el) return;
+    const d = new Date();
+    const isBn = this.getLang() === 'bn';
+    el.textContent = d.toLocaleDateString(isBn ? 'bn-BD' : 'en-US', { weekday: 'short', month: 'short', day: 'numeric' });
   },
 
   showHistoryModal() {
@@ -285,57 +305,68 @@ const Dhikr = {
     const body = document.getElementById('dhikr-history-modal-body');
     if (!el || !body) return;
 
-    // Aggregate all lamim_dhikr_YYYY-MM-DD keys from localStorage
+    // Aggregate all lamim_dhikr_YYYY-MM-DD keys
     const dbData = {};
-    for (let i = 0; i < DB.keys().length; i++) {
-      const key = DB.keys()[i];
+    const allKeys = DB.keys();
+    for (let i = 0; i < allKeys.length; i++) {
+      const key = allKeys[i];
       if (key && key.startsWith('lamim_dhikr_') && key !== 'lamim_dhikr_presets') {
         const dateStr = key.replace('lamim_dhikr_', '');
-        try {
-          dbData[dateStr] = JSON.parse(DB.rawGet(key));
-        } catch (e) { }
+        try { dbData[dateStr] = JSON.parse(DB.rawGet(key)); } catch (e) { }
       }
     }
 
-    // Sort dates descending
     const dates = Object.keys(dbData).sort((a, b) => new Date(b) - new Date(a));
+    const dayStats = dates.map(date => {
+      const entries = Object.entries(dbData[date] || {}).filter(([_, c]) => c > 0);
+      return { date, total: entries.reduce((s, [_, c]) => s + c, 0), entries };
+    }).filter(d => d.total > 0);
 
-    if (dates.length === 0) {
+    if (dayStats.length === 0) {
       body.innerHTML = `<div class="empty-state" style="padding:var(--space-6)">
-        <div class="empty-icon" style="font-size:2rem; color:var(--color-text-muted); margin-bottom: 10px;">🕒</div>
+        <div class="empty-icon" style="color:var(--color-text-muted); margin-bottom: 10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        </div>
         <p>${this.getLang() === 'bn' ? 'কোনো ইতিহাস নেই' : 'No history found'}</p>
       </div>`;
     } else {
-      let html = '';
-      dates.forEach(date => {
-        const dayData = dbData[date];
-        const entries = Object.entries(dayData).filter(([_, c]) => c > 0);
-        if (entries.length === 0) return;
+      const totalAll = dayStats.reduce((s, d) => s + d.total, 0);
+      const activeDays = dayStats.length;
+      const best = dayStats.reduce((m, d) => Math.max(m, d.total), 0);
+      const streak = this._calcStreak(dayStats.map(d => d.date));
 
-        let totalDayCount = entries.reduce((sum, [_, c]) => sum + c, 0);
+      const isBn = this.getLang() === 'bn';
+      let html = `
+        <div class="dhikr-hist-summary">
+          <div class="dhs-card"><span class="dhs-val">${totalAll}</span><span class="dhs-label">${isBn ? 'মোট যিকির' : 'Total Dhikr'}</span></div>
+          <div class="dhs-card"><span class="dhs-val">${activeDays}</span><span class="dhs-label">${isBn ? 'সক্রিয় দিন' : 'Active Days'}</span></div>
+          <div class="dhs-card"><span class="dhs-val">${best}</span><span class="dhs-label">${isBn ? 'সেরা দিন' : 'Best Day'}</span></div>
+          <div class="dhs-card"><span class="dhs-val">${streak}</span><span class="dhs-label">${isBn ? 'ধারাবাহিক' : 'Streak'}</span></div>
+        </div>
+        <div class="dhikr-hist-list">
+      `;
 
-        // Format date string nicely
+      dayStats.forEach(d => {
+        const date = d.date;
         let displayDate = date;
-        if (date === Utils.todayStr()) {
-          displayDate = this.getLang() === 'bn' ? 'আজ' : 'Today';
-        } else {
-          const d = new Date(date);
-          displayDate = d.toLocaleDateString(this.getLang() === 'bn' ? 'bn-BD' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        if (date === Utils.todayStr()) displayDate = isBn ? 'আজ' : 'Today';
+        else {
+          const dt = new Date(date);
+          displayDate = dt.toLocaleDateString(isBn ? 'bn-BD' : 'en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
         }
-
         html += `
           <div class="dhikr-history-card">
             <div class="dhikr-history-header">
               <span class="dhikr-history-date">${displayDate}</span>
-              <span class="dhikr-history-total">${this.getLang() === 'bn' ? 'মোট:' : 'Total:'} ${totalDayCount}</span>
+              <span class="dhikr-history-total">${d.total} ${isBn ? 'টি' : ''}</span>
             </div>
             <div class="dhikr-history-list">
         `;
-
-        entries.forEach(([id, cnt]) => {
-          const preset = this.getAllPresets().find(p => p.id === id) || { latin: id, icon: Icons.tasbeeh };
+        d.entries.forEach(([id, cnt]) => {
+          const preset = this.getAllPresets().find(p => p.id === id) || { latin: id, icon: Icons.tasbeeh, color: '' };
+          const color = preset.color || '#14b8a6';
           html += `
-            <div class="dhikr-history-item">
+            <div class="dhikr-history-item" ${preset.color ? `style="--dc:${preset.color}"` : ''}>
               <div class="dhikr-history-item-left">
                 <span class="dhikr-history-item-icon">${preset.icon}</span>
                 <span class="dhikr-history-item-name">${preset.latin}</span>
@@ -344,13 +375,31 @@ const Dhikr = {
             </div>
           `;
         });
-
         html += `</div></div>`;
       });
+      html += `</div>`;
       body.innerHTML = html;
     }
 
     el.classList.remove('hidden');
+  },
+
+  hideHistoryModal() {
+    const el = document.getElementById('dhikr-history-modal');
+    if (el) el.classList.add('hidden');
+  },
+
+  _calcStreak(dateStrs) {
+    const set = new Set(dateStrs);
+    let streak = 0;
+    let d = new Date();
+    // start from today (or yesterday if today missing) so gaps don't break streak
+    if (!set.has(Utils.todayStr())) d.setDate(d.getDate() - 1);
+    while (set.has(Utils.dateStr(d))) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
   },
 
   showAddModal() {
@@ -389,5 +438,14 @@ const Dhikr = {
         Utils.toast('Dhikr data cleared', 'info');
       }
     });
+  },
+
+  destroy() {
+    if (this._keyHandler) {
+      document.removeEventListener('keydown', this._keyHandler);
+      this._keyHandler = null;
+    }
+    this.initialized = false;
   }
 };
+window.Dhikr = Dhikr;

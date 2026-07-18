@@ -1,10 +1,8 @@
-const CACHE_NAME = 'lamim-v144';
+const CACHE_NAME = 'lamim-v145';
 const ASSETS = [
   './',
   './index.html',
-  './manifest.json',
-  './js/chart.min.js',
-  './js/html2pdf.bundle.min.js'
+  './manifest.json'
 ];
 
 // Install: Cache core assets & skip waiting immediately

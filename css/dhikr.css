@@ -23,6 +23,14 @@
   border: 1px solid rgba(139, 92, 246, 0.1);
 }
 
+[data-theme="dark"] .dhikr-hero-section {
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.12) 0%, transparent 100%);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+}
+
 [data-theme="light"] .dhikr-marquee {
   background: none;
   -webkit-text-fill-color: #1E293B;
@@ -103,12 +111,12 @@
   font-size: clamp(1.8rem, 8vw, 3rem);
   margin-bottom: var(--space-3);
   animation: arabicGlow 3s ease-in-out infinite, animatedGradientText 4s linear infinite;
-  background: linear-gradient(270deg, #fbbf24, #f59e0b, #d946ef, #8b5cf6, #fbbf24);
+  background: linear-gradient(270deg, #34d399, #14b8a6, #fbbf24, #10b981, #34d399);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+  text-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
   line-height: 1.4;
 
   /* Fix RTL overflow issues */
@@ -132,7 +140,7 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--color-border);
   background: var(--color-surface-nested);
   color: var(--color-text-primary);
   display: flex;
@@ -140,14 +148,15 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .dhikr-side-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-glass-hover);
+  border-color: var(--color-accent-gold);
   color: var(--color-accent-gold);
   transform: scale(1.1) translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg), 0 0 18px rgba(240, 196, 86, 0.25);
 }
 
 .dhikr-tap-area {
@@ -161,18 +170,15 @@
   width: clamp(200px, 60vw, 300px);
   height: clamp(200px, 60vw, 300px);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 20%, #bef264 0%, transparent 40%),
-    radial-gradient(circle at 80% 10%, #fde047 0%, transparent 40%),
-    radial-gradient(circle at 90% 60%, #f472b6 0%, transparent 40%),
-    radial-gradient(circle at 10% 80%, #60a5fa 0%, transparent 40%),
-    linear-gradient(180deg, #bef264 0%, #60a5fa 100%);
-  background-size: 150% 150%;
-  animation: fluidGradient 15s ease-in-out infinite;
-  border: 4px solid rgba(255, 255, 255, 0.2);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(45, 212, 191, 0.55) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, #0d9488 0%, #14b8a6 55%, #0f766e 100%);
+  border: 4px solid rgba(94, 234, 212, 0.35);
   box-shadow:
-    0 25px 60px rgba(0, 0, 0, 0.3),
-    0 0 0 10px rgba(255, 255, 255, 0.05),
-    inset 0 0 40px rgba(0, 0, 0, 0.2);
+    0 25px 60px rgba(13, 148, 136, 0.35),
+    0 0 0 10px rgba(45, 212, 191, 0.06),
+    inset 0 0 40px rgba(0, 0, 0, 0.22);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -318,15 +324,15 @@
 
 .dhikr-beads-container .bead.lit {
   background: linear-gradient(45deg,
-      #a855f7,
-      #3b82f6,
+      #34d399,
       #14b8a6,
+      #06b6d4,
       #fbbf24,
-      #a855f7);
+      #34d399);
   background-size: 300% 300%;
   animation: fluidGradient 6s ease-in-out infinite;
   border-color: transparent;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
 }
 
 /* Horizontal scroll for presets */
@@ -374,101 +380,138 @@
 }
 
 .dhikr-preset-card {
+  --dc: #14b8a6;
   flex: 0 0 auto;
-  width: 85px;
-  min-height: 85px;
-  padding: var(--space-2);
+  width: 92px;
+  min-height: 56px;
+  padding: 14px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 
-  background: var(--color-glass);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   scroll-snap-align: start;
   touch-action: manipulation;
-  /* Prevent text selection on tap */
   user-select: none;
   -webkit-user-select: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.dhikr-preset-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--dc);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .dhikr-preset-card:hover {
-  border-color: rgba(240, 196, 86, 0.3);
-  background: rgba(240, 196, 86, 0.06);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--dc) 45%, var(--color-border));
+  background: color-mix(in srgb, var(--dc) 8%, var(--color-surface-card));
+}
+.dhikr-preset-card:focus-visible {
+  outline: 2px solid var(--dc);
+  outline-offset: 2px;
 }
 
 .dhikr-preset-card.active {
-  border-color: var(--color-accent-gold);
-  background: rgba(240, 196, 86, 0.15);
-  box-shadow: 0 0 20px rgba(240, 196, 86, 0.2), inset 0 0 10px rgba(240, 196, 86, 0.1);
-  transform: translateY(-2px);
+  border-color: var(--dc);
+  background: color-mix(in srgb, var(--dc) 14%, var(--color-surface-card));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--dc) 28%, transparent), inset 0 0 14px color-mix(in srgb, var(--dc) 12%, transparent);
+  transform: translateY(-3px);
 }
-
-.dhikr-preset-card.active .dhikr-preset-name {
-  background: linear-gradient(45deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24,
-      #a855f7);
-  background-size: 300% 300%;
-  animation: fluidGradient 4s ease-in-out infinite;
-  -webkit-background-clip: text;
-  filter: drop-shadow(0 0 4px var(--color-border-active));
-}
-
-
-
-.dhikr-preset-card.active .dhikr-preset-icon {
-  animation: iconFloat 1s ease-in-out infinite;
-}
+.dhikr-preset-card.active::before { opacity: 1; }
 
 .dhikr-preset-icon {
-  margin-bottom: 4px;
+  flex: 0 0 auto;
+  width: 42px; height: 42px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-accent-gold);
+  color: color-mix(in srgb, var(--dc) 80%, white);
+  background: color-mix(in srgb, var(--dc) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dc) 30%, transparent);
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.dhikr-preset-card.active .dhikr-preset-icon {
+  transform: scale(1.05);
+  color: #fff;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--dc) 90%, white), var(--dc));
 }
 
 .dhikr-preset-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
+/* Arabic + name live in one uniform text block */
+.dhikr-preset-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 34px;
+  justify-content: center;
+}
 .dhikr-preset-arabic {
   font-family: var(--font-arabic);
-  font-size: 11px;
-  color: var(--color-accent-gold);
-  direction: rtl;
-  margin-bottom: 2px;
+  font-size: 12px;
   line-height: 1.2;
+  color: color-mix(in srgb, var(--dc) 78%, white);
+  direction: rtl;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dhikr-preset-name {
   font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: linear-gradient(120deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: fluidGradient 8s linear infinite;
-  line-height: 1.3;
+  letter-spacing: 0.3px;
+  color: var(--color-text-primary);
+  line-height: 1.25;
   width: 100%;
   text-align: center;
-  word-wrap: break-word;
-  white-space: normal;
-  overflow: visible;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dhikr-preset-card.active .dhikr-preset-name {
+  color: color-mix(in srgb, var(--dc) 85%, white);
+}
+
+.dhikr-add-card {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--color-accent-green) 45%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent-green) 5%, var(--color-surface-card));
+}
+.dhikr-add-card:hover {
+  border-color: var(--color-accent-green);
+  background: color-mix(in srgb, var(--color-accent-green) 10%, var(--color-surface-card));
+}
+.dhikr-add-card .dhikr-preset-icon {
+  color: var(--color-accent-green);
+  background: color-mix(in srgb, var(--color-accent-green) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent-green) 35%, transparent);
+}
+.dhikr-add-card .dhikr-preset-name {
+  color: var(--color-accent-green);
 }
 
 
@@ -482,163 +525,303 @@
 }
 
 /* === DHIKR HISTORY MODERN STYLING === */
+.dhikr-history-modal {
+  max-width: 520px;
+}
+.dhikr-hist-header {
+  position: relative;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.16), rgba(34, 211, 238, 0.08));
+  border-bottom: 1px solid var(--color-divider);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-4, 16px) var(--space-5, 20px);
+  margin-bottom: 0;
+}
+.dhikr-hist-header .modal-title {
+  color: var(--color-accent-green);
+  letter-spacing: 0.3px;
+}
+.dhikr-hist-header .modal-close { flex: 0 0 auto; }
+
+/* Today card history button */
+.dhikr-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dhikr-log-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dhikr-log-icon {
+  flex: 0 0 auto;
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-accent-green);
+  background: color-mix(in srgb, var(--color-accent-green) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent-green) 30%, transparent);
+}
+.dhikr-log-text { display: flex; flex-direction: column; line-height: 1.15; }
+.dhikr-log-label {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+.dhikr-log-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.dhikr-hist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--color-accent-green);
+  background: color-mix(in srgb, var(--color-accent-green) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent-green) 30%, transparent);
+  transition: all 0.2s ease;
+}
+.dhikr-hist-btn:hover {
+  background: color-mix(in srgb, var(--color-accent-green) 20%, transparent);
+  transform: translateY(-1px);
+}
+.dhikr-hist-btn svg { flex: 0 0 auto; }
+
+/* Summary stat cards */
+.dhikr-hist-body { max-height: 70vh; padding: var(--space-5, 20px) !important; }
+.dhikr-hist-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: var(--space-5, 18px);
+}
+@media (max-width: 440px) {
+  .dhikr-hist-summary { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}
+.dhs-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 14px 6px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-accent-green) 10%, var(--color-surface-card));
+  border: 1px solid color-mix(in srgb, var(--color-accent-green) 22%, var(--color-border));
+}
+.dhs-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-accent-green);
+  line-height: 1;
+}
+.dhs-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.dhikr-hist-list { display: grid; gap: 14px; }
+
 .dhikr-history-card {
-  background: var(--color-glass);
-  backdrop-filter: blur(10px);
+  background: var(--color-surface-card);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  margin-bottom: var(--space-4);
-  padding: var(--space-4);
+  border-radius: 18px;
+  padding: var(--space-4, 16px);
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: border-color 0.25s ease;
 }
-
-.dhikr-history-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(168, 85, 247, 0.1),
-      rgba(59, 130, 246, 0.1),
-      transparent);
-  transform: skewX(-20deg);
-  animation: glossyShimmer 6s infinite;
-}
-
-@keyframes glossyShimmer {
-  0% {
-    left: -150%;
-  }
-
-  30%,
-  100% {
-    left: 200%;
-  }
-}
+.dhikr-history-card:hover { border-color: color-mix(in srgb, var(--color-accent-green) 35%, var(--color-border)); }
 
 .dhikr-history-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--color-surface-nested);
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-3);
+  gap: 10px;
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: var(--space-3, 12px);
+  margin-bottom: var(--space-3, 12px);
 }
 
 .dhikr-history-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-weight: 700;
-  font-size: 16px;
-  background: linear-gradient(135deg, #a855f7, #3b82f6, #14b8a6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+.dhikr-history-date::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-green);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent-green) 60%, transparent);
+  flex: 0 0 auto;
 }
 
 .dhikr-history-total {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent-green);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent-green) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent-green) 28%, transparent);
+  white-space: nowrap;
 }
 
 .dhikr-history-list {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .dhikr-history-item {
+  --dc: #14b8a6;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  background: var(--color-glass);
-  border-radius: 16px;
-  border: 1px solid var(--color-border-muted);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+  padding: 11px 14px;
+  background: color-mix(in srgb, var(--dc) 7%, var(--color-surface-nested, rgba(255,255,255,0.02)));
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--dc) 18%, var(--color-border-muted, rgba(255,255,255,0.06)));
+  border-left: 3px solid var(--dc);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
-
 .dhikr-history-item:hover {
-  transform: translateX(4px);
-  background: var(--color-surface-nested);
+  transform: translateX(3px);
+  background: color-mix(in srgb, var(--dc) 12%, var(--color-surface-nested, rgba(255,255,255,0.02)));
 }
 
 .dhikr-history-item-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
 }
 
+.dhikr-history-item-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .dhikr-history-item-icon svg {
-  width: 22px;
-  height: 22px;
-  background: linear-gradient(45deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24,
-      #a855f7);
-  background-size: 300% 300%;
-  animation: fluidGradient 6s linear infinite;
-  border-radius: 6px;
-  padding: 2px;
-}
-
-.dhikr-history-item-icon svg path,
-.dhikr-history-item-icon svg circle,
-.dhikr-history-item-icon svg polygon {
-  stroke: #fff;
-  /* White icons over animated background */
-  stroke-width: 2.5;
+  width: 20px;
+  height: 20px;
 }
 
 .dhikr-history-item-name {
   font-size: 14px;
   font-weight: 600;
-  background: linear-gradient(120deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: fluidGradient 6s linear infinite;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dhikr-history-item-count {
-  font-weight: 700;
+  flex: 0 0 auto;
+  font-weight: 800;
   font-size: 15px;
-  background: linear-gradient(45deg,
-      #a855f7,
-      #3b82f6,
-      #14b8a6,
-      #fbbf24,
-      #a855f7);
-  background-size: 300% 300%;
-  animation: fluidGradient 4s ease-in-out infinite;
-  color: #fff;
-  /* Fallback */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  padding: 4px 10px;
-  border-radius: 8px;
-  min-width: 44px;
-  text-align: center;
-  position: relative;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dc, #14b8a6) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dc, #14b8a6) 32%, transparent);
 }
 
-.dhikr-history-item-count::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  background: var(--color-surface-nested);
-  z-index: -1;
+/* === TODAY SESSION ITEMS === */
+.dhikr-session-item {
+  --dc: #14b8a6;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  background: color-mix(in srgb, var(--dc) 7%, var(--color-surface-nested, rgba(255,255,255,0.02)));
+  border: 1px solid color-mix(in srgb, var(--dc) 20%, var(--color-border-muted, rgba(255,255,255,0.06)));
+  border-radius: 14px;
+  position: relative;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.dhikr-session-item:hover {
+  transform: translateX(3px);
+  background: color-mix(in srgb, var(--dc) 12%, var(--color-surface-nested, rgba(255,255,255,0.02)));
+}
+.ds-icon {
+  flex: 0 0 auto;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--dc) 18%, transparent);
+  color: color-mix(in srgb, var(--dc) 80%, white);
+}
+.ds-icon svg { width: 20px; height: 20px; }
+.ds-info { flex: 1; min-width: 0; }
+.ds-arabic {
+  font-family: var(--font-arabic);
+  font-size: 13px;
+  direction: rtl;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--dc) 78%, white);
+  margin-bottom: 1px;
+}
+.ds-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ds-count-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 2px;
+}
+.ds-count {
+  font-size: 16px;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--dc) 85%, white);
+  line-height: 1;
+}
+.ds-target {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.ds-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  margin-top: 7px;
+  overflow: hidden;
+}
+.ds-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s var(--transition-bounce);
+}
+.ds-done {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  color: #062b27;
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6);
 }
 
 /* =============================================
@@ -685,7 +868,7 @@
 
 /* --- Nafl Hero Banner --- */
 .nafl-hero-banner {
-  background: linear-gradient(135deg, #6366f1, #a855f7);
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
   border-radius: 24px;
   padding: var(--space-6);
   display: flex;
@@ -1111,6 +1294,38 @@
   margin-bottom: 12px;
 }
 
+/* Dhikr top settings/reset button — clean teal (overrides global gold) */
+#section-dhikr .section-settings-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  color: var(--color-accent-teal, #2dd4bf);
+}
+
+#section-dhikr .section-settings-btn:hover {
+  background: rgba(45, 212, 191, 0.12);
+  border-color: rgba(45, 212, 191, 0.3);
+  color: #5eead4;
+}
+
+#section-dhikr .section-settings-btn:active {
+  transform: scale(0.94);
+}
+
+[data-theme="light"] #section-dhikr .section-settings-btn {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #0d9488;
+}
+
+[data-theme="light"] #section-dhikr .section-settings-btn:hover {
+  background: rgba(45, 212, 191, 0.1);
+  border-color: rgba(45, 212, 191, 0.3);
+  color: #0f766e;
+}
+
 .finance-section-title {
   font-size: 14px;
   font-weight: 600;
@@ -1340,7 +1555,7 @@
 }
 
 .finance-modal-content {
-  background: var(--color-card);
+  background: var(--color-bg-elevated);
   border-radius: 20px;
   padding: 24px;
   width: 90%;
@@ -1357,7 +1572,7 @@
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
-  background: var(--color-bg);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-divider-strong);
   border-radius: 10px;
   color: var(--color-text-primary);
@@ -1411,6 +1626,18 @@
   font-size: 14px;
   text-align: left;
   cursor: pointer;
+}
+
+.finance-expense-item,
+.finance-budget-card,
+.finance-savings-item {
+  transition: background var(--transition-fast, 0.2s), transform var(--transition-fast, 0.2s);
+}
+.finance-expense-item:hover,
+.finance-budget-card:hover,
+.finance-savings-item:hover {
+  background: var(--color-glass-hover, var(--color-surface-nested));
+  transform: translateY(-1px);
 }
 
 @media (max-width: 480px) {
@@ -3174,186 +3401,23 @@
   width: max-content !important;
 }
 
-[data-theme] .dhikr-preset-card {
-  min-width: auto !important;
-  width: auto !important;
-  height: 52px !important;
-  border-radius: 26px !important;
-  padding: 0 24px !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
-  cursor: pointer !important;
-  flex-shrink: 0 !important;
-}
-
-[data-theme] .dhikr-preset-card:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(168, 85, 247, 0.3) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.15) !important;
-}
-
-/* Professional typography & colors for preset text */
-[data-theme] .dhikr-preset-name {
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  text-transform: capitalize !important;
-  letter-spacing: 0 !important;
-  white-space: nowrap !important;
-  color: #cbd5e1 !important; /* Professional elegant slate */
-  background: none !important;
-  -webkit-text-fill-color: initial !important;
-  filter: none !important;
-  text-shadow: none !important;
-}
-
-/* Active Preset State */
-[data-theme] .dhikr-preset-card.active {
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 12px 28px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-  transform: translateY(-2px) scale(1.02) !important;
-}
-
-[data-theme] .dhikr-preset-card.active .dhikr-preset-name {
-  color: #ffffff !important;
-  font-weight: 800 !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* 2. Today Dhikr List Card & Sessions */
-[data-theme] .dhikr-log-card {
-  background: rgba(30, 27, 75, 0.35) !important;
-  border: 1px solid rgba(168, 85, 247, 0.25) !important;
-  border-radius: 28px !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  overflow: hidden !important;
-  padding: 24px !important;
-  margin-top: 32px !important;
-}
-
-[data-theme] .dhikr-log-card .card-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding-bottom: 16px !important;
-  margin-bottom: 24px !important;
-  padding-top: 0 !important;
-  padding-left: 4px !important;
-  padding-right: 4px !important;
-}
-
-[data-theme] .dhikr-log-card .card-title {
-  font-size: 18px !important;
-  font-weight: 800 !important;
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  margin: 0 !important;
-}
-
 [data-theme] .dhikr-session-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
-  gap: 16px !important;
+  gap: 12px !important;
 }
 
 @media (max-width: 500px) {
   [data-theme] .dhikr-session-grid {
-    grid-template-columns: 1fr !important; /* Single column on very small screens for elegance */
+    grid-template-columns: 1fr !important;
   }
-}
-
-[data-theme] .dhikr-session-item {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 20px !important;
-  padding: 18px 20px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-  margin: 0 !important;
-}
-
-[data-theme] .dhikr-session-item:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(168, 85, 247, 0.4) !important;
-  transform: translateY(-3px) !important;
-  box-shadow: 0 12px 24px rgba(168, 85, 247, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-theme] .dhikr-session-item .ds-icon {
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 14px !important;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.15)) !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: #c084fc !important;
-  font-size: 20px !important;
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2) !important;
-  flex-shrink: 0 !important;
-  opacity: 1 !important;
-  margin: 0 !important;
-}
-
-[data-theme] .dhikr-session-item .ds-icon svg {
-  width: 22px !important;
-  height: 22px !important;
-}
-
-[data-theme] .dhikr-session-item .ds-info {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 4px !important;
-  justify-content: center !important;
-}
-
-[data-theme] .dhikr-session-item .ds-name {
-  font-size: 14px !important;
-  font-weight: 700 !important;
-  color: #f1f5f9 !important;
-  margin: 0 !important;
-  letter-spacing: 0 !important;
-  text-transform: capitalize !important;
-  line-height: 1.2 !important;
-}
-
-[data-theme] .dhikr-session-item .ds-count {
-  font-size: 22px !important;
-  font-weight: 900 !important;
-  background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3)) !important;
-  display: inline-block !important;
-  margin: 0 !important;
-  line-height: 1 !important;
 }
 
 /* Light Mode Support for Dhikr Today List */
 [data-theme="light"] .dhikr-preset-card {
   background: #f1f5f9 !important;
   border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
 }
 
 [data-theme="light"] .dhikr-preset-name {
@@ -3361,39 +3425,65 @@
 }
 
 [data-theme="light"] .dhikr-preset-card.active {
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
-  border-color: #6366f1 !important;
+  background: color-mix(in srgb, var(--dc, #14b8a6) 14%, #f1f5f9) !important;
+  border-color: var(--dc, #14b8a6) !important;
 }
 
 [data-theme="light"] .dhikr-preset-card.active .dhikr-preset-name {
-  color: #ffffff !important;
+  color: color-mix(in srgb, var(--dc, #14b8a6) 80%, #0f172a) !important;
+}
+
+[data-theme="light"] .dhikr-preset-card.active .dhikr-preset-icon {
+  color: #fff !important;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--dc, #14b8a6) 90%, white), var(--dc, #14b8a6)) !important;
 }
 
 [data-theme="light"] .dhikr-log-card {
-  background: rgba(255, 255, 255, 0.8) !important;
-  border-color: rgba(99, 102, 241, 0.2) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
 }
 
 [data-theme="light"] .dhikr-log-card .card-title {
-  background: linear-gradient(135deg, #1e293b 0%, #475569 100%) !important;
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 
 [data-theme="light"] .dhikr-session-item {
   background: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
 }
 
 [data-theme="light"] .dhikr-session-item:hover {
   background: #ffffff !important;
-  border-color: #6366f1 !important;
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.12) !important;
+  border-color: #14b8a6 !important;
+  box-shadow: 0 10px 20px rgba(20, 184, 166, 0.12) !important;
 }
 
 [data-theme="light"] .dhikr-session-item .ds-name {
+  color: #1e293b !important;
+}
+
+/* Light mode: history modal surfaces */
+[data-theme="light"] .dhikr-hist-summary .dhs-card {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] .dhikr-history-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05) !important;
+}
+[data-theme="light"] .dhikr-history-total {
+  color: #0f766e !important;
+}
+[data-theme="light"] .dhikr-history-item {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] .dhikr-history-item-name {
   color: #1e293b !important;
 }
 
@@ -3401,33 +3491,28 @@
    DHIKR PROFESSIONAL COLORING SYSTEM: TAP CIRCLE & BEADS (SERENE & PREMIUM)
    ========================================================================== */
 
-/* --- DARK MODE (Celestial Aurora & Royal Gold Fluid Mesh) --- */
+/* --- DARK MODE (Serene Teal) --- */
 [data-theme="dark"] .dhikr-main-tap-btn {
-  background-color: #1e1b4b !important;
-  background-image: 
-    radial-gradient(at 10% 10%, #312e81 0px, transparent 50%), 
-    radial-gradient(at 90% 10%, #6b21a8 0px, transparent 50%), 
-    radial-gradient(at 90% 90%, #0284c7 0px, transparent 50%), 
-    radial-gradient(at 10% 90%, #b45309 0px, transparent 50%), 
-    radial-gradient(at 50% 50%, #4338ca 0px, transparent 50%) !important;
-  background-size: 200% 200% !important;
-  animation: dhikrMeshPremium 15s ease infinite !important;
-  border: 2px solid rgba(216, 184, 255, 0.3) !important;
-  box-shadow: 0 25px 60px rgba(12, 10, 31, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.25), inset 0 -6px 15px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.25) !important;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(45, 212, 191, 0.55) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, #0d9488 0%, #14b8a6 55%, #0f766e 100%) !important;
+  border: 4px solid rgba(94, 234, 212, 0.35) !important;
+  box-shadow: 0 25px 60px rgba(13, 148, 136, 0.35), 0 0 0 10px rgba(45, 212, 191, 0.06), inset 0 0 40px rgba(0, 0, 0, 0.22) !important;
 }
 
 [data-theme="dark"] .dhikr-main-tap-btn:active {
-  box-shadow: 0 25px 60px rgba(168, 85, 247, 0.5), inset 0 2px 6px rgba(255, 255, 255, 0.35), inset 0 -6px 15px rgba(0, 0, 0, 0.7), 0 0 50px rgba(168, 85, 247, 0.4) !important;
-  transform: scale(0.98) !important;
+  transform: scale(0.95) !important;
 }
 
 [data-theme="dark"] span.dhikr-tap-count#dhikr-tap-count {
-  color: #ffffff !important;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(192, 132, 252, 0.4) !important;
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
-  background-clip: initial !important;
+  background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 50%, #99f6e4 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: 0 4px 18px rgba(20, 184, 166, 0.35) !important;
+  filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.3));
 }
 
 [data-theme="dark"] .dhikr-beads-container .bead {
@@ -3437,30 +3522,24 @@
 }
 
 [data-theme="dark"] .dhikr-beads-container .bead.lit {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
-  border-color: #f59e0b !important;
+  background: linear-gradient(135deg, var(--color-accent-gold-light) 0%, var(--color-accent-gold) 100%) !important;
+  border-color: var(--color-accent-gold) !important;
   box-shadow: 0 0 14px rgba(245, 158, 11, 0.6) !important;
-  animation: none !important;
+  animation: fluidGradient 4s ease-in-out infinite !important;
 }
 
-/* --- LIGHT MODE (Ethereal Sunrise Pearl & Emerald Glow Fluid Mesh) --- */
+/* --- LIGHT MODE (Serene Teal) --- */
 [data-theme="light"] .dhikr-main-tap-btn {
-  background-color: #ffffff !important;
-  background-image: 
-    radial-gradient(at 10% 10%, #f8fafc 0px, transparent 50%), 
-    radial-gradient(at 90% 10%, #fef08a 0px, transparent 50%), 
-    radial-gradient(at 90% 90%, #a7f3d0 0px, transparent 50%), 
-    radial-gradient(at 10% 90%, #bae6fd 0px, transparent 50%), 
-    radial-gradient(at 50% 50%, #f1f5f9 0px, transparent 50%) !important;
-  background-size: 200% 200% !important;
-  animation: dhikrMeshPremium 15s ease infinite !important;
-  border: 2px solid rgba(16, 185, 129, 0.3) !important;
-  box-shadow: 0 25px 50px rgba(100, 116, 139, 0.2), inset 0 2px 6px #ffffff, inset 0 -6px 15px rgba(203, 213, 225, 0.6), 0 0 35px rgba(16, 185, 129, 0.15) !important;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(45, 212, 191, 0.5) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.5) 0%, transparent 55%),
+    linear-gradient(160deg, #14b8a6 0%, #0d9488 100%) !important;
+  border: 4px solid rgba(13, 148, 136, 0.35) !important;
+  box-shadow: 0 25px 50px rgba(13, 148, 136, 0.25), 0 0 0 10px rgba(20, 184, 166, 0.06), inset 0 0 40px rgba(0, 0, 0, 0.12) !important;
 }
 
 [data-theme="light"] .dhikr-main-tap-btn:active {
-  box-shadow: 0 25px 50px rgba(16, 185, 129, 0.3), inset 0 2px 6px #ffffff, inset 0 -6px 15px rgba(203, 213, 225, 0.7), 0 0 45px rgba(16, 185, 129, 0.25) !important;
-  transform: scale(0.98) !important;
+  transform: scale(0.95) !important;
 }
 
 @keyframes dhikrMeshPremium {
@@ -3494,7 +3573,31 @@
 }
 
 /* Glassy Waves Customization for Professional Look */
-[data-theme="dark"] .tap-wave.wave-1 { background: rgba(192, 132, 252, 0.15) !important; }
-[data-theme="dark"] .tap-wave.wave-2 { background: rgba(192, 132, 252, 0.1) !important; }
+[data-theme="dark"] .tap-wave.wave-1 { background: rgba(45, 212, 191, 0.15) !important; }
+[data-theme="dark"] .tap-wave.wave-2 { background: rgba(45, 212, 191, 0.1) !important; }
 [data-theme="light"] .tap-wave.wave-1 { background: rgba(16, 185, 129, 0.15) !important; }
 [data-theme="light"] .tap-wave.wave-2 { background: rgba(16, 185, 129, 0.1) !important; }
+
+/* ============ CUSTOM DHIKR MODAL (light polish) ============ */
+#dhikr-add-modal .modal-header {
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: var(--space-4, 16px);
+  margin-bottom: var(--space-5, 18px);
+}
+#dhikr-add-modal .modal-title {
+  color: var(--color-accent-green);
+}
+#dhikr-add-modal .input:focus {
+  border-color: color-mix(in srgb, var(--color-accent-green) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-green) 18%, transparent);
+}
+#dhikr-add-modal .modal-footer .btn-gold {
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+  color: #062b27;
+  box-shadow: 0 0 16px rgba(20, 184, 166, 0.3);
+  animation: none;
+}
+#dhikr-add-modal .modal-footer .btn-gold:hover {
+  filter: brightness(1.07);
+  box-shadow: 0 0 28px rgba(20, 184, 166, 0.45);
+}

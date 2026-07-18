@@ -1,6 +1,13 @@
 const Gym = {
   selectedDate: '',
 
+  scrollToCard(cardId) {
+    const el = document.getElementById(cardId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
   _icons: {
     dumbbell: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg>',
     moon: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
@@ -19,6 +26,19 @@ const Gym = {
     this.selectedDate = Utils.todayStr();
     this.renderAll();
     this.bindEvents();
+  },
+
+  destroy() {
+    ['gym-prev-day', 'gym-next-day', 'gym-today-btn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) delete el.dataset.bound;
+    });
+    const exInput = document.getElementById('gym-exercise-name');
+    if (exInput) delete exInput.dataset.bound;
+    const wInput = document.getElementById('gym-body-weight');
+    const bfInput = document.getElementById('gym-body-fat');
+    if (wInput) delete wInput.dataset.bound;
+    if (bfInput) delete bfInput.dataset.bound;
   },
 
   renderAll() {
@@ -52,11 +72,18 @@ const Gym = {
     if (nextBtn) {
       nextBtn.style.display = isToday ? 'none' : 'inline-flex';
     }
+
+    const todayBtn = document.getElementById('gym-today-btn');
+    if (todayBtn) {
+      todayBtn.style.display = isToday ? 'none' : 'inline-flex';
+    }
   },
 
   bindEvents() {
     const prev = document.getElementById('gym-prev-day');
     const next = document.getElementById('gym-next-day');
+    const todayBtn = document.getElementById('gym-today-btn');
+
     if (prev && !prev.dataset.bound) {
       prev.dataset.bound = '1';
       prev.addEventListener('click', () => this.changeDay(-1));
@@ -64,6 +91,13 @@ const Gym = {
     if (next && !next.dataset.bound) {
       next.dataset.bound = '1';
       next.addEventListener('click', () => this.changeDay(1));
+    }
+    if (todayBtn && !todayBtn.dataset.bound) {
+      todayBtn.dataset.bound = '1';
+      todayBtn.addEventListener('click', () => {
+        this.selectedDate = Utils.todayStr();
+        this.renderAll();
+      });
     }
 
     const exInput = document.getElementById('gym-exercise-name');
@@ -172,14 +206,18 @@ const Gym = {
     const n = window.n ? window.n : (x => x);
 
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    setText('gym-stat-streak', n(streak));
-    setText('gym-stat-streak-sub', streak === 1 ? 'day' : 'days');
-    setText('gym-stat-vol', volume >= 1000 ? n((volume / 1000).toFixed(1)) + 'k' : n(Math.round(volume)));
-    setText('gym-stat-vol-sub', 'kg lifted');
-    setText('gym-stat-sleep', n(sleepDur.toFixed(1)));
-    setText('gym-stat-sleep-sub', 'hours');
-    setText('gym-stat-water', n(water));
-    setText('gym-stat-water-sub', 'ml');
+    
+    // Update Exercises count
+    const exCount = (gym.exercises || []).length;
+    setText('gym-stat-exercises', n(exCount));
+    
+    // Update Recovery Score
+    const recoveryScore = (gym.sleep && gym.sleep.recoveryScore) ? gym.sleep.recoveryScore : '--';
+    setText('gym-stat-recovery-score', recoveryScore !== '--' ? n(Math.round(recoveryScore)) : '--');
+    
+    // Note: Hydration percentage is updated via renderWater(), but we can also update it here if needed
+    const waterPct = (gym.water && gym.water.goal) ? Math.min(100, (gym.water.amount / gym.water.goal) * 100) : 0;
+    setText('gym-stat-hydration-val', n(Math.round(waterPct)) + '%');
   },
 
   _dayVolume(exercises) {
@@ -209,19 +247,17 @@ const Gym = {
       const sets = Number(ex.sets) || 0;
       const reps = Number(ex.reps) || 0;
       const isPR = w > 0 && prs[ex.name] && prs[ex.name].weight === w;
-      const volume = sets * reps * w;
       const n = window.n ? window.n : (x => x);
 
       const div = document.createElement('div');
       div.className = 'gh-ex-item';
       div.innerHTML =
-        `<div class="gh-ex-ico"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/><path d="m10.2 9-1.7 5.2 5.2-1.7"/><path d="M14.8 9l1.7 5.2-5.2 1.7"/></svg></div>` +
-        `<div class="gh-ex-info">` +
-          `<div class="gh-ex-name">${Utils.escapeHTML(ex.name)}${isPR ? '<span class="gh-ex-pr">PR</span>' : ''}</div>` +
-          `<div class="gh-ex-meta">${n(sets)} sets · ${n(reps)} reps${w > 0 ? ' · ' + n(volume) + ' kg vol' : ' · Bodyweight'}</div>` +
-        `</div>` +
-        `${w > 0 ? `<div class="gh-ex-weight">${n(w)}<small style="font-size:10px;color:var(--gh-text-muted);font-weight:600"> kg</small></div>` : ''}` +
-        `<button class="gh-ex-del" onclick="Gym.deleteExercise(${i})" title="Remove"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+        `<span class="gh-ex-tag">${n(sets)}×${n(reps)}</span>` +
+        `<span class="gh-ex-name">${Utils.escapeHTML(ex.name)}${isPR ? '<span class="gh-ex-pr">PR</span>' : ''}</span>` +
+        `<div class="gh-meal-right">` +
+          `${w > 0 ? `<span class="gh-ex-weight">${n(w)} kg</span>` : ''}` +
+          `<button class="gh-meal-del" onclick="Gym.deleteExercise(${i})" title="Remove"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>` +
+        `</div>`;
       listEl.appendChild(div);
     });
   },
@@ -305,7 +341,118 @@ const Gym = {
     if (sleepInput) sleepInput.value = sleep.sleepTime || '';
     if (wakeInput) wakeInput.value = sleep.wakeTime || '';
     if (quality) quality.value = sleep.quality || 'deep';
+
+    // Populate sliders from stored 24h time
+    const sleepSlider = document.getElementById('gym-sleep-slider');
+    const wakeSlider = document.getElementById('gym-wake-slider');
+
+    if (sleepSlider && sleep.sleepTime) {
+      sleepSlider.value = this._time24ToSleepSlider(sleep.sleepTime);
+      this._updateSleepLabel(parseInt(sleepSlider.value));
+    } else if (sleepSlider) {
+      this._updateSleepLabel(parseInt(sleepSlider.value));
+    }
+
+    if (wakeSlider && sleep.wakeTime) {
+      wakeSlider.value = this._time24ToWakeSlider(sleep.wakeTime);
+      this._updateWakeLabel(parseInt(wakeSlider.value));
+    } else if (wakeSlider) {
+      this._updateWakeLabel(parseInt(wakeSlider.value));
+    }
+
+    // Populate quality pills
+    const q = sleep.quality || 'deep';
+    document.querySelectorAll('.gh-quality-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.quality === q);
+    });
+
     this.updateSleepStats(sleep);
+  },
+
+  /* --- Slider helpers --- */
+  // Sleep slider: 0=6PM, 360=12AM, 720=6AM (12h range)
+  _sleepSliderTo24h(val) {
+    let totalMin = 18 * 60 + parseInt(val); // 6PM = 18:00 base
+    if (totalMin >= 24 * 60) totalMin -= 24 * 60;
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+  },
+  _time24ToSleepSlider(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    let totalMin = h * 60 + m;
+    let base = 18 * 60; // 6PM
+    let val = totalMin - base;
+    if (val < 0) val += 24 * 60;
+    return Math.max(0, Math.min(720, val));
+  },
+  // Wake slider: 0=4AM, 360=10AM, 720=4PM (12h range)
+  _wakeSliderTo24h(val) {
+    let totalMin = 4 * 60 + parseInt(val); // 4AM = 04:00 base
+    if (totalMin >= 24 * 60) totalMin -= 24 * 60;
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+  },
+  _time24ToWakeSlider(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    let totalMin = h * 60 + m;
+    let base = 4 * 60; // 4AM
+    let val = totalMin - base;
+    if (val < 0) val += 24 * 60;
+    return Math.max(0, Math.min(720, val));
+  },
+
+  _formatTime12h(time24) {
+    const [hStr, mStr] = time24.split(':');
+    let h = parseInt(hStr);
+    const m = mStr;
+    let ampm = 'AM';
+    if (h >= 12) { ampm = 'PM'; if (h > 12) h -= 12; }
+    if (h === 0) h = 12;
+    return `${h}:${m} ${ampm}`;
+  },
+
+  _updateSleepLabel(val) {
+    const label = document.getElementById('gym-sleep-time-label');
+    if (label) label.textContent = this._formatTime12h(this._sleepSliderTo24h(val));
+  },
+  _updateWakeLabel(val) {
+    const label = document.getElementById('gym-wake-time-label');
+    if (label) label.textContent = this._formatTime12h(this._wakeSliderTo24h(val));
+  },
+
+  onSleepSliderInput(val) {
+    this._updateSleepLabel(parseInt(val));
+    const time24 = this._sleepSliderTo24h(val);
+    const sleepInput = document.getElementById('gym-sleep-time');
+    if (sleepInput) sleepInput.value = time24;
+    this.onSleepInputChange();
+  },
+
+  onWakeSliderInput(val) {
+    this._updateWakeLabel(parseInt(val));
+    const time24 = this._wakeSliderTo24h(val);
+    const wakeInput = document.getElementById('gym-wake-time');
+    if (wakeInput) wakeInput.value = time24;
+    this.onSleepInputChange();
+  },
+
+  onSleepInputChange() {
+    const data = DB.getGym(this.selectedDate);
+    if (!data.sleep) data.sleep = {};
+    data.sleep.sleepTime = (document.getElementById('gym-sleep-time') || {}).value || '';
+    data.sleep.wakeTime = (document.getElementById('gym-wake-time') || {}).value || '';
+    data.sleep.quality = (document.getElementById('gym-sleep-quality') || {}).value || 'deep';
+    DB.setGym(this.selectedDate, data);
+    this.updateSleepStats(data.sleep);
+    this.updateHeroMetrics();
+    this.renderStatStrip();
+    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+  },
+
+  onTimeDigitChange() {
+    // Legacy stub — no longer used, kept for backward compat
   },
 
   _calcRecoveryScore(sleep) {
@@ -389,17 +536,15 @@ const Gym = {
     }
   },
 
-  onSleepInputChange() {
-    const data = DB.getGym(this.selectedDate);
-    if (!data.sleep) data.sleep = {};
-    data.sleep.sleepTime = (document.getElementById('gym-sleep-time') || {}).value || '';
-    data.sleep.wakeTime = (document.getElementById('gym-wake-time') || {}).value || '';
-    data.sleep.quality = (document.getElementById('gym-sleep-quality') || {}).value || 'deep';
-    DB.setGym(this.selectedDate, data);
-    this.updateSleepStats(data.sleep);
-    this.updateHeroMetrics();
-    this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+  setQuality(q) {
+    const qualitySelect = document.getElementById('gym-sleep-quality');
+    if (qualitySelect) qualitySelect.value = q;
+    
+    document.querySelectorAll('.gh-quality-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.dataset.quality === q);
+    });
+
+    this.onSleepInputChange();
   },
 
   /* ---------- diet / nutrition ---------- */
@@ -408,7 +553,6 @@ const Gym = {
     const diet = data.diet || {};
     const meals = diet.meals || [];
     const listEl = document.getElementById('gym-meals-list');
-    const n = window.n ? window.n : (x => x);
 
     if (listEl) {
       listEl.innerHTML = '';
@@ -422,47 +566,12 @@ const Gym = {
             `<span class="gh-meal-type ${m.type || 'snack'}">${window.t ? window.t(m.type || 'snack') : (m.type || 'snack')}</span>` +
             `<span class="gh-meal-desc">${Utils.escapeHTML(m.desc || '')}</span>` +
             `<div class="gh-meal-right">` +
-              (m.protein ? `<span class="gh-meal-protein">${n(m.protein)}g</span>` : '') +
-              (m.calories ? `<span class="gh-meal-cal">${n(m.calories)}</span>` : '') +
               `<button class="gh-meal-del" onclick="Gym.deleteMeal(${i})"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>` +
             `</div>`;
           listEl.appendChild(div);
         });
       }
     }
-
-    // macros
-    const protein = meals.reduce((s, m) => s + (Number(m.protein) || 0), 0);
-    const carbs = meals.reduce((s, m) => s + (Number(m.carbs) || 0), 0);
-    const fats = meals.reduce((s, m) => s + (Number(m.fats) || 0), 0);
-    const cals = meals.reduce((s, m) => s + (Number(m.calories) || 0), 0);
-
-    const pGoal = diet.proteinGoal || 150;
-    const cGoal = diet.carbsGoal || 200;
-    const fGoal = diet.fatsGoal || 65;
-
-    this._renderMacroRing('protein', protein, pGoal);
-    this._renderMacroRing('carbs', carbs, cGoal);
-    this._renderMacroRing('fats', fats, fGoal);
-
-    const pVal = document.getElementById('gym-protein-val');
-    const cVal = document.getElementById('gym-carbs-val');
-    const fVal = document.getElementById('gym-fats-val');
-    if (pVal) pVal.textContent = n(protein) + 'g / ' + n(pGoal) + 'g';
-    if (cVal) cVal.textContent = n(carbs) + 'g / ' + n(cGoal) + 'g';
-    if (fVal) fVal.textContent = n(fats) + 'g / ' + n(fGoal) + 'g';
-
-    const calEl = document.getElementById('gym-calories-val');
-    if (calEl) calEl.textContent = n(cals) + ' kcal';
-  },
-
-  _renderMacroRing(which, val, goal) {
-    const wrap = document.getElementById('gym-macro-' + which);
-    const center = document.getElementById('gym-macro-' + which + '-center');
-    if (!wrap || !window.Charts) return;
-    const pct = goal ? Math.min(100, (val / goal) * 100) : 0;
-    Charts.ring(wrap, { size: 92, thickness: 8, value: pct, color: 'currentColor', colorEnd: 'currentColor' });
-    if (center) center.innerHTML = `<span class="gh-macro-ring-val">${window.n ? window.n(Math.round(val)) : Math.round(val)}</span><span class="gh-macro-ring-goal">/ ${window.n ? window.n(goal) : goal}g</span>`;
   },
 
   openMealModal() {
@@ -472,27 +581,28 @@ const Gym = {
     overlay.id = 'gh-meal-modal';
     overlay.innerHTML =
       `<div class="gh-modal" onclick="event.stopPropagation()">` +
-        `<h3>Add Meal</h3>` +
-        `<div class="gh-modal-field"><label class="gh-meta-label">Description</label><input type="text" class="gh-input" id="gh-meal-desc" placeholder="e.g. Grilled chicken salad"></div>` +
-        `<div class="gh-modal-row">` +
-          `<div class="gh-modal-field"><label class="gh-meta-label">Protein (g)</label><input type="number" class="gh-input-sm" id="gh-meal-protein" placeholder="0" min="0"></div>` +
-          `<div class="gh-modal-field"><label class="gh-meta-label">Calories</label><input type="number" class="gh-input-sm" id="gh-meal-cal" placeholder="0" min="0"></div>` +
+        `<div class="gh-modal-header">` +
+          `<h3>Log Food Intake</h3>` +
+          `<p style="font-size:12px; color:var(--gh-text-muted); margin:-12px 0 16px;">Keep a simple journal of what you eat today</p>` +
         `</div>` +
-        `<div class="gh-modal-row">` +
-          `<div class="gh-modal-field"><label class="gh-meta-label">Carbs (g)</label><input type="number" class="gh-input-sm" id="gh-meal-carbs" placeholder="0" min="0"></div>` +
-          `<div class="gh-modal-field"><label class="gh-meta-label">Fats (g)</label><input type="number" class="gh-input-sm" id="gh-meal-fats" placeholder="0" min="0"></div>` +
-        `</div>` +
-        `<div class="gh-modal-field"><label class="gh-meta-label">Meal type</label>` +
-          `<div class="gh-seg" id="gh-meal-seg">` +
-            `<button class="gh-seg-btn" data-type="breakfast">Breakfast</button>` +
-            `<button class="gh-seg-btn active" data-type="lunch">Lunch</button>` +
-            `<button class="gh-seg-btn" data-type="dinner">Dinner</button>` +
-            `<button class="gh-seg-btn" data-type="snack">Snack</button>` +
+        `<div class="gh-modal-body">` +
+          `<div class="gh-modal-field">` +
+            `<label class="gh-meta-label" for="gh-meal-desc">What did you eat?</label>` +
+            `<input type="text" class="gh-input" id="gh-meal-desc" placeholder="e.g. Rice, Lentils, Fish & Salad">` +
+          `</div>` +
+          `<div class="gh-modal-field">` +
+            `<label class="gh-meta-label">Meal Type</label>` +
+            `<div class="gh-seg" id="gh-meal-seg">` +
+              `<button class="gh-seg-btn" data-type="breakfast">Breakfast</button>` +
+              `<button class="gh-seg-btn active" data-type="lunch">Lunch</button>` +
+              `<button class="gh-seg-btn" data-type="dinner">Dinner</button>` +
+              `<button class="gh-seg-btn" data-type="snack">Snack</button>` +
+            `</div>` +
           `</div>` +
         `</div>` +
         `<div class="gh-modal-actions">` +
           `<button class="gh-btn gh-btn-ghost" onclick="Gym.closeMealModal()">Cancel</button>` +
-          `<button class="gh-btn gh-btn-primary" onclick="Gym.submitMeal()">Add Meal</button>` +
+          `<button class="gh-btn gh-btn-primary" onclick="Gym.submitMeal()">Log Food</button>` +
         `</div>` +
       `</div>`;
     overlay.addEventListener('click', () => this.closeMealModal());
@@ -514,14 +624,10 @@ const Gym = {
 
   submitMeal() {
     const desc = (document.getElementById('gh-meal-desc') || {}).value.trim();
-    if (!desc) { if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Enter a description', 'error'); return; }
-    const protein = parseFloat((document.getElementById('gh-meal-protein') || {}).value) || 0;
-    const calories = parseFloat((document.getElementById('gh-meal-cal') || {}).value) || 0;
-    const carbs = parseFloat((document.getElementById('gh-meal-carbs') || {}).value) || 0;
-    const fats = parseFloat((document.getElementById('gh-meal-fats') || {}).value) || 0;
+    if (!desc) { if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Enter what you ate', 'error'); return; }
     const active = document.querySelector('#gh-meal-modal .gh-seg-btn.active');
     const type = active ? active.dataset.type : 'snack';
-    this.addMeal(desc, protein, calories, type, carbs, fats);
+    this.addMeal(desc, 0, 0, type, 0, 0);
     this.closeMealModal();
   },
 
@@ -557,30 +663,21 @@ const Gym = {
     const n = window.n ? window.n : (x => x);
     const pct = water.goal ? Math.min(100, (water.amount / water.goal) * 100) : 0;
 
-    const ringWrap = document.getElementById('gym-water-ring-svg');
-    const valEl = document.getElementById('gym-water-amount-val');
-    const pctEl = document.getElementById('gym-water-pct');
-    const goalEl = document.getElementById('gym-water-goal');
+    const valEl = document.getElementById('gym-water-amount-center');
+    const pctEl = document.getElementById('gym-water-pct-center');
+    const glassFill = document.getElementById('gym-water-glass-fill');
 
-    if (ringWrap && window.Charts) {
-      Charts.ring(ringWrap, { size: 96, thickness: 8, value: pct, color: 'currentColor', colorEnd: '#0ea5e9' });
-    }
-    if (valEl) valEl.innerHTML = `${n(water.amount)}<small>ml</small>`;
+    if (valEl) valEl.textContent = `${n(water.amount)} ml`;
     if (pctEl) pctEl.textContent = n(Math.round(pct)) + '%';
-    if (goalEl) goalEl.textContent = 'of ' + n(water.goal) + ' ml';
-
-    // 7-day trend
-    const trendEl = document.getElementById('gym-water-trend');
-    if (trendEl && window.Charts) {
-      const data7 = [];
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(this.selectedDate + 'T00:00:00');
-        d.setDate(d.getDate() - i);
-        const g = DB.getGym(Utils.dateStr(d));
-        data7.push({ label: '', value: ((g.water && g.water.amount) || 0) });
-      }
-      Charts.barChart(trendEl, data7, { color: 'var(--gh-water)', height: 50 });
+    
+    // Animate the glass fill height
+    if (glassFill) {
+      glassFill.style.height = `${pct}%`;
     }
+
+    // Update global stat strip new tile if present
+    const statValEl = document.getElementById('gym-stat-hydration-val');
+    if (statValEl) statValEl.textContent = n(Math.round(pct)) + '%';
   },
 
   addWater(amount) {
@@ -671,7 +768,7 @@ const Gym = {
     const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
 
     let totalExercises = 0, totalSleepHrs = 0, sleepDays = 0;
-    let totalHydrationPct = 0, hydrationDays = 0, totalProtein = 0, totalCalories = 0;
+    let totalHydrationPct = 0, hydrationDays = 0, loggedDaysCount = 0;
     const rows = [];
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -691,44 +788,53 @@ const Gym = {
       const water = (g.water && g.water.amount) || 0;
       const waterGoal = (g.water && g.water.goal) || 3000;
       const meals = (g.diet && g.diet.meals) || [];
-      const protein = meals.reduce((s, m) => s + (Number(m.protein) || 0), 0);
-      const cals = meals.reduce((s, m) => s + (Number(m.calories) || 0), 0);
+      const foodIntake = meals.map(m => m.desc).join(', ') || '—';
       const recovery = this._calcRecoveryScore(sleep);
+
+      const hasActivity = exCount > 0 || dur > 0 || water > 0 || meals.length > 0;
 
       if (!isFuture) {
         totalExercises += exCount;
         if (dur > 0) { totalSleepHrs += dur; sleepDays++; }
         const wpct = waterGoal ? (water / waterGoal) * 100 : 0;
         totalHydrationPct += wpct; hydrationDays++;
-        totalProtein += protein; totalCalories += cals;
+        if (hasActivity) loggedDaysCount++;
       }
 
       rows.push({
-        day, exCount, dur, recovery, water, protein, cals, isFuture
+        day, exCount, dur, recovery, water, foodIntake, isFuture
       });
     }
 
     const avgSleep = sleepDays ? (totalSleepHrs / sleepDays).toFixed(1) : '0';
     const avgHydration = hydrationDays ? Math.round(totalHydrationPct / hydrationDays) : 0;
-    const activeDays = sleepDays;
-    const consistencyPct = Math.round((activeDays / daysInMonth) * 100);
+    const consistencyPct = Math.round((loggedDaysCount / daysInMonth) * 100);
     let consistencyTier = 'NEEDS WORK', consistencyColor = '#fbbf24';
     if (consistencyPct >= 80) { consistencyTier = 'EXCELLENT'; consistencyColor = '#34d399'; }
     else if (consistencyPct >= 50) { consistencyTier = 'GOOD'; consistencyColor = '#22d3ee'; }
 
     const rowHtml = rows.map(r => {
-      if (r.isFuture) return `<tr><td colspan="7" style="text-align:center;color:#94a3b8;font-style:italic;padding:8px">Not yet</td></tr>`;
+      if (r.isFuture) {
+        return `<tr>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:700;color:#94a3b8">${r.day}</td>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center;color:#cbd5e1">—</td>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center;color:#cbd5e1">—</td>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center;color:#cbd5e1">—</td>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center;color:#cbd5e1">—</td>
+          <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:left;color:#cbd5e1">—</td>
+        </tr>`;
+      }
       return `<tr>
         <td style="padding:10px;border-bottom:1px solid #e2e8f0;font-weight:700">${r.day}</td>
         <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.exCount}</td>
         <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.dur ? r.dur.toFixed(1) + 'h' : '—'}</td>
         <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.recovery || '—'}</td>
         <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.water} ml</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.protein}g</td>
-        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:center">${r.cals}</td>
+        <td style="padding:10px;border-bottom:1px solid #e2e8f0;text-align:left;max-width:250px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.foodIntake}">${r.foodIntake}</td>
       </tr>`;
     }).join('');
 
+    const genDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     const win = window.open('', '_blank');
     if (!win) {
       if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Please allow popups to export PDF', 'error');
@@ -737,28 +843,39 @@ const Gym = {
     win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gym & Diet Report — ${monthName}</title>
     <style>
       @page { size: A4; margin: 16mm; }
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: 'Inter', -apple-system, sans-serif; color: #0f172a; background: #fff; }
-      .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #22d3ee; padding-bottom: 16px; margin-bottom: 20px; }
-      .logo { font-size: 22px; font-weight: 900; letter-spacing: 0.18em; background: linear-gradient(135deg, #06b6d4, #a3e635); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-      .subtitle { font-size: 11px; color: #64748b; font-weight: 700; letter-spacing: 0.05em; }
-      .meta { text-align: right; font-size: 12px; color: #475569; }
-      .meta strong { display: block; font-size: 15px; color: #0f172a; margin-bottom: 2px; }
-      h1 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
-      .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
-      .sum-card { background: #f8fafc; border-radius: 14px; padding: 16px; border: 1px solid #e2e8f0; }
-      .sum-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; font-weight: 700; }
-      .sum-val { font-size: 22px; font-weight: 800; color: #0891b2; margin-top: 4px; }
-      .consistency { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; background: ${consistencyColor}22; color: ${consistencyColor}; margin-bottom: 14px; }
-      table { width: 100%; border-collapse: collapse; font-size: 12px; }
-      th { background: #f1f5f9; padding: 10px; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: #475569; }
+      * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif; color: #1e293b; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; line-height: 1.5; }
+      .header { position: relative; display: flex; justify-content: space-between; align-items: flex-end; padding: 26px 28px; margin-bottom: 26px; border-radius: 20px; overflow: hidden; background: linear-gradient(120deg, #0891b2 0%, #06b6d4 45%, #65a30d 100%); color: #fff; box-shadow: 0 14px 38px -16px rgba(8, 145, 178, 0.55); }
+      .header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 240px; height: 240px; background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%); }
+      .logo { font-size: 26px; font-weight: 900; letter-spacing: 0.22em; position: relative; }
+      .subtitle { font-size: 11px; color: rgba(255,255,255,0.82); font-weight: 600; letter-spacing: 0.14em; margin-top: 6px; }
+      .meta { text-align: right; font-size: 12px; color: rgba(255,255,255,0.88); position: relative; }
+      .meta strong { display: block; font-size: 17px; color: #fff; margin-bottom: 3px; font-weight: 800; letter-spacing: 0.02em; }
+      .consistency { display: inline-block; padding: 5px 14px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.07em; background: ${consistencyColor}22; color: ${consistencyColor}; margin-bottom: 18px; border: 1px solid ${consistencyColor}55; }
+      .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0; }
+      .sum-card { background: #fff; border-radius: 16px; padding: 18px 18px 16px; border: 1px solid #eef0f4; box-shadow: 0 6px 18px -10px rgba(15, 23, 42, 0.18); position: relative; overflow: hidden; }
+      .sum-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--c, #06b6d4); }
+      .sum-card:nth-child(1) { --c: #0891b2; }
+      .sum-card:nth-child(2) { --c: #0ea5e9; }
+      .sum-card:nth-child(3) { --c: #22d3ee; }
+      .sum-card:nth-child(4) { --c: #65a30d; }
+      .sum-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700; }
+      .sum-val { font-size: 28px; font-weight: 800; color: #0f172a; margin-top: 8px; letter-spacing: -0.02em; }
+      table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; border: 1px solid #eef0f4; border-radius: 16px; overflow: hidden; }
+      th { background: linear-gradient(180deg, #06b6d4, #0891b2); color: #fff; padding: 13px 14px; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
       th:first-child { text-align: left; }
-      .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #94a3b8; font-style: italic; }
+      th:last-child { text-align: left; }
+      td { padding: 10px 14px; border-top: 1px solid #f1f5f9; }
+      tbody tr:nth-child(even) { background: #fafbfc; }
+      tbody tr:first-child td { border-top: none; }
+      .footer { margin-top: 30px; padding-top: 18px; border-top: 1px solid #eef0f4; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #94a3b8; }
+      .footer .quote { font-style: italic; }
+      .footer .brand { font-weight: 800; letter-spacing: 0.12em; color: #0891b2; }
     </style></head><body>
     <div class="header">
       <div>
         <div class="logo">LAMIM</div>
-        <div class="subtitle">GYM & DIET · MONTHLY REPORT</div>
+        <div class="subtitle">TRAINING & RECOVERY · MONTHLY REPORT</div>
       </div>
       <div class="meta">
         <strong>${monthName}</strong>
@@ -770,13 +887,16 @@ const Gym = {
       <div class="sum-card"><div class="sum-label">Total Exercises</div><div class="sum-val">${totalExercises}</div></div>
       <div class="sum-card"><div class="sum-label">Avg Sleep</div><div class="sum-val">${avgSleep}h</div></div>
       <div class="sum-card"><div class="sum-label">Avg Hydration</div><div class="sum-val">${avgHydration}%</div></div>
-      <div class="sum-card"><div class="sum-label">Total Protein</div><div class="sum-val">${totalProtein}g</div></div>
+      <div class="sum-card"><div class="sum-label">Logged Days</div><div class="sum-val">${loggedDaysCount}</div></div>
     </div>
     <table>
-      <thead><tr><th>Date</th><th>Exercises</th><th>Sleep</th><th>Recovery</th><th>Water</th><th>Protein</th><th>Calories</th></tr></thead>
+      <thead><tr><th>Date</th><th>Exercises</th><th>Sleep</th><th>Recovery</th><th>Water</th><th>Logged Food Intake</th></tr></thead>
       <tbody>${rowHtml}</tbody>
     </table>
-    <div class="footer">"Take care of your body. It's the only place you have to live." — Jim Rohn</div>
+    <div class="footer">
+      <span class="quote">"Take care of your body. It's the only place you have to live." — Jim Rohn</span>
+      <span class="brand">LAMIM · ${genDate}</span>
+    </div>
     <script>setTimeout(() => { window.print(); }, 800);</script>
     </body></html>`);
     win.document.close();

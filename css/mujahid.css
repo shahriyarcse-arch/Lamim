@@ -70,6 +70,206 @@
   box-shadow: 0 15px 25px rgba(239, 68, 68, 0.4);
 }
 
+/* ── HABIT CARD ACTION BUTTONS ── */
+.iw-top-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.iw-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.iw-icon-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.iw-icon-btn:active {
+  transform: translateY(0) scale(0.94);
+}
+
+/* Delete button → red tint on hover */
+.iw-top-actions .iw-icon-btn[title="Delete Habit"]:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #FCA5A5;
+}
+
+/* Relapse button */
+.iw-relapse-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+  border: 2px solid var(--color-surface-card, #1a1a24);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  z-index: 2;
+}
+
+.iw-relapse-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 22px rgba(239, 68, 68, 0.5);
+  filter: brightness(1.08);
+}
+
+.iw-relapse-btn:active {
+  transform: scale(0.94);
+}
+
+/* ── RELAPSE MODAL (modern) ── */
+.mujahid-relapse-modal {
+  border-top: 3px solid var(--color-accent-red, #ef4444) !important;
+}
+.mujahid-relapse-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent-red, #ef4444) !important;
+}
+.mujahid-relapse-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-accent-red, #ef4444);
+}
+.mujahid-relapse-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+.mujahid-relapse-textarea {
+  border-color: color-mix(in srgb, var(--color-accent-red, #ef4444) 25%, var(--color-border)) !important;
+}
+.mujahid-relapse-textarea:focus {
+  border-color: var(--color-accent-red, #ef4444) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+/* ── HISTORY MODAL (modern) ── */
+.mujahid-history-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mujahid-history-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-accent-red, #ef4444);
+}
+.mujahid-history-clear {
+  color: var(--color-accent-red, #ef4444) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  border-radius: 9px !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.mujahid-history-clear:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Relapse history items */
+.iw-relapse-item {
+  background: var(--color-surface-nested, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent-red, #ef4444);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.iw-relapse-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.iw-relapse-date {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+.iw-relapse-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-accent-red, #ef4444);
+  background: rgba(239, 68, 68, 0.12);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.iw-relapse-reason {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+/* Empty state */
+.iw-relapse-empty {
+  text-align: center;
+  padding: 30px 16px;
+}
+.iw-relapse-empty-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--color-accent-green, #10b981) 12%, transparent);
+  color: var(--color-accent-green, #10b981);
+}
+.iw-relapse-empty p {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+.iw-relapse-empty span {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* Light mode overrides for relapse/history modals */
+[data-theme="light"] .iw-relapse-item {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] .iw-relapse-date { color: #0f172a !important; }
+[data-theme="light"] .iw-relapse-reason { color: #475569 !important; }
+
 .mujahid-tool-btn.danger {
   border-color: rgba(239, 68, 68, 0.3);
   color: #ef4444;
@@ -106,6 +306,57 @@
    IRON WILL WIDGET (MUJAHID REDESIGN)
    ============================================= */
 /* === MUJAHID HABIT CARDS (HIGH-CONTRAST GLASS DESIGN) === */
+
+/* ── BADGE CONTAINER (Circle + Rank Pill) ── */
+.iw-badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 16px;
+}
+
+.iw-big-badge {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.iw-big-badge:hover {
+  transform: scale(1.08);
+}
+
+.iw-badge-inner {
+  font-size: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-color, #818cf8);
+}
+
+.iw-badge-inner svg {
+  width: 38px;
+  height: 38px;
+}
+
+.iw-rank-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
 .iron-will-widget {
   background: var(--color-surface-card);
   border: 1px solid color-mix(in srgb, var(--theme-color) 25%, var(--color-divider-strong));
@@ -120,14 +371,72 @@
   flex-direction: column;
   align-items: center;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  contain: layout paint style;
+}
+
+/* Limit repaint scope of the heavy badge glow animations */
+.iw-badge-container, .iw-mini-badges, .iw-big-badge {
+  contain: layout paint;
 }
 
 /* Dynamic Visual Theme Child Customizations */
 .iron-will-widget .iw-habit-pill {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  margin: 4px 0 2px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-align: center;
+  word-break: break-word;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   background: color-mix(in srgb, var(--theme-color) 12%, rgba(255, 255, 255, 0.02)) !important;
   color: var(--theme-color) !important;
   border: 1px solid color-mix(in srgb, var(--theme-color) 35%, transparent) !important;
   box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-color) 10%, transparent) !important;
+}
+
+.iron-will-widget .iw-habit-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--theme-color) 22%, transparent) !important;
+  background: color-mix(in srgb, var(--theme-color) 18%, rgba(255, 255, 255, 0.02)) !important;
+}
+
+.iron-will-widget .iw-habit-pill .iw-rank-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  margin-right: 10px;
+  border-radius: 999px;
+  vertical-align: middle;
+  background: color-mix(in srgb, var(--theme-color) 14%, rgba(255,255,255,0.06));
+  border: 1px solid color-mix(in srgb, var(--theme-color) 35%, transparent);
+}
+
+.iron-will-widget .iw-habit-pill .iw-year-tag {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  vertical-align: middle;
+  color: var(--theme-color);
+  background: color-mix(in srgb, var(--theme-color) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color) 40%, transparent);
+}
+.iw-habit-pill:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
 }
 
 .iron-will-widget .iw-timer-circle {
@@ -148,13 +457,7 @@
 
 .iron-will-widget .iw-big-badge {
   border-color: var(--theme-color) !important;
-  box-shadow: 0 0 15px color-mix(in srgb, var(--theme-color) 30%, transparent) !important;
-}
-
-[data-theme="light"] .iron-will-widget {
-  background: #F8FAFC;
-  border-color: color-mix(in srgb, var(--theme-color) 30%, #E2E8F0) !important;
-  box-shadow: 0 20px 60px -15px rgba(15, 23, 42, 0.12), 0 0 20px color-mix(in srgb, var(--theme-color) 5%, transparent) !important;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--theme-color) 25%, transparent) !important;
 }
 
 .iron-will-widget:hover {
@@ -181,10 +484,6 @@
   display: flex;
   align-items: center;
   transition: all 0.5s ease;
-}
-
-[data-theme="light"] .iw-quote {
-  color: #1E293B;
 }
 
 /* === MODERN MUJAHID FORGE === */
@@ -566,6 +865,14 @@
   text-align: center;
 }
 
+.spirit-bar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
 .spirit-bar-wrap {
   width: 100%;
   height: 6px;
@@ -587,9 +894,21 @@
   transition: all 0.3s ease;
 }
 
+.spirit-bar-pct {
+  font-size: 9px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
 .spirit-breakdown-item:hover .spirit-bar-label {
   color: white;
   opacity: 1;
+}
+
+.spirit-breakdown-item:hover .spirit-bar-pct {
+  color: white;
 }
 
 .spirit-bar-fill {
@@ -604,84 +923,657 @@
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
-/* ============ LIGHT MODE OVERRIDES ============ */
-[data-theme="light"] .mujahid-stat {
-  background: #f1f5f9;
+/* ============ COMPLETE LIGHT MODE CONTRAST FIXES ============ */
+
+/* ── WIDGET & CARD CONTAINERS ── */
+[data-theme="light"] .iron-will-widget {
+  background: #FFFFFF !important;
+  border-color: color-mix(in srgb, var(--theme-color) 25%, #E2E8F0) !important;
+  box-shadow: 0 15px 45px rgba(15, 23, 42, 0.06) !important;
 }
 
-[data-theme="light"] .mujahid-badge-item {
-  background: #f8fafc;
+[data-theme="light"] .iw-card-header,
+[data-theme="light"] .mujahid-card {
+  background: #FFFFFF !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08) !important;
 }
 
-[data-theme="light"] .mujahid-mini-day {
-  background: #f1f5f9;
+/* ── QUOTE & TEXT ── */
+[data-theme="light"] .iw-quote {
+  color: #1E293B !important;
 }
 
-[data-theme="light"] .mujahid-mini-day.clean {
-  background: rgba(34, 197, 94, 0.12);
+[data-theme="light"] .iw-title {
+  color: #0F172A !important;
+  font-weight: 800 !important;
 }
 
-[data-theme="light"] .mujahid-mini-day.slip {
-  background: rgba(239, 68, 68, 0.12);
+[data-theme="light"] .iw-subtitle {
+  color: #475569 !important;
+  font-weight: 600 !important;
 }
 
-[data-theme="light"] .mujahid-timer-display {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04));
+[data-theme="light"] .iw-streak-val {
+  color: #0F172A !important;
+  text-shadow: none !important;
 }
 
-[data-theme="light"] .mujahid-time-card {
-  background: rgba(99, 102, 241, 0.06);
+[data-theme="light"] .iw-streak-label {
+  color: #475569 !important;
 }
 
-[data-theme="light"] .mujahid-add-card-btn {
-  background: rgba(99, 102, 241, 0.06);
-  border-color: rgba(99, 102, 241, 0.3);
+[data-theme="light"] .iw-habit-pill {
+  background: color-mix(in srgb, var(--theme-color) 10%, #F1F5F9) !important;
+  color: var(--theme-color) !important;
+  font-weight: 900 !important;
 }
 
-[data-theme="light"] .mujahid-add-card-btn:hover {
-  background: rgba(99, 102, 241, 0.12);
+/* ── TIMER CIRCLE ── */
+[data-theme="light"] .iw-timer-circle {
+  background: radial-gradient(circle, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.03) !important;
 }
 
-[data-theme="light"] .mujahid-history-item {
-  background: #f8fafc;
-  border-color: #e2e8f0;
+[data-theme="light"] .iw-timer-label {
+  color: #475569 !important;
+  font-weight: 800 !important;
 }
 
-[data-theme="light"] .history-date-row {
-  color: #94a3b8;
+[data-theme="light"] .iw-timer-days {
+  color: #0F172A !important;
 }
 
-[data-theme="light"] .history-streak-pill {
-  background: rgba(239, 68, 68, 0.06);
+[data-theme="light"] .iw-days-text {
+  color: #475569 !important;
 }
 
-[data-theme="light"] .mujahid-hero-glass {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+[data-theme="light"] .iw-timer-unit .mujahid-time-num {
+  color: #0F172A !important;
 }
 
-[data-theme="light"] .mujahid-hero-icon-orbit {
-  background: rgba(99, 102, 241, 0.06);
-  border-color: rgba(99, 102, 241, 0.15);
+[data-theme="light"] .iw-unit-label {
+  color: #64748B !important;
 }
 
-[data-theme="light"] .mujahid-hero-icon-glow {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+/* ── BADGES ── */
+[data-theme="light"] .iw-big-badge {
+  background: color-mix(in srgb, var(--theme-color) 5%, #F8FAFC) !important;
+  border-color: color-mix(in srgb, var(--theme-color) 30%, #E2E8F0) !important;
 }
 
-[data-theme="light"] .mujahid-habits-grid::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+[data-theme="light"] .iw-badge-inner {
+  color: var(--theme-color, #4F46E5) !important;
 }
 
-[data-theme="light"] .mujahid-habits-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.15);
+[data-theme="light"] .iw-rank-pill {
+  background: color-mix(in srgb, var(--theme-color) 8%, #F1F5F9) !important;
+  color: var(--theme-color, #4F46E5) !important;
 }
 
-[data-theme="light"] .spirit-bar-wrap {
-  background: #e2e8f0;
+[data-theme="light"] .iw-mini-badge.earned {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
+}
+
+[data-theme="light"] .iw-mini-badge.locked {
+  background: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+  color: #64748B !important;
+}
+
+[data-theme="light"] .iw-year-tag {
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: #4F46E5 !important;
+}
+
+/* ── SPIRIT SCORE ── */
+[data-theme="light"] .spirit-score-label {
+  color: #475569 !important;
+  letter-spacing: 2px !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="light"] .spirit-score-val {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED, #9333EA, #4F46E5) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: 0 10px 20px rgba(99, 102, 241, 0.15) !important;
+}
+
+[data-theme="light"] .spirit-score-sub {
+  color: #475569 !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="light"] .spirit-bar-label {
-  color: #94a3b8;
+  color: #1E293B !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+[data-theme="light"] .spirit-bar-pct {
+  color: #475569 !important;
+  font-weight: 900 !important;
+}
+
+[data-theme="light"] .spirit-bar-wrap {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+
+[data-theme="light"] .spirit-score-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%) !important;
+}
+
+[data-theme="light"] .mujahid-spirit-score-wrap {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── ICONS & BUTTONS ── */
+[data-theme="light"] .iw-icon-btn {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .iw-icon-btn:hover {
+  background: rgba(15, 23, 42, 0.09) !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .iw-top-actions .iw-icon-btn[title="Delete Habit"]:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  color: #DC2626 !important;
+}
+
+[data-theme="light"] .iw-relapse-btn {
+  border-color: #FFFFFF !important;
+}
+
+[data-theme="light"] .forge-action-btn {
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3) !important;
+}
+
+[data-theme="light"] .mujahid-tool-btn {
+  color: #475569 !important;
+}
+
+/* ── ADD PILLAR ── */
+[data-theme="light"] .mujahid-add-pillar {
+  background: #FFFFFF !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
+  color: #6366F1 !important;
+}
+
+[data-theme="light"] .mujahid-add-pillar:hover {
+  background: rgba(99, 102, 241, 0.04) !important;
+  border-color: #6366F1 !important;
+}
+
+/* ── WEEK CALENDAR ── */
+[data-theme="light"] .mujahid-week-day {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-week-day-name {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .mujahid-week-check {
+  color: #16A34A !important;
+}
+
+[data-theme="light"] .mujahid-week-x {
+  color: #DC2626 !important;
+}
+
+/* ── HISTORY ── */
+[data-theme="light"] .mujahid-history-item {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .history-date-row {
+  color: #64748B !important;
+}
+
+[data-theme="light"] .history-streak-pill {
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #DC2626 !important;
+}
+
+[data-theme="light"] .mujahid-badge-item {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-badge-days {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .mujahid-badges-title {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .mujahid-mini-day {
+  background: #FFFFFF !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .mujahid-mini-day.clean {
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+
+[data-theme="light"] .mujahid-mini-day.slip {
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* ── HERO SECTION ── */
+[data-theme="light"] .mujahid-hero-glass {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="light"] .mujahid-hero-icon-orbit {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.2) !important;
+}
+
+[data-theme="light"] .mujahid-hero-icon-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%) !important;
+}
+
+[data-theme="light"] .mujahid-hero-shield {
+  opacity: 0.9 !important;
+  color: #6366F1 !important;
+}
+
+[data-theme="light"] .mujahid-hero-sword {
+  opacity: 0.7 !important;
+  color: #6366F1 !important;
+}
+
+[data-theme="light"] .mujahid-hero-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%) !important;
+}
+
+/* ── STAT CARDS ── */
+[data-theme="light"] .mujahid-stat {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-time-card {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-timer-display {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04)) !important;
+}
+
+[data-theme="light"] .mujahid-add-card-btn {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: #4F46E5 !important;
+}
+
+[data-theme="light"] .mujahid-add-card-btn:hover {
+  background: rgba(99, 102, 241, 0.12) !important;
+}
+
+/* ── FORGE / INPUTS ── */
+[data-theme="light"] .mujahid-forge-title {
+  background: linear-gradient(to bottom, #1E293B, rgba(30, 41, 59, 0.7)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-theme="light"] .mujahid-forge-field {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+  color-scheme: light !important;
+}
+
+[data-theme="light"] .mujahid-forge-field::placeholder {
+  color: #94A3B8 !important;
+}
+
+[data-theme="light"] .mujahid-forge-input-wrap {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+/* ── MODALS ── */
+[data-theme="light"] #mujahid-add-modal .modal,
+[data-theme="light"] #mujahid-startdate-modal .modal,
+[data-theme="light"] #mujahid-relapse-modal .modal,
+[data-theme="light"] #mujahid-history-modal .modal {
+  background: #FFFFFF !important;
+  border-color: color-mix(in srgb, var(--theme-color) 30%, #E2E8F0) !important;
+  box-shadow: 0 15px 45px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Mujahid section top buttons — clean modern (red/purple theme) */
+#section-mujahid .section-tools-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-accent-red, #ef4444);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  box-shadow: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+#section-mujahid .section-tools-btn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+#section-mujahid .section-tools-btn:active {
+  transform: scale(0.94);
+}
+
+#section-mujahid .section-tools-btn[title="Calm Breathing"],
+#section-mujahid .section-tools-btn[onclick*="showBreathingExercise"] {
+  color: #a855f7;
+}
+
+#section-mujahid .section-tools-btn[onclick*="showBreathingExercise"]:hover {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #c084fc;
+}
+
+[data-theme="light"] #section-mujahid .section-tools-btn {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #dc2626;
+}
+
+[data-theme="light"] #section-mujahid .section-tools-btn[onclick*="showBreathingExercise"] {
+  color: #9333ea;
+}
+
+[data-theme="light"] #section-mujahid .section-tools-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] #mujahid-tools-modal .modal {
+  background: #FFFFFF !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .mujahid-habit-option {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-habit-option:hover {
+  background: #F8FAFC !important;
+  border-color: color-mix(in srgb, var(--habit-color) 50%, #CBD5E1) !important;
+}
+
+[data-theme="light"] .mujahid-habit-option.active {
+  background: color-mix(in srgb, var(--habit-color) 8%, #FFFFFF) !important;
+  border-color: var(--habit-color) !important;
+}
+
+[data-theme="light"] .mujahid-habit-option-icon {
+  background: color-mix(in srgb, var(--habit-color) 10%, #F1F5F9) !important;
+}
+
+[data-theme="light"] .mujahid-habit-option-label {
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .mujahid-icon-option {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .mujahid-icon-option.active {
+  background: #6366F1 !important;
+  color: #FFFFFF !important;
+}
+
+/* ── DHIKR ── */
+[data-theme="light"] .dhikr-log-card .card-title {
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .dhikr-history-date {
+  color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="light"] .dhikr-history-total {
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="light"] .dhikr-history-card {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* ── QUICK DATE ── */
+[data-theme="light"] .quick-date-btn {
+  background: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .quick-date-btn:hover {
+  background: #F1F5F9 !important;
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .quick-date-btn.active {
+  background: var(--theme-color, #6366F1) !important;
+  color: #FFFFFF !important;
+  border-color: var(--theme-color, #6366F1) !important;
+}
+
+/* ── SCROLLBAR ── */
+[data-theme="light"] .mujahid-habits-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ── ICONS/EMOJI SATURATION ── */
+[data-theme="light"] .iw-big-badge svg,
+[data-theme="light"] .iw-badge-inner svg,
+[data-theme="light"] .mujahid-hero-icon-orbit svg,
+[data-theme="light"] .mujahid-habit-option-icon svg,
+[data-theme="light"] .mujahid-icon-option svg {
+  filter: saturate(1.5) contrast(1.1);
+}
+
+[data-theme="light"] #mujahid-add-modal [style*="color:rgba(255,255,255,0.5)"],
+[data-theme="light"] #mujahid-add-modal [style*="color:rgba(255,255,255,0.4)"] {
+  color: #64748B !important;
+}
+
+/* ============ COMPLETE DARK MODE CONTRAST FIXES ============ */
+
+/* Dark mode: timer elements must pop against dark bg */
+[data-theme="dark"] .iron-will-widget .iw-timer-circle {
+  background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(255,255,255,0.01) 100%) !important;
+}
+
+[data-theme="dark"] .iw-timer-label {
+  color: rgba(255,255,255,0.5) !important;
+}
+
+[data-theme="dark"] .iw-days-text {
+  color: rgba(255,255,255,0.55) !important;
+}
+
+[data-theme="dark"] .iw-unit-label {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+[data-theme="dark"] .iw-timer-days {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .iw-timer-unit .mujahid-time-num {
+  color: var(--theme-color) !important;
+}
+
+[data-theme="dark"] .iw-quote {
+  color: rgba(255,255,255,0.75) !important;
+}
+
+[data-theme="dark"] .spirit-score-label {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+[data-theme="dark"] .spirit-score-val {
+  background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.7)) !important;
+  -webkit-background-clip: text !important;
+}
+
+[data-theme="dark"] .spirit-score-sub {
+  color: rgba(255,255,255,0.45) !important;
+}
+
+[data-theme="dark"] .spirit-bar-label {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+[data-theme="dark"] .spirit-breakdown-item:hover .spirit-bar-label {
+  color: #fff !important;
+}
+
+[data-theme="dark"] .iw-badge-inner {
+  color: var(--theme-color, #818cf8) !important;
+}
+
+[data-theme="dark"] .iw-big-badge {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: var(--theme-color) !important;
+}
+
+[data-theme="dark"] .iw-rank-pill {
+  background: color-mix(in srgb, var(--theme-color) 10%, rgba(255,255,255,0.02)) !important;
+  color: var(--theme-color) !important;
+}
+
+[data-theme="dark"] .iw-mini-badge.locked {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.2) !important;
+}
+
+[data-theme="dark"] .iw-mini-badge.earned {
+  background: rgba(255,255,255,0.08) !important;
+}
+
+[data-theme="dark"] .iw-year-tag {
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+[data-theme="dark"] .mujahid-add-pillar {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+[data-theme="dark"] .mujahid-add-pillar:hover {
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(99,102,241,0.3) !important;
+  color: #fff !important;
+}
+
+[data-theme="dark"] .mujahid-week-day {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+[data-theme="dark"] .mujahid-week-day-name {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+[data-theme="dark"] .mujahid-history-item {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+[data-theme="dark"] .history-date-row {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+[data-theme="dark"] .mujahid-badge-item {
+  background: rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+[data-theme="dark"] .mujahid-badge-days {
+  color: rgba(255,255,255,0.4) !important;
+}
+
+[data-theme="dark"] .mujahid-badges-title {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+[data-theme="dark"] .mujahid-tool-btn {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+[data-theme="dark"] .quick-date-btn {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.6) !important;
+}
+
+[data-theme="dark"] .quick-date-btn:hover {
+  color: #fff !important;
+}
+
+[data-theme="dark"] .mujahid-mini-day {
+  background: rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.6) !important;
+}
+
+[data-theme="dark"] .history-streak-pill {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #f87171 !important;
+}
+
+[data-theme="dark"] .relapse-toast-link {
+  color: #fff !important;
+}
+
+/* Respect reduced-motion: disable the heavy filter/drop-shadow badge animations */
+@media (prefers-reduced-motion: reduce) {
+  .iron-will-widget .iw-mini-badge,
+  .iron-will-widget .iw-big-badge,
+  .iron-will-widget.is-legendary .iw-badge-inner,
+  .iron-will-widget .iw-particles,
+  .iw-year-tag,
+  .iw-rank-tag {
+    animation: none !important;
+  }
 }
