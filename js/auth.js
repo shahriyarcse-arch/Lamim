@@ -173,25 +173,16 @@ const Auth = {
     if (icon) icon.classList.add('rotating');
     if (err) err.classList.remove('show');
 
-    const updateFields = async (lat, lng, isIP = false) => {
+    const updateFields = (lat, lng) => {
       if (latInput) latInput.value = lat.toFixed(6);
       if (lngInput) lngInput.value = lng.toFixed(6);
-
-      let locationName = '';
-      try {
-        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
-        const data = await res.json();
-        const city = data.city || data.locality || '';
-        const country = data.countryName || '';
-        locationName = city && country ? `${city}, ${country}` : (city || country || 'Detected Location');
-      } catch (geocodeErr) {
-        locationName = isIP ? 'Detected via IP' : (lat.toFixed(2) + ', ' + lng.toFixed(2));
-      }
-
-      if (statusText) statusText.textContent = `Detected: ${locationName}`;
-      Utils.toast(`Location detected: ${locationName}`, 'success');
-      if (icon) icon.classList.remove('rotating');
-      this._isSyncingLocation = false;
+      // Instant cached name + background refresh via shared helper
+      Utils.reverseGeocode(lat, lng, (name) => {
+        if (statusText) statusText.textContent = `Detected: ${name}`;
+        Utils.toast(`Location detected: ${name}`, 'success');
+        if (icon) icon.classList.remove('rotating');
+        this._isSyncingLocation = false;
+      });
     };
 
     if (!navigator.geolocation) {
@@ -214,7 +205,7 @@ const Auth = {
       const res = await fetch('https://ipapi.co/json/');
       const data = await res.json();
       if (data.latitude && data.longitude) {
-        updateFields(data.latitude, data.longitude, true);
+        updateFields(data.latitude, data.longitude);
       } else {
         throw new Error("IP Geolocation failed");
       }

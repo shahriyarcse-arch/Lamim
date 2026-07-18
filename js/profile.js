@@ -786,29 +786,25 @@ const Profile = {
     }
     icons.forEach(icon => icon.classList.add('rotating'));
 
-    const updateFinalLocation = async (lat, lng, isIP = false) => {
+    const updateFinalLocation = (lat, lng) => {
       const settings = DB.getSettings();
       settings.lat = lat;
       settings.lng = lng;
+      DB.setSettings(settings);
+      this.renderSettings();
+      // Instant: coordinates are local; refine the city name in the background
+      window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+      Utils.toast('Location synced', 'success');
+      icons.forEach(icon => icon.classList.remove('rotating'));
+      this._isSyncingLocation = false;
 
-try {
-         const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`);
-         const data = await res.json();
-         const city = data.city || data.locality || '';
-         const country = data.countryName || '';
-         settings.locationName = city && country ? `${city}, ${country}` : (city || country || 'Unknown Location');
-       } catch (err) {
-         settings.locationName = isIP ? 'Detected via IP' : (lat.toFixed(2) + ', ' + lng.toFixed(2));
-       }
-
-       DB.setSettings(settings);
-       this.renderSettings();
-       // Recompute prayer times / timeline for the new location
-       window.dispatchEvent(new CustomEvent('lamim:data-updated'));
-       const successMsg = settings.locationName ? `Location synced: ${settings.locationName}` : 'Location updated successfully!';
-       Utils.toast(successMsg, 'success');
-       icons.forEach(icon => icon.classList.remove('rotating'));
-       this._isSyncingLocation = false;
+      Utils.reverseGeocode(lat, lng, (name) => {
+        const s = DB.getSettings();
+        s.locationName = name;
+        DB.setSettings(s);
+        this.renderSettings();
+        window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+      });
     };
 
     // Strategy 1: High-precision Geolocation (GPS/WiFi)
@@ -821,7 +817,7 @@ try {
           const res = await fetch('https://ipapi.co/json/');
           const data = await res.json();
           if (data.latitude && data.longitude) {
-            updateFinalLocation(data.latitude, data.longitude, true);
+            updateFinalLocation(data.latitude, data.longitude);
           } else {
             throw new Error("IP Geolocation failed");
           }

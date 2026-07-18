@@ -274,6 +274,19 @@ const Finance = {
   },
 
   async fetchExchangeRate() {
+    // Instant: apply last cached rate immediately (no network wait)
+    try {
+      const raw = localStorage.getItem('lamim_fx_rate');
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (p && p.rate && p.rate !== this.exchangeRate) {
+          this.exchangeRate = p.rate;
+          this.render();
+        }
+      }
+    } catch (e) { /* ignore */ }
+
+    // Background: refresh from network and cache the result
     try {
       const res = await fetch('https://open.er-api.com/v6/latest/USD');
       const data = await res.json();
@@ -290,6 +303,7 @@ const Finance = {
              if (title === 'Finance Settings') this.showToolsModal();
           }
         }
+        try { localStorage.setItem('lamim_fx_rate', JSON.stringify({ ts: Date.now(), rate: newRate })); } catch (e) { /* ignore */ }
       }
     } catch (e) {}
   },

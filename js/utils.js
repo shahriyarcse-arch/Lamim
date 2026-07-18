@@ -229,7 +229,7 @@ const Utils = {
     if (this._lastTravelCheck && now - this._lastTravelCheck < 15 * 60 * 1000) return;
     this._lastTravelCheck = now;
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
+    navigator.geolocation.getCurrentPosition((pos) => {
       const nLat = pos.coords.latitude;
       const nLng = pos.coords.longitude;
       if (this._haversineKm(settings.lat, settings.lng, nLat, nLng) < 30) return;
@@ -237,19 +237,16 @@ const Utils = {
       const s = DB.getSettings();
       s.lat = nLat;
       s.lng = nLng;
-      try {
-        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${nLat}&longitude=${nLng}&localityLanguage=en`);
-        const data = await res.json();
-        const city = data.city || data.locality || '';
-        const country = data.countryName || '';
-        s.locationName = city && country ? `${city}, ${country}` : `${nLat.toFixed(2)}, ${nLng.toFixed(2)}`;
-      } catch (e) {
-        // Offline / geocoder down — keep real coordinates so the move is still recorded
-        s.locationName = `${nLat.toFixed(2)}, ${nLng.toFixed(2)}`;
-      }
       DB.setSettings(s);
+      // Instant: coordinates are local; refine the city name in the background
       window.dispatchEvent(new CustomEvent('lamim:data-updated'));
-      Utils.toast(`Location updated: ${s.locationName}`, 'success');
+      Utils.toast('Location updated', 'success');
+      Utils.reverseGeocode(nLat, nLng, (name) => {
+        const s2 = DB.getSettings();
+        s2.locationName = name;
+        DB.setSettings(s2);
+        window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+      });
     }, () => { /* denied / unavailable — keep previous location */ }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 600000 });
   },
 
@@ -259,6 +256,44 @@ const Utils = {
     const dLon = (lo2 - lo1) * Math.PI / 180;
     const a = Math.sin(dLat / 2) ** 2 + Math.cos(la1 * Math.PI / 180) * Math.cos(la2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  },
+
+  // Reverse-geocode with last-result caching: emits the cached city name IMMEDIATELY
+  // (instant, no network wait), then refreshes from the network in the background.
+  // Falls back to IP geolocation, then to raw coordinates if everything fails.
+  reverseGeocode(lat, lng, cb) {
+    const key = 'geo:' + lat.toFixed(1) + ',' + lng.toFixed(1);
+    const fallbackName = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+    let servedCache = false;
+
+    // 1) Instant: serve cached result (if any) before touching the network
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (cb) cb(p.name || fallbackName);
+        servedCache = true;
+      }
+    } catch (e) { /* ignore */ }
+
+    const cacheAndEmit = (city, country) => {
+      const name = city && country ? `${city}, ${country}` : (city || country || fallbackName);
+      try { localStorage.setItem(key, JSON.stringify({ city, country, name })); } catch (e) { /* ignore */ }
+      if (cb) cb(name);
+    };
+
+    // 2) Background: refresh from network
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`)
+      .then((r) => r.json())
+      .then((data) => cacheAndEmit(data.city || data.locality || '', data.countryName || ''))
+      .catch(() => {
+        // Network geocode failed — only fall back to IP if we had no cache at all
+        if (servedCache) return;
+        fetch('https://ipapi.co/json/')
+          .then((r) => r.json())
+          .then((d) => { if (d && d.latitude && d.longitude) cacheAndEmit(d.city || '', d.country_name || ''); else if (cb) cb(fallbackName); })
+          .catch(() => { if (cb) cb(fallbackName); });
+      });
   },
 
   uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); },
