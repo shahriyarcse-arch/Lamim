@@ -4399,6 +4399,7 @@
       transparent);
   transform: rotate(35deg);
   animation: mujahid-glossy-sweep 3s infinite;
+  will-change: transform;
   pointer-events: none;
 }
 
@@ -4457,11 +4458,11 @@
 
 @keyframes mujahid-glossy-sweep {
   0% {
-    left: -60%;
+    transform: translateX(0) rotate(35deg);
   }
 
   100% {
-    left: 160%;
+    transform: translateX(1100%) rotate(35deg);
   }
 }
 

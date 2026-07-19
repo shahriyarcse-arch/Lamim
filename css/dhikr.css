@@ -78,7 +78,7 @@
   display: flex;
   width: fit-content;
   white-space: nowrap;
-  animation: marqueeTicker 35s linear infinite;
+  will-change: transform;
   font-size: var(--text-sm);
   font-style: italic;
   font-weight: var(--fw-medium);
@@ -881,6 +881,11 @@
   overflow: hidden;
 }
 
+@keyframes glossy-sweep {
+  0% { transform: translateX(0) rotate(45deg); }
+  100% { transform: translateX(150%) rotate(45deg); }
+}
+
 .nafl-hero-banner::after {
   content: '';
   position: absolute;
@@ -1149,7 +1154,7 @@
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: text-shimmer 4s linear infinite;
+  animation: textShimmer 4s linear infinite;
 }
 
 [data-theme="light"] .salah-shimmer-text {
@@ -1157,7 +1162,7 @@
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: text-shimmer 4s linear infinite;
+  animation: textShimmer 4s linear infinite;
 }
 
 .h-pill.missed {
