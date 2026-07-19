@@ -1,0 +1,67 @@
+/* ============================================================
+   LAMIM — RESPONSIVE SYSTEM
+   Loaded LAST so it overrides per-section grids.
+   Breakpoints:
+     320–380  extra-small phones
+     381–480  phones
+     481–768  large phones / small tablets
+     769–1024 tablets  (sidebar collapses -> bottom-nav)
+     1025–1440 desktop
+     1441+    ultrawide (content capped, not stretched)
+   ============================================================ */
+
+/* ---------- DESKTOP / ULTRAWIDE: cap reading width ---------- */
+@media (min-width: 1025px) {
+  .section-panel {
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+}
+
+/* ---------- PHONES (<=480px): protect content, collapse grids ---------- */
+@media (max-width: 480px) {
+  /* Tighten modals so they never touch screen edges awkwardly */
+  .modal { padding: var(--space-4); }
+  .modal .modal-footer,
+  .confirm-actions,
+  .danger-actions {
+    flex-direction: column-reverse;
+    gap: var(--space-2);
+  }
+  .modal .modal-footer .btn,
+  .confirm-actions .btn,
+  .danger-actions .btn { width: 100%; }
+
+  /* Hard-coded multi-column grids -> 2 columns */
+  .finance-summary,
+  .analysis-quick-stats,
+  .mujahid-timer-display,
+  .fin-delete-info,
+  .history-premium-summary,
+  .vault-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .vault-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)) !important;
+  }
+}
+
+/* ---------- EXTRA-SMALL PHONES (<=380px): single column ---------- */
+@media (max-width: 380px) {
+  .finance-summary,
+  .analysis-quick-stats,
+  .mujahid-timer-display,
+  .fin-delete-info,
+  .history-premium-summary { grid-template-columns: 1fr !important; }
+}
+
+/* ---------- COARSE POINTER (touch): enlarge hit targets ---------- */
+@media (pointer: coarse) {
+  .modal-close { width: 40px; height: 40px; }
+  .btn-icon-sm { width: 36px; height: 36px; }
+  .fin-nav-arrow { width: 36px; height: 36px; }
+  .bottom-nav-item { min-width: 56px; }
+}
+
+/* ---------- GLOBAL MEDIA SAFETY (prevent any overflow bleed) ---------- */
+img, svg, video, canvas { max-width: 100%; }
