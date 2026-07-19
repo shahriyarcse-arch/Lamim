@@ -314,7 +314,7 @@
 .finance-nav-btn:hover { background: color-mix(in srgb, var(--color-accent-green) 15%, transparent); border-color: color-mix(in srgb, var(--color-accent-green) 30%, transparent); }
 .fin-control-divider { width: 1px; height: 24px; background: var(--color-divider-strong); margin: 0 12px; }
 .fin-currency-toggle { display: flex; gap: 4px; background: var(--color-surface-nested, rgba(255,255,255,0.05)); padding: 4px; border-radius: 10px; border: 1px solid var(--color-divider-strong); }
-.fin-currency-btn { padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 13px; color: var(--color-text-muted); transition: all 0.2s; }
+.fin-currency-btn { padding: 6px 12px; border-radius: var(--radius-md); cursor: pointer; font-weight: 800; font-size: 13px; color: var(--color-text-muted); transition: all 0.2s; }
 .fin-currency-btn.active { background: #059669; color: #fff; }
 
 /* ---- Settings modal (Finance Settings page) ---- */

@@ -38,32 +38,26 @@
 
 .qf-glitch {
   position: relative;
-  animation: qf-glitch-anim 0.4s infinite;
+  animation: qf-glitch-anim 3s steps(1, end) infinite;
 }
 
 @keyframes qf-glitch-anim {
-  0% {
-    transform: translate(0);
-  }
-
-  20% {
-    transform: translate(-2px, 1px);
-  }
-
-  40% {
-    transform: translate(-2px, -1px);
-  }
-
-  60% {
-    transform: translate(2px, 1px);
-  }
-
-  80% {
-    transform: translate(2px, -1px);
-  }
-
+  0%,
+  92%,
   100% {
     transform: translate(0);
+  }
+
+  94% {
+    transform: translate(-1px, 1px);
+  }
+
+  96% {
+    transform: translate(1px, -1px);
+  }
+
+  98% {
+    transform: translate(-1px, 0);
   }
 }
 
@@ -126,20 +120,19 @@
 .qf-hologram {
   color: #22d3ee;
   text-shadow: 0 0 5px #22d3ee;
-  opacity: 0.8;
-  animation: qf-hologram-flicker 0.1s infinite;
+  opacity: 0.85;
+  animation: qf-hologram-flicker 4s ease-in-out infinite;
 }
 
 @keyframes qf-hologram-flicker {
 
   0%,
   100% {
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
   50% {
-    opacity: 0.7;
-    transform: skewX(1deg);
+    opacity: 0.65;
   }
 }
 

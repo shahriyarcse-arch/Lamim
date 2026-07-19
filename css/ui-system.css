@@ -1,0 +1,193 @@
+/* ============================================================
+   LAMIM — UI SYSTEM LAYER
+   Centralized interactive states for production quality.
+   Loaded AFTER component CSS so it can consistently extend
+   the shared .btn / .input / .card system with proper
+   focus / hover / active / disabled / loading / empty / error states.
+   ============================================================ */
+
+/* ---------- FOCUS (accessibility) ---------- */
+button:focus-visible,
+.btn:focus-visible,
+.btn-icon:focus-visible,
+.btn-icon-sm:focus-visible,
+.nav-action:focus-visible,
+.icon-btn:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+.settings-item:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.45);
+}
+
+.input:focus-visible,
+select.input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.18);
+}
+
+/* ---------- DISABLED ---------- */
+button:disabled,
+.btn:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+.fin-currency-btn:disabled,
+.mujahid-hero-btn:disabled,
+[disabled] {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+/* ---------- UNIFIED BUTTON MOTION (consistency) ---------- */
+.btn-icon,
+.btn-icon-sm,
+.nav-action,
+.icon-btn,
+.tab-btn,
+.lang-toggle-pill button,
+.mujahid-hero-btn,
+.fin-currency-btn,
+.confirm-btn {
+  transition: transform var(--transition-fast), background var(--transition-fast),
+    box-shadow var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), filter var(--transition-fast);
+}
+
+.btn-icon:hover,
+.btn-icon-sm:hover,
+.nav-action:hover,
+.icon-btn:hover,
+.tab-btn:hover,
+.lang-toggle-pill button:hover,
+.mujahid-hero-btn:hover,
+.confirm-btn:hover {
+  filter: brightness(1.12);
+}
+
+.btn-icon:active,
+.btn-icon-sm:active,
+.nav-action:active,
+.icon-btn:active,
+.tab-btn:active,
+.lang-toggle-pill button:active,
+.mujahid-hero-btn:active,
+.fin-currency-btn:active,
+.confirm-btn:active {
+  transform: scale(0.96);
+}
+
+/* ---------- FIN-CURRENCY-BTN STATES (was missing) ---------- */
+.fin-currency-btn { background: transparent; }
+.fin-currency-btn:hover { background: var(--color-glass-hover); color: var(--color-text-secondary); }
+.fin-currency-btn.active:hover { background: #059669; color: #fff; }
+.fin-currency-btn:focus-visible { box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.4); }
+.fin-currency-btn.active {
+  background: #059669;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+
+/* ---------- LOADING STATES ---------- */
+.ui-spinner {
+  display: inline-block;
+  width: 22px; height: 22px;
+  border: 2.5px solid var(--color-loader-track);
+  border-top-color: var(--color-loader-fill);
+  border-radius: 50%;
+  animation: ui-spin 0.7s linear infinite;
+  vertical-align: middle;
+}
+.ui-spinner.sm { width: 16px; height: 16px; border-width: 2px; }
+.ui-spinner.lg { width: 34px; height: 34px; border-width: 3px; }
+@keyframes ui-spin { to { transform: rotate(360deg); } }
+
+/* Button busy state (keeps layout, shows spinner) */
+.is-loading { position: relative; color: transparent !important; pointer-events: none; }
+.is-loading::after {
+  content: "";
+  position: absolute; top: 50%; left: 50%;
+  width: 18px; height: 18px; margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: ui-spin 0.7s linear infinite;
+}
+
+/* Skeleton placeholder */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.09) 37%,
+    rgba(255, 255, 255, 0.04) 63%);
+  background-size: 400% 100%;
+  animation: ui-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-md);
+}
+@keyframes ui-shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* ---------- EMPTY STATES (polished, consistent) ---------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+.empty-state .empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px; height: 84px;
+  border-radius: var(--radius-full);
+  background: var(--color-glass);
+  border: 1px solid var(--color-border);
+  font-size: 2.25rem;
+  opacity: 0.9;
+  margin-bottom: var(--space-2);
+}
+.empty-state h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+.empty-state p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 320px;
+  line-height: 1.6;
+}
+.empty-state .btn { margin-top: var(--space-4); }
+
+/* ---------- INLINE STATUS PILLS (success / error / info) ---------- */
+.ui-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+}
+.ui-status.success { background: rgba(52, 211, 153, 0.12); color: var(--color-accent-green); border-color: rgba(52, 211, 153, 0.25); }
+.ui-status.error   { background: rgba(248, 113, 113, 0.12); color: var(--color-accent-red);   border-color: rgba(248, 113, 113, 0.25); }
+.ui-status.info    { background: var(--color-glass-active);   color: var(--color-accent-primary); border-color: rgba(167, 139, 250, 0.25); }
+
+/* ---------- REDUCED MOTION (accessibility / health) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
