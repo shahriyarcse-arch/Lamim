@@ -360,6 +360,7 @@ const Utils = {
 
   // Motivational quotes (updates every minute with Bengali translation)
   getQuote() {
+    this.ensureVerses();
     const defaultQuotes = [
       { arabic: 'إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا', translation: 'নিশ্চয়ই সালাত বিশ্বাসীদের ওপর নির্দিষ্ট সময়ের জন্য নির্ধারিত। (৪:১০৩)' },
       { arabic: 'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ', translation: 'জেনে রেখো, আল্লাহর স্মরণেই কেবল অন্তরসমূহ প্রশান্তি পায়। (১৩:২৮)' },
@@ -373,6 +374,20 @@ const Utils = {
     const now = new Date();
     const totalMinutes = Math.floor(now.getTime() / 60000);
     return quotes[totalMinutes % quotes.length];
+  },
+
+  // Lazily fetch the large Quran verse dataset (js/verses.json ~3.6MB) once, off the startup path.
+  _versesLoading: false,
+  ensureVerses() {
+    if (this._versesLoading || (window.LamimVerses && window.LamimVerses.length)) return;
+    this._versesLoading = true;
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 8000);
+    fetch('js/verses.json', { signal: ctrl.signal })
+      .then(r => r.json())
+      .then(d => { window.LamimVerses = d; })
+      .catch(e => { if (e.name !== 'AbortError') console.warn('verses load failed', e); })
+      .finally(() => { clearTimeout(to); this._versesLoading = false; });
   },
 
   // Accurate Confirmation Modal

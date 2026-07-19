@@ -2,17 +2,8 @@
    LAMIM — MAIN APP ROUTER & INIT
    ============================================= */
 
-// Load Quran verses
-window.LamimVerses = [];
-const _versesController = new AbortController();
-const _versesTimeout = setTimeout(() => _versesController.abort(), 5000);
-fetch('js/verses.json', { signal: _versesController.signal })
-  .then(res => res.json())
-  .then(data => { window.LamimVerses = data; })
-  .catch(err => {
-    if (err.name !== 'AbortError') console.error('Failed to load verses:', err);
-  })
-  .finally(() => clearTimeout(_versesTimeout));
+// Quran verses are loaded lazily (see Utils.ensureVerses) to keep startup fast.
+window.LamimVerses = window.LamimVerses || [];
 
 const App = {
   currentSection: '',
@@ -217,7 +208,7 @@ updateSectionTitle() {
     // Splash → route (offline boot sequence)
     this._bootComplete = false;
     setTimeout(() => {
-      document.getElementById('splash')?.classList.add('hidden');
+      this._hideSplash();
       
       const user = DB.getUser();
       
@@ -235,7 +226,7 @@ updateSectionTitle() {
     setTimeout(() => {
       if (this._bootComplete) return; 
       console.warn('[Boot] Safety fallback triggered');
-      document.getElementById('splash')?.classList.add('hidden');
+      this._hideSplash();
       if (DB.getUser()) {
         this.showDashboard();
         this.checkBackupReminder();
@@ -289,6 +280,15 @@ updateSectionTitle() {
         this.navigateTo('salah', true);
       }
     });
+  },
+
+  _hideSplash() {
+    const s = document.getElementById('splash');
+    if (!s || s.dataset.hidden) return;
+    s.dataset.hidden = '1';
+    s.classList.add('hidden');
+    // Fully remove from render tree so the heavy blurred blobs stop animating (GPU/CPU).
+    setTimeout(() => { s.style.display = 'none'; }, 650);
   },
 
   showPage(page) {
