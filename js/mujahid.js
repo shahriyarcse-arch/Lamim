@@ -534,7 +534,7 @@ const Mujahid = {
       const pct = this.getProgressPercent(fractional);
       const nextBadge = this.badges.find(b => b.days > stats.currentStreak);
       const nextInfo = nextBadge ? `${stats.currentStreak}/${nextBadge.days}d to ${nextBadge.name}` : 'Max rank reached';
-      return { id: h.id, label: h.label, val: stats.currentStreak, color: h.color, pct, nextInfo };
+      return { id: h.id, label: Utils.escapeHTML(h.label), val: stats.currentStreak, color: h.color, pct, nextInfo };
     });
 
     return `

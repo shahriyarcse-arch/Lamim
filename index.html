@@ -1312,7 +1312,7 @@
   <div class="modal">
     <div class="modal-header"><h3 class="modal-title">Custom Dhikr</h3><button class="modal-close" onclick="Dhikr.hideAddModal()">✕</button></div>
     <div class="auth-form">
-      <div class="input-group"><label class="input-label">Name / Transliteration</label><input class="input" id="custom-latin" placeholder="e.g. SubhanAllah"></div>
+      <div class="input-group"><label class="input-label">Name / Transliteration</label><input class="input" id="custom-latin" maxlength="60" placeholder="e.g. SubhanAllah"></div>
       <div class="input-group"><label class="input-label">Target Count</label><input class="input" type="number" id="custom-target" value="33" min="1"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="Dhikr.hideAddModal()">Cancel</button><button class="btn btn-gold" onclick="Dhikr.saveCustom()">Add Dhikr</button></div>

@@ -92,7 +92,7 @@ const Dhikr = {
       const color = p.color || '#14b8a6';
       return `
         <div class="dhikr-preset-card ${p.id === this.currentId ? 'active' : ''}" role="button" tabindex="0" onclick="Dhikr.selectDhikr('${p.id}')" style="--dc:${color}">
-          <div class="dhikr-preset-name">${p.latin}</div>
+          <div class="dhikr-preset-name">${Utils.escapeHTML(p.latin)}</div>
         </div>
       `;
     }).join('') + `
@@ -114,8 +114,8 @@ const Dhikr = {
       const currentName = infoEl.querySelector('.latin-name');
       if (!currentName || currentName.textContent !== d.latin) {
         infoEl.innerHTML = `
-          <div class="latin-name">${d.latin}</div>
-          <div class="meaning">${d.meaning}</div>
+          <div class="latin-name">${Utils.escapeHTML(d.latin)}</div>
+          <div class="meaning">${Utils.escapeHTML(d.meaning)}</div>
         `;
       }
     }
@@ -268,7 +268,7 @@ const Dhikr = {
             <div class="ds-icon">${preset.icon}</div>
             <div class="ds-info">
               ${preset.arabic ? `<div class="ds-arabic">${preset.arabic}</div>` : ''}
-              <div class="ds-name">${preset.latin}</div>
+              <div class="ds-name">${Utils.escapeHTML(preset.latin)}</div>
               <div class="ds-count-row">
                 <span class="ds-count" id="session-count-${id}" style="transition: all 0.15s ease; display: inline-block;">${cnt}</span>
                 ${target > 0 ? `<span class="ds-target">/ ${target}</span>` : ''}
@@ -409,7 +409,7 @@ const Dhikr = {
   },
 
   saveCustom() {
-    const latin = document.getElementById('custom-latin')?.value;
+    const latin = (document.getElementById('custom-latin')?.value || '').trim().slice(0, 60);
     const target = document.getElementById('custom-target')?.value || '33';
     if (!latin) { Utils.toast('Name is required', 'error'); return; }
     const preset = { id: Utils.uid(), latin, meaning: `${this.getLang() === 'bn' ? 'লক্ষ্য: ' : 'Target: '}${target}`, category: 'general', icon: Icons.tasbeeh };

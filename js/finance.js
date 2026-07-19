@@ -1034,7 +1034,7 @@ const Finance = {
       html += `
         <div class="fin-cat-pill ${this.selectedCategory === c.id ? 'active' : ''}" role="button" tabindex="0" onclick="Finance.selectCategory('${c.id}')" id="cat-${c.id}">
           <div class="fin-cat-icon" style="background:${rc}15; color:${rc}">${c.icon}</div>
-          <span class="fin-cat-name">${c.name}</span>
+           <span class="fin-cat-name">${Utils.escapeHTML(c.name)}</span>
         </div>`;
     });
 
@@ -1521,7 +1521,7 @@ const Finance = {
 
     const monthStr = this.currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
     const categoriesHtml = `<div class="fin-filter-pill ${this.historyCategory === 'all' ? 'active' : ''}" onclick="Finance.setHistoryFilter('all')">All</div>` + 
-      this.categories.map(c => `<div class="fin-filter-pill ${this.historyCategory === c.id ? 'active' : ''}" onclick="Finance.setHistoryFilter('${c.id}')">${c.name}</div>`).join('');
+      this.categories.map(c => `<div class="fin-filter-pill ${this.historyCategory === c.id ? 'active' : ''}" onclick="Finance.setHistoryFilter('${c.id}')">${Utils.escapeHTML(c.name)}</div>`).join('');
 
     overlay.innerHTML = `
       <div class="fin-history-panel">
