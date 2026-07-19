@@ -10,6 +10,8 @@ const Emulator = {
   names: ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
   timer: null,
   spiritScore: 72,
+  countdownSeconds: 0,
+  countdownInterval: null,
 
   init() {
     this.nodes = document.querySelectorAll('.emulator-node');
@@ -20,7 +22,68 @@ const Emulator = {
       node.style.cursor = 'pointer';
     });
 
+    this.initGreeting();
+    this.initCountdown();
     this.startDemo();
+  },
+
+  /* ── Dynamic Greeting ── */
+  initGreeting() {
+    const greetingEls = document.querySelectorAll('.emulator-greeting');
+    const heroGreetingEl = document.querySelector('.hero-mockup [style*="0.75rem"]');
+
+    const getGreeting = () => {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 12) return 'Good Morning';
+      if (hour >= 12 && hour < 17) return 'Good Afternoon';
+      if (hour >= 17 && hour < 21) return 'Good Evening';
+      return 'Good Night';
+    };
+
+    const greeting = getGreeting();
+    greetingEls.forEach(el => {
+      el.textContent = `${greeting}, Muhammad`;
+    });
+
+    if (heroGreetingEl) {
+      heroGreetingEl.textContent = greeting;
+    }
+  },
+
+  /* ── Simulated Countdown Timer ── */
+  initCountdown() {
+    // Start from a random time between 30min to 2hours
+    this.countdownSeconds = Math.floor(Math.random() * 5400) + 1800;
+
+    const timeEls = document.querySelectorAll('.emulator-prayer-time');
+
+    const updateCountdown = () => {
+      if (this.countdownSeconds <= 0) {
+        // Reset when reaches 0
+        this.countdownSeconds = Math.floor(Math.random() * 5400) + 1800;
+      }
+
+      const hours = Math.floor(this.countdownSeconds / 3600);
+      const mins = Math.floor((this.countdownSeconds % 3600) / 60);
+      const secs = this.countdownSeconds % 60;
+
+      const timeStr = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      timeEls.forEach(el => {
+        el.textContent = timeStr;
+      });
+
+      // Update hero mockup inline styles
+      const heroTimeEl = document.querySelector('.hero-mockup [style*="1.5rem"]');
+      if (heroTimeEl) {
+        heroTimeEl.textContent = timeStr;
+      }
+
+      this.countdownSeconds--;
+    };
+
+    updateCountdown();
+    this.countdownInterval = setInterval(updateCountdown, 1000);
   },
 
   toggleNode(index) {
