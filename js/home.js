@@ -193,7 +193,7 @@ const Home = {
     const quote = Utils.getQuote();
     const arabicEl = document.getElementById('home-quote-arabic');
     const translationEl = document.getElementById('home-quote-translation');
-    const cardEl = document.querySelector('.home-quote-card');
+    const cardEl = document.querySelector('.home-quote');
     
     if (arabicEl && translationEl && quote) {
       // First load check

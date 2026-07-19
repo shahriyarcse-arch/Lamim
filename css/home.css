@@ -1,43 +1,91 @@
 /* =============================================
-   LAMIM — HOME PAGE (Ultra-Modern Bento Box)
+   LAMIM — HOME (CSS Grid Bento)
    ============================================= */
 
-/* 1. Base Layout & Aurora Background */
-.home-container {
+/* ── 1. Grid Layout ── */
+.home-grid {
   max-width: 1100px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.bento-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.bento-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
   gap: 16px;
-  /* balanced spacing between columns */
+  padding: 0 16px 24px;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: homeCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.home-card[data-stagger="0"] { animation-delay: 0ms; }
+.home-card[data-stagger="1"] { animation-delay: 50ms; }
+.home-card[data-stagger="2"] { animation-delay: 100ms; }
+.home-card[data-stagger="3"] { animation-delay: 150ms; }
+.home-card[data-stagger="4"] { animation-delay: 200ms; }
+.home-card[data-stagger="5"] { animation-delay: 250ms; }
+
+@keyframes homeCardIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Card Spans ── */
+.home-hero  { grid-column: span 12; }
+.home-prayer { grid-column: span 12; }
+.home-insight { grid-column: span 6; }
+.home-salah  { grid-column: span 12; }
+.home-quote  { grid-column: span 12; }
+
+/* ── 2. Glass Card Base ── */
+.glass-card {
   width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text-primary);
 }
 
-.bento-half {
-  flex: 1;
+[data-theme="dark"] .glass-card {
+  background: rgba(25, 27, 33, 0.6);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Background */
+.bento-hover:active {
+  transform: scale(0.97);
+}
+
+.cinematic-num {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+/* ── 3. Aurora Background ── */
 .home-aurora-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -47,21 +95,16 @@
 .aurora-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(55px);
-  opacity: 0.2;
-  animation: float-aurora 20s ease-in-out infinite alternate;
+  filter: blur(60px);
+  opacity: 0.15;
+  animation: float-aurora 24s ease-in-out infinite alternate;
   will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
-/* Pause aurora animation when Home is not the active section (saves CPU/repaint) */
 body:not(.home-active) .home-aurora-bg .aurora-blob {
   animation-play-state: paused;
 }
 
-/* Pause aurora animation while scrolling so the section scrolls as smoothly
-   as the other (non-animated) sections — eliminates per-frame blur repaint on scroll */
 .home-aurora-bg.is-scrolling .aurora-blob {
   animation-play-state: paused;
 }
@@ -80,94 +123,52 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   background: var(--color-accent-teal);
   bottom: 10%;
   left: -100px;
-  animation-delay: -7s;
+  animation-delay: -8s;
 }
 
 @keyframes float-aurora {
-  0% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-
-  100% {
-    transform: translate(-40px, 60px) scale(1.1) rotate(10deg);
-  }
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 50px) scale(1.08); }
 }
 
-/* 2. Ultra-Glass Cards */
-.glass-card {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.55);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 20px;
-  padding: 18px 20px;
-  /* premium, spacious padding */
-  box-shadow:
-    0 16px 32px rgba(0, 0, 0, 0.02),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  color: var(--color-text-primary);
-  transform: translateZ(0);
-  will-change: transform;
-  contain: paint;
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob { animation: none; }
 }
 
-[data-theme="dark"] .glass-card {
-  background: rgba(25, 27, 33, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow:
-    0 16px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+/* ── 4. Hero Card ── */
+.home-hero {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.25));
 }
 
-.bento-hover:active {
-  transform: scale(0.97);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02);
-}
-
-/* Cinematic Typography */
-.cinematic-num {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.04em;
-}
-
-/* 3. Hero Card (Greeting & Spirit Orb) */
-.home-hero-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
-}
-
-[data-theme="dark"] .home-hero-card {
-  background: linear-gradient(135deg, rgba(30, 32, 40, 0.55), rgba(20, 22, 28, 0.35));
-  border: 1px solid rgba(255, 255, 255, 0.04);
+[data-theme="dark"] .home-hero {
+  background: linear-gradient(135deg, rgba(30, 32, 40, 0.5), rgba(20, 22, 28, 0.3));
+  border-color: rgba(255, 255, 255, 0.04);
 }
 
 .home-hero-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-3);
+  gap: 16px;
 }
 
 .home-greeting-wrap {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .home-greeting {
   font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--color-text-primary) 30%, var(--color-accent-purple) 100%);
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--color-text-primary) 40%, var(--color-accent-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1.2;
+  margin: 0;
 }
 
 .home-date {
@@ -189,102 +190,81 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   margin-top: 2px;
 }
 
-/* Spirit Orb Container - Borderless Glass Tray */
-.home-spirit-orb-container {
+/* Spirit Orb */
+.home-spirit-orb {
   position: relative;
   width: 72px;
   height: 72px;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
-  padding: 4px;
-}
-
-[data-theme="dark"] .home-spirit-orb-container {
-  background: rgba(255, 255, 255, 0.02);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-}
-
-.home-spirit-score-inner {
-  position: absolute;
-  z-index: 2;
-  text-align: center;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  inset: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-spirit-orb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.home-spirit-orb:active {
+  transform: scale(0.95);
+}
+
+[data-theme="dark"] .home-spirit-orb {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 #home-spirit-score {
   font-size: 26px;
   font-weight: 900;
-  background: linear-gradient(135deg, #a855f7 0%, #fbbf24 50%, #3b82f6 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   line-height: 1;
-  letter-spacing: -1px;
-  animation: scoreShimmer 4s linear infinite;
 }
 
 [data-theme="light"] #home-spirit-score {
-  background: linear-gradient(135deg, #7c3aed 0%, #d97706 50%, #2563eb 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-@keyframes scoreShimmer {
-  0% {
-    background-position: 0% center;
-  }
-
-  100% {
-    background-position: 200% center;
-  }
-}
-
 .spirit-label {
-  font-size: 8px;
+  font-size: 9px;
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 800;
-  margin-top: 1px;
-}
-
-[data-theme="dark"] #home-spirit-score {
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  font-weight: 700;
+  margin-top: 2px;
 }
 
 [data-theme="dark"] .spirit-label {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* 4. Next Prayer Countdown */
-.home-next-prayer-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5) var(--space-4);
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(59, 130, 246, 0.04));
-  border: 1px solid rgba(56, 189, 248, 0.18);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.02);
+/* ── 5. Prayer Countdown ── */
+.home-prayer {
+  gap: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(59, 130, 246, 0.03));
+  border: 1px solid rgba(56, 189, 248, 0.15);
 }
 
-[data-theme="dark"] .home-next-prayer-card {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(30, 41, 59, 0.25));
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(14, 165, 233, 0.05);
+[data-theme="dark"] .home-prayer {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(30, 41, 59, 0.2));
+  border-color: rgba(14, 165, 233, 0.2);
 }
 
 .next-prayer-header {
@@ -298,7 +278,7 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--color-text-secondary);
@@ -308,41 +288,25 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--color-accent-blue);
-  box-shadow: 0 0 10px var(--color-accent-blue);
-  animation: blink 2s infinite;
-}
-
-@keyframes blink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.3;
-  }
+  background: var(--color-accent-blue, #0ea5e9);
 }
 
 .next-prayer-name {
   font-size: 11px;
-  font-weight: 800;
-  color: #0284c7;
+  font-weight: 700;
+  color: var(--color-accent-blue, #0284c7);
   background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.25);
+  border: 1px solid rgba(14, 165, 233, 0.2);
   padding: 4px 12px;
   border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 10px rgba(14, 165, 233, 0.04);
 }
 
 [data-theme="dark"] .next-prayer-name {
   color: #38bdf8;
   background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.2);
 }
 
 .next-prayer-countdown-wrap {
@@ -361,7 +325,7 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
 .next-prayer-countdown {
   font-size: 42px;
   font-weight: 900;
-  background: linear-gradient(135deg, var(--color-text-primary) 50%, #0284c7 100%);
+  background: linear-gradient(135deg, var(--color-text-primary) 50%, var(--color-accent-blue, #0284c7));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -369,123 +333,80 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
 }
 
 [data-theme="dark"] .next-prayer-countdown {
-  background: linear-gradient(135deg, var(--color-text-primary) 40%, var(--color-accent-blue) 100%);
+  background: linear-gradient(135deg, var(--color-text-primary) 40%, var(--color-accent-blue, #38bdf8));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* 5. Bento Insights Squares */
-.bento-square {
-  background: var(--color-surface-card);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  padding: 12px 16px !important;
-}
-
-.bento-square:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-.bento-square:nth-child(3) {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, var(--color-surface-card) 60%);
-}
-
-.bento-square:nth-child(4) {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.04) 0%, var(--color-surface-card) 60%);
-}
-
-[data-theme="dark"] .bento-square:nth-child(3) {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
-  border-color: rgba(20, 184, 166, 0.12);
-}
-
-[data-theme="dark"] .bento-square:nth-child(4) {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
-  border-color: rgba(249, 115, 22, 0.12);
-}
-
-.insight-card {
-  padding: 12px 14px !important;
-  /* Smaller padding */
-  border-radius: 16px !important;
-  display: flex;
-  justify-content: center;
-}
-
+/* ── 6. Insight Cards ── */
 .insight-box-modern {
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 12px;
   width: 100%;
 }
 
 .insight-icon {
-  width: 32px;
-  height: 32px;
-  /* Smaller icon box */
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] .insight-icon {
   border-color: rgba(0, 0, 0, 0.04);
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .insight-data {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 1px;
 }
 
 .insight-value {
-  font-size: 20px;
-  /* Slightly smaller text */
+  font-size: 22px;
   font-weight: 900;
   color: var(--color-text-primary);
   line-height: 1.1;
-  letter-spacing: -0.5px;
 }
 
 .insight-label {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* 6. Salah Timeline - Vertical Liquid Energy Cell Concept */
-.home-salah-timeline-card {
-  padding: var(--space-5) var(--space-4);
+/* ── 7. Salah Timeline ── */
+.home-salah {
+  padding: 18px 20px;
 }
 
 .card-header-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-5);
+  margin-bottom: 16px;
 }
 
 .card-title-sm {
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin: 0;
 }
 
 .salah-count-badge {
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   background: var(--color-surface-nested);
   color: var(--color-text-primary);
   padding: 4px 12px;
@@ -497,18 +418,10 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  padding: 0;
 }
 
-.home-timeline-container::before,
-.home-timeline-container::after {
-  display: none;
-}
-
-/* Each prayer = a mini glass tile card */
 .timeline-node {
   position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -516,7 +429,7 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   flex: 1;
 }
 
-/* ── Chain Bridge (fills the 8px gap between nodes) ── */
+/* Chain Bridge */
 .timeline-node::before {
   content: '';
   position: absolute;
@@ -528,56 +441,27 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   border-radius: 2px;
   background: transparent;
   z-index: 3;
-  transition: all 0.5s ease;
+  transition: background 0.4s ease;
 }
 
 .timeline-node:first-child::before {
   display: none;
 }
 
-/* ── Flow-based Bridge Logic ── */
-
-/* 🟢 Jamaat (Left) → Bridge inherits Jamaat Green */
-.timeline-node.status-jamaat+.timeline-node::before {
-  background: var(--color-jamaat);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+.timeline-node.status-jamaat + .timeline-node::before {
+  background: var(--color-jamaat, #10b981);
+}
+.timeline-node.status-alone + .timeline-node::before {
+  background: var(--color-alone, #3b82f6);
+}
+.timeline-node.status-qaza + .timeline-node::before {
+  background: var(--color-qaza, #d97706);
+}
+.timeline-node.status-missed + .timeline-node::before {
+  background: var(--color-missed, #ef4444);
 }
 
-/* 🔵 Alone (Left) → Bridge inherits Alone Blue */
-.timeline-node.status-alone+.timeline-node::before {
-  background: var(--color-alone);
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
-}
-
-/* 🟡 Qaza (Left) → Bridge inherits Qaza Amber */
-.timeline-node.status-qaza+.timeline-node::before {
-  background: var(--color-qaza);
-  box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
-}
-
-/* 🔴 Missed (Left) → Bridge inherits Missed Red */
-.timeline-node.status-missed+.timeline-node::before {
-  background: var(--color-missed);
-  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
-}
-
-/* Optional soft pulsing on active bridges to keep it feeling premium */
-.timeline-node:is(.status-jamaat, .status-alone, .status-qaza, .status-missed)+.timeline-node::before {
-  animation: bridgeFlowPulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes bridgeFlowPulse {
-  0% {
-    opacity: 0.75;
-  }
-
-  100% {
-    opacity: 1;
-    filter: brightness(1.15);
-  }
-}
-
-/* ── Tile Dot ── */
+/* Timeline Dot */
 .timeline-dot {
   width: 100%;
   height: 56px;
@@ -590,10 +474,9 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   font-size: 18px;
   font-weight: 900;
   color: var(--color-text-muted);
-  transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.6s ease;
+  transition: border-color 0.3s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
-  isolation: isolate;
 }
 
 [data-theme="dark"] .timeline-dot {
@@ -601,7 +484,7 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   border-color: rgba(255, 255, 255, 0.06);
 }
 
-/* ── Liquid Fill Layer (rises from bottom) ── */
+/* Liquid Fill */
 .timeline-dot::after {
   content: '';
   position: absolute;
@@ -609,121 +492,91 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   left: 0;
   right: 0;
   height: 0%;
-  z-index: -1;
+  z-index: 0;
   border-radius: 14px;
-  transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .timeline-label {
-  font-size: 8px;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 6px;
-  transition: color 0.4s ease;
+  transition: color 0.3s ease;
 }
 
-/* ──── Completed Statuses ──── */
-
-/* Jamaat - Green Liquid Fill */
+/* Status: Jamaat */
 .timeline-node.status-jamaat .timeline-dot {
   border-color: rgba(16, 185, 129, 0.3);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
 }
-
 .timeline-node.status-jamaat .timeline-dot::after {
   height: 100%;
   background: linear-gradient(to top, #059669, #34d399);
 }
-
 .timeline-node.status-jamaat .timeline-label {
   color: #10b981;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-/* Alone - Blue Liquid Fill */
+/* Status: Alone */
 .timeline-node.status-alone .timeline-dot {
   border-color: rgba(59, 130, 246, 0.3);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
 }
-
 .timeline-node.status-alone .timeline-dot::after {
   height: 100%;
   background: linear-gradient(to top, #2563eb, #60a5fa);
 }
-
 .timeline-node.status-alone .timeline-label {
   color: #3b82f6;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-/* Qaza - Amber Liquid Fill */
+/* Status: Qaza */
 .timeline-node.status-qaza .timeline-dot {
   border-color: rgba(217, 119, 6, 0.3);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.25);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.2);
 }
-
 .timeline-node.status-qaza .timeline-dot::after {
   height: 100%;
   background: linear-gradient(to top, #b45309, #fbbf24);
 }
-
 .timeline-node.status-qaza .timeline-label {
   color: #d97706;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-/* Missed - Red Liquid Fill */
+/* Status: Missed */
 .timeline-node.status-missed .timeline-dot {
   border-color: rgba(239, 68, 68, 0.3);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
 }
-
 .timeline-node.status-missed .timeline-dot::after {
   height: 100%;
   background: linear-gradient(to top, #dc2626, #f87171);
 }
-
 .timeline-node.status-missed .timeline-label {
   color: #ef4444;
-  font-weight: 800;
+  font-weight: 700;
 }
 
-/* Responsive tweaks */
-@media (max-width: 400px) {
-  .next-prayer-countdown {
-    font-size: 34px;
-  }
-
-  .insight-value {
-    font-size: 30px;
-  }
-
-  .home-greeting {
-    font-size: 22px;
-  }
-}
-
-/* ── Daily Inspiration Quote Card Styles ── */
-.home-quote-card {
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.04) 0%, var(--color-surface-card) 60%);
-  padding: 14px 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* Text stays at top */
+/* ── 8. Quote Card ── */
+.home-quote {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.04), var(--color-surface-card, rgba(255,255,255,0.6)));
+  padding: 16px 20px;
   gap: 12px;
-  overflow: visible !important;
 }
 
-[data-theme="dark"] .home-quote-card {
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(25, 27, 33, 0.4) 70%);
-  border-color: rgba(167, 139, 250, 0.12);
+[data-theme="dark"] .home-quote {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.06), rgba(25, 27, 33, 0.4));
+  border-color: rgba(167, 139, 250, 0.1);
 }
 
 .quote-header {
@@ -732,9 +585,9 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
 }
 
 .quote-badge {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--color-accent-purple);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent-purple, #a855f7);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: flex;
@@ -742,48 +595,78 @@ body:not(.home-active) .home-aurora-bg .aurora-blob {
   gap: 6px;
 }
 
-.quote-badge svg {
-  width: 18px !important;
-  height: 18px !important;
-  margin-right: 0 !important;
-  top: 0 !important;
-}
-
 .quote-body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 8px 4px;
+  padding: 4px 0;
 }
 
 .quote-arabic {
   font-family: 'Amiri', serif;
   font-size: 18px;
-  /* Further adjusted size */
   line-height: 1.8;
   color: var(--color-text-primary);
   text-align: right;
   direction: rtl;
   margin: 0;
   font-weight: 700;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .quote-translation {
-  font-size: 16px;
-  /* Bigger translation */
+  font-size: 15px;
   line-height: 1.6;
   color: var(--color-text-primary);
   font-style: italic;
   font-weight: 500;
   margin: 0;
   text-align: left;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* JS will toggle this class before and after changing text */
 .quote-anim-hidden .quote-arabic,
 .quote-anim-hidden .quote-translation {
-  opacity: 0 !important;
-  transform: translateY(10px);
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ── 9. Responsive ── */
+@media (max-width: 480px) {
+  .home-grid {
+    gap: 12px;
+    padding: 0 12px 20px;
+  }
+
+  .glass-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .home-greeting {
+    font-size: 22px;
+  }
+
+  .next-prayer-countdown {
+    font-size: 34px;
+  }
+
+  .insight-value {
+    font-size: 20px;
+  }
+
+  .home-spirit-orb {
+    width: 64px;
+    height: 64px;
+  }
+
+  #home-spirit-score {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-insight {
+    grid-column: span 12;
+  }
 }
