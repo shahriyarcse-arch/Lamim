@@ -51,7 +51,7 @@
   /* Text (Max Contrast) */
   --color-text-primary:   #ffffff;
   --color-text-secondary: #cbd5e1;
-  --color-text-muted:     #64748b;
+  --color-text-muted:    #94a3b8;
   --color-text-inverse:   #020617;
 
   /* Borders */
@@ -71,7 +71,7 @@
   --color-divider-subtle:   rgba(255, 255, 255, 0.04);
   --color-divider-strong:   rgba(255, 255, 255, 0.08);
   --color-text-subtitle:    rgba(255, 255, 255, 0.5);
-  --color-text-placeholder: rgba(255, 255, 255, 0.3);
+  --color-text-placeholder: rgba(255, 255, 255, 0.5);
   --radar-grid-stroke:      rgba(255, 255, 255, 0.08);
   --radar-axis-stroke:      rgba(255, 255, 255, 0.15);
   --shadow-premium:         0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -228,7 +228,7 @@
   --radar-grid-stroke:      rgba(0,0,0,0.06);
   --radar-axis-stroke:      rgba(0,0,0,0.12);
   --color-text-subtitle:    #475569;
-  --color-text-placeholder: #94A3B8;
+  --color-text-placeholder: #475569;
   --color-loader-track:     #D4DCE8;
   --color-loader-fill:      #6366F1;
   --shadow-logo-glow:       0 0 30px rgba(99, 102, 241, 0.2);

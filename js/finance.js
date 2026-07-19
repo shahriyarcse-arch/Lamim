@@ -761,7 +761,7 @@ const Finance = {
           const displayVaults = reversedVaults.slice(0, LIMIT);
           return displayVaults.map(s => this.renderSavingsItem(s)).join('');
         })() : `
-          <div class="vault-empty-state" onclick="Finance.showSavingsModal()">
+          <div class="vault-empty-state" role="button" tabindex="0" onclick="Finance.showSavingsModal()">
             <div class="vault-empty-icon">${this.renderIcon('gem', 32)}</div>
             <div style="font-weight:700; font-size:14px; color:var(--color-text-muted);">Secure your future</div>
             <div style="font-size:12px; color:var(--color-text-muted); opacity:0.6; margin-top:4px;">Tap to create your first savings goal</div>
@@ -961,7 +961,7 @@ const Finance = {
         </div>
 
         <div class="vault-action-slot">
-          <div class="vault-add-btn" onclick="event.stopPropagation(); Finance.addToSavings('${g.id}')">
+          <div class="vault-add-btn" role="button" tabindex="0" onclick="event.stopPropagation(); Finance.addToSavings('${g.id}')">
             ${completed
               ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
               : `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>`}
@@ -1065,7 +1065,7 @@ const Finance = {
       }
       const rc = this.getResolvedColor(c.color); 
       html += `
-        <div class="fin-cat-pill ${this.selectedCategory === c.id ? 'active' : ''}" onclick="Finance.selectCategory('${c.id}')" id="cat-${c.id}">
+        <div class="fin-cat-pill ${this.selectedCategory === c.id ? 'active' : ''}" role="button" tabindex="0" onclick="Finance.selectCategory('${c.id}')" id="cat-${c.id}">
           <div class="fin-cat-icon" style="background:${rc}15; color:${rc}">${c.icon}</div>
           <span class="fin-cat-name">${c.name}</span>
         </div>`;

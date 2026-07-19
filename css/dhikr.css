@@ -1582,6 +1582,7 @@
 .finance-input:focus {
   outline: none;
   border-color: var(--color-accent-blue);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
 }
 
 .finance-modal-actions {

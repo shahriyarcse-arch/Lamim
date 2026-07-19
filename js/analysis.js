@@ -267,7 +267,7 @@ const Analysis = {
                       const groupStyle = isSelected ? `z-index: 10;` : `opacity: ${isInactive ? '0.3' : '0.5'}`;
                       const fillGlow = isSelected ? `box-shadow: 0 0 15px ${barColor}; border-top: 2px solid #fff;` : '';
                       return `
-                        <div class="bar-col" data-date="${t.fullDateStr}" data-inactive="${isInactive}" data-color="${t.color}" onclick="Analysis.selectDate('${t.fullDateStr}')" style="cursor:pointer; -webkit-tap-highlight-color: transparent;">
+                        <div class="bar-col" role="button" tabindex="0" data-date="${t.fullDateStr}" data-inactive="${isInactive}" data-color="${t.color}" onclick="Analysis.selectDate('${t.fullDateStr}')" style="cursor:pointer; -webkit-tap-highlight-color: transparent;">
                           <div class="bar-group" style="height: ${isInactive ? '10%' : t.score + '%'}; ${groupStyle}; transition: all 0.3s ease;">
                             <div class="bar-score" style="${!isInactive && isSelected ? 'color:' + t.color : 'display:none'}; text-shadow: 0 0 5px ${t.color};">
                               ${Math.round(t.score)}

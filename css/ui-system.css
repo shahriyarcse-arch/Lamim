@@ -208,3 +208,9 @@ textarea:disabled,
   transition: top var(--transition-fast);
 }
 .skip-link:focus { top: 12px; outline: none; }
+
+/* Range inputs lose their default focus ring with appearance:none — restore a visible one */
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 3px;
+}
