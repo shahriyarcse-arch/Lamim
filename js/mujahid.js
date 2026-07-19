@@ -1153,6 +1153,9 @@ const Mujahid = {
   },
 
   addCustomHabit() {
+    if (this._forging) return;
+    this._forging = true;
+    setTimeout(() => { this._forging = false; }, 400);
     const input = document.getElementById('mujahid-custom-habit-input');
     const label = input ? input.value.trim() : '';
     

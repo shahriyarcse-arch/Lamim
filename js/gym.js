@@ -277,6 +277,9 @@ const Gym = {
   },
 
   addExercise() {
+    if (this._adding) return;
+    this._adding = true;
+    setTimeout(() => { this._adding = false; }, 350);
     const nameEl = document.getElementById('gym-exercise-name');
     const setsEl = document.getElementById('gym-exercise-sets');
     const repsEl = document.getElementById('gym-exercise-reps');

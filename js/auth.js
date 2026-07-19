@@ -59,6 +59,12 @@ const Auth = {
         if (nameInput) nameInput.focus();
         return;
       }
+      if (name.length < 2 || name.length > 50) {
+        if (nameInput) nameInput.classList.add('input-error');
+        if (err) { err.textContent = 'Name must be 2–50 characters'; err.classList.add('show'); }
+        if (nameInput) nameInput.focus();
+        return;
+      }
       if (nameInput) nameInput.classList.remove('input-error');
       if (err) err.classList.remove('show');
     }
@@ -218,32 +224,46 @@ const Auth = {
   },
 
   submitSetup() {
+    if (this._submitting) return;
+    const nameInput = document.getElementById('setup-name');
+    const name = (nameInput ? nameInput.value.trim() : '');
+
+    if (!name) {
+      this.goToStep(1);
+      if (nameInput) nameInput.classList.add('input-error');
+      const err = document.getElementById('setup-name-err');
+      if (err) { err.textContent = 'Name is required'; err.classList.add('show'); }
+      if (nameInput) nameInput.focus();
+      return;
+    }
+    if (name.length < 2 || name.length > 50) {
+      this.goToStep(1);
+      if (nameInput) nameInput.classList.add('input-error');
+      const err = document.getElementById('setup-name-err');
+      if (err) { err.textContent = 'Name must be 2–50 characters'; err.classList.add('show'); }
+      if (nameInput) nameInput.focus();
+      return;
+    }
+
+    const langSelect = document.getElementById('setup-lang');
+    const currencySelect = document.getElementById('setup-currency');
+    const latInput = document.getElementById('setup-lat');
+    const lngInput = document.getElementById('setup-lng');
+    const dobInput = document.getElementById('setup-dob');
+    const bioInput = document.getElementById('setup-bio');
+
+    if (!latInput || !latInput.value || isNaN(parseFloat(latInput.value)) || !lngInput || !lngInput.value || isNaN(parseFloat(lngInput.value))) {
+      Utils.toast('Please detect your location or enter coordinates manually', 'warning');
+      const err = document.getElementById('setup-loc-err');
+      if (err) { err.textContent = 'Location is required'; err.classList.add('show'); }
+      return; // Prevent form submission without location
+    }
+
+    this._submitting = true;
+    const finishBtn = document.getElementById('setup-finish-btn');
+    if (finishBtn) { finishBtn.disabled = true; finishBtn.classList.add('btn-loading'); }
+
     try {
-      const nameInput = document.getElementById('setup-name');
-      const name = (nameInput ? nameInput.value.trim() : '');
-
-      if (!name) {
-        this.goToStep(1);
-        if (nameInput) nameInput.classList.add('input-error');
-        const err = document.getElementById('setup-name-err');
-        if (err) { err.textContent = 'Name is required'; err.classList.add('show'); }
-        return;
-      }
-
-      const langSelect = document.getElementById('setup-lang');
-      const currencySelect = document.getElementById('setup-currency');
-      const latInput = document.getElementById('setup-lat');
-      const lngInput = document.getElementById('setup-lng');
-      const dobInput = document.getElementById('setup-dob');
-      const bioInput = document.getElementById('setup-bio');
-
-      if (!latInput || !latInput.value || isNaN(parseFloat(latInput.value)) || !lngInput || !lngInput.value || isNaN(parseFloat(lngInput.value))) {
-        Utils.toast('Please detect your location or enter coordinates manually', 'warning');
-        const err = document.getElementById('setup-loc-err');
-        if (err) { err.textContent = 'Location is required'; err.classList.add('show'); }
-        return; // Prevent form submission without location
-      }
-
       const language = langSelect ? langSelect.value : 'en';
       const currency = currencySelect ? currencySelect.value : 'USD';
       const lat = parseFloat(latInput.value);
@@ -299,11 +319,40 @@ const Auth = {
 
       setTimeout(() => {
         App.showDashboard();
+        this._submitting = false;
+        if (finishBtn) { finishBtn.disabled = false; finishBtn.classList.remove('btn-loading'); }
       }, 400);
     } catch (err) {
       console.error('[Auth] submitSetup error:', err);
       Utils.toast('Something went wrong. Please try again.', 'error');
+      this._submitting = false;
+      if (finishBtn) { finishBtn.disabled = false; finishBtn.classList.remove('btn-loading'); }
     }
+  },
+
+  resetSetup() {
+    this.selectedGender = null;
+    this._dobReady = false;
+    this._submitting = false;
+    ['setup-name', 'setup-dob', 'setup-lat', 'setup-lng', 'setup-bio'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    const nameInput = document.getElementById('setup-name');
+    if (nameInput) nameInput.classList.remove('input-error');
+    const nameErr = document.getElementById('setup-name-err');
+    if (nameErr) { nameErr.textContent = ''; nameErr.classList.remove('show'); }
+    const locErr = document.getElementById('setup-loc-err');
+    if (locErr) { locErr.textContent = ''; locErr.classList.remove('show'); }
+    ['setup-gender-male', 'setup-gender-female'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    });
+    this.setLang('en');
+    this.setCurrency('USD');
+    const finishBtn = document.getElementById('setup-finish-btn');
+    if (finishBtn) { finishBtn.disabled = false; finishBtn.classList.remove('btn-loading'); }
+    this.goToStep(1);
   },
 
   bindSetup() {
@@ -313,6 +362,13 @@ const Auth = {
     if (nameInput) {
       nameInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') { e.preventDefault(); this.submitSetup(); }
+      });
+      nameInput.addEventListener('input', () => {
+        if (nameInput.value.trim()) {
+          nameInput.classList.remove('input-error');
+          const err = document.getElementById('setup-name-err');
+          if (err) err.classList.remove('show');
+        }
       });
     }
   },
@@ -333,6 +389,7 @@ const Auth = {
         DB.remove('lamim_user');
         document.body.classList.remove('home-active');
         Utils.toast(isBn ? 'লগ আউট করা হয়েছে' : 'Logged out', 'info');
+        this.resetSetup();
         setTimeout(() => App.showPage('setup'), 500);
       }
     });

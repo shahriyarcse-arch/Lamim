@@ -215,6 +215,13 @@ input[type="range"]:focus-visible {
   outline-offset: 3px;
 }
 
+/* ---------- FORM SUBMIT LOADING STATE ---------- */
+.btn-loading {
+  opacity: 0.7;
+  pointer-events: none;
+  cursor: progress;
+}
+
 /* ---------- PWA INSTALL BANNER ---------- */
 .install-banner {
   position: fixed;

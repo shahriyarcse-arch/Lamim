@@ -46,7 +46,7 @@
   <!-- Mujahid MUST load last to override all competing rules -->
   <link rel="stylesheet" href="css/mujahid.css?v=143">
   <link rel="stylesheet" href="css/home.css?v=148">
-  <link rel="stylesheet" href="css/ui-system.css?v=5">
+  <link rel="stylesheet" href="css/ui-system.css?v=6">
   <link rel="stylesheet" href="css/responsive.css?v=1">
   <script>
     (function() {
@@ -228,7 +228,7 @@
 
               <div class="input-group" style="margin-top: var(--space-5);">
                 <div class="input-with-icon-wrap">
-                  <input class="premium-input" type="text" id="setup-name" placeholder="Your name" autocomplete="name">
+                  <input class="premium-input" type="text" id="setup-name" placeholder="Your name" maxlength="50" autocomplete="name">
                   <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                 </div>
                 <div class="field-error" id="setup-name-err"></div>
@@ -373,7 +373,7 @@
 
               <div class="setup-actions-row">
                 <button type="button" class="btn-xoss btn-secondary" onclick="Auth.prevStep(4)">← Back</button>
-                <button type="button" class="btn-xoss purple-btn-xoss" onclick="Auth.submitSetup()">
+                <button type="button" class="btn-xoss purple-btn-xoss" id="setup-finish-btn" onclick="Auth.submitSetup()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                   Start Journey
                 </button>
@@ -1708,17 +1708,17 @@
   <script src="js/lang.js?v=128"></script>
   <script src="js/utils.js?v=220"></script>
   <script src="js/db.js?v=215"></script>
-  <script src="js/auth.js?v=150"></script>
+  <script src="js/auth.js?v=153"></script>
   
   <!-- App Modules -->
   <script src="js/charts.js?v=1"></script>
   <script src="js/salah.js?v=214"></script>
-  <script src="js/gym.js?v=213"></script>
+  <script src="js/gym.js?v=214"></script>
   <script src="js/career.js?v=213"></script>
   <script src="js/dhikr.js?v=214"></script>
-  <script src="js/goals.js?v=137"></script>
+  <script src="js/goals.js?v=138"></script>
   <script src="js/finance.js?v=274"></script>
-  <script src="js/mujahid.js?v=214"></script>
+  <script src="js/mujahid.js?v=215"></script>
   <script src="js/profile.js?v=152"></script>
   <script src="js/analysis.js?v=215"></script>
 

@@ -664,6 +664,100 @@ const Goals = {
 
   hideHistory() {
     document.getElementById('nafl-history-modal')?.classList.add('hidden');
+  },
+
+  _resetGoalForm() {
+    ['goal-id-field', 'goal-title', 'goal-description', 'goal-target', 'goal-unit',
+     'goal-category', 'goal-priority', 'goal-deadline-field', 'goal-recurring-field', 'goal-milestone-field']
+      .forEach((id) => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('goal-title')?.classList.remove('input-error');
+  },
+
+  openGoalModal(id) {
+    this._resetGoalForm();
+    const titleEl = document.getElementById('goal-modal-title');
+    if (id != null) {
+      const goal = DB.getGoals().find((g) => g.id === id);
+      if (goal) {
+        if (titleEl) titleEl.textContent = 'Edit Goal';
+        const set = (fid, val) => { const el = document.getElementById(fid); if (el) el.value = val || ''; };
+        set('goal-id-field', goal.id);
+        set('goal-title', goal.title);
+        set('goal-description', goal.description);
+        set('goal-target', goal.target);
+        set('goal-unit', goal.unit);
+        set('goal-category', goal.category);
+        set('goal-priority', goal.priority);
+        set('goal-deadline-field', goal.deadline);
+        set('goal-recurring-field', goal.recurring);
+        set('goal-milestone-field', (goal.milestones || []).join('\n'));
+      }
+    } else if (titleEl) {
+      titleEl.textContent = 'New Goal';
+    }
+    document.getElementById('goal-modal')?.classList.remove('hidden');
+    document.getElementById('goal-title')?.focus();
+  },
+
+  hideModal() {
+    document.getElementById('goal-modal')?.classList.add('hidden');
+    this._resetGoalForm();
+  },
+
+  saveGoal() {
+    if (this._savingGoal) return;
+    const get = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
+    const title = get('goal-title').trim();
+    const titleEl = document.getElementById('goal-title');
+    if (!title) {
+      Utils.toast('Goal title is required', 'error');
+      titleEl?.classList.add('input-error');
+      titleEl?.focus();
+      return;
+    }
+    const targetRaw = get('goal-target').trim();
+    let target = parseFloat(targetRaw);
+    if (targetRaw && (isNaN(target) || target <= 0)) {
+      Utils.toast('Target must be a positive number', 'error');
+      return;
+    }
+    if (isNaN(target)) target = 0;
+
+    this._savingGoal = true;
+    try {
+      const milestones = get('goal-milestone-field').split('\n').map((s) => s.trim()).filter(Boolean);
+      const goal = {
+        title,
+        description: get('goal-description').trim(),
+        target,
+        unit: get('goal-unit').trim(),
+        category: get('goal-category').trim(),
+        priority: get('goal-priority').trim(),
+        deadline: get('goal-deadline-field'),
+        recurring: get('goal-recurring-field'),
+        milestones,
+        updatedAt: new Date().toISOString()
+      };
+      const idField = get('goal-id-field');
+      const id = parseInt(idField, 10);
+      if (idField && !isNaN(id)) {
+        goal.id = id;
+        DB.updateGoal(id, goal);
+        Utils.toast('Goal updated', 'success');
+      } else {
+        goal.id = 'g_' + Date.now();
+        DB.addGoal(goal);
+        Utils.toast('Goal added', 'success');
+      }
+      if (typeof this.updateHomeSummary === 'function') this.updateHomeSummary();
+      window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+      this.hideModal();
+    } catch (e) {
+      console.error('[Goals] saveGoal error', e);
+      Utils.toast('Could not save goal', 'error');
+    } finally {
+      this._savingGoal = false;
+    }
   }
 };
 window.Goals = Goals;
