@@ -4,6 +4,7 @@
 const DB = {
   _cache: {},
   _db: null,
+  _writeChain: Promise.resolve(),
 
   init() {
     return new Promise((resolve) => {
@@ -132,41 +133,56 @@ const DB = {
   },
 
   _asyncWrite(key, val) {
-    if (!this._db) return;
-    try {
-      const transaction = this._db.transaction(['keyvalue'], 'readwrite');
-      const store = transaction.objectStore(['keyvalue']);
-      const req = store.put(val, key);
-      
-      req.onerror = (e) => {
-        const err = e.target.error;
-        console.error(`[DB] Async write failed for key: ${key}`, err);
-        delete this._cache[key];
-        if (err && (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-          if (typeof Utils !== 'undefined') {
-            Utils.toast('Storage limit reached! Please backup and clear some data.', 'error');
+    const run = (this._writeChain || Promise.resolve()).then(() => new Promise((resolve) => {
+      if (!this._db) { resolve(); return; }
+      try {
+        const transaction = this._db.transaction(['keyvalue'], 'readwrite');
+        const store = transaction.objectStore(['keyvalue']);
+        const req = store.put(val, key);
+
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => {
+          const err = e.target.error;
+          console.error(`[DB] Async write failed for key: ${key}`, err);
+          delete this._cache[key];
+          if (err && (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+            if (typeof Utils !== 'undefined') {
+              Utils.toast('Storage limit reached! Please backup and clear some data.', 'error');
+            }
           }
-        }
-      };
-    } catch (e) {
-      console.error(`[DB] Async write failed for key: ${key}`, e);
-      delete this._cache[key];
-    }
+          resolve();
+        };
+      } catch (e) {
+        console.error(`[DB] Async write failed for key: ${key}`, e);
+        delete this._cache[key];
+        resolve();
+      }
+    }));
+    // Keep the chain alive even if a write rejects, so later writes still run
+    this._writeChain = run.catch(() => {});
+    return run;
   },
 
   _asyncDelete(key) {
-    if (!this._db) return;
-    try {
-      const transaction = this._db.transaction(['keyvalue'], 'readwrite');
-      const store = transaction.objectStore(['keyvalue']);
-      store.delete(key);
-    } catch (e) {
-      console.error(`[DB] Async delete failed for key: ${key}`, e);
-    }
+    const run = (this._writeChain || Promise.resolve()).then(() => new Promise((resolve) => {
+      if (!this._db) { resolve(); return; }
+      try {
+        const transaction = this._db.transaction(['keyvalue'], 'readwrite');
+        const store = transaction.objectStore(['keyvalue']);
+        store.delete(key);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => resolve();
+      } catch (e) {
+        console.error(`[DB] Async delete failed for key: ${key}`, e);
+        resolve();
+      }
+    }));
+    this._writeChain = run.catch(() => {});
+    return run;
   },
 
   _asyncClear() {
-    return new Promise((resolve) => {
+    const run = (this._writeChain || Promise.resolve()).then(() => new Promise((resolve) => {
       if (!this._db) { resolve(); return; }
       try {
         const transaction = this._db.transaction(['keyvalue'], 'readwrite');
@@ -178,7 +194,9 @@ const DB = {
         console.error('[DB] Async clear failed:', e);
         resolve();
       }
-    });
+    }));
+    this._writeChain = run.catch(() => {});
+    return run;
   },
 
   get(key) {

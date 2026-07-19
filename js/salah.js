@@ -27,17 +27,14 @@ const Salah = {
   init() {
     this.selectedDate = Utils.todayStr();
     this.renderAll();
-    
-    // Listen for local data updates
-    // Listen for local data updates
-    if (!this._dataUpdateBound) {
+
+    // Debounced re-render, driven by the app-level data-update bus (App.routeDataUpdate)
+    if (!this._debouncedRender) {
       this._debouncedRender = Utils.debounce(() => {
         if (document.getElementById('section-salah')?.classList.contains('active')) {
           this.renderAll(true);
         }
       }, 300);
-      this._dataUpdateHandler = Utils.safeAddEventListener(window, 'lamim:data-updated', () => this._debouncedRender());
-      this._dataUpdateBound = true;
     }
 
     if (!this.navBound) {
@@ -51,6 +48,10 @@ const Salah = {
     this.renderPrayerTimes();
     this.renderPrayerCards(this.selectedDate, skipAnim);
     this.renderCalendar();
+  },
+
+  onDataUpdated() {
+    this._debouncedRender();
   },
 
   /* ---- HEADER ---- */
@@ -955,11 +956,6 @@ this.renderPrayerCards(date, true); // true = skipAnim
     if (this._docClickHandler) {
       document.removeEventListener('click', this._docClickHandler);
       this._docClickHandler = null;
-    }
-    if (this._dataUpdateHandler) {
-      window.removeEventListener('lamim:data-updated', this._dataUpdateHandler);
-      this._dataUpdateHandler = null;
-      this._dataUpdateBound = false;
     }
     const tooltip = document.getElementById('salah-cal-tooltip');
     if (tooltip) {

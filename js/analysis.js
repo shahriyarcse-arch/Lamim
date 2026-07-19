@@ -19,22 +19,22 @@ const Analysis = {
 
 
   init() {
+    this._cachedHabits = null;
     this.render();
 
-    // Listen for local data updates with debouncing to prevent UI lag
-    if (!this.dataUpdateBound) {
+    // Debounced re-render, driven by the app-level data-update bus (App.routeDataUpdate)
+    if (!this._debouncedRender) {
       this._debouncedRender = Utils.debounce(() => {
         if (document.getElementById('section-analysis')?.classList.contains('active')) {
           this.render();
         }
       }, 300);
-
-      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
-        this._cachedHabits = null; // Invalidate cache on data change
-        this._debouncedRender();
-      });
-      this.dataUpdateBound = true;
     }
+  },
+
+  onDataUpdated() {
+    this._cachedHabits = null; // Invalidate cache on data change
+    this._debouncedRender();
   },
 
   calculateSHS(date) {
@@ -792,8 +792,7 @@ const Analysis = {
     setTimeout(() => { win.print(); }, 800);
   },
   destroy() {
-    if (this._debouncedRender) this._debouncedRender.cancel && this._debouncedRender.cancel();
-    this._dataUpdateBound = false;
+    if (this._debouncedRender) this._debouncedRender.cancel();
   }
 };
 window.Analysis = Analysis;

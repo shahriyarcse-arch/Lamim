@@ -29,16 +29,12 @@ const Gym = {
   },
 
   destroy() {
-    ['gym-prev-day', 'gym-next-day', 'gym-today-btn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) delete el.dataset.bound;
-    });
-    const exInput = document.getElementById('gym-exercise-name');
-    if (exInput) delete exInput.dataset.bound;
-    const wInput = document.getElementById('gym-body-weight');
-    const bfInput = document.getElementById('gym-body-fat');
-    if (wInput) delete wInput.dataset.bound;
-    if (bfInput) delete bfInput.dataset.bound;
+    if (this._handlers) {
+      this._handlers.forEach(h => {
+        try { h.el.removeEventListener(h.type, h.fn); } catch (e) { /* ignore */ }
+      });
+      this._handlers = [];
+    }
   },
 
   renderAll() {
@@ -84,41 +80,42 @@ const Gym = {
     const next = document.getElementById('gym-next-day');
     const todayBtn = document.getElementById('gym-today-btn');
 
-    if (prev && !prev.dataset.bound) {
-      prev.dataset.bound = '1';
-      prev.addEventListener('click', () => this.changeDay(-1));
-    }
-    if (next && !next.dataset.bound) {
-      next.dataset.bound = '1';
-      next.addEventListener('click', () => this.changeDay(1));
-    }
-    if (todayBtn && !todayBtn.dataset.bound) {
-      todayBtn.dataset.bound = '1';
-      todayBtn.addEventListener('click', () => {
-        this.selectedDate = Utils.todayStr();
-        this.renderAll();
-      });
-    }
+    if (prev) this._bind(prev, 'click', () => this.changeDay(-1));
+    if (next) this._bind(next, 'click', () => this.changeDay(1));
+    if (todayBtn) this._bind(todayBtn, 'click', () => {
+      this.selectedDate = Utils.todayStr();
+      this.renderAll();
+    });
 
     const exInput = document.getElementById('gym-exercise-name');
-    if (exInput && !exInput.dataset.bound) {
-      exInput.dataset.bound = '1';
-      exInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); this.addExercise(); }
-      });
-    }
+    if (exInput) this._bind(exInput, 'keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); this.addExercise(); }
+    });
 
     // body metric inputs
     const wInput = document.getElementById('gym-body-weight');
     const bfInput = document.getElementById('gym-body-fat');
-    if (wInput && !wInput.dataset.bound) {
-      wInput.dataset.bound = '1';
-      wInput.addEventListener('change', () => this.saveBodyMetrics());
+    if (wInput) this._bind(wInput, 'change', () => this.saveBodyMetrics());
+    if (bfInput) this._bind(bfInput, 'change', () => this.saveBodyMetrics());
+  },
+
+  // Track element listeners so destroy() can remove them (prevents duplicate
+  // handlers accumulating every time the section is re-entered).
+  _bind(el, type, fn) {
+    if (!this._handlers) this._handlers = [];
+    if (this._handlers.some(h => h.el === el && h.type === type)) return;
+    el.addEventListener(type, fn);
+    this._handlers.push({ el, type, fn });
+  },
+
+  // Coalesce rapid slider/input changes into a single data-update notification
+  notifyDataChanged() {
+    if (!this._debouncedNotify) {
+      this._debouncedNotify = Utils.debounce(() => {
+        this.notifyDataChanged();
+      }, 200);
     }
-    if (bfInput && !bfInput.dataset.bound) {
-      bfInput.dataset.bound = '1';
-      bfInput.addEventListener('change', () => this.saveBodyMetrics());
-    }
+    this._debouncedNotify();
   },
 
   changeDay(offset) {
@@ -272,7 +269,7 @@ const Gym = {
     this.renderExercises();
     this.updateHeroMetrics();
     this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
     if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast(name.charAt(0).toUpperCase() + name.slice(1) + ' template applied', 'success');
   },
 
@@ -320,7 +317,7 @@ const Gym = {
     this.renderExercises();
     this.updateHeroMetrics();
     this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   deleteExercise(idx) {
@@ -331,7 +328,7 @@ const Gym = {
     this.renderExercises();
     this.updateHeroMetrics();
     this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   /* ---------- sleep ---------- */
@@ -451,7 +448,7 @@ const Gym = {
     this.updateSleepStats(data.sleep);
     this.updateHeroMetrics();
     this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   onTimeDigitChange() {
@@ -646,7 +643,7 @@ const Gym = {
     DB.setGym(this.selectedDate, data);
     this.renderDiet();
     this.updateHeroMetrics();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   deleteMeal(idx) {
@@ -656,7 +653,7 @@ const Gym = {
     DB.setGym(this.selectedDate, data);
     this.renderDiet();
     this.updateHeroMetrics();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   /* ---------- water ---------- */
@@ -691,7 +688,7 @@ const Gym = {
     this.renderWater();
     this.updateHeroMetrics();
     this.renderStatStrip();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
   },
 
   /* ---------- body metrics ---------- */
@@ -750,7 +747,7 @@ const Gym = {
   _doReset() {
     DB.setGym(this.selectedDate, { exercises: [], sleep: { sleepTime: "", wakeTime: "", quality: "", duration: 0 }, diet: { meals: [], proteinGoal: 150, carbsGoal: 200, fatsGoal: 65, caloriesLevel: "moderate" }, water: { amount: 0, goal: 3000 } });
     this.renderAll();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
+    this.notifyDataChanged();
     if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Today reset', 'success');
   },
 

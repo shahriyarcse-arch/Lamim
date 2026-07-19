@@ -58,25 +58,21 @@ const Dhikr = {
     this.renderSessionHistory();
     this.renderLogDate();
 
-    // Listen for cloud/local data updates
-    if (!this.dataUpdateBound) {
-      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
-        if (document.getElementById('section-dhikr')?.classList.contains('active')) {
-          const freshCount = DB.getDhikr(Utils.todayStr())[this.currentId] || 0;
-          // Only re-render if count actually changed (to avoid interrupting active tapping)
-          if (freshCount !== this.count) {
-            this.count = freshCount;
-            this.renderHero();
-            this.renderSessionHistory();
-          }
-        }
-      });
-      this.dataUpdateBound = true;
-    }
-
     if (!this.initialized) {
       this.bindKeyboard();
       this.initialized = true;
+    }
+  },
+
+  onDataUpdated() {
+    if (document.getElementById('section-dhikr')?.classList.contains('active')) {
+      const freshCount = DB.getDhikr(Utils.todayStr())[this.currentId] || 0;
+      // Only re-render if count actually changed (to avoid interrupting active tapping)
+      if (freshCount !== this.count) {
+        this.count = freshCount;
+        this.renderHero();
+        this.renderSessionHistory();
+      }
     }
   },
 

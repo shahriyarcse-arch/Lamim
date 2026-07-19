@@ -220,43 +220,53 @@ const Finance = {
       }
     }, 60000);
 
-    // Listen for local data updates
-    if (!this.dataUpdateBound) {
-      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
+    this._bindGlobalListeners();
+  },
+
+  _bindGlobalListeners() {
+    if (this._globalHandlers) return;
+    this._globalHandlers = [];
+
+    const onThemeChanged = () => {
+      if (document.getElementById('section-finance')?.classList.contains('active')) this.render();
+    };
+    const hidePicker = () => {
+      document.querySelectorAll('.fin-date-pop').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.fin-date-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
+    };
+    const onOutsideClick = (e) => {
+      if (!e.target.closest('.fin-date-trigger') && !e.target.closest('.fin-date-pop')) hidePicker();
+    };
+
+    this._addGlobal(window, 'lamim:theme-changed', onThemeChanged);
+    this._addGlobal(document, 'click', onOutsideClick, true);
+    this._addGlobal(window, 'scroll', hidePicker, true);
+    this._addGlobal(window, 'resize', hidePicker);
+  },
+
+  _addGlobal(target, type, fn, opts) {
+    target.addEventListener(type, fn, opts);
+    this._globalHandlers.push({ target, type, fn, opts });
+  },
+
+  _removeGlobalListeners() {
+    if (!this._globalHandlers) return;
+    this._globalHandlers.forEach(h => {
+      try { h.target.removeEventListener(h.type, h.fn, h.opts); } catch (e) { /* ignore */ }
+    });
+    this._globalHandlers = null;
+  },
+
+  onDataUpdated() {
+    if (!this._debouncedDataUpdate) {
+      this._debouncedDataUpdate = Utils.debounce(() => {
         if (document.getElementById('section-finance')?.classList.contains('active')) {
           this.loadData();
           this.render();
         }
-      });
-      this.dataUpdateBound = true;
+      }, 250);
     }
-
-    // Re-render on theme switch so the chart picks up the new theme colors
-    if (!this.globalListenersBound) {
-      Utils.safeAddEventListener(window, 'lamim:theme-changed', () => {
-        if (document.getElementById('section-finance')?.classList.contains('active')) {
-          this.render();
-        }
-      });
-
-      // Close custom date picker on outside click
-      Utils.safeAddEventListener(document, 'click', (e) => {
-        if (!e.target.closest('.fin-date-trigger') && !e.target.closest('.fin-date-pop')) {
-          document.querySelectorAll('.fin-date-pop').forEach(p => p.classList.add('hidden'));
-          document.querySelectorAll('.fin-date-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
-        }
-      }, true);
-
-      // Hide picker on scroll/resize so it never drifts off-position
-      const hidePicker = () => {
-        document.querySelectorAll('.fin-date-pop').forEach(p => p.classList.add('hidden'));
-        document.querySelectorAll('.fin-date-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
-      };
-      Utils.safeAddEventListener(window, 'scroll', hidePicker, true);
-      Utils.safeAddEventListener(window, 'resize', hidePicker);
-
-      this.globalListenersBound = true;
-    }
+    this._debouncedDataUpdate();
   },
 
   setChartView(view) {
@@ -281,7 +291,7 @@ const Finance = {
         const p = JSON.parse(raw);
         if (p && p.rate && p.rate !== this.exchangeRate) {
           this.exchangeRate = p.rate;
-          this.render();
+          if (document.getElementById('section-finance')?.classList.contains('active')) this.render();
         }
       }
     } catch (e) { /* ignore */ }
@@ -294,7 +304,7 @@ const Finance = {
         const newRate = data.rates.BDT;
         if (newRate !== this.exchangeRate) {
           this.exchangeRate = newRate;
-          this.render();
+          if (document.getElementById('section-finance')?.classList.contains('active')) this.render();
           // If settings modal is open, refresh its content too
           const modal = document.getElementById('finance-modal-overlay');
           if (modal && modal.classList.contains('show')) {
@@ -2293,6 +2303,11 @@ const Finance = {
   },
 
   destroy() {
+    this._removeGlobalListeners();
+    if (this._debouncedDataUpdate) {
+      this._debouncedDataUpdate.cancel();
+      this._debouncedDataUpdate = null;
+    }
     if (this.rateInterval) {
       clearInterval(this.rateInterval);
       this.rateInterval = null;

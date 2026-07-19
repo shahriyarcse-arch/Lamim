@@ -350,22 +350,23 @@ const Mujahid = {
     this.loadHabits();
     this.migrateIcons();
     this.render();
-    
-    // Listen for local data updates
-    if (!this.dataUpdateBound) {
-      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
-        if (document.getElementById('section-mujahid')?.classList.contains('active')) {
-          this.loadHabits();
-          this.render();
-        }
-      });
-      this.dataUpdateBound = true;
-    }
 
     if (!this.initialized) {
       this.startLiveCounter();
       this.initialized = true;
     }
+  },
+
+  onDataUpdated() {
+    if (!this._debouncedDataUpdate) {
+      this._debouncedDataUpdate = Utils.debounce(() => {
+        if (document.getElementById('section-mujahid')?.classList.contains('active')) {
+          this.loadHabits();
+          this.render();
+        }
+      }, 200);
+    }
+    this._debouncedDataUpdate();
   },
 
   migrateIcons() {
@@ -497,6 +498,8 @@ const Mujahid = {
 
   saveHabits() {
     DB.setMujahid(this.habits);
+    // Notify other modules (e.g. Analysis SHS) that habit data changed
+    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
   },
 
   getHabit(id) {

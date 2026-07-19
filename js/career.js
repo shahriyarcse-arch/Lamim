@@ -45,16 +45,12 @@ const Career = {
   },
 
   destroy() {
-    ['career-prev-day', 'career-next-day', 'career-today-btn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) delete el.dataset.bound;
-    });
-    const goalForm = document.getElementById('career-goal-form');
-    if (goalForm) delete goalForm.dataset.bound;
-    const checklistContainer = document.getElementById('career-checklist-container');
-    if (checklistContainer) delete checklistContainer.dataset.bound;
-    const topicInput = document.getElementById('career-study-topic');
-    if (topicInput) delete topicInput.dataset.bound;
+    if (this._handlers) {
+      this._handlers.forEach(h => {
+        try { h.el.removeEventListener(h.type, h.fn); } catch (e) { /* ignore */ }
+      });
+      this._handlers = [];
+    }
     if (this._timerRAF) {
       cancelAnimationFrame(this._timerRAF);
       this._timerRAF = null;
@@ -126,41 +122,41 @@ const Career = {
   bindEvents() {
     const prev = document.getElementById('career-prev-day');
     const next = document.getElementById('career-next-day');
-    if (prev && !prev.dataset.bound) { prev.dataset.bound = '1'; prev.addEventListener('click', () => this.changeDay(-1)); }
-    if (next && !next.dataset.bound) { next.dataset.bound = '1'; next.addEventListener('click', () => this.changeDay(1)); }
+    if (prev) this._bind(prev, 'click', () => this.changeDay(-1));
+    if (next) this._bind(next, 'click', () => this.changeDay(1));
     const todayBtn = document.getElementById('career-today-btn');
-    if (todayBtn && !todayBtn.dataset.bound) { todayBtn.dataset.bound = '1'; todayBtn.addEventListener('click', () => { this.selectedDate = Utils.todayStr(); this.renderAll(); }); }
+    if (todayBtn) this._bind(todayBtn, 'click', () => { this.selectedDate = Utils.todayStr(); this.renderAll(); });
 
     const goalForm = document.getElementById('career-goal-form');
-    if (goalForm && !goalForm.dataset.bound) {
-      goalForm.dataset.bound = '1';
-      goalForm.addEventListener('submit', (e) => { e.preventDefault(); this.addChecklistItem(); });
-    }
+    if (goalForm) this._bind(goalForm, 'submit', (e) => { e.preventDefault(); this.addChecklistItem(); });
 
     const checklistContainer = document.getElementById('career-checklist-container');
-    if (checklistContainer && !checklistContainer.dataset.bound) {
-      checklistContainer.dataset.bound = '1';
-      checklistContainer.addEventListener('click', (e) => {
-        const delBtn = e.target.closest('.cb-check-del');
-        if (delBtn) {
-          e.stopPropagation();
-          const id = parseInt(delBtn.dataset.id, 10);
-          if (!isNaN(id)) this.deleteChecklistItem(id);
-          return;
-        }
-        const itemEl = e.target.closest('.cb-check-item');
-        if (itemEl) {
-          const id = parseInt(itemEl.dataset.id, 10);
-          if (!isNaN(id)) this.toggleChecklistItem(id, e);
-        }
-      });
-    }
+    if (checklistContainer) this._bind(checklistContainer, 'click', (e) => {
+      const delBtn = e.target.closest('.cb-check-del');
+      if (delBtn) {
+        e.stopPropagation();
+        const id = parseInt(delBtn.dataset.id, 10);
+        if (!isNaN(id)) this.deleteChecklistItem(id);
+        return;
+      }
+      const itemEl = e.target.closest('.cb-check-item');
+      if (itemEl) {
+        const id = parseInt(itemEl.dataset.id, 10);
+        if (!isNaN(id)) this.toggleChecklistItem(id, e);
+      }
+    });
 
     const topicInput = document.getElementById('career-study-topic');
-    if (topicInput && !topicInput.dataset.bound) {
-      topicInput.dataset.bound = '1';
-      topicInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.saveStudyLog(); } });
-    }
+    if (topicInput) this._bind(topicInput, 'keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); this.saveStudyLog(); } });
+  },
+
+  // Track element listeners so destroy() can remove them (prevents duplicate
+  // handlers accumulating every time the section is re-entered).
+  _bind(el, type, fn) {
+    if (!this._handlers) this._handlers = [];
+    if (this._handlers.some(h => h.el === el && h.type === type)) return;
+    el.addEventListener(type, fn);
+    this._handlers.push({ el, type, fn });
   },
 
   changeDay(offset) {

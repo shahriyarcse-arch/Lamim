@@ -13,13 +13,11 @@ const Home = {
     this.updateSalahTimeline();
     this.renderDailyInsights();
     this.bindAuroraScrollPause();
-    if (!this._dataUpdateBound) {
-      this._dataUpdateBound = true;
-      Utils.safeAddEventListener(window, 'lamim:data-updated', () => {
-        this.updateNextPrayer();
-        this.updateSalahTimeline();
-      });
-    }
+  },
+
+  onDataUpdated() {
+    this.updateNextPrayer();
+    this.updateSalahTimeline();
   },
 
   bindAuroraScrollPause() {
@@ -28,12 +26,13 @@ const Home = {
     const bg = document.querySelector('.home-aurora-bg');
     if (!bg) return;
     let timer;
-    window.addEventListener('scroll', () => {
+    this._auroraHandler = () => {
       if (!document.body.classList.contains('home-active')) return;
       bg.classList.add('is-scrolling');
       clearTimeout(timer);
       timer = setTimeout(() => bg.classList.remove('is-scrolling'), 120);
-    }, { passive: true });
+    };
+    window.addEventListener('scroll', this._auroraHandler, { passive: true });
   },
 
   destroy() {
@@ -44,6 +43,11 @@ const Home = {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
       this.countdownInterval = null;
+    }
+    if (this._auroraHandler) {
+      window.removeEventListener('scroll', this._auroraHandler);
+      this._auroraHandler = null;
+      this._auroraBound = false;
     }
   },
 

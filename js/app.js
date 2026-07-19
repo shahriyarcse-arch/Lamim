@@ -267,6 +267,12 @@ updateSectionTitle() {
       history.scrollRestoration = 'manual';
     }
 
+    // Single app-level data-update bus. Routed to the ACTIVE section only, so
+    // modules no longer attach (and leak) their own window listeners per navigation.
+    window.addEventListener('lamim:data-updated', () => {
+      this.routeDataUpdate();
+    });
+
     // Android hardware back button support
     window.addEventListener('popstate', (e) => {
       // Close any open modal first
@@ -440,8 +446,7 @@ updateSectionTitle() {
   },
 
   // Deep-link support for PWA shortcuts / shared URLs (?section=salah)
-  applyDeepLink() {
-    try {
+  applyDeepLink() {    try {
       const section = new URLSearchParams(location.search).get('section');
       if (!section) return;
       const valid = ['home', 'salah', 'dhikr', 'nafl', 'analysis', 'profile', 'mujahid', 'finance', 'gym', 'career'];
@@ -449,6 +454,17 @@ updateSectionTitle() {
         setTimeout(() => this.navigateTo(section), 0);
       }
     } catch (e) { /* ignore deep-link errors */ }
+  },
+
+  // Route a data-update event to the active section's onDataUpdated() handler.
+  // Inactive sections ignore it (their init() re-reads fresh data on entry),
+  // so we avoid the old pattern of every module holding a permanent window listener.
+  routeDataUpdate() {
+    const map = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+    const mod = this.currentSection && map[this.currentSection];
+    if (mod && typeof mod.onDataUpdated === 'function') {
+      Utils.safeRun(() => mod.onDataUpdated(), `${this.currentSection} onDataUpdated`);
+    }
   },
 
   bindInstallPrompt() {

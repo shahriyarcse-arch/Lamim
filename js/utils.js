@@ -620,14 +620,19 @@ const Utils = {
 
   debounce(func, wait) {
     let timeout;
-    return function executedFunction(...args) {
+    const debounced = function executedFunction(...args) {
       const later = () => {
-        clearTimeout(timeout);
+        timeout = null;
         func(...args);
       };
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
+    debounced.cancel = () => {
+      clearTimeout(timeout);
+      timeout = null;
+    };
+    return debounced;
   },
 
   loadScript(url) {
