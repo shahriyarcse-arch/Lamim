@@ -1,0 +1,155 @@
+/* =============================================
+   LAMIM — ANALYSIS INTELLIGENCE CSS
+   ============================================= */
+.analysis-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+.analysis-header-pro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.analysis-main-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.analysis-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 4px 0 0 0;
+}
+
+/* Timeframe Tabs */
+.analysis-tabs {
+  display: flex;
+  background: var(--color-surface-nested);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.analysis-tab {
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-subtitle);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.analysis-tab.active {
+  background: #fff;
+  color: #0a0f1c;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Stat Row */
+.analysis-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.analysis-stat-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-surface-nested);
+  padding: 16px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-val {
+  font-size: 22px;
+  font-weight: 950;
+  color: #fff;
+}
+
+.stat-val.pos {
+  color: #34d399;
+}
+
+.stat-val.neg {
+  color: #fb7185;
+}
+
+/* Analysis Grid */
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.analysis-card {
+  background: rgba(22, 27, 40, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 320px;
+}
+
+.analysis-card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.analysis-card-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.analysis-card-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.chart-wrapper {
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .analysis-header-pro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

@@ -520,24 +520,9 @@ const Finance = {
         + `</div>`;
     }
 
-    const catWeights = {};
-    this.data.expenses.forEach(e => {
-      const d = new Date(e.date);
-      if (d.getMonth() === m && d.getFullYear() === y && e.category !== 'transfer') catWeights[e.category] = (catWeights[e.category] || 0) + e.amount;
-    });
-
-    const sortedCats = Object.entries(catWeights).sort((a,b) => b[1] - a[1]);
-    const catColor = (catId) => { const c = this.categories.find(x => x.id === catId); return c ? c.color : '#8E8E93'; };
-    const gCols = [
-      sortedCats[0] ? this.getResolvedColor(catColor(sortedCats[0][0])) : this.getResolvedColor('#ff3b30'),
-      sortedCats[1] ? this.getResolvedColor(catColor(sortedCats[1][0])) : this.getResolvedColor('#ff9500'),
-      this.getResolvedColor('#007aff'), this.getResolvedColor('#af52de')
-    ];
-
     const totalSaved = this.data.savings.reduce((sum, g) => sum + (Number(g.saved) || 0), 0);
     const available = stats.closingBalance;
     const netWorth = available + totalSaved;
-    const isNegative = available < 0;
 
     return `
       <div class="finance-premium-card card-main-balance ${available < 0 ? 'is-negative' : ''}">

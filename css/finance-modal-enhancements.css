@@ -1,0 +1,948 @@
+/* =============================================
+   LAMIM — FINANCE MODAL & 100+ CAT ENHANCEMENTS
+   ============================================= */
+.fin-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 12px 4px;
+  margin-top: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.fin-cat-grid::-webkit-scrollbar {
+  width: 5px;
+}
+
+.fin-cat-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.fin-modal-search-box {
+  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0 16px;
+  transition: all 0.3s ease;
+}
+
+.fin-modal-search-box:focus-within {
+  border-color: var(--fin-blue);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.fin-cat-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px 10px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+
+.fin-cat-pill {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.fin-cat-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.fin-cat-pill.active {
+  background: var(--fin-blue);
+  border-color: var(--fin-blue);
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+}
+
+.fin-cat-pill.active .fin-cat-name {
+  color: #fff;
+}
+
+.fin-cat-pill.active .fin-cat-icon {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+.fin-cat-icon {
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fin-cat-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+[data-theme="light"] .fin-cat-pill {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .fin-cat-pill.active {
+  background: var(--fin-blue);
+  border-color: var(--fin-blue);
+}
+
+[data-theme="light"] .fin-modal-search-box {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .fin-cat-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.fin-cat-section-header {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  opacity: 0.5;
+  padding: 16px 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 4px;
+}
+
+[data-theme="light"] .fin-cat-section-header {
+  border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+.fin-tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--color-text-primary);
+}
+
+.fin-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.fin-tool-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .fin-tool-btn {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.fin-exchange-card {
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+}
+
+[data-theme="light"] .fin-exchange-card {
+  background: #f0f7ff;
+  border-color: #bee3f8;
+}
+
+/* MUJAHID SECTION RESTORATION */
+.mujahid-btn-clean-sm {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.mujahid-btn-clean-sm:hover {
+  background: rgba(34, 197, 94, 0.35);
+}
+
+.mujahid-btn-relapse-sm {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.mujahid-btn-relapse-sm:hover {
+  background: rgba(239, 68, 68, 0.35);
+}
+
+.mujahid-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-divider-subtle);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.mujahid-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.mujahid-habit-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Mujahid Empty Hero Section */
+.mujahid-empty-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px;
+  overflow: hidden;
+  border-radius: 32px;
+  margin-top: 20px;
+}
+
+.mujahid-hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mujahid-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+}
+
+.mujahid-hero-icon-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 32px;
+}
+
+.mujahid-hero-shield {
+  position: absolute;
+  inset: 0;
+  color: var(--color-accent-primary);
+  opacity: 0.8;
+  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
+  animation: float 4s ease-in-out infinite;
+}
+
+.mujahid-hero-sword {
+  position: absolute;
+  inset: 15px;
+  color: var(--color-accent-primary);
+  opacity: 0.4;
+  transform: rotate(-15deg);
+  animation: float 4s ease-in-out infinite reverse;
+}
+
+.mujahid-hero-title {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+}
+
+.mujahid-hero-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 40px;
+}
+
+
+
+
+
+
+
+/* MUJAHID ADD MODAL THEME FIXES */
+.mujahid-habits-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+.mujahid-habit-option-icon {
+  font-size: 22px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.mujahid-icon-option {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--color-text-secondary);
+}
+
+.mujahid-icon-option:hover {
+  border-color: var(--color-accent-primary);
+  background: var(--color-surface-card);
+}
+
+.mujahid-icon-option.active {
+  background: var(--color-accent-primary);
+  color: white;
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
+.mujahid-icon-option svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mujahid-custom-input input {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 14px;
+  color: var(--color-text-primary);
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.mujahid-custom-input input:focus {
+  border-color: var(--color-accent-primary);
+  background: var(--color-surface-card);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+/* MODERN ADD ANOTHER PILLAR - HALKA & GLOSSY UPGRADE */
+.mujahid-add-pillar-wrap {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.mujahid-add-pillar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-divider-subtle);
+  border-radius: 20px;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  animation: mujahid-pillar-float 4s ease-in-out infinite;
+}
+
+/* Glossy Shimmer Effect */
+.mujahid-add-pillar::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  transform: rotate(35deg);
+  animation: mujahid-glossy-sweep 3s infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Liquid Animated Border */
+.mujahid-add-pillar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: mujahid-border-flow 3s linear infinite;
+  opacity: 0.3;
+}
+
+.mujahid-add-pillar:hover {
+  transform: translateY(-5px) scale(1.01);
+  border-color: transparent;
+  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+}
+
+.mujahid-add-pillar:hover::before {
+  opacity: 1;
+}
+
+.mujahid-add-pillar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--color-accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+  position: relative;
+}
+
+.mujahid-add-pillar:hover .mujahid-add-pillar-icon {
+  background: var(--color-accent-primary);
+  color: white;
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+}
+
+.mujahid-add-pillar-text {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+@keyframes mujahid-glossy-sweep {
+  0% {
+    transform: translateX(0) rotate(35deg);
+  }
+
+  100% {
+    transform: translateX(1100%) rotate(35deg);
+  }
+}
+
+@keyframes mujahid-border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes mujahid-pillar-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* UNIVERSAL MODAL TITLE FIX - FORCE VISIBILITY */
+#mujahid-add-modal .modal-title,
+#mujahid-history-modal .modal-title,
+#mujahid-tools-modal .modal-title,
+#mujahid-startdate-modal .modal-title,
+#mujahid-confirm-modal .modal-title {
+  color: var(--color-accent-primary) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.5px !important;
+  font-size: 20px !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* PREMIUM CANCEL BUTTON */
+.mujahid-btn-cancel {
+  width: 100%;
+  padding: 14px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-divider-subtle);
+  border-radius: 14px;
+  color: var(--color-text-primary);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mujahid-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-text-muted);
+}
+
+[data-theme="light"] .mujahid-btn-cancel {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+#mujahid-confirm-modal .mujahid-btn-danger {
+  width: 100%;
+  padding: 14px 0;
+  background: #ef4444;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  transition: all 0.2s;
+}
+
+#mujahid-confirm-modal .mujahid-btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Light Mode specific tweaks for Pillar */
+[data-theme="light"] .mujahid-add-pillar {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .mujahid-add-pillar:hover {
+  border-color: #6366F1;
+  color: #6366F1;
+}
+
+
+/* Light Mode Contrast Adjustments */
+[data-theme="light"] .mujahid-hero-shield {
+  opacity: 0.9;
+  color: #6366F1;
+}
+
+[data-theme="light"] .mujahid-hero-sword {
+  opacity: 0.6;
+  color: #6366F1;
+}
+
+[data-theme="light"] .mujahid-hero-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+}
+
+/* END OF FILE */
+
+/* --- Celestial Nafl Overhaul --- */
+.nafl-celestial-glass {
+  background: linear-gradient(135deg, rgba(6, 11, 19, 0.9), rgba(30, 27, 75, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  padding: 40px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.celestial-moon-wrap {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.celestial-moon-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: celestial-pulse 4s infinite ease-in-out;
+}
+
+.celestial-moon-svg {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+  animation: celestial-rotate 60s infinite linear;
+}
+
+@keyframes celestial-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes celestial-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.nafl-hero-content {
+  flex: 1;
+}
+
+.nafl-hero-title {
+  font-size: 28px;
+  font-weight: 950;
+  color: white;
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+
+.nafl-hero-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
+}
+
+.nafl-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.nafl-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #818cf8, #c084fc);
+  box-shadow: 0 0 15px rgba(129, 140, 248, 0.5);
+  border-radius: 10px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nafl-progress-stat {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.date-nav-btn {
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: white;
+}
+
+.date-nav-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 3px;
+  /* Extra bold arrows */
+}
+
+.date-nav-btn:hover {
+  background: rgba(129, 140, 248, 0.1);
+  border-color: rgba(129, 140, 248, 0.4);
+}
+
+.date-nav-btn[style*="display: none"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#nafl-date-label {
+  font-size: 20px;
+  font-weight: 950;
+  letter-spacing: -0.5px;
+  color: white;
+  min-width: 100px;
+  text-align: center;
+}
+
+.nafl-card-modern {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Time-Based Gradient Rails */
+.nafl-card-modern::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--rail-color, #6366f1);
+  opacity: 0.8;
+}
+
+.nafl-card-modern[onclick*="fajr"] {
+  --rail-color: linear-gradient(to bottom, #ff7e5f, #feb47b);
+}
+
+.nafl-card-modern[onclick*="dhuhr"] {
+  --rail-color: linear-gradient(to bottom, #f7971e, #ffd200);
+}
+
+.nafl-card-modern[onclick*="maghrib"] {
+  --rail-color: linear-gradient(to bottom, #da22ff, #9733ee);
+}
+
+.nafl-card-modern[onclick*="isha"] {
+  --rail-color: linear-gradient(to bottom, #3a1c71, #d76d77);
+}
+
+.nafl-card-modern:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.nafl-card-modern.active {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(16, 185, 129, 0.08));
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.nafl-icon-ring {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nafl-icon-ring svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nafl-done-seal {
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  border: 1.5px solid #34d399;
+  background: rgba(16, 185, 129, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+  animation: seal-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes seal-pop {
+  from {
+    transform: scale(0.5) rotate(-15deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.nafl-name {
+  font-size: 14px;
+  font-weight: 850;
+  color: white;
+  letter-spacing: -0.2px;
+}
+
+.nafl-rakat {
+  font-size: 9px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Light Mode Overrides for Sunnah Chips */
+[data-theme="light"] .nafl-card-modern {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .nafl-card-modern:hover {
+  background: #fafafa !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .nafl-name {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .nafl-rakat {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .nafl-icon-ring {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .nafl-card-modern.active {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.06), rgba(52, 211, 153, 0.02)) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+[data-theme="light"] .nafl-section-title {
+  color: #1e293b !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .nafl-section-title-text {
+  background: none !important;
+  -webkit-text-fill-color: #1e293b !important;
+  color: #1e293b !important;
+}
+
+[data-theme="light"] .nafl-hero-title {
+  color: #1e293b !important;
+}
+
+[data-theme="light"] .nafl-hero-subtitle {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .nafl-progress-stat {
+  color: #64748b !important;
+}
+
+/* Light Mode Clarity — Celestial Hero */
+[data-theme="light"] .nafl-celestial-glass {
+  background: #FFFFFF !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .nafl-hero-title {
+  color: #0F172A !important;
+  font-weight: 900;
+}
+
+[data-theme="light"] .nafl-hero-subtitle {
+  color: #334155 !important;
+  font-weight: 700;
+}
+
+[data-theme="light"] .nafl-progress-stat {
+  color: #475569 !important;
+  font-weight: 800;
+}
+
+[data-theme="light"] .celestial-moon-svg {
+  color: #4f46e5 !important;
+  filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.3)) !important;
+}
+
+[data-theme="light"] .celestial-moon-wrap path {
+  fill: rgba(79, 70, 229, 0.15) !important;
+}
+
+[data-theme="light"] .nafl-progress-track {
+  background: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .date-nav-btn {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1e293b !important;
+}

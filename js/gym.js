@@ -195,11 +195,7 @@ const Gym = {
 
   /* ---------- stat strip ---------- */
   renderStatStrip() {
-    const streak = DB.getGymStreak();
     const gym = DB.getGym(this.selectedDate);
-    const volume = this._dayVolume(gym.exercises || []);
-    const sleepDur = (gym.sleep && gym.sleep.duration) || 0;
-    const water = (gym.water && gym.water.amount) || 0;
     const n = window.n ? window.n : (x => x);
 
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };

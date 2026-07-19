@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lamim-v151';
+const CACHE_NAME = 'lamim-v152';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -109,4 +109,5 @@ self.addEventListener('fetch', (e) => {
     })
   );
 });
+
 

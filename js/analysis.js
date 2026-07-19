@@ -164,8 +164,6 @@ const Analysis = {
     let monthVal = `${targetDate.getFullYear()}-${targetDate.getMonth()}`;
     let monthLabel = (this.monthOffset === 0) ? 'This Month' : targetDate.toLocaleDateString(undefined, {month: 'short', year: 'numeric'});
 
-    let isHistorical = (this.monthOffset !== 0);
-
     // Always use the daily trend for the current viewed month
     let trend = this.getMonthDailyTrend(targetDate.getFullYear(), targetDate.getMonth());
 
@@ -177,7 +175,6 @@ const Analysis = {
     let shs = this.calculateSHS(activeDateStr || Utils.dateStr(today));
 
     const rating = shs.rating;
-    const trendLabel = isHistorical ? 'Monthly' : 'Trend';
     let activeDateObj = today;
     if (activeDateStr) {
       const [y, m, d] = activeDateStr.split('-');

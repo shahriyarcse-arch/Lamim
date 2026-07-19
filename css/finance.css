@@ -1,6 +1,6 @@
 /* === LAMIM · FINANCE MODERN REDESIGN ===
    Clean, cohesive theme. Reduces flashy glow/rainbow, unifies card surfaces.
-   Loaded after radiant-soul-animation-engine.css so it overrides shared styles. */
+   Loaded after the split animation-engine / finance-redesign stylesheets so it overrides shared styles. */
 
 /* ---- Section settings (tools) icon ---- */
 .section-tools-btn {

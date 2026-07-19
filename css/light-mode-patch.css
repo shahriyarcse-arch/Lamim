@@ -1,0 +1,117 @@
+/* =============================================
+   LIGHT MODE PATCH - FORCE ACCESSIBILITY
+   ============================================= */
+[data-theme="light"] {
+  --color-text-on-accent: #FFFFFF;
+}
+
+[data-theme="light"] .premium-svg-logo {
+  color: var(--color-accent-primary) !important;
+}
+
+[data-theme="light"] .auth-subtitle {
+  color: var(--color-text-secondary) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .btn-xoss {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .btn-xoss.btn-secondary {
+  color: var(--color-text-primary) !important;
+  background: var(--color-surface-hollow) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+[data-theme="light"] .finance-save-btn {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .mujahid-btn,
+[data-theme="light"] .mujahid-btn-danger {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .iw-icon-btn {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] .iw-habit-pill {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] .iw-relapse-btn {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .switch-slider:before {
+  background: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .dhikr-history-item-count {
+  color: var(--color-text-on-accent) !important;
+}
+
+[data-theme="light"] .nafl-hero-banner {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="light"] .analysis-score-value {
+  color: #fff !important;
+}
+
+[data-theme="light"] .analysis-score-label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="light"] .tab-btn.active {
+  color: var(--color-text-on-primary) !important;
+}
+
+[data-theme="light"] .settings-item-icon {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .card-identity-id {
+  color: var(--color-text-muted) !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .avatar-edit-btn {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .lang-toggle-pill button.active {
+  color: var(--color-bg-primary) !important;
+}
+
+[data-theme="light"] .balance-trend {
+  color: var(--color-text-primary) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .card-main-balance.is-negative .balance-value {
+  color: var(--color-text-on-danger) !important;
+}
+
+[data-theme="light"] .fin-stat-card {
+  background: var(--color-bg-elevated) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+[data-theme="light"] .fin-stat-value.income {
+  color: var(--color-text-on-success) !important;
+}
+
+[data-theme="light"] .fin-stat-value.expense {
+  color: var(--color-text-on-danger) !important;
+}
+
+
+
+/* Ensure hidden on screen */
+#salah-print-report {
+  display: none;
+}
+

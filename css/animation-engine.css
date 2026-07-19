@@ -1,0 +1,745 @@
+/* === RADIANT SOUL ANIMATION ENGINE === */
+@keyframes glow-silver-breathe {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(148, 163, 184, 0.3));
+    transform: scale(1);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 15px rgba(148, 163, 184, 0.6));
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow-indigo-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8));
+  }
+}
+
+@keyframes glow-sky-shimmer {
+  0% {
+    filter: drop-shadow(0 0 5px #38bdf8);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 25px #0ea5e9);
+    transform: translateY(-2px);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 5px #38bdf8);
+  }
+}
+
+@keyframes glow-gold-orbit {
+  0% {
+    filter: drop-shadow(0 0 10px #fbbf24);
+    transform: rotate(0deg);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 30px #f59e0b);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 10px #fbbf24);
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes glow-neon-surge {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 15px #f43f5e) hue-rotate(0deg);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 35px #e11d48) hue-rotate(15deg);
+    transform: scale(1.1);
+  }
+}
+
+.iw-badge-container .iw-mini-badge-icon {
+  animation: glow-silver-breathe 4s infinite ease-in-out;
+}
+
+/* Tiered Animations for Badge Shield */
+.iron-will-widget[style*="--theme-color:#94a3b8"] .iw-mini-badge-icon,
+.iron-will-widget:not([class*="is-"]) .iw-mini-badge-icon {
+  animation: glow-silver-breathe 4s infinite ease-in-out;
+}
+
+.iron-will-widget[style*="--theme-color:#38bdf8"] .iw-mini-badge-icon {
+  animation: glow-indigo-pulse 3s infinite ease-in-out;
+}
+
+.iron-will-widget.is-ascended .iw-mini-badge-icon {
+  animation: glow-sky-shimmer 2.5s infinite ease-in-out;
+}
+
+.iron-will-widget.is-legendary .iw-mini-badge-icon {
+  animation: glow-gold-orbit 3s infinite alternate ease-in-out;
+}
+
+.iron-will-widget.is-divine .iw-mini-badge-icon {
+  animation: glow-neon-surge 2s infinite ease-in-out;
+}
+
+/* Mini Badges Individual Glows */
+.iw-mini-badge.earned {
+  animation: glow-indigo-pulse 4s infinite ease-in-out;
+}
+
+.iw-mini-badge.earned:nth-child(2n) {
+  animation-duration: 3.5s;
+}
+
+.iw-mini-badge.earned:nth-child(3n) {
+  animation-duration: 4.5s;
+  animation-name: glow-silver-breathe;
+}
+
+.iw-mini-badge.earned:nth-child(4n) {
+  animation-duration: 5s;
+  animation-name: glow-sky-shimmer;
+}
+
+.iw-mini-badge.locked {
+  color: #475569;
+  /* Solid Slate for maximum visibility */
+  border: 1.5px dashed #94A3B8;
+  background: #F1F5F9;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] .iw-mini-badge.locked {
+  color: #94A3B8;
+  border: 1.5px dashed #172033;
+  background: #0c1322;
+  opacity: 1 !important;
+}
+
+
+
+.iron-will-widget.is-ascended {
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 35, 20, 0.95) 100%);
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.1), inset 0 0 30px rgba(255, 215, 0, 0.05);
+}
+
+.iron-will-widget.is-ascended .iw-timer-days {
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.iron-will-widget.is-ascended .iw-timer-label,
+.iron-will-widget.is-ascended .iw-days-text {
+  color: #ffd700;
+  opacity: 0.9;
+}
+
+.iron-will-widget.is-ascended .iw-habit-pill {
+  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(255, 215, 0, 0.1);
+  color: #fff;
+}
+
+/* 1,000 Days: Eternal Spirit (Aurora) */
+.is-legendary:not(.is-divine):not(.is-master) {
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: #000 !important;
+  box-shadow: 0 0 40px var(--color-divider-strong) !important;
+}
+
+.is-legendary:not(.is-divine):not(.is-master)::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  animation: q-aurora 15s linear infinite;
+  opacity: 0.12;
+  filter: blur(60px);
+  z-index: 0;
+}
+
+@keyframes q-aurora {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3,000 Days: Sovereign (The Cold Void) */
+.is-divine:not(.is-master) {
+  background: #000 !important;
+  border: 1px solid #00f2ff60 !important;
+  box-shadow: 0 0 40px #00f2ff20 !important;
+}
+
+.is-divine:not(.is-master)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, #00f2ff 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: q-stars 40s linear infinite;
+  opacity: 0.3;
+}
+
+.is-divine:not(.is-master) .mujahid-time-num {
+  color: #00f2ff !important;
+  text-shadow: 0 0 15px #00f2ff80 !important;
+}
+
+/* 5,000 Days: Master of Time (The Golden Nebula) */
+.is-master {
+  background: linear-gradient(45deg, #2d004d 0%, #1a0033 100%) !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: 0 0 80px rgba(255, 215, 0, 0.2), inset 0 0 50px rgba(255, 215, 0, 0.1) !important;
+}
+
+.is-master::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, #ff00ea20 0%, #ffd70010 30%, transparent 70%);
+  animation: q-aurora 20s linear infinite reverse;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+.is-master .iw-particles::before {
+  background-image: radial-gradient(#ffd700 2px, transparent 2px);
+  background-size: 60px 60px;
+  animation: iw-particles-up 12s linear infinite;
+  opacity: 0.4;
+}
+
+.is-master .mujahid-time-num {
+  color: #ffd700 !important;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.is-master .iw-rank-pill {
+  background: #ffd700 !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  font-weight: 900;
+}
+
+.is-master .iw-days-text,
+.is-master .iw-timer-label,
+.is-master .iw-unit-label {
+  color: #ffd700 !important;
+  opacity: 1 !important;
+  font-weight: 800;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.is-master .iw-habit-pill {
+  background: #ffd700 !important;
+  color: #000 !important;
+  border-color: #ffd700 !important;
+}
+
+@keyframes q-prism {
+  from {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+
+  to {
+    filter: hue-rotate(45deg) brightness(1.2);
+  }
+}
+
+.iron-will-widget.is-legendary .iw-timer-days {
+  background: linear-gradient(90deg, #fff, #7fb3ff, #fff, #ffd700, #fff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: q-mask 4s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+}
+
+.iron-will-widget.is-legendary .iw-days-text {
+  color: #fff;
+  opacity: 0.8;
+  -webkit-text-fill-color: initial;
+}
+
+.iron-will-widget.is-legendary .iw-habit-pill {
+  background: var(--color-divider-strong);
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.iw-timer-circle-wrap {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 8px auto 16px;
+}
+
+.iw-timer-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-surface-nested) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.iw-timer-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  opacity: 0.45;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.iw-timer-days-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.iw-timer-days {
+  font-size: 62px;
+  font-weight: 900;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  letter-spacing: -2px;
+}
+
+.iw-days-text {
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-top: 2px;
+}
+
+.iw-timer-sub {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+.iw-timer-unit {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50px;
+}
+
+.iw-timer-unit .mujahid-time-num {
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 2px;
+}
+
+.iw-unit-label {
+  font-size: 9px;
+  opacity: 0.4;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.iw-relapse-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 3px solid var(--color-surface-card, #1a1a24);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(217, 83, 79, 0.4);
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2;
+}
+
+.mujahid-icon-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.mujahid-icon-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-divider-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.finance-month-navigator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--fin-surface);
+  backdrop-filter: blur(20px);
+  padding: 8px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-muted);
+  margin-bottom: 24px;
+}
+
+.fin-control-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--color-divider-strong);
+  margin: 0 16px;
+}
+
+[data-theme="light"] .fin-control-divider {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.fin-unified-controls {
+  display: flex;
+  align-items: center;
+}
+
+.finance-nav-btn {
+  background: var(--color-surface-nested);
+  border: none;
+  color: var(--color-text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.finance-nav-btn:hover {
+  background: var(--color-divider-strong);
+}
+
+.finance-nav-btn:active {
+  transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.finance-nav-btn.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.section-tools-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .section-tools-btn {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .section-tools-btn:hover {
+  background: var(--color-surface-nested);
+  color: var(--color-text-primary);
+}
+
+.mujahid-icon-option.active {
+  background: var(--color-divider-strong);
+  border-color: #fff;
+  color: #fff;
+  box-shadow: 0 0 15px var(--color-divider-strong);
+}
+
+.mujahid-icon-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.mujahid-color-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.color-dot.active {
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* --- Divine & Particles --- */
+.is-divine {
+  background: radial-gradient(circle at center, #000 0%, #0a0a0a 100%) !important;
+  border: 1px solid #00f2ff50 !important;
+  box-shadow: 0 0 50px #00f2ff20, inset 0 0 30px #00f2ff10 !important;
+}
+
+.is-divine .iw-big-badge {
+  background: #00f2ff !important;
+  box-shadow: 0 0 40px #00f2ff, 0 0 80px #00f2ff40 !important;
+  border-color: #fff !important;
+}
+
+.iw-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.iw-particles::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#fff 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: iw-particles-up 10s linear infinite;
+  opacity: 0.1;
+}
+
+@keyframes iw-particles-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.iw-year-tag {
+  background: var(--color-divider-strong);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 10px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.is-legendary .iw-rank-pill {
+  animation: iw-rank-shimmer 2s infinite linear;
+}
+
+@keyframes iw-rank-shimmer {
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.5) drop-shadow(0 0 5px gold);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.iron-will-widget {
+  /* Ensure relative for icons */
+  position: relative;
+  overflow: hidden;
+}
+
+.iw-relapse-btn:hover {
+  transform: scale(1.05);
+  background: #c9302c;
+}
+
+.iw-relapse-btn:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 360px) {
+  .iw-timer-circle-wrap {
+    width: 240px;
+    height: 240px;
+  }
+
+  .iw-timer-days {
+    font-size: 46px;
+  }
+
+  .iw-days-text {
+    font-size: 12px;
+  }
+
+  .iw-timer-sub {
+    gap: 12px;
+  }
+
+  .iw-big-badge {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+  }
+}
+
+/* Per-habit mini badges */
+.iw-mini-badges {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.iw-mini-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+.iw-mini-badge.earned {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: currentColor;
+  animation: iw-badge-glow 3s infinite ease-in-out;
+}
+
+@keyframes iw-badge-glow {
+  0% {
+    box-shadow: 0 0 5px currentColor;
+    filter: brightness(0.9);
+  }
+
+  50% {
+    box-shadow: 0 0 15px currentColor;
+    filter: brightness(1.2);
+  }
+
+  100% {
+    box-shadow: 0 0 5px currentColor;
+    filter: brightness(0.9);
+  }
+}
+
+.iw-mini-badge.locked {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.iw-mini-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iw-mini-badge-icon svg {
+  width: 18px;
+  height: 18px;
+  transition: all 0.3s ease;
+}
+
+.iw-mini-badge.earned .iw-mini-badge-icon svg {
+  animation: iw-symbol-lively 2.5s infinite ease-in-out;
+  fill: currentColor;
+}
+
+@keyframes iw-symbol-lively {
+  0% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 1px currentColor);
+    stroke-width: 2;
+    fill-opacity: 0.1;
+  }
+
+  50% {
+    transform: translateY(-3px) scale(1.2);
+    filter: drop-shadow(0 0 8px currentColor) brightness(1.3);
+    stroke-width: 2.5;
+    fill-opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 1px currentColor);
+    stroke-width: 2;
+    fill-opacity: 0.1;
+  }
+}
+

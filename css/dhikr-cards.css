@@ -1,0 +1,1004 @@
+/* =============================================
+    MUJAHID - Quit Bad Habits Tracker
+    ============================================= */
+.mujahid-habits-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mujahid-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: var(--color-glass);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.mujahid-quick-stat {
+  text-align: center;
+}
+
+.mujahid-quick-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.mujahid-quick-label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-emergency-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+}
+
+.mujahid-badges-section {
+  background: var(--color-glass);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.mujahid-badges-title {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.mujahid-badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mujahid-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  min-width: 50px;
+}
+
+.mujahid-badge-item.earned {
+  box-shadow: 0 0 12px var(--color-divider-strong);
+}
+
+.mujahid-badge-item .mujahid-badge-emoji {
+  font-size: 20px;
+}
+
+.mujahid-badge-item .mujahid-badge-days {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-calendar-card {
+  background: var(--color-glass);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.mujahid-calendar-title {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.mujahid-calendar-mini {
+  display: flex;
+  gap: 6px;
+}
+
+.mujahid-mini-day {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-mini-day.today {
+  border: 2px solid var(--color-accent-cyan);
+}
+
+.mujahid-mini-day.clean {
+  background: rgba(34, 197, 94, 0.25);
+  color: #22c55e;
+}
+
+.mujahid-mini-day.slip {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+.mujahid-add-card-btn {
+  width: 100%;
+  padding: 16px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px dashed rgba(99, 102, 241, 0.4);
+  border-radius: 16px;
+  color: var(--color-accent-blue);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mujahid-add-card-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+/* Habit Card */
+.mujahid-habit-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-divider-subtle);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.mujahid-habit-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mujahid-habit-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 1px solid;
+}
+
+.mujahid-habit-title {
+  flex: 1;
+}
+
+.mujahid-habit-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.mujahid-habit-date {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.mujahid-delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-surface-nested);
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mujahid-timer-display {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.mujahid-timer-unit {
+  text-align: center;
+}
+
+.mujahid-timer-val {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-accent-blue);
+}
+
+.mujahid-timer-label {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.mujahid-habit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mujahid-habit-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-habit-badge {
+  font-size: 16px;
+}
+
+.mujahid-habit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mujahid-btn-clean-sm,
+.mujahid-btn-relapse-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  gap: 12px;
+}
+
+.mujahid-habit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 1px solid;
+}
+
+.mujahid-habit-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.mujahid-habit-stats {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-time-card {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.mujahid-time-card .mujahid-time-num {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-accent-blue);
+}
+
+.mujahid-time-card .mujahid-time-label {
+  display: block;
+  font-size: 9px;
+  color: var(--color-text-muted);
+}
+
+.mujahid-menu-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.mujahid-menu-btn:hover {
+  opacity: 1;
+}
+
+.mujahid-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mujahid-stat {
+  text-align: center;
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+}
+
+.mujahid-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.mujahid-stat-label {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.mujahid-progress-section {
+  margin-bottom: 16px;
+}
+
+.mujahid-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.mujahid-progress-bar {
+  height: 8px;
+  background: var(--color-divider-strong);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mujahid-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.mujahid-badges-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mujahid-badges-earned,
+.mujahid-badges-locked {
+  display: flex;
+  gap: 6px;
+}
+
+.mujahid-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid;
+}
+
+.mujahid-badge.locked {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.mujahid-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.mujahid-btn-clean {
+  flex: 1;
+  padding: 12px 16px;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 10px;
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mujahid-btn-clean:hover {
+  background: rgba(34, 197, 94, 0.25);
+}
+
+.mujahid-btn-relapse {
+  flex: 1;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mujahid-btn-relapse:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.mujahid-btn-relapse {
+  flex: 1;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  color: #ef4444;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mujahid-btn-relapse:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Add Modal */
+.mujahid-habits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+
+
+
+
+.mujahid-habit-option-icon {
+  font-size: 20px;
+}
+
+.mujahid-custom-input {
+  display: flex;
+  gap: 8px;
+}
+
+.mujahid-custom-input input {
+  flex: 1;
+  padding: 12px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+}
+
+.mujahid-custom-input button {
+  padding: 12px 20px;
+  background: var(--color-accent-primary);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Breathing Exercise */
+.breathe-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  margin: 0 auto;
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+}
+
+/* Old dashboard styles - removed - using new design */
+
+.mujahid-tool-btn {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mujahid-tool-btn:hover {
+  background: var(--color-divider-strong);
+}
+
+.mujahid-tool-btn.danger {
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.mujahid-tool-btn.danger:hover {
+  margin-top: 4px;
+}
+
+.mujahid-progress-section {
+  margin-bottom: 16px;
+}
+
+.mujahid-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.mujahid-progress-bar {
+  height: 8px;
+  background: var(--color-divider-strong);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mujahid-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.mujahid-badges-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mujahid-badges-earned,
+.mujahid-badges-locked {
+  display: flex;
+  gap: 6px;
+}
+
+.mujahid-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 1px solid;
+}
+
+.mujahid-badge.locked {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.mujahid-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.mujahid-btn-clean {
+  flex: 1;
+  padding: 12px 16px;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 10px;
+  color: #22c55e;
+  font-size: 13px;
+  text-align: center;
+  padding: 80px 20px;
+  overflow: hidden;
+  border-radius: 32px;
+  margin-top: 20px;
+}
+
+.mujahid-hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mujahid-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+}
+
+.mujahid-hero-icon-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 32px;
+}
+
+.mujahid-hero-shield {
+  position: absolute;
+  inset: 0;
+  color: var(--color-primary);
+  opacity: 0.8;
+  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
+  animation: float 4s ease-in-out infinite;
+}
+
+.mujahid-hero-sword {
+  position: absolute;
+  inset: 15px;
+  color: var(--color-primary);
+  opacity: 0.4;
+  transform: rotate(-15deg);
+  animation: float 4s ease-in-out infinite reverse;
+}
+
+.mujahid-hero-title {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+}
+
+.mujahid-hero-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 40px;
+}
+
+
+
+
+
+
+
+.mujahid-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-divider-subtle);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.mujahid-btn-clean:hover {
+  background: rgba(34, 197, 94, 0.25);
+}
+
+.mujahid-btn-relapse {
+  flex: 1;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mujahid-btn-relapse:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.mujahid-btn-relapse {
+  flex: 1;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  color: #ef4444;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mujahid-btn-relapse:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Add Modal */
+.mujahid-habits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+
+
+
+
+.mujahid-habit-option-icon {
+  font-size: 20px;
+}
+
+.mujahid-custom-input {
+  display: flex;
+  gap: 8px;
+}
+
+.mujahid-custom-input input {
+  flex: 1;
+  padding: 12px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+}
+
+.mujahid-custom-input button {
+  padding: 12px 20px;
+  background: var(--color-accent-primary);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Breathing Exercise */
+.breathe-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  margin: 0 auto;
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+}
+
+/* Old dashboard styles - removed - using new design */
+
+.mujahid-tool-btn {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: var(--color-surface-nested);
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mujahid-tool-btn:hover {
+  background: var(--color-divider-strong);
+}
+
+/* ==========================================================================
+   DHIKR SECTION OVERHAUL: PRESETS & TODAY LIST (ULTRA PREMIUM & UNIQUE)
+   ========================================================================== */
+
+/* 1. Horizontal Preset Scroll & Pill Cards */
+[data-theme] .dhikr-preset-scroll {
+  display: flex !important;
+  overflow-x: auto !important;
+  gap: 12px !important;
+  padding: 8px 4px 16px 4px !important;
+  margin-bottom: 24px !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+[data-theme] .dhikr-preset-scroll::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+[data-theme] .dhikr-preset-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-radius: 2px !important;
+}
+
+[data-theme] .dhikr-preset-scroll::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.2) !important;
+  border-radius: 2px !important;
+}
+
+[data-theme] .dhikr-preset-row {
+  display: flex !important;
+  gap: 12px !important;
+  width: max-content !important;
+}
+
+[data-theme] .dhikr-session-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px !important;
+}
+
+@media (max-width: 500px) {
+  [data-theme] .dhikr-session-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Light Mode Support for Dhikr Today List */
+[data-theme="light"] .dhikr-preset-card {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .dhikr-preset-name {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .dhikr-preset-card.active {
+  background: color-mix(in srgb, var(--dc, #14b8a6) 14%, #f1f5f9) !important;
+  border-color: var(--dc, #14b8a6) !important;
+}
+
+[data-theme="light"] .dhikr-preset-card.active .dhikr-preset-name {
+  color: color-mix(in srgb, var(--dc, #14b8a6) 80%, #0f172a) !important;
+}
+
+[data-theme="light"] .dhikr-preset-card.active .dhikr-preset-icon {
+  color: #fff !important;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--dc, #14b8a6) 90%, white), var(--dc, #14b8a6)) !important;
+}
+
+[data-theme="light"] .dhikr-log-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .dhikr-log-card .card-title {
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-theme="light"] .dhikr-session-item {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-theme="light"] .dhikr-session-item:hover {
+  background: #ffffff !important;
+  border-color: #14b8a6 !important;
+  box-shadow: 0 10px 20px rgba(20, 184, 166, 0.12) !important;
+}
+
+[data-theme="light"] .dhikr-session-item .ds-name {
+  color: #1e293b !important;
+}
+
+/* Light mode: history modal surfaces */
+[data-theme="light"] .dhikr-hist-summary .dhs-card {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] .dhikr-history-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05) !important;
+}
+[data-theme="light"] .dhikr-history-total {
+  color: #0f766e !important;
+}
+[data-theme="light"] .dhikr-history-item {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme="light"] .dhikr-history-item-name {
+  color: #1e293b !important;
+}
+
+/* ==========================================================================
+   DHIKR PROFESSIONAL COLORING SYSTEM: TAP CIRCLE & BEADS (SERENE & PREMIUM)
+   ========================================================================== */
+
+/* --- DARK MODE (Serene Teal) --- */
+[data-theme="dark"] .dhikr-main-tap-btn {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(45, 212, 191, 0.55) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, #0d9488 0%, #14b8a6 55%, #0f766e 100%) !important;
+  border: 4px solid rgba(94, 234, 212, 0.35) !important;
+  box-shadow: 0 25px 60px rgba(13, 148, 136, 0.35), 0 0 0 10px rgba(45, 212, 191, 0.06), inset 0 0 40px rgba(0, 0, 0, 0.22) !important;
+}
+
+[data-theme="dark"] .dhikr-main-tap-btn:active {
+  transform: scale(0.95) !important;
+}
+
+[data-theme="dark"] span.dhikr-tap-count#dhikr-tap-count {
+  background: linear-gradient(135deg, #ffffff 0%, #ccfbf1 50%, #99f6e4 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: 0 4px 18px rgba(20, 184, 166, 0.35) !important;
+  filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.3));
+}
+
+[data-theme="dark"] .dhikr-beads-container .bead {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .dhikr-beads-container .bead.lit {
+  background: linear-gradient(135deg, var(--color-accent-gold-light) 0%, var(--color-accent-gold) 100%) !important;
+  border-color: var(--color-accent-gold) !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.6) !important;
+  animation: fluidGradient 4s ease-in-out infinite !important;
+}
+
+/* --- LIGHT MODE (Serene Teal) --- */
+[data-theme="light"] .dhikr-main-tap-btn {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(45, 212, 191, 0.5) 0%, transparent 55%),
+    radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.5) 0%, transparent 55%),
+    linear-gradient(160deg, #14b8a6 0%, #0d9488 100%) !important;
+  border: 4px solid rgba(13, 148, 136, 0.35) !important;
+  box-shadow: 0 25px 50px rgba(13, 148, 136, 0.25), 0 0 0 10px rgba(20, 184, 166, 0.06), inset 0 0 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .dhikr-main-tap-btn:active {
+  transform: scale(0.95) !important;
+}
+
+@keyframes dhikrMeshPremium {
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+[data-theme="light"] span.dhikr-tap-count#dhikr-tap-count {
+  color: #0f172a !important;
+  text-shadow: 0 4px 12px rgba(100, 116, 139, 0.15) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+}
+
+[data-theme="light"] .dhikr-beads-container .bead {
+  background: #e2e8f0 !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: inset 0 1px 2px rgba(100, 116, 139, 0.2) !important;
+}
+
+[data-theme="light"] .dhikr-beads-container .bead.lit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: #059669 !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.4) !important;
+  animation: none !important;
+}
+
+/* Glassy Waves Customization for Professional Look */
+[data-theme="dark"] .tap-wave.wave-1 { background: rgba(45, 212, 191, 0.15) !important; }
+[data-theme="dark"] .tap-wave.wave-2 { background: rgba(45, 212, 191, 0.1) !important; }
+[data-theme="light"] .tap-wave.wave-1 { background: rgba(16, 185, 129, 0.15) !important; }
+[data-theme="light"] .tap-wave.wave-2 { background: rgba(16, 185, 129, 0.1) !important; }
+
