@@ -43,9 +43,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://ipapi.co https://api.bigdatacloud.net https://open.er-api.com; worker-src 'self';">
   <title>Lamim — Islamic Lifestyle Tracker | Salah, Dhikr, Goals & Finance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ipapi.co">
+  <link rel="preconnect" href="https://api.bigdatacloud.net">
+  <link rel="preconnect" href="https://open.er-api.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
@@ -1631,73 +1635,7 @@
       <div class="breathe-mote" style="left:33%; width:5px; height:5px; animation-duration:10s; animation-delay:4s;"></div>
     </div>
 
-    <style>
-      @keyframes aurora-move {
-        0% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
-        100% { transform: translate3d(15%, 10%, 0) rotate(10deg) scale(1.1); }
-      }
-      .aurora-blob {
-        will-change: transform, opacity;
-        animation-play-state: paused;
-      }
-      #mujahid-breathe-pro:not(.hidden) .aurora-blob {
-        animation-play-state: running;
-      }
-      /* soft floating particles */
-      @keyframes float-up {
-        0% { transform: translateY(0) scale(1); opacity: 0; }
-        20% { opacity: 0.6; }
-        100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
-      }
-      .breathe-mote { position:absolute; bottom:8%; border-radius:50%; background:rgba(255,255,255,0.5); filter:blur(0.5px); animation: float-up linear infinite; z-index:1; }
-
-      /* Breathing orb — calm teal/indigo gradient with glossy highlight */
-      .glossy-orb {
-        background:
-          radial-gradient(circle at 32% 28%, rgba(255,255,255,0.45) 0%, transparent 42%),
-          radial-gradient(circle at 70% 75%, rgba(20,40,70,0.45) 0%, transparent 55%),
-          linear-gradient(150deg, #38bdf8 0%, #6366f1 48%, #14b8a6 100%);
-        box-shadow:
-          0 0 90px rgba(56,189,248,0.45),
-          0 0 140px rgba(20,184,166,0.25),
-          inset 0 0 50px rgba(255,255,255,0.28),
-          inset 0 -20px 40px rgba(8,15,28,0.35);
-        position: relative;
-        z-index: 3;
-        will-change: transform;
-        transform: translateZ(0);
-      }
-      .glossy-orb::after {
-        content:'';
-        position:absolute; inset:12%;
-        border-radius:50%;
-        background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35), transparent 60%);
-        mix-blend-mode: screen;
-        filter: blur(6px);
-        pointer-events:none;
-      }
-      .aura-ring {
-        position: absolute;
-        inset: -28px;
-        border: 1.5px solid rgba(56,189,248,0.25);
-        border-radius: 50%;
-        z-index: 2;
-        transition: transform 8s linear, opacity 8s linear;
-        will-change: transform, opacity;
-        pointer-events: none;
-      }
-      @keyframes breathe-halo {
-        0%,100% { transform: scale(1); opacity: 0.35; }
-        50% { transform: scale(1.25); opacity: 0.7; }
-      }
-      .breathe-halo {
-        position:absolute; inset:-50px;
-        border-radius:50%;
-        background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.05) 45%, transparent 70%);
-        animation: breathe-halo 8s ease-in-out infinite;
-        z-index:1; pointer-events:none;
-      }
-    </style>
+    <link rel="stylesheet" href="css/breathing-modal.css">
 
     <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; position:relative; z-index:10;">
       <button class="modal-close" onclick="Mujahid.hideBreathingExercise()" style="position:absolute; top:30px; right:30px; z-index:30; background:rgba(255,255,255,0.08); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:18px; border:1px solid rgba(255,255,255,0.12); cursor:pointer; color:#fff; transition: background 0.3s, transform 0.3s;">✕</button>
@@ -1769,96 +1707,7 @@
 
 
   
-  <style>
-    /* HOTFIX: Premium Setup Styles */
-    .premium-step-icon-wrap {
-      position: relative;
-      width: 90px;
-      height: 90px;
-      background: var(--color-surface-nested, rgba(0,0,0,0.05));
-      border: 1px solid var(--color-border, rgba(0,0,0,0.1));
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px auto !important;
-      border-radius: 28px;
-      overflow: hidden;
-      --glow-color: 56, 189, 248;
-    }
-    .premium-step-icon-wrap::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(var(--glow-color), 0.15) 0%, transparent 70%);
-      animation: radar-pulse-bg 2s ease-in-out infinite;
-    }
-    .premium-step-icon-wrap svg { z-index: 2; position: relative; }
-    .premium-step-icon-wrap.step-loc { --glow-color: 56, 189, 248; }
-    .premium-step-icon-wrap.step-loc svg { color: rgb(var(--glow-color)); filter: drop-shadow(0 0 10px rgba(var(--glow-color), 0.6)); }
-    .premium-step-icon-wrap.step-name { --glow-color: 168, 85, 247; }
-    .premium-step-icon-wrap.step-name svg { filter: drop-shadow(0 0 10px rgba(var(--glow-color), 0.6)); }
-    .premium-step-icon-wrap.step-dob { --glow-color: 59, 130, 246; }
-    .premium-step-icon-wrap.step-dob svg { filter: drop-shadow(0 0 10px rgba(var(--glow-color), 0.6)); }
-
-    [data-theme="light"] .premium-step-icon-wrap {
-      background: #FFFFFF !important;
-      border: 1px solid rgba(0,0,0,0.06) !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(255,255,255,1) !important;
-    }
-    [data-theme="light"] .premium-step-icon-wrap::before {
-      background: radial-gradient(circle at center, rgba(var(--glow-color), 0.25) 0%, rgba(var(--glow-color), 0.05) 50%, transparent 80%);
-    }
-    [data-theme="light"] .premium-step-icon-wrap svg {
-      filter: drop-shadow(0 6px 12px rgba(var(--glow-color), 0.35));
-    }
-
-    /* Button and Input fixes */
-    .premium-input {
-      width: 100%; font-size: 1.1rem; height: 58px; padding-left: 52px; border-radius: 20px;
-      background: var(--color-surface-card); border: 1px solid var(--color-border);
-      color: var(--color-text-primary); transition: all 0.3s ease; font-weight: 600;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .premium-input:focus {
-      outline: none; border-color: #a855f7;
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.15), inset 0 2px 4px rgba(0,0,0,0.02);
-      background: var(--color-surface-nested);
-    }
-    .loc-detect-btn.premium {
-      background: linear-gradient(135deg, #1e293b, #0f172a) !important;
-      border: 1px solid rgba(56, 189, 248, 0.3) !important;
-      color: #38bdf8 !important; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15) !important;
-    }
-    [data-theme="light"] .loc-detect-btn.premium {
-      background: #f0f9ff !important; border: 1px solid #bae6fd !important;
-      color: #0369a1 !important; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2) !important;
-    }
-    .coord-card.premium {
-      background: var(--color-surface-card); border: 1px solid var(--color-border);
-      border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 6px;
-      position: relative; overflow: hidden; transition: all 0.3s ease;
-    }
-    .coord-card.premium:focus-within {
-      border-color: #38bdf8; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
-    }
-    .coord-card-input {
-      font-family: 'Inter', system-ui, sans-serif !important;
-      font-size: 1.25rem !important;
-      font-weight: 600 !important;
-      color: var(--color-text-primary) !important;
-      background: transparent !important;
-      border: none !important;
-      outline: none !important;
-      padding: 4px 0 !important;
-      width: 100% !important;
-    }
-    .gender-card-v2.male::before  { background: radial-gradient(circle at top right, rgba(59,130,246,0.15), transparent 70%); }
-    .gender-card-v2.female::before{ background: radial-gradient(circle at top right, rgba(236,72,153,0.15), transparent 70%); }
-    .gender-card-v2.active::before{ opacity: 1; }
-    .gender-card-v2.active.male   { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15), 0 8px 25px rgba(59,130,246,0.2) !important; transform: scale(1.02); }
-    .gender-card-v2.active.female { border-color: #ec4899; box-shadow: 0 0 0 3px rgba(236,72,153,0.15), 0 8px 25px rgba(236,72,153,0.2) !important; transform: scale(1.02); }
-  </style>
+  <link rel="stylesheet" href="css/setup-wizard.css">
 
   <script src="js/prayer-notifier.js?v=2"></script>
   <script src="js/home.js?v=149"></script>

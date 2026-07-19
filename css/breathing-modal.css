@@ -1,0 +1,67 @@
+/* =============================================
+   LAMIM — BREATHING MODAL STYLES
+   ============================================= */
+
+@keyframes aurora-move {
+  0% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+  100% { transform: translate3d(15%, 10%, 0) rotate(10deg) scale(1.1); }
+}
+.aurora-blob {
+  will-change: transform, opacity;
+  animation-play-state: paused;
+}
+#mujahid-breathe-pro:not(.hidden) .aurora-blob {
+  animation-play-state: running;
+}
+@keyframes float-up {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
+}
+.breathe-mote { position:absolute; bottom:8%; border-radius:50%; background:rgba(255,255,255,0.5); filter:blur(0.5px); animation: float-up linear infinite; z-index:1; }
+
+.glossy-orb {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,0.45) 0%, transparent 42%),
+    radial-gradient(circle at 70% 75%, rgba(20,40,70,0.45) 0%, transparent 55%),
+    linear-gradient(150deg, #38bdf8 0%, #6366f1 48%, #14b8a6 100%);
+  box-shadow:
+    0 0 90px rgba(56,189,248,0.45),
+    0 0 140px rgba(20,184,166,0.25),
+    inset 0 0 50px rgba(255,255,255,0.28),
+    inset 0 -20px 40px rgba(8,15,28,0.35);
+  position: relative;
+  z-index: 3;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.glossy-orb::after {
+  content:'';
+  position:absolute; inset:12%;
+  border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35), transparent 60%);
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  pointer-events:none;
+}
+.aura-ring {
+  position: absolute;
+  inset: -28px;
+  border: 1.5px solid rgba(56,189,248,0.25);
+  border-radius: 50%;
+  z-index: 2;
+  transition: transform 8s linear, opacity 8s linear;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+@keyframes breathe-halo {
+  0%,100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.25); opacity: 0.7; }
+}
+.breathe-halo {
+  position:absolute; inset:-50px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, rgba(99,102,241,0.05) 45%, transparent 70%);
+  animation: breathe-halo 8s ease-in-out infinite;
+  z-index:1; pointer-events:none;
+}

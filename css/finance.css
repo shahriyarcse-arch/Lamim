@@ -117,7 +117,7 @@
   border: 1px solid var(--color-divider-strong) !important;
   border-radius: 16px !important;
   padding: 16px !important;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 .fin-stat-card::before { display: none !important; }
 .fin-stat-card:hover { transform: translateY(-3px) !important; box-shadow: 0 12px 24px -14px rgba(15,23,42,0.3) !important; }
@@ -130,13 +130,13 @@
 .fin-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .fin-btn {
   border-radius: 16px !important;
-  padding: 16px !important;
+  padding: 16px;
   font-weight: 800 !important;
   font-size: 15px !important;
   border: 1px solid var(--color-divider-strong) !important;
-  background: var(--color-surface-card) !important;
-  color: var(--color-text-primary) !important;
-  box-shadow: 0 6px 16px -10px rgba(15,23,42,0.3) !important;
+  background: var(--color-surface-card);
+  color: var(--color-text-primary);
+  box-shadow: 0 6px 16px -10px rgba(15,23,42,0.3);
   transition: all 0.22s ease !important;
 }
 .fin-btn-primary { border-color: color-mix(in srgb, var(--fin-green) 35%, transparent) !important; color: var(--fin-green) !important; }
@@ -182,7 +182,7 @@
 .transaction-icon {
   width: 44px; height: 44px; border-radius: 13px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 22px;
-  background: var(--color-surface-nested, rgba(255,255,255,0.06)) !important;
+  background: var(--color-surface-nested, rgba(255,255,255,0.06));
   border: 1px solid var(--color-divider-strong);
   line-height: 1;
 }
@@ -222,7 +222,7 @@
 /* ---- Vaults ---- */
 .vault-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .vault-card {
-  background: var(--color-surface-card) !important;
+  background: var(--color-surface-card);
   border: 1px solid var(--color-divider-strong) !important;
   border-radius: 20px !important;
   padding: 16px !important;
@@ -292,7 +292,7 @@
   background: color-mix(in srgb, var(--color-accent-green) 12%, transparent) !important;
   border: 1px solid color-mix(in srgb, var(--color-accent-green) 30%, transparent) !important;
   color: var(--color-accent-green) !important;
-  font-weight: 800 !important;
+  font-weight: 800;
   display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;
 }
 .fin-save-btn:hover { background: color-mix(in srgb, var(--color-accent-green) 20%, transparent) !important; transform: translateY(-2px); }
@@ -550,8 +550,8 @@
   color: var(--fin-red);
   box-shadow: 0 8px 20px color-mix(in srgb, var(--fin-red) 18%, transparent);
 }
-.fin-spend-amount { color: var(--fin-red) !important; }
-.fin-spend-amount::placeholder { color: var(--fin-red) !important; opacity: 0.35; }
+.fin-spend-amount { color: var(--fin-red); }
+.fin-spend-amount::placeholder { color: var(--fin-red); opacity: 0.35; }
 .fin-deposit-amount-row .fin-spend-amount { text-align: center; }
 
 .fin-modal-search-box {
@@ -784,7 +784,7 @@
 .fin-delete-modal .fin-modal-actions { margin-top: 0; gap: 12px; }
 .fin-delete-confirm {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  background: var(--fin-red) !important; color: #fff;
+  background: var(--fin-red); color: #fff;
   box-shadow: 0 10px 26px color-mix(in srgb, var(--fin-red) 30%, transparent);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -809,7 +809,7 @@
   100% { transform: scale(1.12); opacity: 0; }
 }
 .fin-delete-income .fin-delete-confirm {
-  background: var(--fin-green) !important;
+  background: var(--fin-green);
   box-shadow: 0 10px 26px color-mix(in srgb, var(--fin-green) 30%, transparent);
 }
 [data-theme="light"] .fin-delete-income .fin-delete-icon { background: #ECFDF5; color: #059669; }

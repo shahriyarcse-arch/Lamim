@@ -15,7 +15,7 @@
 }
 
 .modal-title {
-  color: #A78BFA !important;
+  color: #A78BFA;
   font-weight: 800;
   font-size: 22px;
   margin-bottom: 12px;
@@ -33,7 +33,7 @@
 .modal .input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #FFFFFF !important;
+  color: #FFFFFF;
   padding: 14px;
   border-radius: 12px;
   font-weight: 600;
@@ -43,12 +43,12 @@
 [data-theme="light"] .modal .input {
   background: #F8FAFC;
   border-color: #CBD5E1;
-  color: #0F172A !important;
+  color: #0F172A;
 }
 
 .modal-btn-primary {
   background: #6366F1;
-  color: #FFFFFF !important;
+  color: #FFFFFF;
   font-weight: 800;
   padding: 14px;
   border-radius: 12px;
@@ -140,13 +140,13 @@
 
 /* ── RELAPSE MODAL (modern) ── */
 .mujahid-relapse-modal {
-  border-top: 3px solid var(--color-accent-red, #ef4444) !important;
+  border-top: 3px solid var(--color-accent-red, #ef4444);
 }
 .mujahid-relapse-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-accent-red, #ef4444) !important;
+  color: var(--color-accent-red, #ef4444);
 }
 .mujahid-relapse-title-icon {
   display: flex;
@@ -164,11 +164,11 @@
   margin: 0 0 14px;
 }
 .mujahid-relapse-textarea {
-  border-color: color-mix(in srgb, var(--color-accent-red, #ef4444) 25%, var(--color-border)) !important;
+  border-color: color-mix(in srgb, var(--color-accent-red, #ef4444) 25%, var(--color-border));
 }
 .mujahid-relapse-textarea:focus {
-  border-color: var(--color-accent-red, #ef4444) !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+  border-color: var(--color-accent-red, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
 /* ── HISTORY MODAL (modern) ── */
@@ -187,19 +187,19 @@
   color: var(--color-accent-red, #ef4444);
 }
 .mujahid-history-clear {
-  color: var(--color-accent-red, #ef4444) !important;
-  background: rgba(239, 68, 68, 0.1) !important;
-  border: 1px solid rgba(239, 68, 68, 0.25) !important;
-  border-radius: 9px !important;
-  width: 32px !important;
-  height: 32px !important;
-  display: flex !important;
+  color: var(--color-accent-red, #ef4444);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 9px;
+  width: 32px;
+  height: 32px;
+  display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
 }
 .mujahid-history-clear:hover {
-  background: rgba(239, 68, 68, 0.2) !important;
+  background: rgba(239, 68, 68, 0.2);
 }
 
 /* Relapse history items */
@@ -440,8 +440,8 @@
 }
 
 .iron-will-widget .iw-timer-circle {
-  border: 2px solid color-mix(in srgb, var(--theme-color) 45%, rgba(255, 255, 255, 0.08)) !important;
-  box-shadow: inset 0 0 30px color-mix(in srgb, var(--theme-color) 12%, transparent), 0 0 20px color-mix(in srgb, var(--theme-color) 10%, transparent) !important;
+  border: 2px solid color-mix(in srgb, var(--theme-color) 45%, rgba(255, 255, 255, 0.08));
+  box-shadow: inset 0 0 30px color-mix(in srgb, var(--theme-color) 12%, transparent), 0 0 20px color-mix(in srgb, var(--theme-color) 10%, transparent);
 }
 
 .iron-will-widget .mujahid-time-num {
@@ -462,7 +462,7 @@
 
 .iron-will-widget:hover {
   transform: translateY(-8px);
-  box-shadow: 0 30px 70px -20px rgba(15, 23, 42, 0.25), 0 0 35px color-mix(in srgb, var(--theme-color) 15%, transparent) !important;
+  box-shadow: 0 30px 70px -20px rgba(15, 23, 42, 0.25), 0 0 35px color-mix(in srgb, var(--theme-color) 15%, transparent);
 }
 
 .iw-header {
