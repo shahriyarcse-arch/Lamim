@@ -1,0 +1,103 @@
+/* =============================================
+   LAMIM LANDING PAGE — ANIMATIONS
+   ui-ux-pro-max: Expo.out easing, 150-300ms
+   ============================================= */
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.stagger-children .reveal:nth-child(1) { transition-delay: 0ms; }
+.stagger-children .reveal:nth-child(2) { transition-delay: 60ms; }
+.stagger-children .reveal:nth-child(3) { transition-delay: 120ms; }
+.stagger-children .reveal:nth-child(4) { transition-delay: 180ms; }
+.stagger-children .reveal:nth-child(5) { transition-delay: 240ms; }
+.stagger-children .reveal:nth-child(6) { transition-delay: 300ms; }
+
+/* ── Hero entrance ── */
+.hero-badge { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s 0.1s var(--ease-out) forwards; }
+.hero-title { opacity: 0; transform: translateY(24px); animation: heroIn 0.7s 0.2s var(--ease-out) forwards; }
+.hero-sub { opacity: 0; transform: translateY(20px); animation: heroIn 0.7s 0.35s var(--ease-out) forwards; }
+.hero-actions { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s 0.5s var(--ease-out) forwards; }
+.hero-mockup { opacity: 0; transform: translateY(32px) scale(0.97); animation: mockupIn 0.8s 0.6s var(--ease-out) forwards; }
+
+@keyframes heroIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mockupIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Gradient shift on hero title ── */
+.gradient-text {
+  animation: gradientShift 6s ease-in-out infinite alternate;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Floating card tilt (mouse tracking via JS) ── */
+.tilt-card {
+  transition: transform 0.2s var(--ease-out);
+  transform-style: preserve-3d;
+}
+
+/* ── Emulator node fill animation ── */
+.emulator-dot.filling::after {
+  animation: fillUp 0.6s var(--ease-out) forwards;
+}
+@keyframes fillUp {
+  from { height: 0%; }
+  to { height: 100%; }
+}
+
+/* ── Rank badge glow ── */
+.rank-badge.active {
+  animation: rankGlow 2s ease-in-out infinite alternate;
+}
+@keyframes rankGlow {
+  0% { box-shadow: 0 0 15px rgba(167,139,250,0.05); }
+  100% { box-shadow: 0 0 25px rgba(167,139,250,0.15); }
+}
+
+/* ── Magnetic button hover ── */
+.magnetic { transition: transform 0.3s var(--ease-out); }
+
+/* ── Parallax layers (subtle) ── */
+[data-parallax] {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ── Number counter ── */
+.count-up { font-variant-numeric: tabular-nums; }
+
+/* ── Smooth section separator ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── Scroll progress bar ── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+  z-index: calc(var(--z-nav) + 1);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
