@@ -151,7 +151,10 @@ updateSectionTitle() {
 
     // Apply saved theme
     const settings = DB.getSettings();
-    document.documentElement.setAttribute('data-theme', settings.theme || 'dark');
+    const theme = settings.theme || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F1F5F9' : '#020408');
 
     // Check if running on localhost/development environment
     const isLocalhost = Boolean(

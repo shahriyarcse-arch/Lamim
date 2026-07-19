@@ -396,6 +396,11 @@ const Profile = {
     s.theme = theme;
     DB.setSettings(s);
     document.documentElement.setAttribute('data-theme', theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#F1F5F9' : '#020408');
+    document.documentElement.classList.add('theme-anim');
+    clearTimeout(this._themeAnimT);
+    this._themeAnimT = setTimeout(() => document.documentElement.classList.remove('theme-anim'), 320);
     window.dispatchEvent(new CustomEvent('lamim:theme-changed', { detail: { theme } }));
     this.renderSettings();
   },

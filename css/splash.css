@@ -9,7 +9,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-splash, 99999);
-  background: #06060c;
+  background: var(--color-bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;

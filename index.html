@@ -14,13 +14,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180x180.png">
   <link rel="stylesheet" href="css/variables.css?v=145">
-  <link rel="stylesheet" href="css/base.css?v=3">
+  <link rel="stylesheet" href="css/base.css?v=4">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css?v=146">
   <!-- Modularized Page CSS -->
-  <link rel="stylesheet" href="css/splash.css">
+  <link rel="stylesheet" href="css/splash.css?v=1">
   <link rel="stylesheet" href="css/auth.css?v=144">
-  <link rel="stylesheet" href="css/salah.css?v=143">
+  <link rel="stylesheet" href="css/salah.css?v=144">
   <link rel="stylesheet" href="css/dhikr.css?v=143">
   <link rel="stylesheet" href="css/gym.css?v=213">
   <link rel="stylesheet" href="css/career.css?v=213">
@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="css/complete-cinematic-quote-effects.css">
 
   <link rel="stylesheet" href="css/mini-badges.css">
-  <link rel="stylesheet" href="css/radiant-soul-animation-engine.css?v=143">
+  <link rel="stylesheet" href="css/radiant-soul-animation-engine.css?v=144">
 <link rel="stylesheet" href="css/finance.css?v=273">
   <link rel="stylesheet" href="css/stats-row.css">
   <link rel="stylesheet" href="css/glass-panel.css">
@@ -60,6 +60,8 @@
         console.warn("Settings parse error, falling back to light theme");
       }
       document.documentElement.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'light' ? '#F1F5F9' : '#020408');
     })();
   </script>
   <script>
@@ -1699,7 +1701,7 @@
   <script src="js/goals.js?v=137"></script>
   <script src="js/finance.js?v=272"></script>
   <script src="js/mujahid.js?v=214"></script>
-  <script src="js/profile.js?v=150"></script>
+  <script src="js/profile.js?v=151"></script>
   <script src="js/analysis.js?v=214"></script>
 
 
@@ -1797,7 +1799,7 @@
 
   <script src="js/prayer-notifier.js?v=2"></script>
   <script src="js/home.js?v=147"></script>
-  <script src="js/app.js?v=215"></script>
+  <script src="js/app.js?v=216"></script>
 
   <!-- Service Worker Registration handled in app.js -->
   <script>

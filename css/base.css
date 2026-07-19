@@ -15,7 +15,10 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  background-color: var(--color-bg-primary);
+  color-scheme: dark;
 }
+[data-theme="light"] { color-scheme: light; }
 
 body {
   font-family: var(--font-sans);
@@ -149,6 +152,17 @@ p { color: var(--color-text-secondary); }
 }
 .page.active {
   display: flex;
+}
+
+/* Smooth theme toggle — only animate during an explicit switch (avoids FOUC on load) */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+  transition: background-color var(--transition-base),
+              border-color var(--transition-base),
+              color var(--transition-base),
+              box-shadow var(--transition-base) !important;
 }
 
 /* Dashboard layout */

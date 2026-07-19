@@ -2912,6 +2912,14 @@
   border-color: var(--color-accent-blue);
   transform: scale(1.02);
 }
+[data-theme="light"] .vault-show-more-card {
+  background: #F1F5F9;
+  border-color: #CBD5E1;
+}
+[data-theme="light"] .vault-show-more-card:hover {
+  background: #E8EDF4;
+  border-color: var(--color-accent-blue);
+}
 
 
 /* --- Dedicated History Overlay --- */
