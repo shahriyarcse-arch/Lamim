@@ -146,6 +146,7 @@ updateSectionTitle() {
     document.documentElement.setAttribute('data-theme', theme);
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', theme === 'light' ? '#F1F5F9' : '#020408');
+    document.querySelectorAll('.topbar-theme-toggle').forEach(b => b.setAttribute('aria-pressed', String(theme === 'dark')));
 
     // Check if running on localhost/development environment
     const isLocalhost = Boolean(
@@ -239,6 +240,9 @@ updateSectionTitle() {
     this.bindNav();
     this.bindSidebarToggle();
     this.bindInstallPrompt();
+
+    // Accessibility (dialogs, focus traps, keyboard proxy buttons, labels)
+    if (typeof Utils !== 'undefined' && Utils.initA11y) Utils.initA11y();
 
     // Ensure setup form is always bound
     if (typeof Auth !== 'undefined') Auth.init();
@@ -354,7 +358,9 @@ updateSectionTitle() {
 
     // Active nav items
     document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(el => {
-      el.classList.toggle('active', el.dataset.section === sectionId);
+      const active = el.dataset.section === sectionId;
+      el.classList.toggle('active', active);
+      if (active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
     });
 
     // Show panel
@@ -394,6 +400,8 @@ updateSectionTitle() {
 
   bindNav() {
     document.querySelectorAll('[data-section]').forEach(el => {
+      if (!el.getAttribute('role')) el.setAttribute('role', 'button');
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
       el.addEventListener('click', () => this.navigateTo(el.dataset.section));
     });
   },

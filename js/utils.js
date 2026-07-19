@@ -390,6 +390,135 @@ const Utils = {
       .finally(() => { clearTimeout(to); this._versesLoading = false; });
   },
 
+  /* ============================================================
+     Accessibility (a11y) — professional pass
+     - Dialog semantics + focus trap/return for all modals
+     - Keyboard activation for non-native (div/span) proxy buttons
+     - Bulk aria-labels for icon-only controls & unlabeled inputs
+     ============================================================ */
+  initA11y() {
+    if (this._a11yReady) return;
+    this._a11yReady = true;
+
+    // --- 1. Modal dialog semantics + focus management ---
+    const focusablesIn = (root) => [...root.querySelectorAll('a[href], button, input:not([type="hidden"]), textarea, select, [role="button"], [tabindex]:not([tabindex="-1"])')]
+      .filter(x => !x.disabled && x.offsetParent !== null);
+
+    this._modalObserver = new MutationObserver((muts) => {
+      muts.forEach(m => {
+        const el = m.target;
+        if (el.classList.contains('hidden')) {
+          if (el._prevFocus && el._prevFocus.focus) { try { el._prevFocus.focus({ preventScroll: true }); } catch (e) {} }
+        } else {
+          el._prevFocus = document.activeElement;
+          setTimeout(() => {
+            const f = focusablesIn(el);
+            const target = (f.find(x => x.tagName === 'INPUT' || x.tagName === 'TEXTAREA' || x.tagName === 'SELECT')) || f[0] || el;
+            try { target.focus({ preventScroll: true }); } catch (e) {}
+          }, 60);
+        }
+      });
+    });
+
+    const enhanceModal = (el) => {
+      if (!el || el.dataset.a11yModal) return;
+      el.dataset.a11yModal = '1';
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-modal', 'true');
+      const title = el.querySelector('.modal-title, h1, h2, h3, [data-modal-title]');
+      if (title) {
+        if (!title.id) title.id = 'mt-' + Math.random().toString(36).slice(2, 9);
+        el.setAttribute('aria-labelledby', title.id);
+      }
+      el.querySelectorAll('.modal-close, .fin-modal-close').forEach(c => { if (!c.getAttribute('aria-label')) c.setAttribute('aria-label', 'Close'); });
+      this._modalObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
+      if (!el.classList.contains('hidden')) {
+        el._prevFocus = document.activeElement;
+        setTimeout(() => { const f = focusablesIn(el); try { (f[0] || el).focus({ preventScroll: true }); } catch (e) {} }, 60);
+      }
+    };
+    document.querySelectorAll('.modal-overlay').forEach(enhanceModal);
+    // Catch modals created later by JS (finance, gym, etc.)
+    new MutationObserver((muts) => {
+      muts.forEach(m => m.addedNodes.forEach(n => {
+        if (n.nodeType !== 1) return;
+        if (n.classList && n.classList.contains('modal-overlay')) enhanceModal(n);
+        if (n.querySelectorAll) n.querySelectorAll('.modal-overlay').forEach(enhanceModal);
+      }));
+    }).observe(document.body, { childList: true, subtree: true });
+
+    // Tab trap while any modal is open
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const open = document.querySelector('.modal-overlay:not(.hidden)');
+      if (!open) return;
+      const f = focusablesIn(open);
+      if (!f.length) { e.preventDefault(); return; }
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }, true);
+
+    // --- 2. Keyboard activation for non-native proxy buttons ---
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const el = e.target.closest && e.target.closest('[data-section], [role="button"]');
+      if (!el) return;
+      if (el.tagName === 'BUTTON' || el.tagName === 'A') return; // native elements handle their own activation
+      if (el.tagName === 'DIV' || el.tagName === 'SPAN' || el.tagName === 'SECTION') {
+        e.preventDefault();
+        el.click();
+      }
+    }, true);
+
+    // Make every [role="button"] (incl. JS-injected) keyboard-focusable
+    const makeFocusable = (el) => { if (el.matches && el.matches('[role="button"]:not([tabindex])')) el.setAttribute('tabindex', '0'); };
+    document.querySelectorAll('[role="button"]:not([tabindex])').forEach(makeFocusable);
+    new MutationObserver((muts) => {
+      muts.forEach(m => m.addedNodes.forEach(n => {
+        if (n.nodeType !== 1) return;
+        if (n.matches && n.matches('[role="button"]:not([tabindex])')) n.setAttribute('tabindex', '0');
+        if (n.querySelectorAll) n.querySelectorAll('[role="button"]:not([tabindex])').forEach(makeFocusable);
+      }));
+    }).observe(document.body, { childList: true, subtree: true });
+
+    // --- 3. Bulk aria-labels for icon-only controls (covers duplicates) ---
+    const labels = {
+      '#salah-prev-day': 'Previous day', '#salah-next-day': 'Next day',
+      '#nafl-prev-btn': 'Previous day', '#nafl-next-btn': 'Next day',
+      '.dhikr-undo-btn': 'Undo', '.dhikr-reset-btn': 'Reset',
+      '.gh-btn-log-exercise': 'Log exercise', '#dhikr-tap-btn': 'Increment dhikr count'
+    };
+    Object.keys(labels).forEach(sel => document.querySelectorAll(sel).forEach(el => { if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', labels[sel]); }));
+
+    // Static divs that act as buttons: give them role + tabindex too
+    ['#topbar-avatar', '#topbar-avatar-section', '.home-spirit-orb-container', '#setup-gender-male', '#setup-gender-female'].forEach(sel =>
+      document.querySelectorAll(sel).forEach(el => {
+        if (!el.getAttribute('role')) el.setAttribute('role', 'button');
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+        if (el.id === 'topbar-avatar' || el.id === 'topbar-avatar-section') el.setAttribute('aria-label', 'Open profile');
+        if (el.classList.contains('home-spirit-orb-container')) el.setAttribute('aria-label', 'View spirit score analysis');
+        if (el.id === 'setup-gender-male') el.setAttribute('aria-label', 'Select male');
+        if (el.id === 'setup-gender-female') el.setAttribute('aria-label', 'Select female');
+      })
+    );
+
+    // --- 4. Bulk aria-labels for unlabeled inputs ---
+    const fields = {
+      '#setup-name': 'Your name', '#setup-lat': 'Latitude', '#setup-lng': 'Longitude',
+      '#gym-exercise-name': 'Exercise name', '#gym-exercise-sets': 'Sets',
+      '#gym-exercise-reps': 'Reps', '#gym-exercise-weight': 'Weight',
+      '#gym-sleep-slider': 'Sleep time', '#gym-wake-slider': 'Wake time',
+      '#mujahid-custom-habit-input': 'New habit name',
+      '#mujahid-startdate-input': 'Start date', '#mujahid-relapse-reason': 'Relapse reason',
+      '#finance-expense-amount': 'Expense amount', '#finance-income-amount': 'Income amount',
+      '#finance-income-desc': 'Income source', '#finance-savings-target': 'Savings target'
+    };
+    Object.keys(fields).forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) el.setAttribute('aria-label', fields[sel]);
+    }));
+  },
+
   // Accurate Confirmation Modal
   confirm(title, msg, onConfirm, type = 'warning') {
     const modal = document.getElementById('confirm-modal');
