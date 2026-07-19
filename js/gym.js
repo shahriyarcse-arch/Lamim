@@ -291,8 +291,8 @@ const Gym = {
     }
     const ex = {
       name,
-      sets: Math.max(1, parseInt(setsEl.value) || 3),
-      reps: Math.max(1, parseInt(repsEl.value) || 10),
+      sets: Math.max(1, parseInt(setsEl.value, 10) || 3),
+      reps: Math.max(1, parseInt(repsEl.value, 10) || 10),
       weight: Math.max(0, parseFloat(weightEl.value) || 0)
     };
 
@@ -348,16 +348,16 @@ const Gym = {
 
     if (sleepSlider && sleep.sleepTime) {
       sleepSlider.value = this._time24ToSleepSlider(sleep.sleepTime);
-      this._updateSleepLabel(parseInt(sleepSlider.value));
+      this._updateSleepLabel(parseInt(sleepSlider.value, 10));
     } else if (sleepSlider) {
-      this._updateSleepLabel(parseInt(sleepSlider.value));
+      this._updateSleepLabel(parseInt(sleepSlider.value, 10));
     }
 
     if (wakeSlider && sleep.wakeTime) {
       wakeSlider.value = this._time24ToWakeSlider(sleep.wakeTime);
-      this._updateWakeLabel(parseInt(wakeSlider.value));
+      this._updateWakeLabel(parseInt(wakeSlider.value, 10));
     } else if (wakeSlider) {
-      this._updateWakeLabel(parseInt(wakeSlider.value));
+      this._updateWakeLabel(parseInt(wakeSlider.value, 10));
     }
 
     // Populate quality pills
@@ -372,7 +372,7 @@ const Gym = {
   /* --- Slider helpers --- */
   // Sleep slider: 0=6PM, 360=12AM, 720=6AM (12h range)
   _sleepSliderTo24h(val) {
-    let totalMin = 18 * 60 + parseInt(val); // 6PM = 18:00 base
+    let totalMin = 18 * 60 + parseInt(val, 10); // 6PM = 18:00 base
     if (totalMin >= 24 * 60) totalMin -= 24 * 60;
     const h = Math.floor(totalMin / 60);
     const m = totalMin % 60;
@@ -388,7 +388,7 @@ const Gym = {
   },
   // Wake slider: 0=4AM, 360=10AM, 720=4PM (12h range)
   _wakeSliderTo24h(val) {
-    let totalMin = 4 * 60 + parseInt(val); // 4AM = 04:00 base
+    let totalMin = 4 * 60 + parseInt(val, 10); // 4AM = 04:00 base
     if (totalMin >= 24 * 60) totalMin -= 24 * 60;
     const h = Math.floor(totalMin / 60);
     const m = totalMin % 60;
@@ -405,7 +405,7 @@ const Gym = {
 
   _formatTime12h(time24) {
     const [hStr, mStr] = time24.split(':');
-    let h = parseInt(hStr);
+    let h = parseInt(hStr, 10);
     const m = mStr;
     let ampm = 'AM';
     if (h >= 12) { ampm = 'PM'; if (h > 12) h -= 12; }
@@ -423,7 +423,7 @@ const Gym = {
   },
 
   onSleepSliderInput(val) {
-    this._updateSleepLabel(parseInt(val));
+    this._updateSleepLabel(parseInt(val, 10));
     const time24 = this._sleepSliderTo24h(val);
     const sleepInput = document.getElementById('gym-sleep-time');
     if (sleepInput) sleepInput.value = time24;
@@ -431,7 +431,7 @@ const Gym = {
   },
 
   onWakeSliderInput(val) {
-    this._updateWakeLabel(parseInt(val));
+    this._updateWakeLabel(parseInt(val, 10));
     const time24 = this._wakeSliderTo24h(val);
     const wakeInput = document.getElementById('gym-wake-time');
     if (wakeInput) wakeInput.value = time24;
@@ -765,7 +765,7 @@ const Gym = {
     const year = this.selectedDate.slice(0, 4);
     const month = this.selectedDate.slice(5, 7);
     const monthName = new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+    const daysInMonth = new Date(parseInt(year, 10), parseInt(month, 10), 0).getDate();
 
     let totalExercises = 0, totalSleepHrs = 0, sleepDays = 0;
     let totalHydrationPct = 0, hydrationDays = 0, loggedDaysCount = 0;
@@ -904,3 +904,5 @@ const Gym = {
 };
 
 window.Gym = Gym;
+
+

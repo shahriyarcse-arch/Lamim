@@ -467,34 +467,35 @@ const DB = {
   getCareerTimer() { return this.get('lamim_career_timer') || { running: false, startedAt: 0, accumMs: 0, topic: '', category: 'coding' }; },
   setCareerTimer(t) { return this.set('lamim_career_timer', t); },
 
-  // Gym Streak calculation (sleep >= 7 hours or protein logged or water >= 2000ml)
-  getGymStreak() {
+  // Shared streak scan: walks backwards from today, counting consecutive days
+  // where `metGoalFn(dateStr)` is truthy, stopping the streak at the first miss
+  // (today is allowed to be a miss without breaking the chain).
+  _computeStreak(metGoalFn) {
     let streak = 0;
     let d = Utils.getOffsetDate();
     for (let i = 0; i < 365; i++) {
       const ds = Utils.dateStr(d);
-      const gym = this.get(`lamim_gym_${ds}`);
-      const metGoal = gym && ((gym.sleep && gym.sleep.duration >= 6.5) || (gym.water && gym.water.amount >= 1500) || (gym.diet && gym.diet.meals && gym.diet.meals.length > 0));
-      if (metGoal) streak++;
-      else { if (ds !== Utils.todayStr()) break; }
+      if (metGoalFn(ds)) streak++;
+      else if (ds !== Utils.todayStr()) break;
       d.setDate(d.getDate() - 1);
     }
     return streak;
   },
 
+  // Gym Streak calculation (sleep >= 7 hours or protein logged or water >= 2000ml)
+  getGymStreak() {
+    return this._computeStreak(ds => {
+      const gym = this.get(`lamim_gym_${ds}`);
+      return gym && ((gym.sleep && gym.sleep.duration >= 6.5) || (gym.water && gym.water.amount >= 1500) || (gym.diet && gym.diet.meals && gym.diet.meals.length > 0));
+    });
+  },
+
   // Career Streak calculation (study duration >= 30 mins or any checklist item completed)
   getCareerStreak() {
-    let streak = 0;
-    let d = Utils.getOffsetDate();
-    for (let i = 0; i < 365; i++) {
-      const ds = Utils.dateStr(d);
+    return this._computeStreak(ds => {
       const career = this.get(`lamim_career_${ds}`);
-      const metGoal = career && ((career.studyDuration && career.studyDuration >= 30) || (career.checklist && career.checklist.some(x => x.done)));
-      if (metGoal) streak++;
-      else { if (ds !== Utils.todayStr()) break; }
-      d.setDate(d.getDate() - 1);
-    }
-    return streak;
+      return career && ((career.studyDuration && career.studyDuration >= 30) || (career.checklist && career.checklist.some(x => x.done)));
+    });
   },
 
   // Finance & Zakat
@@ -512,3 +513,5 @@ const DB = {
     }
   }
 };
+
+

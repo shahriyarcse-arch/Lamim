@@ -404,7 +404,7 @@ const Goals = {
     }
     const r = prompt("Enter custom Rakat number (e.g. 14, 20):");
     if (r) {
-      const num = parseInt(r);
+      const num = parseInt(r, 10);
       if (!isNaN(num) && num > 0) {
         this.setTahajjudRakat(num);
       } else {
@@ -676,7 +676,7 @@ const Goals = {
   openGoalModal(id) {
     this._resetGoalForm();
     const titleEl = document.getElementById('goal-modal-title');
-    if (id != null) {
+    if (id !== null) {
       const goal = DB.getGoals().find((g) => g.id === id);
       if (goal) {
         if (titleEl) titleEl.textContent = 'Edit Goal';
@@ -761,3 +761,5 @@ const Goals = {
   }
 };
 window.Goals = Goals;
+
+

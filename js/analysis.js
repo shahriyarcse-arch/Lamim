@@ -540,7 +540,7 @@ const Analysis = {
     let targetDate = todayOffset;
     if (monthStr) {
       const [y, m] = monthStr.split('-');
-      targetDate = new Date(parseInt(y), parseInt(m), 1);
+      targetDate = new Date(parseInt(y, 10), parseInt(m, 10), 1);
     }
     
     const currentMonth = targetDate.getMonth();
@@ -713,7 +713,7 @@ const Analysis = {
             </div>
           </div>
           <div class="user-info">
-            <div class="user-name">${user.name || 'Anonymous Warrior'}</div>
+            <div class="user-name">${Utils.escapeHTML(user.name || 'Anonymous Warrior')}</div>
             <div class="user-subtitle">Spiritual Score Report</div>
           </div>
         </div>
@@ -796,3 +796,5 @@ const Analysis = {
   }
 };
 window.Analysis = Analysis;
+
+

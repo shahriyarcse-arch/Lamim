@@ -411,7 +411,7 @@ const Mujahid = {
           const nums = el.querySelectorAll('.mujahid-time-num');
           if (nums.length >= 4) {
             const currentInterval = Math.floor(Date.now() / (1000 * 30));
-            const lastInterval = parseInt(el.dataset.lastInterval || '0');
+            const lastInterval = parseInt(el.dataset.lastInterval || '0', 10);
             
             const lastKnownDays = el.dataset.lastKnownDays ? parseInt(el.dataset.lastKnownDays, 10) : timeStats.days;
             el.dataset.lastKnownDays = timeStats.days;
@@ -860,14 +860,14 @@ const Mujahid = {
           </div>
         </div>
 
-        <div class="iw-habit-pill" role="button" tabindex="0" onclick="Mujahid.showProgressPulse('${habit.id}')">
-          ${isMaster ? '<span class="iw-rank-tag" style="color:#000;background:#ffd700;">MASTER</span>' : isDivine ? '<span class="iw-rank-tag" style="color:#00f2ff;text-shadow:0 0 10px #00f2ff;">SOVEREIGN</span>' : isLegendary ? '<span class="iw-rank-tag" style="color:#ffd700;">LEGEND</span>' : ''}${habit.label}
+        <div class="iw-habit-pill" role="button" tabindex="0" onclick="Mujahid.showProgressPulse('${Utils.escapeHTML(habit.id)}')">
+          ${isMaster ? '<span class="iw-rank-tag" style="color:#000;background:#ffd700;">MASTER</span>' : isDivine ? '<span class="iw-rank-tag" style="color:#00f2ff;text-shadow:0 0 10px #00f2ff;">SOVEREIGN</span>' : isLegendary ? '<span class="iw-rank-tag" style="color:#ffd700;">LEGEND</span>' : ''}${Utils.escapeHTML(habit.label)}
           ${isLegendary ? `<span class="iw-year-tag">${years} Years</span>` : ''}
         </div>
 
         <div class="iw-badge-container">
           <div class="iw-big-badge">
-            <div class="iw-badge-inner">${currentBadge ? currentBadge.emoji : habit.icon}</div>
+            <div class="iw-badge-inner">${Utils.escapeHTML(currentBadge ? currentBadge.emoji : habit.icon)}</div>
           </div>
           <div class="iw-rank-pill">${currentBadge ? currentBadge.name : 'The Novice'}</div>
         </div>
@@ -1346,7 +1346,7 @@ const Mujahid = {
     const date = new Date();
     date.setDate(date.getDate() - this.customDaysAgo);
     
-    let h24 = parseInt(this.customHour);
+    let h24 = parseInt(this.customHour, 10);
     if (this.customAMPM === 'PM' && h24 < 12) h24 += 12;
     if (this.customAMPM === 'AM' && h24 === 12) h24 = 0;
     
@@ -1526,7 +1526,7 @@ const Mujahid = {
               <span class="iw-relapse-date">${dateStr}</span>
               <span class="iw-relapse-time">${timeStr}</span>
             </div>
-            <div class="iw-relapse-reason">${s.reason || 'No reason recorded.'}</div>
+            <div class="iw-relapse-reason">${Utils.escapeHTML(s.reason || 'No reason recorded.')}</div>
           </div>
         `;
       }).join('');
@@ -1797,3 +1797,5 @@ const Mujahid = {
   }
 };
 window.Mujahid = Mujahid;
+
+

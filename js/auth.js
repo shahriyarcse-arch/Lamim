@@ -273,7 +273,7 @@ const Auth = {
       if (dob) {
         const parts = dob.split('-');
         if (parts.length === 3) {
-          const y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+          const y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
           const maxDay = new Date(y, m, 0).getDate();
           if (d > maxDay) dob = `${y}-${String(m).padStart(2,'0')}-${String(maxDay).padStart(2,'0')}`;
         }
@@ -395,3 +395,5 @@ const Auth = {
     });
   }
 };
+
+

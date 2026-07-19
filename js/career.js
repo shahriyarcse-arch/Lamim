@@ -93,7 +93,6 @@ const Career = {
     this.renderGoalsProgress();
     this.renderHeatMap();
     this.renderSkillProgress();
-    this.renderCharts();
     this.renderAchievements();
     this.updateHeroMetrics();
     this.switchProgressTab(this._activeProgressTab || 'weekly');
@@ -230,14 +229,14 @@ const Career = {
 
   /* ---------- stat strip ---------- */
   renderStatStrip() {
-    const n = window.n ? window.n : (x => x);
+    const _t = window.n ? window.n : (x => x);
     const streak = DB.getCareerStreak();
     const data = DB.getCareer(this.selectedDate);
     const studyToday = data.studyDuration || 0;
     const goalsDone = (data.checklist || []).filter(x => x.done).length;
 
     const [yy, mm] = this.selectedDate.split('-');
-    const daysInMonth = new Date(parseInt(yy), parseInt(mm), 0).getDate();
+    const daysInMonth = new Date(parseInt(yy, 10), parseInt(mm, 10), 0).getDate();
     let monthMins = 0;
     for (let i = 1; i <= daysInMonth; i++) {
       const ds = `${yy}-${mm}-${String(i).padStart(2, '0')}`;
@@ -248,13 +247,13 @@ const Career = {
     const monthHours = (monthMins / 60).toFixed(1);
 
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    set('cb-stat-streak', n(streak));
+    set('cb-stat-streak', _t(streak));
     set('cb-stat-streak-sub', streak === 1 ? 'day' : 'days');
-    set('cb-stat-study', n(studyToday));
+    set('cb-stat-study', _t(studyToday));
     set('cb-stat-study-sub', 'minutes');
-    set('cb-stat-goals', n(goalsDone));
+    set('cb-stat-goals', _t(goalsDone));
     set('cb-stat-goals-sub', 'done today');
-    set('cb-stat-month', n(monthHours));
+    set('cb-stat-month', _t(monthHours));
     set('cb-stat-month-sub', 'hours this mo.');
   },
 
@@ -286,23 +285,23 @@ const Career = {
   },
 
   _fmtDuration(mins) {
-    const n = window.n ? window.n : (x => x);
+    const _t = window.n ? window.n : (x => x);
     const h = Math.floor(mins / 60);
     const m = mins % 60;
-    if (h > 0) return n(h) + 'h ' + n(m) + 'm';
-    return n(m) + ' mins';
+    if (h > 0) return _t(h) + 'h ' + _t(m) + 'm';
+    return _t(m) + ' mins';
   },
 
   onStudyDurationChange() {
     const dur = document.getElementById('career-study-duration');
     const durVal = document.getElementById('career-study-duration-val');
     if (!dur || !durVal) return;
-    durVal.textContent = this._fmtDuration(parseInt(dur.value) || 0);
+    durVal.textContent = this._fmtDuration(parseInt(dur.value, 10) || 0);
   },
 
   saveStudyLog() {
     const topic = (document.getElementById('career-study-topic') || {}).value || '';
-    const dur = parseInt((document.getElementById('career-study-duration') || {}).value) || 0;
+    const dur = parseInt((document.getElementById('career-study-duration') || {}).value, 10) || 0;
     const notes = (document.getElementById('career-study-notes') || {}).value || '';
     const sel = document.getElementById('career-study-category');
     const category = (sel && sel.value) || 'coding';
@@ -319,7 +318,6 @@ const Career = {
     this.checkAchievements();
     this.renderStatStrip();
     this.renderSkillProgress();
-    this.renderCharts();
     this.renderHeatMap();
     this.renderWeekChart();
     this.updateHeroMetrics();
@@ -359,9 +357,9 @@ const Career = {
     const h = Math.floor(totalSec / 3600);
     const m = Math.floor((totalSec % 3600) / 60);
     const s = totalSec % 60;
-    const n = window.n ? window.n : (x => x);
+    const _t = window.n ? window.n : (x => x);
     const pad = v => String(v).padStart(2, '0');
-    display.textContent = h > 0 ? `${n(pad(h))}:${n(pad(m))}:${n(pad(s))}` : `${n(pad(m))}:${n(pad(s))}`;
+    display.textContent = h > 0 ? `${_t(pad(h))}:${_t(pad(m))}:${_t(pad(s))}` : `${_t(pad(m))}:${_t(pad(s))}`;
   },
 
   _renderTimerButtons(running) {
@@ -431,7 +429,6 @@ const Career = {
     this.renderStatStrip();
     this.renderStudyLog();
     this.renderSkillProgress();
-    this.renderCharts();
     this.renderHeatMap();
     this.renderWeekChart();
     this.updateHeroMetrics();
@@ -447,20 +444,20 @@ const Career = {
     const done = list.filter(x => x.done).length;
     const total = list.length;
     const pct = total ? Math.round((done / total) * 100) : 0;
-    const n = window.n ? window.n : (x => x);
+    const _t = window.n ? window.n : (x => x);
 
     const numEl = document.getElementById('cb-goals-num');
     const denEl = document.getElementById('cb-goals-den');
     const pctEl = document.getElementById('cb-goals-pct');
     const fillEl = document.getElementById('cb-goals-fill');
-    if (numEl) numEl.textContent = n(done);
-    if (denEl) denEl.textContent = n(total);
-    if (pctEl) pctEl.textContent = n(pct) + '%';
+    if (numEl) numEl.textContent = _t(done);
+    if (denEl) denEl.textContent = _t(total);
+    if (pctEl) pctEl.textContent = _t(pct) + '%';
     if (fillEl) fillEl.style.width = pct + '%';
 
     const badgeEl = document.getElementById('cb-goals-badge');
     if (badgeEl) {
-      badgeEl.textContent = n(done) + ' / ' + n(total);
+      badgeEl.textContent = _t(done) + ' / ' + _t(total);
       badgeEl.className = 'gh-badge ' + (pct >= 100 ? 'excellent' : pct >= 50 ? 'good' : 'pending');
     }
 
@@ -666,12 +663,12 @@ const Career = {
     });
     container.appendChild(grid);
 
-    const n = window.n ? window.n : (x => x);
+    const _t = window.n ? window.n : (x => x);
     const consistency = totalPast ? Math.round((activeCount / totalPast) * 100) : 0;
     const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-    setText('career-heatmap-consistency-pct', n(consistency) + '%');
-    setText('career-heatmap-streak', n(streak) + ' days');
-    setText('career-heatmap-total-hours', n((totalMins / 60).toFixed(1)) + 'h');
+    setText('career-heatmap-consistency-pct', _t(consistency) + '%');
+    setText('career-heatmap-streak', _t(streak) + ' days');
+    setText('career-heatmap-total-hours', _t((totalMins / 60).toFixed(1)) + 'h');
   },
 
   jumpToDate(dateStr) {
@@ -690,7 +687,7 @@ const Career = {
     const stats = {};
     this._catOptions.forEach(o => stats[o.key] = 0);
     const [yy, mm] = this.selectedDate.slice(0, 7).split('-');
-    const daysInMonth = new Date(parseInt(yy), parseInt(mm), 0).getDate();
+    const daysInMonth = new Date(parseInt(yy, 10), parseInt(mm, 10), 0).getDate();
     for (let i = 1; i <= daysInMonth; i++) {
       const ds = `${yy}-${mm}-${String(i).padStart(2, '0')}`;
       if (ds > Utils.todayStr()) break;
@@ -714,14 +711,14 @@ const Career = {
       else if (hours >= 15) { rank = 'Specialist'; rankCls = 'specialist'; }
       else if (hours >= 5) { rank = 'Practitioner'; rankCls = 'practitioner'; }
       const pct = Math.min(100, (hours / 50) * 100);
-      const n = window.n ? window.n : (x => x);
+      const _t = window.n ? window.n : (x => x);
 
       const skill = document.createElement('div');
       skill.className = 'cb-skill';
       skill.innerHTML =
         `<div class="cb-skill-head">` +
           `<span class="cb-skill-name">${this._icons[opt.icon]} ${opt.label}</span>` +
-          `<span class="cb-skill-rank ${rankCls}">${rank} · ${n(hours.toFixed(1))}h</span>` +
+          `<span class="cb-skill-rank ${rankCls}">${rank} · ${_t(hours.toFixed(1))}h</span>` +
         `</div>` +
         `<div class="cb-skill-track"><div class="cb-skill-fill cat-${opt.key}" style="width:${pct}%"></div></div>`;
       container.appendChild(skill);
@@ -729,7 +726,6 @@ const Career = {
   },
 
   /* ---------- charts (donut + trend) — now handled by progress tabs ---------- */
-  renderCharts() {},
 
   /* ---------- achievements ---------- */
   checkAchievements() {
@@ -798,11 +794,10 @@ const Career = {
 
   /* ---------- PDF export ---------- */
   exportPDF() {
-    const esc = (s) => (typeof Utils !== 'undefined' && Utils.escapeHTML) ? Utils.escapeHTML(s) : String(s || '').replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
     const year = this.selectedDate.slice(0, 4);
     const month = this.selectedDate.slice(5, 7);
     const monthName = new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+    const daysInMonth = new Date(parseInt(year, 10), parseInt(month, 10), 0).getDate();
     const todayStr = Utils.todayStr();
 
     let totalGoals = 0, goalsDone = 0, daysWithGoals = 0, perfectDays = 0;
@@ -875,7 +870,7 @@ const Career = {
         </tr>`;
       }
       const goalsCell = goalsMap[r.day]
-        ? `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start">` + goalsMap[r.day].map(g => `<span style="display:inline-block;font-size:10px;line-height:1.3;padding:2px 7px;border-radius:999px;white-space:nowrap;${g.done ? 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0' : 'background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0'}">${g.done ? '✓' : '○'} ${esc(g.text)}</span>`).join('') + `</div>`
+        ? `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start">` + goalsMap[r.day].map(g => `<span style="display:inline-block;font-size:10px;line-height:1.3;padding:2px 7px;border-radius:999px;white-space:nowrap;${g.done ? 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0' : 'background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0'}">${g.done ? '✓' : '○'} ${Utils.escapeHTML(g.text)}</span>`).join('') + `</div>`
         : '—';
       return `<tr>
         <td style="padding:8px;border-bottom:1px solid #e2e8f0;font-weight:700;vertical-align:top">${r.day}</td>
@@ -1377,3 +1372,9 @@ const Career = {
 };
 
 window.Career = Career;
+
+
+
+
+
+

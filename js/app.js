@@ -5,16 +5,15 @@
 // Quran verses are loaded lazily (see Utils.ensureVerses) to keep startup fast.
 window.LamimVerses = window.LamimVerses || [];
 
+// Single source of truth mapping a section id to its module (used by router + bus).
+const SECTION_MODULES = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+
 const App = {
   currentSection: '',
   lang: localStorage.getItem('lamim_lang') || 'en',
 
   // UI Dictionary (loaded from lang.js)
   dict: typeof Translations !== 'undefined' ? Translations : {},
-
-  toggleLang() {
-    this.setLang(this.lang === 'en' ? 'bn' : 'en');
-  },
 
   setLang(lang) {
     if (this.lang === lang) return;
@@ -365,7 +364,7 @@ updateSectionTitle() {
     if (this.currentSection) this._scrollPos[this.currentSection] = window.scrollY;
 
     // Cleanup outgoing section
-    const sections = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+    const sections = SECTION_MODULES;
     if (this.currentSection && sections[this.currentSection] && sections[this.currentSection].destroy) {
       Utils.safeRun(() => sections[this.currentSection].destroy(), `${this.currentSection} Cleanup`);
     }
@@ -407,7 +406,7 @@ updateSectionTitle() {
     }
 
     // Init section
-    const inits = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
+    const inits = SECTION_MODULES;
     if (inits[sectionId]) {
       Utils.safeRun(() => inits[sectionId].init(), `${sectionId} Initialization`);
     }
@@ -460,8 +459,7 @@ updateSectionTitle() {
   // Inactive sections ignore it (their init() re-reads fresh data on entry),
   // so we avoid the old pattern of every module holding a permanent window listener.
   routeDataUpdate() {
-    const map = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
-    const mod = this.currentSection && map[this.currentSection];
+    const mod = this.currentSection && SECTION_MODULES[this.currentSection];
     if (mod && typeof mod.onDataUpdated === 'function') {
       Utils.safeRun(() => mod.onDataUpdated(), `${this.currentSection} onDataUpdated`);
     }
@@ -522,13 +520,6 @@ updateSectionTitle() {
         }, 'info');
       }, 5000);
     }
-  },
-
-  refreshCurrentPage() {
-    const s = this.currentSection;
-    const inits = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance };
-    if (inits[s]) inits[s].init();
-    this.updateAvatars();
   }
 };
 
@@ -538,3 +529,5 @@ if (document.readyState === 'loading') {
 } else {
   App.init();
 }
+
+

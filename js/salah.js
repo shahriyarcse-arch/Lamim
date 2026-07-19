@@ -720,7 +720,7 @@ this.renderPrayerCards(date, true); // true = skipAnim
             </div>
           </div>
           <div class="report-meta">
-            <div class="user-name">${user.name}</div>
+            <div class="user-name">${Utils.escapeHTML(user.name || 'Warrior')}</div>
             <div class="report-period">${monthName} ${year}</div>
             <div class="report-ref">REF: ${Date.now().toString(36).toUpperCase()}</div>
             <div class="report-date">Generated: ${generatedDate}</div>
@@ -982,3 +982,5 @@ this.renderPrayerCards(date, true); // true = skipAnim
   }
 };
 window.Salah = Salah;
+
+
