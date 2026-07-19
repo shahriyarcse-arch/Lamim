@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shahriyarcse-arch.github.io/Lamim/sitemap.xml
