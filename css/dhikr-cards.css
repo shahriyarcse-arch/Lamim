@@ -798,7 +798,6 @@
 [data-theme] .dhikr-preset-scroll {
   display: flex !important;
   overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch;
   gap: 12px !important;
   padding: 8px 4px 16px 4px !important;
   margin-bottom: 24px !important;

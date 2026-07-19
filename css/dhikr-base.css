@@ -346,8 +346,6 @@
   margin-bottom: var(--space-2);
   gap: var(--space-3);
 
-  /* Smooth touch scrolling */
-  -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 

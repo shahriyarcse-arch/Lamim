@@ -1866,29 +1866,6 @@
 
   <!-- Service Worker Registration handled in app.js -->
   <script>
-
-    function forceClearCache() {
-      if ('serviceWorker' in navigator) {
-        // 1. Unregister all service workers
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-          for(let registration of registrations) {
-            registration.unregister();
-          }
-          // 2. Clear all caches
-          if ('caches' in window) {
-            caches.keys().then(function(names) {
-              for (let name of names) caches.delete(name);
-            });
-          }
-          // 3. Reset stored SW version so auto-refresh triggers
-          try { localStorage.removeItem('lamim_current_sw_version'); } catch(e) {}
-          alert('Cache Destroyed! The app will now reload with fresh files.');
-          window.location.reload(true);
-        });
-      } else {
-        window.location.reload(true);
-      }
-    }
   </script>
 
 </div>

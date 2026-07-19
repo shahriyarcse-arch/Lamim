@@ -437,7 +437,6 @@ const DB = {
 
   // Career timer state — survives reload: { running, startedAt, accumMs, topic, category }
   getCareerTimer() { return this.get('lamim_career_timer') || { running: false, startedAt: 0, accumMs: 0, topic: '', category: 'coding' }; },
-  setCareerTimer(t) { return this.set('lamim_career_timer', t); },
 
   // Shared streak scan: walks backwards from today, counting consecutive days
   // where `metGoalFn(dateStr)` is truthy, stopping the streak at the first miss
@@ -454,13 +453,6 @@ const DB = {
     return streak;
   },
 
-  // Gym Streak calculation (sleep >= 7 hours or protein logged or water >= 2000ml)
-  getGymStreak() {
-    return this._computeStreak(ds => {
-      const gym = this.get(`lamim_gym_${ds}`);
-      return gym && ((gym.sleep && gym.sleep.duration >= 6.5) || (gym.water && gym.water.amount >= 1500) || (gym.diet && gym.diet.meals && gym.diet.meals.length > 0));
-    });
-  },
 
   // Career Streak calculation (study duration >= 30 mins or any checklist item completed)
   getCareerStreak() {

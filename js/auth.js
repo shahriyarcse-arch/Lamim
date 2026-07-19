@@ -20,33 +20,7 @@ const Auth = {
     }
   },
 
-  setLang(lang) {
-    const hiddenInput = document.getElementById('setup-lang');
-    if (hiddenInput) hiddenInput.value = lang;
-    const cardEn = document.getElementById('pref-lang-en');
-    const cardBn = document.getElementById('pref-lang-bn');
-    if (lang === 'en') {
-      cardEn?.classList.add('active');
-      cardBn?.classList.remove('active');
-    } else {
-      cardBn?.classList.add('active');
-      cardEn?.classList.remove('active');
-    }
-  },
 
-  setCurrency(curr) {
-    const hiddenInput = document.getElementById('setup-currency');
-    if (hiddenInput) hiddenInput.value = curr;
-    const currencies = ['USD', 'BDT', 'SAR', 'EUR', 'GBP'];
-    currencies.forEach(c => {
-      const card = document.getElementById(`curr-${c}`);
-      if (c === curr) {
-        card?.classList.add('active');
-      } else {
-        card?.classList.remove('active');
-      }
-    });
-  },
 
   nextStep(currentStep) {
     if (currentStep === 1) {

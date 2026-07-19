@@ -39,9 +39,6 @@
   .fin-delete-info,
   .history-premium-summary,
   .vault-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  .vault-grid {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)) !important;
   }
 }

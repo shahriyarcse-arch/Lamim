@@ -8,15 +8,6 @@
   padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
 }
 
-.analysis-header-pro {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
 .analysis-main-title {
   font-size: 28px;
   font-weight: 900;

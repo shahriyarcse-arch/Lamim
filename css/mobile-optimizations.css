@@ -50,44 +50,7 @@
   }
 }
 
-/* Horizontal scroll for presets */
-.dhikr-preset-scroll {
-  display: flex;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: hidden;
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-2);
-  gap: var(--space-3);
-
-  /* Smooth touch scrolling */
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-
-  /* Visible custom scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(167, 139, 250, 0.5) var(--color-surface-card);
-}
-
-.dhikr-preset-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-
-.dhikr-preset-scroll::-webkit-scrollbar-track {
-  background: var(--color-surface-card);
-  border-radius: 10px;
-}
-
-.dhikr-preset-scroll::-webkit-scrollbar-thumb {
-  background: rgba(167, 139, 250, 0.5);
-  border-radius: 10px;
-}
-
-.dhikr-preset-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(167, 139, 250, 0.8);
-}
-
+/* Dhikr presets */
 .dhikr-preset-row {
   display: flex;
   gap: var(--space-3);
@@ -97,7 +60,6 @@
 
 .dhikr-preset-card {
   flex: 0 0 auto;
-  width: 85px;
   min-height: 85px;
   padding: var(--space-2);
   display: flex;
@@ -292,15 +254,4 @@
   color: var(--color-text-primary);
 }
 
-/* Old dhikr styles — hidden legacy elements */
-.dhikr-counter-wrap,
-.dhikr-name-arabic,
-.dhikr-name-latin,
-.dhikr-meaning,
-.dhikr-count-display,
-.dhikr-target,
-.dhikr-tap-icon,
-.dhikr-grid,
-.tasbeeh-beads {
-  display: none;
-}
+

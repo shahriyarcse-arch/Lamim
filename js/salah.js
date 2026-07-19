@@ -564,7 +564,6 @@ this.renderPrayerCards(date, true); // true = skipAnim
 
     const sm = this.statusMeta[status];
     const result = sm.result === 'successful' ? '✅' : sm.result === 'qaza' ? '⏰' : '❌';
-    // Utils.toast(`${this.prayerMeta[prayer].label} — ${sm.label} ${result} (+${sm.points} pts)`, status === 'missed' ? 'warning' : 'success');
 
     // Celebrate all 5 done
     const score = Utils.salahScore(DB.getSalah(date));

@@ -175,71 +175,7 @@
 
 /* Utility animation classes */
 .anim-fade-in        { animation: fadeIn 0.3s ease both; }
-.anim-fade-in-up     { animation: fadeInUp 0.4s ease both; }
-.anim-fade-in-down   { animation: fadeInDown 0.3s ease both; }
-.anim-scale-in       { animation: scaleIn 0.3s var(--transition-bounce) both; }
-.anim-pulse          { animation: pulse 2s infinite; }
-.anim-pulse-soft     { animation: pulseSoft 2s infinite; }
-.anim-spin           { animation: spin 1s linear infinite; }
-.anim-shimmer        { animation: shimmer 1.5s infinite; }
-.anim-glow           { animation: glowPulse 2s infinite; }
 .rotating            { animation: spin 1s linear infinite; }
-
-/* Stagger children */
-.stagger > *:nth-child(1) { animation-delay: 0ms; }
-.stagger > *:nth-child(2) { animation-delay: 60ms; }
-.stagger > *:nth-child(3) { animation-delay: 120ms; }
-.stagger > *:nth-child(4) { animation-delay: 180ms; }
-.stagger > *:nth-child(5) { animation-delay: 240ms; }
-.stagger > *:nth-child(6) { animation-delay: 300ms; }
-
-/* Hover interactions */
-.hover-lift {
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.hover-scale {
-  transition: transform var(--transition-fast);
-}
-.hover-scale:hover {
-  transform: scale(1.04);
-}
-
-/* Ripple effect */
-.ripple-container {
-  position: relative;
-  overflow: hidden;
-}
-.ripple-container::after {
-  content: '';
-  position: absolute;
-  inset: 50%;
-  background: var(--color-text-primary);
-  opacity: 0.1;
-  border-radius: 50%;
-  transform: scale(0);
-  pointer-events: none;
-}
-.ripple-container:active::after {
-  inset: -50%;
-  animation: ripple 0.5s ease-out;
-}
-
-/* Skeleton loading */
-.skeleton {
-  background: linear-gradient(90deg,
-    var(--color-bg-tertiary) 25%,
-    var(--color-bg-elevated) 50%,
-    var(--color-bg-tertiary) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
-}
 
 /* Prefers reduced motion — disable animations */
 @media (prefers-reduced-motion: reduce) {

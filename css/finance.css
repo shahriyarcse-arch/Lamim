@@ -298,12 +298,6 @@
 .fin-save-btn:hover { background: color-mix(in srgb, var(--color-accent-green) 20%, transparent) !important; transform: translateY(-2px); }
 
 /* ---- Month navigator ---- */
-.finance-month-navigator {
-  background: var(--color-surface-card) !important;
-  border: 1px solid var(--color-divider-strong) !important;
-  border-radius: 16px !important;
-  box-shadow: none !important;
-}
 .fin-unified-controls { display: flex; align-items: center; gap: 8px; }
 .finance-nav-btn {
   width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
@@ -318,25 +312,11 @@
 .fin-currency-btn.active { background: #059669; color: #fff; }
 
 /* ---- Settings modal (Finance Settings page) ---- */
-.finance-modal-content {
-  max-width: 420px !important;
-  background: var(--color-surface-card) !important;
-  border: 1px solid var(--color-divider-strong) !important;
-  border-radius: 22px !important;
-  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.5) !important;
-}
 .fin-modal-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 22px; border-bottom: 1px solid var(--color-divider-strong);
 }
 .fin-modal-title { font-size: 18px; font-weight: 800; color: var(--color-text-primary); }
-.fin-modal-close {
-  width: 34px; height: 34px; border-radius: 10px; cursor: pointer;
-  background: var(--color-surface-nested, rgba(255,255,255,0.05));
-  border: 1px solid var(--color-divider-strong); color: var(--color-text-muted);
-  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-}
-.fin-modal-close:hover { background: color-mix(in srgb, var(--fin-red) 12%, transparent); color: var(--fin-red); border-color: color-mix(in srgb, var(--fin-red) 30%, transparent); }
 
 .fin-exchange-card {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;

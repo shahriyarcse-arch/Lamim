@@ -795,7 +795,6 @@
   background: rgba(10, 15, 28, 0.9);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -1825,20 +1824,6 @@
 
   .analysis-nafl-breakdown {
     flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .analysis-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .analysis-quick-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .analysis-tabs {
-    justify-content: flex-start;
   }
 }
 

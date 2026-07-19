@@ -14,7 +14,7 @@ const Analysis = {
   },
   
   _cachedHabits: null,
-  _isGeneratingPDF: false,
+
 
 
 
@@ -528,11 +528,6 @@ const Analysis = {
   },
 
   exportMonthlyReport(monthStr) {
-    if (this._isGeneratingPDF) {
-      Utils.toast('Generating PDF... Please wait.', 'warning');
-      return;
-    }
-    
     const todayOffset = Utils.getOffsetDate();
     let targetDate = todayOffset;
     if (monthStr) {
