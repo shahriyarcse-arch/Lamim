@@ -109,21 +109,22 @@ p { color: var(--color-text-secondary); }
 .hidden { display: none !important; }
 .visible { display: block !important; }
 
-/* Mobile: touch feedback on interactive elements */
-.btn:active, [role="button"]:active, .btn-xoss:active, .btn-secondary:active,
-.fin-filter-pill:active, .fin-tab-btn:active, .fin-sort-chip:active,
-.gh-seg-btn:active, .career-tab:active, .analysis-tab:active,
-.pref-card:active, .curr-card:active, .gender-card:active, .bio-preset-chip:active,
-.insight-p-card:active, .vault-show-more-card:active,
-.dhikr-preset-card:active, .salah-option-btn:active {
-  transform: scale(0.97);
-  opacity: 0.85;
-  transition: transform 0.1s ease, opacity 0.1s ease;
+/* Mobile: touch feedback on interactive elements (coarse pointer only) */
+@media (pointer: coarse) {
+  .btn:active, [role="button"]:active, .btn-xoss:active, .btn-secondary:active,
+  .fin-filter-pill:active, .fin-tab-btn:active, .fin-sort-chip:active,
+  .gh-seg-btn:active, .career-tab:active, .analysis-tab:active,
+  .pref-card:active, .curr-card:active, .gender-card:active, .bio-preset-chip:active,
+  .insight-p-card:active, .vault-show-more-card:active,
+  .salah-option-btn:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
 }
 
-/* Mobile: keyboard overlap — scroll padding for focused inputs */
-.modal-body, .modal-content, .gh-modal, .fin-history-panel, .fin-vault-panel,
-.cb-modal-body, .auth-card {
+/* Mobile: keyboard overlap — scroll padding for focused inputs in scrollable modals */
+.gh-modal, .fin-history-panel, .fin-vault-panel {
   scroll-padding-bottom: 80px;
 }
 
@@ -273,9 +274,5 @@ p { color: var(--color-text-secondary); }
   .loc-detect-btn:hover {
     transform: none;
     box-shadow: none;
-    background: unset;
-    color: unset;
-    border-color: unset;
-    opacity: unset;
   }
 }

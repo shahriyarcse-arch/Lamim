@@ -1802,7 +1802,7 @@ const Finance = {
 
   exportPDF() {
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:var(--z-overlay,9999);background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);';
     overlay.innerHTML = '<div style="text-align:center;color:#fff;"><div style="width:32px;height:32px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;"></div><div style="font-size:14px;font-weight:600;">Generating PDF...</div></div>';
     document.body.appendChild(overlay);
 

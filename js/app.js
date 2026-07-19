@@ -250,7 +250,7 @@ updateSectionTitle() {
     // Network status indicators for PWA
     const offlineBanner = document.createElement('div');
     offlineBanner.id = 'offline-banner';
-    offlineBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;padding:8px 16px;text-align:center;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706);transform:translateY(-100%);transition:transform 0.3s ease;pointer-events:none;';
+    offlineBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:var(--z-overlay,9999);padding:8px 16px;text-align:center;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706);transform:translateY(-100%);transition:transform 0.3s ease;pointer-events:none;';
     offlineBanner.textContent = this.lang === 'bn' ? 'অফলাইন — ডাটা লোকালি সেভ হবে' : 'Offline — Data saved locally';
     document.body.appendChild(offlineBanner);
 
@@ -394,20 +394,10 @@ updateSectionTitle() {
       if (active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
     });
 
-    // Show panel with transition
-    document.querySelectorAll('.section-panel').forEach(p => {
-      if (p.classList.contains('active')) {
-        p.style.opacity = '0';
-      }
-      p.classList.remove('active');
-    });
+    // Show panel
+    document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
     const panel = document.getElementById('section-' + sectionId);
-    if (panel) {
-      panel.style.opacity = '0';
-      panel.classList.add('active');
-      panel.offsetHeight;
-      panel.style.opacity = '';
-    }
+    if (panel) panel.classList.add('active');
 
     // Toggle Home-active flag (pauses aurora animation when away from Home)
     document.body.classList.toggle('home-active', sectionId === 'home');
@@ -429,18 +419,7 @@ updateSectionTitle() {
     // Init section
     const inits = SECTION_MODULES;
     if (inits[sectionId]) {
-      if (panel) {
-        const spinner = document.createElement('div');
-        spinner.className = 'section-loading-spinner';
-        spinner.innerHTML = '<div style="width:28px;height:28px;border:3px solid var(--color-border);border-top-color:var(--color-accent-primary);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div>';
-        spinner.style.cssText = 'display:flex;align-items:center;justify-content:center;padding:60px 0;';
-        panel.appendChild(spinner);
-      }
       Utils.safeRun(() => inits[sectionId].init(), `${sectionId} Initialization`);
-      if (panel) {
-        const sp = panel.querySelector('.section-loading-spinner');
-        if (sp) sp.remove();
-      }
     }
 
     // Close sidebar on mobile
