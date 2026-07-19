@@ -425,6 +425,7 @@
   align-items: center;
   justify-content: space-between;
   background: var(--fin-surface);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   padding: 8px 16px;
   border-radius: 16px;
@@ -460,6 +461,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }

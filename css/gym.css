@@ -74,6 +74,7 @@
   border: 1px solid var(--gh-border);
   border-radius: 999px;
   padding: 3px;
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }

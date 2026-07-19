@@ -5,6 +5,7 @@
 /* === CARDS === */
 .card {
   background: var(--color-glass);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-border);
@@ -18,6 +19,7 @@
 .card-sm { padding: var(--space-4); border-radius: var(--radius-lg); }
 .card-glass {
   background: var(--color-glass);
+  -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--color-border);
@@ -41,7 +43,7 @@
   font-family: var(--font-sans); font-size: var(--text-base); font-weight: var(--fw-medium);
   padding: var(--space-3) var(--space-5); border-radius: var(--radius-md);
   cursor: pointer; border: none; transition: all var(--transition-fast);
-  position: relative; overflow: hidden; user-select: none; white-space: nowrap;
+  position: relative; overflow: hidden; -webkit-user-select: none; user-select: none; white-space: nowrap;
 }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: #fff; box-shadow: 0 0 20px rgba(139,92,246,0.25); }
@@ -234,11 +236,13 @@ select.input option:disabled { color: var(--color-text-muted); }
   z-index: var(--z-modal); display: flex; align-items: center; justify-content: center;
   padding: max(var(--space-4), env(safe-area-inset-top, 16px)) var(--space-4) max(var(--space-4), env(safe-area-inset-bottom, 16px)) var(--space-4);
   animation: fadeIn 0.2s ease;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 .modal-overlay.hidden { display: none; }
 .modal {
   background: var(--color-surface-card);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--color-divider-strong);
@@ -265,6 +269,7 @@ select.input option:disabled { color: var(--color-text-muted); }
   position: fixed; top: 0; left: 0; bottom: 0;
   width: var(--sidebar-width); 
   background: rgba(8, 10, 18, 0.92);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-right: 1px solid rgba(255,255,255,0.04);
@@ -430,6 +435,7 @@ select.input option:disabled { color: var(--color-text-muted); }
   height: 64px;
   scroll-snap-type: x proximity;
   background: rgba(6, 11, 19, 0.65);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.06); 
@@ -877,6 +883,7 @@ select.input option:disabled { color: var(--color-text-muted); }
   padding: 16px 20px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -930,6 +937,7 @@ select.input option:disabled { color: var(--color-text-muted); }
 .sidebar-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.4); z-index: calc(var(--z-sidebar) - 1);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }

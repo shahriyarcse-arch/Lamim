@@ -102,6 +102,7 @@
   position: absolute;
   inset: 2px;
   background-color: rgba(10, 10, 10, 0.92);
+  -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 26px;
@@ -111,6 +112,7 @@
 
 [data-theme="light"] .card-main-balance::after {
   background-color: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 27px;
@@ -326,6 +328,7 @@
   background: var(--color-divider-strong);
   padding: 6px 12px;
   border-radius: 100px;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -395,6 +398,7 @@
 .fin-cat-pill,
 .vault-card,
 .transaction-item {
+  -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -608,6 +612,7 @@
   gap: 16px;
   padding: 14px 18px;
   background: var(--color-surface-nested);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-divider-subtle);
   border-radius: 20px;
@@ -812,6 +817,7 @@
   position: relative;
   display: flex;
   background: rgba(255, 255, 255, 0.03);
+  -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   padding: 3px;
   border-radius: 12px;
@@ -890,6 +896,7 @@
 
 .vault-card {
   background: var(--color-surface-card);
+  -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--color-surface-nested);
