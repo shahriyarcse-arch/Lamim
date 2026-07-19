@@ -602,7 +602,7 @@ const Finance = {
 
     const totalExp = exps.filter(e => e.category !== 'transfer').reduce((s, e) => s + e.amount, 0);
 
-    if (!allActivity.length) return `<div class="fin-section-title">${v.toLocaleString('default',{month:'long'})} Activity</div><p style="text-align:center; opacity:0.3; padding:40px; font-size:14px;">No records for this month</p>`;
+    if (!allActivity.length) return `<div class="fin-section-title">${v.toLocaleString('default',{month:'long'})} Activity</div><div style="text-align:center;padding:48px 20px;"><div style="font-size:40px;margin-bottom:12px;opacity:0.4;">📊</div><div style="font-size:14px;color:var(--color-text-secondary);font-weight:500;">No records for this month</div><div style="font-size:12px;color:var(--color-text-muted);margin-top:6px;">Tap + to add your first transaction</div></div>`;
 
     const groups = {};
     allActivity.forEach(e => {
@@ -1796,6 +1796,11 @@ const Finance = {
   },
 
   exportPDF() {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);';
+    overlay.innerHTML = '<div style="text-align:center;color:#fff;"><div style="width:32px;height:32px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;"></div><div style="font-size:14px;font-weight:600;">Generating PDF...</div></div>';
+    document.body.appendChild(overlay);
+
     const v = this.currentViewDate, sym = this.getSymbol();
     const mStr = v.toLocaleString('default', { month: 'long', year: 'numeric' });
     const exps = this.data.expenses.filter(e => { const d = new Date(e.date); return d.getMonth() === v.getMonth() && d.getFullYear() === v.getFullYear() && e.category !== 'transfer'; });
@@ -1813,6 +1818,7 @@ const Finance = {
 
     const win = window.open('', '_blank');
     if (!win) {
+      overlay.remove();
       Utils.toast('Please allow popups to export statement', 'error');
       return;
     }
@@ -1985,6 +1991,7 @@ const Finance = {
       </html>
     `);
     win.document.close();
+    overlay.remove();
   },
 
   initChart(stats) {
@@ -1997,6 +2004,8 @@ const Finance = {
         })
         .catch(err => {
           console.error("Failed to load Chart.js from CDN", err);
+          const wrapper = canvas.parentElement;
+          if (wrapper) wrapper.innerHTML = '<div style="text-align:center;padding:32px 16px;"><div style="font-size:32px;margin-bottom:8px;opacity:0.4;">📈</div><div style="font-size:13px;color:var(--color-text-secondary);font-weight:500;">Chart unavailable offline</div><div style="font-size:11px;color:var(--color-text-muted);margin-top:4px;">Connect to internet to view charts</div></div>';
         });
       return;
     }

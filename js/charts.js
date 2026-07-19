@@ -45,7 +45,7 @@ const Charts = {
 
   /* ---------- sparkline ---------- */
   sparkline(container, data, opts = {}) {
-    if (!data || data.length < 2) { container.innerHTML = ''; return; }
+    if (!data || data.length < 2) { container.innerHTML = '<div style="font-size:11px;color:var(--color-text-muted);text-align:center;padding:12px 0;">Not enough data</div>'; return; }
     const w = container.clientWidth || 120;
     const h = opts.height || 44;
     const color = opts.color || '#818cf8';
@@ -73,7 +73,7 @@ const Charts = {
 
   /* ---------- lineChart ---------- */
   lineChart(container, data, opts = {}) {
-    if (!data || data.length < 2) { container.innerHTML = ''; return; }
+    if (!data || data.length < 2) { container.innerHTML = '<div style="font-size:11px;color:var(--color-text-muted);text-align:center;padding:12px 0;">Not enough data</div>'; return; }
     const w = container.clientWidth || 200;
     const h = opts.height || 90;
     const color = opts.color || '#818cf8';
