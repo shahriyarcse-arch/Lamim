@@ -67,6 +67,12 @@ a { color: var(--color-accent-primary); text-decoration: none; transition: color
 a:hover { color: var(--color-accent-gold); }
 
 button { cursor: pointer; border: none; background: none; font-family: inherit; touch-action: manipulation; }
+a, [role="button"], .btn, .fin-filter-pill, .fin-tab-btn, .fin-sort-chip,
+.gh-seg-btn, .career-tab, .analysis-tab, .pref-card, .curr-card,
+.gender-card, .bio-preset-chip, .insight-p-card, .vault-show-more-card,
+.dhikr-preset-card, .salah-option-btn {
+  touch-action: manipulation;
+}
 input, select, textarea {
   font-family: inherit;
   font-size: var(--text-base);
@@ -102,6 +108,24 @@ p { color: var(--color-text-secondary); }
 
 .hidden { display: none !important; }
 .visible { display: block !important; }
+
+/* Mobile: touch feedback on interactive elements */
+.btn:active, [role="button"]:active, .btn-xoss:active, .btn-secondary:active,
+.fin-filter-pill:active, .fin-tab-btn:active, .fin-sort-chip:active,
+.gh-seg-btn:active, .career-tab:active, .analysis-tab:active,
+.pref-card:active, .curr-card:active, .gender-card:active, .bio-preset-chip:active,
+.insight-p-card:active, .vault-show-more-card:active,
+.dhikr-preset-card:active, .salah-option-btn:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+/* Mobile: keyboard overlap — scroll padding for focused inputs */
+.modal-body, .modal-content, .gh-modal, .fin-history-panel, .fin-vault-panel,
+.cb-modal-body, .auth-card {
+  scroll-padding-bottom: 80px;
+}
 
 .text-gold { color: var(--color-accent-gold); }
 .text-green { color: var(--color-accent-green); }
@@ -234,4 +258,24 @@ p { color: var(--color-text-secondary); }
 @media (max-width: 480px) {
   .grid-3 { grid-template-columns: 1fr; }
   .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* Touch devices: prevent hover styles from sticking after tap */
+@media (hover: none) {
+  .btn:hover, .btn-xoss:hover, .btn-secondary:hover, .btn-detect:hover,
+  .fin-filter-pill:hover, .fin-tab-btn:hover, .fin-sort-chip:hover, .fin-pill:hover,
+  .gh-seg-btn:hover, .career-tab:hover, .analysis-tab:hover,
+  .pref-card:hover, .curr-card:hover, .gender-card:hover, .bio-preset-chip:hover,
+  .insight-p-card:hover, .mujahid-btn-relapse-sm:hover,
+  .finance-nav-btn:hover, .section-tools-btn:hover, .mujahid-icon-option:hover,
+  .iw-relapse-btn:hover, .hover-lift:hover, .hover-scale:hover,
+  .vault-show-more-card:hover, .step-svg-icon-wrap:hover,
+  .loc-detect-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: unset;
+    color: unset;
+    border-color: unset;
+    opacity: unset;
+  }
 }

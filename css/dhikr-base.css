@@ -340,6 +340,9 @@
 .dhikr-preset-scroll {
   display: flex;
   overflow-x: auto;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   overflow-y: hidden;
   padding-bottom: var(--space-3);
   margin-bottom: var(--space-2);

@@ -342,6 +342,8 @@
   gap: var(--space-4);
   max-height: 230px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding-right: 4px;
 }
 .ver-log-item { position: relative; padding-left: 18px; }

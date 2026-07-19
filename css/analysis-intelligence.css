@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-bottom: 40px;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
 }
 
 .analysis-header-pro {

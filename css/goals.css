@@ -287,6 +287,8 @@ div#nafl-night-grid .salah-options-grid {
   gap: 12px !important;
   max-height: 380px !important;
   overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding-right: 6px !important;
 }
 
