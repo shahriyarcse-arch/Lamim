@@ -1,15 +1,28 @@
-const CACHE_NAME = 'lamim-v148';
-const ASSETS = [
+const CACHE_NAME = 'lamim-v149';
+const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json'
 ];
 
-// Install: Cache core assets & skip waiting immediately
+// Install: Cache core shell + best-effort precache of every local CSS/JS
+// referenced by index.html, so the app is fully usable offline immediately
+// after install (no need for a prior online visit). Promise.allSettled keeps a
+// single missing asset from aborting the whole install.
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.allSettled(CORE_ASSETS.map((u) => cache.add(u)));
+    try {
+      const html = await (await fetch('./index.html', { cache: 'no-cache' })).text();
+      const urls = [...html.matchAll(/(?:href|src)="([^"]+\.(?:css|js)[^"]*)"/g)]
+        .map((m) => m[1])
+        .filter((u) => !/^https?:/i.test(u) && !u.startsWith('//'));
+      await Promise.allSettled(
+        urls.map((u) => cache.add(new URL(u, self.location.href).href))
+      );
+    } catch (_) { /* offline install — shell-only fallback is fine */ }
+  })());
   self.skipWaiting();
 });
 

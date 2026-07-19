@@ -216,6 +216,7 @@ updateSectionTitle() {
       if (user) {
         if (DB.refreshSpiritScore) DB.refreshSpiritScore();
         this.showDashboard();
+        this.applyDeepLink();
         this.checkBackupReminder();
       } else {
         this.showPage('setup');
@@ -422,6 +423,18 @@ updateSectionTitle() {
   closeSidebar() {
     document.getElementById('sidebar')?.classList.remove('open');
     document.getElementById('sidebar-overlay')?.classList.remove('show');
+  },
+
+  // Deep-link support for PWA shortcuts / shared URLs (?section=salah)
+  applyDeepLink() {
+    try {
+      const section = new URLSearchParams(location.search).get('section');
+      if (!section) return;
+      const valid = ['home', 'salah', 'dhikr', 'nafl', 'analysis', 'profile', 'mujahid', 'finance', 'gym', 'career'];
+      if (valid.includes(section) && section !== 'home') {
+        setTimeout(() => this.navigateTo(section), 0);
+      }
+    } catch (e) { /* ignore deep-link errors */ }
   },
 
   bindInstallPrompt() {

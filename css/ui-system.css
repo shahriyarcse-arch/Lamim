@@ -214,3 +214,64 @@ input[type="range"]:focus-visible {
   outline: 2px solid var(--color-accent-primary);
   outline-offset: 3px;
 }
+
+/* ---------- PWA INSTALL BANNER ---------- */
+.install-banner {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  z-index: var(--z-toast, 30000);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(460px, calc(100% - 24px));
+  padding: 12px 14px;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--color-bg-surface, rgba(15, 15, 25, 0.92));
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+  box-shadow: var(--shadow-lg, 0 10px 40px rgba(0, 0, 0, 0.5));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: installBannerIn 0.3s ease;
+}
+.install-banner.hidden { display: none; }
+.install-banner-icon img { display: block; border-radius: 10px; }
+.install-banner-text { flex: 1; min-width: 0; }
+.install-banner-title { font-weight: var(--fw-bold, 700); font-size: 14px; color: var(--color-text-primary); }
+.install-banner-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.install-banner-btn {
+  flex: none;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: var(--fw-semibold, 600);
+  font-size: 13px;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  cursor: pointer;
+}
+.install-banner-btn:hover { filter: brightness(1.08); }
+.install-banner-btn:focus-visible { outline: 2px solid var(--color-accent-primary); outline-offset: 2px; }
+.install-banner-dismiss {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.install-banner-dismiss:hover { background: rgba(255, 255, 255, 0.16); }
+.install-banner-dismiss:focus-visible { outline: 2px solid var(--color-accent-primary); outline-offset: 2px; }
+@keyframes installBannerIn {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .install-banner { animation: none; }
+}
+

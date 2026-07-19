@@ -46,7 +46,7 @@
   <!-- Mujahid MUST load last to override all competing rules -->
   <link rel="stylesheet" href="css/mujahid.css?v=143">
   <link rel="stylesheet" href="css/home.css?v=148">
-  <link rel="stylesheet" href="css/ui-system.css?v=3">
+  <link rel="stylesheet" href="css/ui-system.css?v=4">
   <link rel="stylesheet" href="css/responsive.css?v=1">
   <script>
     (function() {
@@ -70,7 +70,7 @@
   <script>
     // AUTO CACHE BUSTER — runs once per version to ensure fresh assets
     (function() {
-      var APP_BUILD = 'v139';
+      var APP_BUILD = 'v148';
       var lastBuild = localStorage.getItem('lamim_app_build');
       if (lastBuild !== APP_BUILD) {
         localStorage.setItem('lamim_app_build', APP_BUILD);
@@ -155,6 +155,19 @@
       <div class="splash-loader"><div class="splash-loader-fill"></div></div>
     </div>
   </div>
+</div>
+
+<!-- INSTALL BANNER (PWA) -->
+<div id="install-banner" class="install-banner hidden" role="region" aria-label="Install app">
+  <div class="install-banner-icon">
+    <img src="assets/icon-192x192.png" alt="" width="40" height="40" />
+  </div>
+  <div class="install-banner-text">
+    <div class="install-banner-title">Install Lamim</div>
+    <div class="install-banner-sub">Add to your home screen for quick, offline access</div>
+  </div>
+  <button id="install-btn" class="install-banner-btn" type="button">Install</button>
+  <button id="install-dismiss" class="install-banner-dismiss" type="button" aria-label="Dismiss install prompt">&times;</button>
 </div>
 
 <!-- DHIKR HISTORY MODAL -->
@@ -1804,7 +1817,7 @@
 
   <script src="js/prayer-notifier.js?v=2"></script>
   <script src="js/home.js?v=147"></script>
-  <script src="js/app.js?v=218"></script>
+  <script src="js/app.js?v=219"></script>
 
   <!-- Service Worker Registration handled in app.js -->
   <script>

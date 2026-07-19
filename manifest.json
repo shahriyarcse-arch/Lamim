@@ -1,18 +1,28 @@
 {
+  "id": "lamim",
   "name": "Lamim — Islamic Lifestyle Tracker",
   "short_name": "Lamim",
   "description": "Track your salah, dhikr, goals, and spiritual progress",
+  "lang": "en",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#8b5cf6",
   "orientation": "portrait-primary",
+  "background_color": "#020408",
+  "theme_color": "#020408",
+  "categories": ["lifestyle", "productivity", "religion"],
   "icons": [
     {
       "src": "assets/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     },
     {
       "src": "assets/icon-192x192.png",
@@ -27,12 +37,57 @@
       "purpose": "any"
     },
     {
-      "src": "assets/icon-512x512.png",
+      "src": "assets/icon-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-  "categories": ["lifestyle", "productivity", "religion"],
-  "screenshots": []
+  "shortcuts": [
+    {
+      "name": "Salah",
+      "short_name": "Salah",
+      "description": "Track your daily prayers",
+      "url": "index.html?section=salah",
+      "icons": [
+        { "src": "assets/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+      ]
+    },
+    {
+      "name": "Dhikr",
+      "short_name": "Dhikr",
+      "description": "Continue your dhikr",
+      "url": "index.html?section=dhikr",
+      "icons": [
+        { "src": "assets/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+      ]
+    },
+    {
+      "name": "Finance",
+      "short_name": "Finance",
+      "description": "Manage your halal wealth",
+      "url": "index.html?section=finance",
+      "icons": [
+        { "src": "assets/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+      ]
+    },
+    {
+      "name": "Goals",
+      "short_name": "Goals",
+      "description": "Review your nafl goals",
+      "url": "index.html?section=nafl",
+      "icons": [
+        { "src": "assets/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+      ]
+    },
+    {
+      "name": "Analysis",
+      "short_name": "Analysis",
+      "description": "See your spiritual progress",
+      "url": "index.html?section=analysis",
+      "icons": [
+        { "src": "assets/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }
+      ]
+    }
+  ]
 }
