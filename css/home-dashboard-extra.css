@@ -902,9 +902,7 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  touch-action: pan-x;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   scrollbar-width: none;
 }
 
@@ -940,7 +938,6 @@
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   padding: 0 24px calc(32px + env(safe-area-inset-bottom, 0px));
 }
 
@@ -1131,7 +1128,6 @@
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   padding: 0 24px calc(32px + env(safe-area-inset-bottom, 0px));
 }
 

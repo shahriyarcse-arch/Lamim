@@ -4,13 +4,10 @@
   display: flex;
   gap: var(--space-2);
   overflow-x: auto;
-  touch-action: pan-x;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   padding-bottom: var(--space-3);
   margin-bottom: var(--space-5);
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
 }
 
 .prayer-times-row::-webkit-scrollbar {
@@ -917,9 +914,7 @@
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  touch-action: pan-x;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   padding: 4px 2px;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1218,10 +1213,9 @@
 }
 
 #dhikr-session-history {
-  max-height: 280px; /* Limit height to prevent long sections */
+  max-height: 280px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }

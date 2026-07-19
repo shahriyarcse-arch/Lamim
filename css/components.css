@@ -338,7 +338,6 @@ select.input option:disabled { color: var(--color-text-muted); }
 .sidebar-nav { 
   flex: 1; padding: 0 var(--space-3); overflow-y: auto; 
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
   display: flex; flex-direction: column; gap: 2px;
 }
 
@@ -858,9 +857,6 @@ select.input option:disabled { color: var(--color-text-muted); }
 
 /* === TABS === */
 .tabs { display: flex; gap: var(--space-1); background: var(--color-surface-card); padding: var(--space-1); border-radius: var(--radius-lg); border: 1px solid var(--color-surface-nested); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-touch-action: pan-x;
--webkit-overflow-scrolling: touch;
-overscroll-behavior: contain;
 .tabs::-webkit-scrollbar { display: none; }
 .tab-btn { flex: 1 0 auto; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: var(--fw-medium); color: var(--color-text-muted); cursor: pointer; background: none; border: none; transition: all var(--transition-fast); white-space: nowrap; }
 .tab-btn:hover { color: var(--color-text-secondary); }

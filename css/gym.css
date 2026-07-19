@@ -473,9 +473,7 @@
 
 .gh-exercise-list-container { margin-bottom: 24px; }
 
-.gh-exercise-list { display: flex; flex-direction: column; gap: 7px; max-height: 186px; overflow-y: auto; padding-right: 4px; }
--webkit-overflow-scrolling: touch;
-overscroll-behavior: contain;
+.gh-exercise-list { display: flex; flex-direction: column; gap: 7px; max-height: 186px; overflow-y: auto; padding-right: 4px; -webkit-overflow-scrolling: touch; }
 .gh-exercise-list::-webkit-scrollbar { width: 6px; }
 .gh-exercise-list::-webkit-scrollbar-thumb { background: var(--gh-border-strong); border-radius: 999px; }
 .gh-ex-item {
@@ -795,9 +793,7 @@ overscroll-behavior: contain;
   color: var(--gh-text);
 }
 
-.gh-meals-list { display: flex; flex-direction: column; gap: 7px; max-height: 186px; overflow-y: auto; padding-right: 4px; margin-bottom: 12px; }
--webkit-overflow-scrolling: touch;
-overscroll-behavior: contain;
+.gh-meals-list { display: flex; flex-direction: column; gap: 7px; max-height: 186px; overflow-y: auto; padding-right: 4px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; }
 .gh-meals-list::-webkit-scrollbar { width: 6px; }
 .gh-meals-list::-webkit-scrollbar-thumb { background: var(--gh-border-strong); border-radius: 999px; }
 .gh-meal-item {
