@@ -276,16 +276,6 @@ const DB = {
   // User
   getUser()      { return this.get('lamim_user'); },
   setUser(u)     { return this.set('lamim_user', u); },
-  clearUser()    { this.remove('lamim_user'); },
-  
-  clearAllUserData() {
-    const keys = this.keys();
-    keys.forEach(k => {
-      if (k.startsWith('lamim_') && k !== 'lamim_settings') {
-        this.remove(k);
-      }
-    });
-  },
 
   // Settings
   getSettings()  { return this.get('lamim_settings') || { theme: 'light', notifications: true, jumuahMode: true, language: 'en', currency: 'USD', lat: 23.8103, lng: 90.4125 }; },
@@ -325,10 +315,6 @@ const DB = {
     const idx = goals.findIndex(g => g.id === id);
     if (idx !== -1) { goals[idx] = { ...goals[idx], ...patch }; this.setGoals(goals); }
   },
-  deleteGoal(id) { this.setGoals(this.getGoals().filter(g => g.id !== id)); },
-
-  // Dhikr custom presets
-  getDhikrPresets() { return this.get('lamim_dhikr_presets') || []; },
   setDhikrPresets(p) { return this.set('lamim_dhikr_presets', p); },
 
   _streakCache: null,
@@ -387,18 +373,6 @@ const DB = {
   },
 
   // Dhikr history
-  getDhikrHistory(days = 30) {
-    const result = [];
-    const d = Utils.getOffsetDate();
-    for (let i = days - 1; i >= 0; i--) {
-      const dd = new Date(d); dd.setDate(d.getDate() - i);
-      const ds = Utils.dateStr(dd);
-      const dhikr = this.getDhikr(ds);
-      const total = Object.values(dhikr).reduce((a, b) => a + (b || 0), 0);
-      result.push({ date: ds, total });
-    }
-    return result;
-  },
 
   refreshSpiritScore() {
     if (this._shsDebounce) clearTimeout(this._shsDebounce);
@@ -456,8 +430,6 @@ const DB = {
     return { ...def, ...v, checklist };
   },
   setCareer(date, d) { return this.set(`lamim_career_${date}`, d); },
-  getCareerTargets() { return this.get('lamim_career_targets') || { studyHoursTarget: 15, goalsTarget: 10 }; },
-  setCareerTargets(t) { return this.set('lamim_career_targets', t); },
 
   // Career achievements — { firstSession, streak7, hours10, hours50, ... }
   getCareerAchievements() { return this.get('lamim_career_achievements') || {}; },

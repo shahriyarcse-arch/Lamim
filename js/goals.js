@@ -257,30 +257,6 @@ const Goals = {
     this.render(true);
   },
 
-  toggleSunnah(id) {
-    if (this.currentDate > Utils.todayStr()) {
-      Utils.toast("Cannot edit future dates", "error");
-      return;
-    }
-    const data = DB.getSalah(this.currentDate);
-    if (!data.sunnah) data.sunnah = {};
-    const item = this.sunnahList.find(s => s.id === id);
-
-    if (data.sunnah[id]) {
-      const name = item ? item.label : 'this Sunnah';
-      Utils.confirm(
-        'Unlock Sunnah',
-        `Unlock and reset ${name}?`,
-        () => {
-          delete data.sunnah[id];
-          DB.setSalah(this.currentDate, data);
-          this.render(true);
-        },
-        'warning'
-      );
-      return;
-    }
-  },
 
   renderTahajjud(active, rakat) {
     const container = document.getElementById('tahajjud-card-container');
@@ -522,9 +498,6 @@ const Goals = {
   },
 
   // Keep backward compatibility
-  setWitrRakat(rakat) {
-    this.toggleWitr();
-  },
 
   // --- SOPHISTICATED HISTORY ---
   showHistory() {
@@ -673,31 +646,6 @@ const Goals = {
     document.getElementById('goal-title')?.classList.remove('input-error');
   },
 
-  openGoalModal(id) {
-    this._resetGoalForm();
-    const titleEl = document.getElementById('goal-modal-title');
-    if (id !== null) {
-      const goal = DB.getGoals().find((g) => g.id === id);
-      if (goal) {
-        if (titleEl) titleEl.textContent = 'Edit Goal';
-        const set = (fid, val) => { const el = document.getElementById(fid); if (el) el.value = val || ''; };
-        set('goal-id-field', goal.id);
-        set('goal-title', goal.title);
-        set('goal-description', goal.description);
-        set('goal-target', goal.target);
-        set('goal-unit', goal.unit);
-        set('goal-category', goal.category);
-        set('goal-priority', goal.priority);
-        set('goal-deadline-field', goal.deadline);
-        set('goal-recurring-field', goal.recurring);
-        set('goal-milestone-field', (goal.milestones || []).join('\n'));
-      }
-    } else if (titleEl) {
-      titleEl.textContent = 'New Goal';
-    }
-    document.getElementById('goal-modal')?.classList.remove('hidden');
-    document.getElementById('goal-title')?.focus();
-  },
 
   hideModal() {
     document.getElementById('goal-modal')?.classList.add('hidden');

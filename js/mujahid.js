@@ -589,33 +589,6 @@ const Mujahid = {
   },
 
 
-  renderBadgesSection() {
-    let maxStreak = 0;
-    this.habits.forEach(h => {
-      const stats = this.getHabitStats(h.id);
-      if (stats.currentStreak > maxStreak) {
-        maxStreak = stats.currentStreak;
-      }
-    });
-
-    return `
-      <div class="mujahid-badges-section">
-        <div class="mujahid-badges-title">Your Badges</div>
-        <div class="mujahid-badges-grid">
-          ${this.badges.map(b => {
-            const isEarned = maxStreak >= b.days;
-            return `<div class="mujahid-badge-item ${isEarned ? 'earned' : ''}" 
-                    style="${isEarned ? 'background:' + b.color + '20' : ''}"
-                    title="${b.name}">
-              <span class="mujahid-badge-emoji">${b.emoji}</span>
-              <span class="mujahid-badge-days" style="font-weight:600;">${b.name}</span>
-              <span class="mujahid-badge-days">${b.days}d</span>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>
-    `;
-  },
 
 
 
@@ -651,20 +624,6 @@ const Mujahid = {
     return { days, hours, minutes, seconds };
   },
 
-  getStartDate() {
-    let startDate = null;
-    
-    this.habits.forEach(habit => {
-      if (habit.startDate) {
-        const d = new Date(habit.startDate).getTime();
-        if (!startDate || d < startDate) {
-          startDate = d;
-        }
-      }
-    });
-
-    return startDate ? new Date(startDate) : null;
-  },
 
   setStartDate(habitId, dateStr) {
     const habit = this.getHabit(habitId);
@@ -720,40 +679,7 @@ const Mujahid = {
     this.hideStartDateModal();
   },
 
-  setCalView(view) {
-    this.calView = view;
-    this.render(true);
-  },
 
-  renderWeekView() {
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    
-    let html = '<div class="mujahid-week-grid">';
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(startOfWeek);
-      day.setDate(startOfWeek.getDate() + i);
-      const dateStr = Utils.dateStr(day);
-      const dayData = this.getDayStatus(dateStr);
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const isToday = dateStr === Utils.todayStr();
-      
-      let classes = 'mujahid-week-day';
-      if (isToday) classes += ' today';
-      if (dayData === 'clean') classes += ' clean';
-      else if (dayData === 'slip') classes += ' slip';
-      
-      html += `<div class="${classes}">
-        <div class="mujahid-week-day-name">${dayNames[i]}</div>
-        <div class="mujahid-week-day-num">${day.getDate()}</div>
-        ${dayData === 'clean' ? '<span class="mujahid-week-check">✓</span>' : ''}
-        ${dayData === 'slip' ? '<span class="mujahid-week-x">✗</span>' : ''}
-      </div>`;
-    }
-    html += '</div>';
-    return html;
-  },
 
   getDayStatus(dateStr) {
     let hasSlip = false;
@@ -773,20 +699,6 @@ const Mujahid = {
     return null;
   },
 
-  getSuccessRate() {
-    let totalDays = 0;
-    let cleanDays = 0;
-
-    this.habits.forEach(habit => {
-      (habit.history || []).forEach(entry => {
-        totalDays++;
-        if (entry.clean) cleanDays++;
-      });
-    });
-
-    if (totalDays === 0) return 0;
-    return Math.round((cleanDays / totalDays) * 100);
-  },
 
   renderEmptyState(skipAnim = false) {
     return `
@@ -993,30 +905,6 @@ const Mujahid = {
     return badge;
   },
 
-  renderEarnedBadges(currentStreak) {
-    const earned = this.badges.filter(b => currentStreak >= b.days);
-    const upcoming = this.badges.filter(b => currentStreak < b.days).slice(0, 3);
-
-    let html = '';
-    
-    if (earned.length > 0) {
-      html += '<div class="mujahid-badges-earned">';
-      earned.forEach(b => {
-        html += `<div class="mujahid-badge" style="background:${b.color}20;border-color:${b.color}40" title="${b.name}">${b.emoji}</div>`;
-      });
-      html += '</div>';
-    }
-
-    if (upcoming.length > 0) {
-      html += '<div class="mujahid-badges-locked">';
-      upcoming.forEach(b => {
-        html += `<div class="mujahid-badge locked" title="${b.days} days needed">${b.emoji}</div>`;
-      });
-      html += '</div>';
-    }
-
-    return html;
-  },
 
   getProgressPercent(streak) {
     const currentBadge = this.getBadgeForDays(streak);
@@ -1091,9 +979,6 @@ const Mujahid = {
     modal.classList.remove('hidden');
   },
 
-  selectCustomIcon(el, index) {
-    // Kept as backward-compatible stub (Identity Icon selector removed from UI)
-  },
 
   hideAddModal() {
     const modal = document.getElementById('mujahid-add-modal');
@@ -1375,24 +1260,6 @@ const Mujahid = {
     }
   },
 
-  addHabit(habit) {
-    const startInput = document.getElementById('mujahid-new-habit-start');
-    let startDate = new Date().toISOString();
-    if (startInput && startInput.value) {
-      startDate = new Date(startInput.value).toISOString();
-    }
-
-    const newHabit = {
-      ...habit,
-      label: Utils.escapeHTML(habit.label || ''),
-      startDate,
-      history: []
-    };
-    this.habits.push(newHabit);
-    this.saveHabits();
-    this.render(true);
-    Utils.toast(`Added: ${Utils.escapeHTML(habit.label)} - Stay strong! 💪`, 'success');
-  },
 
   showRelapseModal(habitId) {
     const habit = this.getHabit(habitId);
@@ -1441,19 +1308,6 @@ const Mujahid = {
     Utils.toast('Relapse recorded. Tap Undo in the habit card to restore.', 'warning');
   },
 
-  undoRelapse() {
-    if (!this.lastRelapse) return;
-    const habit = this.getHabit(this.lastRelapse.id);
-    if (!habit) return;
-
-    habit.startDate = this.lastRelapse.oldStartDate;
-    habit.history = this.lastRelapse.oldHistory;
-    this.lastRelapse = null;
-
-    this.saveHabits();
-    this.render(true);
-    Utils.toast('Relapse Undone! Your streak is restored. 🛡️✨', 'success');
-  },
 
   confirmRelapse() {
     const habitId = document.getElementById('mujahid-relapse-habit-id').value;
@@ -1461,25 +1315,6 @@ const Mujahid = {
     this.relapseHabit(habitId, reason);
   },
 
-  markClean(habitId) {
-    const habit = this.getHabit(habitId);
-    if (!habit) return;
-
-    const today = Utils.todayStr();
-    if (!habit.history) habit.history = [];
-    
-    const existingToday = habit.history.find(h => h.date === today);
-    if (existingToday) {
-      existingToday.clean = true;
-      Utils.toast('Great job! Stay strong! 💪', 'success');
-    } else {
-      habit.history.push({ date: today, clean: true });
-      Utils.toast('Day marked as clean! Keep going! 🎉', 'success');
-    }
-
-    this.saveHabits();
-    this.render(true);
-  },
 
   showHistoryModal(habitId) {
     const habit = this.getHabit(habitId);

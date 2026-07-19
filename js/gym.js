@@ -259,19 +259,6 @@ const Gym = {
     });
   },
 
-  applyTemplate(name) {
-    const tpls = this._templates[name];
-    if (!tpls) return;
-    document.querySelectorAll('.gh-tpl').forEach(b => b.classList.toggle('active', b.dataset.tpl === name));
-    const data = DB.getGym(this.selectedDate);
-    data.exercises = tpls.map(n => ({ name: n, sets: 3, reps: 10, weight: 0 }));
-    DB.setGym(this.selectedDate, data);
-    this.renderExercises();
-    this.updateHeroMetrics();
-    this.renderStatStrip();
-    this.notifyDataChanged();
-    if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast(name.charAt(0).toUpperCase() + name.slice(1) + ' template applied', 'success');
-  },
 
   addExercise() {
     if (this._adding) return;
@@ -451,9 +438,6 @@ const Gym = {
     this.notifyDataChanged();
   },
 
-  onTimeDigitChange() {
-    // Legacy stub — no longer used, kept for backward compat
-  },
 
   _calcRecoveryScore(sleep) {
     if (!sleep || !sleep.sleepTime || !sleep.wakeTime) return 0;
@@ -633,18 +617,6 @@ const Gym = {
 
   addMealPrompt() { this.openMealModal(); },
 
-  addMealPreset(desc, protein, calories, type) { this.addMeal(desc, protein, calories, type); },
-
-  addMeal(desc, protein, calories, type, carbs, fats) {
-    const data = DB.getGym(this.selectedDate);
-    if (!data.diet) data.diet = { meals: [], proteinGoal: 150, carbsGoal: 200, fatsGoal: 65 };
-    if (!data.diet.meals) data.diet.meals = [];
-    data.diet.meals.push({ desc, protein: Number(protein) || 0, calories: Number(calories) || 0, carbs: Number(carbs) || 0, fats: Number(fats) || 0, type });
-    DB.setGym(this.selectedDate, data);
-    this.renderDiet();
-    this.updateHeroMetrics();
-    this.notifyDataChanged();
-  },
 
   deleteMeal(idx) {
     const data = DB.getGym(this.selectedDate);

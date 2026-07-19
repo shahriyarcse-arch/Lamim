@@ -46,11 +46,6 @@ const PrayerNotifier = {
     }
   },
 
-  restart() {
-    this.stop();
-    this._notified = null;
-    this.init();
-  },
 
   check() {
     const settings = DB.getSettings();

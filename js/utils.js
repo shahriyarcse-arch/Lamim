@@ -35,9 +35,6 @@ const Utils = {
     }[tag] || tag));
   },
 
-  timeToMin(date) {
-    return date.getHours() * 60 + date.getMinutes();
-  },
 
   formatDate(date, opts = {}) {
     return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', ...opts });
@@ -337,10 +334,6 @@ const Utils = {
   },
 
   // Date display
-  getDayName(dateStr) {
-    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    return days[new Date(dateStr + 'T00:00:00').getDay()];
-  },
 
   // Salah completion score for a day
   salahScore(salahData) {
@@ -605,16 +598,6 @@ const Utils = {
     if (cb) cb();
   },
 
-  timeAgo(d) {
-    if (!d) return '—';
-    const s = (Date.now() - new Date(d).getTime()) / 1000;
-    if (s < 0) return 'now';
-    if (s < 60) return 'now';
-    if (s < 3600) return Math.floor(s / 60) + 'm ago';
-    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
-    if (s < 604800) return Math.floor(s / 86400) + 'd ago';
-    return new Date(d).toLocaleDateString();
-  },
 
   // NOTE: escapeHTML is defined once above (line 27). Do NOT add it again here.
 
@@ -678,14 +661,6 @@ const Utils = {
     }
   },
 
-  safeAddEventListener(target, type, listener, options) {
-    if (!target) return;
-    const safeListener = (...args) => {
-      Utils.safeRun(() => listener.apply(target, args), `${type} event listener`);
-    };
-    target.addEventListener(type, safeListener, options);
-    return safeListener;
-  }
 };
 
 const UI = {

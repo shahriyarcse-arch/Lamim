@@ -908,34 +908,6 @@ const Finance = {
     'Other': 'sparkles'
   },
 
-  getCatSvg(id, section) {
-    const specific = {
-      bazar: 'cart', fish: 'food', meat: 'food', chicken: 'food', grocery: 'cart', rice: 'food',
-      oil: 'flame', dal: 'food', bread: 'food', fruit: 'food', milk: 'drop', egg: 'food',
-      sweet: 'food', tea: 'coffee', snacks: 'food', water: 'drop', juice: 'drop', restaurant: 'food',
-      cafe: 'coffee', fastfood: 'food', biryani: 'food', streetfood: 'food',
-      rickshaw: 'bicycle', cng: 'bike', bus: 'bus', uber: 'car', fuel: 'bolt', carrepair: 'wrench',
-      carwash: 'drop', tyre: 'tool', battery: 'bolt', parking: 'ticket', toll: 'bridge',
-      launch: 'ship', train: 'train', flight: 'plane',
-      rent: 'home', electricity: 'bolt', wasa: 'drop', gas: 'flame', internet: 'wifi', cabletv: 'tv',
-      garbage: 'trash', maid: 'home', guard: 'shield', laundry: 'shirt', homerepair: 'wrench',
-      kitchen: 'tool', cleaning_kit: 'sparkles', furniture: 'home', bedding: 'home', plants: 'seedling', bulb: 'lightbulb',
-      domain: 'globe', hosting: 'cloud', saas: 'cloud', creative_cloud: 'cloud', github: 'code', chatgpt: 'robot',
-      cloud_storage: 'cloud', app_store: 'store', freelance_fee: 'cash', pc_hardware: 'laptop', keyboard_mouse: 'tool',
-      monitor: 'laptop', coworking: 'store', vpn: 'shield', software_lic: 'key',
-      wholesale: 'box', shop_rent: 'store', staff_salary: 'cash', staff_lunch: 'food', packaging: 'bag',
-      marketing: 'megaphone', trade_license: 'ticket', business_tax: 'chart', shop_repair: 'wrench', delivery_cost: 'box',
-      pos_software: 'printer', notebooks: 'book', ink_toner: 'printer',
-      doctor: 'stethoscope', medicine: 'pill', diagnostic: 'microscope', hospital_bill: 'hospital', dental: 'tooth',
-      education_generic: 'book', course: 'book', university: 'book',
-      gift: 'gift', zakat: 'charity', sadaqah: 'charity', donation: 'charity', hajj: 'mosque', umrah: 'mosque',
-      gym: 'health', sport: 'health', pet: 'heart', salary: 'cash', tax: 'chart', insurance: 'shield',
-      subscription: 'cloud', netflix: 'film', music: 'music', game_pass: 'game', movie: 'film',
-      travel: 'plane', hotel: 'home', shopping: 'bag', clothing: 'shirt', electronics: 'laptop'
-    };
-    const key = specific[id] || this.sectionIcons[section] || 'sparkles';
-    return this.renderIcon(key, 18);
-  },
 
   renderSavingsItem(g) {
     const p = g.target > 0 ? (g.saved / g.target) * 100 : 0;
@@ -1542,15 +1514,7 @@ const Finance = {
     }
   },
 
-  toggleActivityLimit() {
-    this.showAllActivity = !this.showAllActivity;
-    this.render();
-  },
 
-  toggleVaultLimit() {
-    this.showAllVaults = true;
-    this.render();
-  },
 
   showModal(c) { let o = document.getElementById('finance-modal-overlay'); if (!o) { o = document.createElement('div'); o.id = 'finance-modal-overlay'; o.className = 'finance-modal-overlay'; document.body.appendChild(o); } o.innerHTML = c; o.classList.add('show'); o.onclick = (e) => { if(e.target === o) this.closeModal(); }; },
   closeModal() {

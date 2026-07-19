@@ -70,66 +70,6 @@ const Charts = {
     </svg>`;
   },
 
-  /* ---------- barChart ---------- */
-  barChart(container, data, opts = {}) {
-    if (!data || !data.length) { container.innerHTML = ''; return; }
-    const h = opts.height || 110;
-    const color = opts.color || '#818cf8';
-    const max = Math.max(...data.map(d => d.value), 1);
-    const barW = Math.max(12, Math.floor(100 / data.length) - 4);
-    const gap = Math.max(4, Math.floor(80 / data.length));
-
-    let bars = '';
-    let labels = '';
-    data.forEach((d, i) => {
-      const barH = Math.max(2, (d.value / max) * (h - 28));
-      const x = i * (barW + gap) + gap / 2;
-      const y = h - 20 - barH;
-      const c = d.highlight ? '#fbbf24' : color;
-      const opacity = d.highlight ? '1' : '0.85';
-      bars += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${c}" opacity="${opacity}">
-        <animate attributeName="height" from="0" to="${barH}" dur="0.5s" fill="freeze"/>
-        <animate attributeName="y" from="${h - 20}" to="${y}" dur="0.5s" fill="freeze"/>
-      </rect>`;
-      const labelColor = d.highlight ? '#fbbf24' : 'rgba(255,255,255,0.5)';
-      labels += `<text x="${x + barW/2}" y="${h - 6}" text-anchor="middle" fill="${labelColor}" font-size="9" font-weight="600">${d.label}</text>`;
-    });
-
-    container.innerHTML = `<svg width="100%" height="${h}" viewBox="0 0 100 ${h}" preserveAspectRatio="xMidYMid meet">
-      ${bars}${labels}
-    </svg>`;
-  },
-
-  /* ---------- donut ---------- */
-  donut(container, data, opts = {}) {
-    if (!data || !data.length) { container.innerHTML = ''; return; }
-    const size = opts.size || 120;
-    const thick = opts.thickness || 14;
-    const r = (size - thick) / 2;
-    const circ = 2 * Math.PI * r;
-    const total = data.reduce((s, d) => s + d.value, 0) || 1;
-
-    let segs = '';
-    let offset = 0;
-    data.forEach(d => {
-      const pct = d.value / total;
-      const dash = circ * pct;
-      const gap = circ - dash;
-      segs += `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${d.color}" stroke-width="${thick}"
-        stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset}" stroke-linecap="butt" style="transform:rotate(-90deg);transform-origin:center"/>`;
-      offset += dash;
-    });
-
-    const centerText = opts.centerText || '';
-    const centerSub = opts.centerSub || '';
-    container.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-      ${segs}
-      <text x="${size/2}" y="${size/2 - (centerSub ? 4 : 0)}" text-anchor="middle" dominant-baseline="central"
-        fill="var(--cb-text, #fff)" font-size="18" font-weight="800">${centerText}</text>
-      <text x="${size/2}" y="${size/2 + 14}" text-anchor="middle" dominant-baseline="central"
-        fill="var(--cb-text-muted, rgba(255,255,255,0.5))" font-size="9" font-weight="600">${centerSub}</text>
-    </svg>`;
-  },
 
   /* ---------- lineChart ---------- */
   lineChart(container, data, opts = {}) {

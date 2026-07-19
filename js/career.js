@@ -292,12 +292,6 @@ const Career = {
     return _t(m) + ' mins';
   },
 
-  onStudyDurationChange() {
-    const dur = document.getElementById('career-study-duration');
-    const durVal = document.getElementById('career-study-duration-val');
-    if (!dur || !durVal) return;
-    durVal.textContent = this._fmtDuration(parseInt(dur.value, 10) || 0);
-  },
 
   saveStudyLog() {
     const topic = (document.getElementById('career-study-topic') || {}).value || '';
@@ -389,53 +383,8 @@ const Career = {
     if (this._timerRAF) { cancelAnimationFrame(this._timerRAF); this._timerRAF = null; }
   },
 
-  startTimer() {
-    let state = DB.getCareerTimer();
-    if (state.running) return;
-    state.running = true;
-    state.startedAt = Date.now();
-    state.startedDate = this.selectedDate;
-    DB.setCareerTimer(state);
-    this._renderTimerButtons(true);
-    this._startTimerLoop();
-  },
 
-  stopTimer() {
-    let state = DB.getCareerTimer();
-    if (!state.running) return;
-    state.accumMs = this._elapsedMs();
-    state.running = false;
-    state.startedAt = 0;
-    DB.setCareerTimer(state);
-    this._stopTimerLoop();
-    this._renderTimerButtons(false);
-    this._renderTimerDisplay(state.accumMs);
-  },
 
-  logTimer() {
-    const ms = this._elapsedMs();
-    const minutes = Math.max(1, Math.round(ms / 60000));
-    if (ms < 1000) return;
-    const state = DB.getCareerTimer();
-    const targetDate = state.startedDate || this.selectedDate;
-    const data = DB.getCareer(targetDate);
-    data.studyDuration = (data.studyDuration || 0) + minutes;
-    if (!data.focusTopic) data.focusTopic = 'Timed session';
-    DB.setCareer(targetDate, data);
-    DB.setCareerTimer({ running: false, startedAt: 0, accumMs: 0, topic: '', category: 'coding' });
-    this._stopTimerLoop();
-    this._renderTimerButtons(false);
-    this._renderTimerDisplay(0);
-    this.renderStatStrip();
-    this.renderStudyLog();
-    this.renderSkillProgress();
-    this.renderHeatMap();
-    this.renderWeekChart();
-    this.updateHeroMetrics();
-    this.checkAchievements();
-    window.dispatchEvent(new CustomEvent('lamim:data-updated'));
-    if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('+' + (window.n ? window.n(minutes) : minutes) + ' min logged', 'success');
-  },
 
   /* ---------- checklist / goals ---------- */
   renderGoalsProgress() {

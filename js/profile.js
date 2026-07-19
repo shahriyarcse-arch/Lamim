@@ -622,39 +622,6 @@ const Profile = {
     }
   },
 
-  importData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = JSON.parse(e.target.result);
-        
-        Utils.confirm('Restore Data?', 'This will overwrite your current data with the backup file. Continue?', () => {
-          let restored = 0;
-          for (const key in data) {
-            if (key.startsWith('lamim_')) {
-              DB.rawSet(key, data[key]);
-              restored++;
-            }
-          }
-          DB._streakCache = null;
-          if (restored > 0) {
-            Utils.toast('Backup restored successfully! Reloading...', 'success');
-            setTimeout(() => window.location.reload(), 1500);
-          } else {
-            Utils.toast('No valid Lamim data found in file', 'error');
-          }
-        });
-      } catch (err) {
-        console.error(err);
-        Utils.toast('Invalid backup file', 'error');
-      }
-    };
-    reader.readAsText(file);
-    event.target.value = ''; // Reset input
-  },
 
 
 
