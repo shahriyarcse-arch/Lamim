@@ -430,7 +430,6 @@ const Mujahid = {
               if (newBadge && (!oldBadge || newBadge.days > oldBadge.days)) {
                 Utils.toast(`RANK ADVANCEMENT: You have achieved the rank of "${newBadge.name}"! 🛡️✨`, 'success');
               }
-              this.render();
             }
             
             if (currentInterval !== lastInterval) {
@@ -440,9 +439,9 @@ const Mujahid = {
                 const quoteEl = card.querySelector('.iw-quote');
                 if (quoteEl) {
                   const quoteData = this.getCurrentMinuteQuote(habitId);
-                  // Smooth transition
+                  if (this._quoteFadeTimeout) clearTimeout(this._quoteFadeTimeout);
                   quoteEl.style.opacity = '0';
-                  setTimeout(() => {
+                  this._quoteFadeTimeout = setTimeout(() => {
                     quoteEl.className = 'iw-quote ' + quoteData.effectClass;
                     quoteEl.innerHTML = quoteData.text;
                     quoteEl.style.opacity = '1';

@@ -111,13 +111,14 @@ const Home = {
       if (timeEl) timeEl.textContent = next.label;
 
       if (this.countdownInterval) clearInterval(this.countdownInterval);
+      if (this._nextPrayerTimeout) clearTimeout(this._nextPrayerTimeout);
       
       const updateCountdown = () => {
         if (countdownEl) {
           countdownEl.textContent = Utils.countdownTo(next.time);
           if (next.time - new Date() <= 0) {
             clearInterval(this.countdownInterval);
-            setTimeout(() => this.updateNextPrayer(), 1000);
+            this._nextPrayerTimeout = setTimeout(() => this.updateNextPrayer(), 1000);
           }
         }
       };
@@ -144,16 +145,23 @@ const Home = {
     if (countBadge) countBadge.textContent = `${score.done}/5`;
 
     if (container) {
-      let html = '';
       const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      const nodes = container.querySelectorAll('.timeline-node');
+      if (nodes.length === prayers.length) {
+        prayers.forEach((p, idx) => {
+          const key = p.toLowerCase();
+          const status = salah[key];
+          const node = nodes[idx];
+          node.className = `timeline-node${status ? ' status-' + status : ''}`;
+        });
+        return;
+      }
+      let html = '';
       prayers.forEach(p => {
         const key = p.toLowerCase();
         const status = salah[key];
         let statusClass = status ? `status-${status}` : '';
-        
-        // Initial letter for the dot
         const initial = p.charAt(0);
-        
         html += `
           <div class="timeline-node ${statusClass}">
             <div class="timeline-dot">${initial}</div>
@@ -196,12 +204,13 @@ const Home = {
       // If the quote has changed, animate it
       else if (arabicEl.textContent !== quote.arabic) {
         if (cardEl) {
+          if (this._quoteFadeTimeout) clearTimeout(this._quoteFadeTimeout);
           cardEl.classList.add('quote-anim-hidden');
-          setTimeout(() => {
+          this._quoteFadeTimeout = setTimeout(() => {
             arabicEl.textContent = quote.arabic;
             translationEl.textContent = quote.translation;
             cardEl.classList.remove('quote-anim-hidden');
-          }, 500); // 500ms matches the CSS transition time
+          }, 500);
         } else {
           arabicEl.textContent = quote.arabic;
           translationEl.textContent = quote.translation;

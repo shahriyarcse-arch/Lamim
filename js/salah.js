@@ -54,10 +54,16 @@ const Salah = {
     const cal = document.getElementById('salah-calendar');
     if (!cal) return;
 
-    // Get the year and month of the currently selected date
-    const [y, m, d] = this.selectedDate.split('-');
+    const [y, m] = this.selectedDate.split('-');
     const year = parseInt(y, 10);
-    const month = parseInt(m, 10) - 1; // 0-indexed month
+    const month = parseInt(m, 10) - 1;
+    const monthKey = `${year}-${month}`;
+
+    if (this._lastCalMonth === monthKey && cal.children.length > 7) {
+      this._updateCalendarCells(cal, year, month);
+      return;
+    }
+    this._lastCalMonth = monthKey;
 
     const firstDayDate = new Date(year, month, 1);
     const lastDayDate = new Date(year, month + 1, 0);
@@ -161,6 +167,47 @@ const Salah = {
     cal.innerHTML = html;
     this.initCalendarTooltip();
   },
+
+  _updateCalendarCells(cal, year, month) {
+    const cells = cal.querySelectorAll('.salah-cal-cell[data-date]');
+    cells.forEach(cell => {
+      const dateStr = cell.dataset.date;
+      if (!dateStr) return;
+      const data = DB.getSalah(dateStr);
+      const score = Utils.salahScore(data);
+      const isToday = dateStr === Utils.todayStr();
+      const isFuture = dateStr > Utils.todayStr();
+      let color = 'var(--color-glass)';
+      let opacity = 1;
+      let glow = '';
+      let extraClass = '';
+      if (!isFuture) {
+        if (score.done === 5) {
+          color = 'var(--color-accent-green)';
+          if (score.pct >= 90) extraClass = ' tier-max';
+          else if (score.pct >= 70) extraClass = ' tier-high';
+          else extraClass = ' tier-base';
+        } else if (score.done >= 3) {
+          const avg = score.pct / score.done;
+          if (avg >= 15) { color = '#38bdf8'; glow = 'box-shadow:0 0 4px rgba(56,189,248,0.3);'; }
+          else { color = 'rgba(56,189,248,0.15)'; glow = 'box-shadow: inset 0 0 0 2px #38bdf8;'; }
+        } else if (score.done > 0) {
+          const avg = score.pct / score.done;
+          if (avg >= 15) { color = '#fbbf24'; glow = 'box-shadow:0 0 4px rgba(251,191,36,0.3);'; }
+          else { color = 'rgba(251,191,36,0.15)'; glow = 'box-shadow: inset 0 0 0 2px #fbbf24;'; }
+        } else {
+          const hasLoggedAny = ['fajr','dhuhr','asr','maghrib','isha'].some(p => data[p]);
+          if (isToday && !hasLoggedAny) color = 'var(--color-glass)';
+          else { color = 'var(--color-accent-red)'; opacity = 0.85; }
+        }
+      } else { opacity = 0.5; }
+      cell.style.background = color;
+      cell.style.opacity = opacity;
+      cell.style.boxShadow = glow;
+      cell.className = `salah-cal-cell${isToday ? ' today' : ''}${extraClass}`;
+    });
+  },
+
   onDataUpdated() {
     this._debouncedRender();
   },

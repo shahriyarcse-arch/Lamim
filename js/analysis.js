@@ -20,9 +20,7 @@ const Analysis = {
 
   init() {
     this._cachedHabits = null;
-    this.render();
 
-    // Debounced re-render, driven by the app-level data-update bus (App.routeDataUpdate)
     if (!this._debouncedRender) {
       this._debouncedRender = Utils.debounce(() => {
         if (document.getElementById('section-analysis')?.classList.contains('active')) {
@@ -30,6 +28,8 @@ const Analysis = {
         }
       }, 300);
     }
+
+    this._debouncedRender();
   },
 
   onDataUpdated() {

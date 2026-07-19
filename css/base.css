@@ -26,6 +26,7 @@ body {
   background-color: var(--color-bg-primary);
   line-height: 1.6;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: clip;
   overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;

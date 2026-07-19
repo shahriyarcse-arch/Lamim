@@ -330,7 +330,7 @@ const Finance = {
       if (btns[1] && code === 'BDT') btns[1].classList.add('active');
       const thumb = toggle.querySelector('.fin-currency-thumb');
       if (thumb) { thumb.classList.add('slide'); thumb.classList.toggle('right', code === 'BDT'); }
-      setTimeout(() => this.render(), 340);
+      this.render();
     } else {
       this.render();
     }
@@ -416,9 +416,7 @@ const Finance = {
       </div>
     `;
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.initChart(stats);
-      });
+      this.initChart(stats);
     });
   },
 

@@ -898,7 +898,6 @@
   background: var(--color-surface-card);
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--color-surface-nested);
   border-radius: 30px;
   padding: 24px;
