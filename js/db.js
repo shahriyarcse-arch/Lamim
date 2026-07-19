@@ -484,6 +484,19 @@ const DB = {
       this.remove('lamim_finance_data');
     }
   }
+,
+  clearAllUserData() {
+    const keys = this.keys();
+    keys.forEach(k => {
+      if (k.startsWith('lamim_') && k !== 'lamim_settings') {
+        this.remove(k);
+      }
+    });
+  }
+
+,
+  getDhikrPresets() { return this.get('lamim_dhikr_presets') || []; }
+
 };
 
 

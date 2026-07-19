@@ -50,6 +50,117 @@ const Salah = {
     this.renderCalendar();
   },
 
+  renderCalendar() {
+    const cal = document.getElementById('salah-calendar');
+    if (!cal) return;
+
+    // Get the year and month of the currently selected date
+    const [y, m, d] = this.selectedDate.split('-');
+    const year = parseInt(y, 10);
+    const month = parseInt(m, 10) - 1; // 0-indexed month
+
+    const firstDayDate = new Date(year, month, 1);
+    const lastDayDate = new Date(year, month + 1, 0);
+    
+    const daysInMonth = lastDayDate.getDate();
+    const startDayOfWeek = firstDayDate.getDay();
+
+    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const isBn = (localStorage.getItem('lamim_lang') || 'en') === 'bn';
+    const bnDays = ['a��', 'a�+a��', 'a��', 'a��a��', 'a��a��', 'a��a��', 'a��'];
+    const translatedDays = isBn ? bnDays : daysOfWeek;
+
+    let html = `
+      <div style="display:contents;">
+        ${translatedDays.map(d => `
+          <div style="font-size:10px; font-weight:var(--fw-bold); color:var(--color-text-secondary); text-align:center; padding-bottom:8px">${d}</div>
+        `).join('')}
+      </div>
+    `;
+
+    for (let i = 0; i < startDayOfWeek; i++) {
+      html += `<div class="salah-cal-cell empty" style="background: var(--color-glass); box-shadow: none; cursor: default;"></div>`;
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dayStr = String(i).padStart(2, '0');
+      const monthStr = String(month + 1).padStart(2, '0');
+      const dateStr = `${year}-${monthStr}-${dayStr}`;
+      
+      const data = DB.getSalah(dateStr);
+      const score = Utils.salahScore(data);
+      
+      const isToday = dateStr === Utils.todayStr();
+      const isFuture = dateStr > Utils.todayStr();
+
+      let color = 'var(--color-glass)';
+      let opacity = 1;
+      let glow = '';
+      let extraClass = '';
+
+      if (!isFuture) {
+        if (score.done === 5) {
+          color = 'var(--color-accent-green)'; 
+          
+          // 0 or 1 Qaza (90-100 pts) -> Maximum (Live glossy animation)
+          if (score.pct >= 90) {
+            extraClass = ' tier-max';
+          } 
+          // 2 or 3 Qaza (70-89 pts) -> High (Just shine, no animation)
+          else if (score.pct >= 70) {
+            extraClass = ' tier-high';
+          }
+          // 4 or 5 Qaza (<70 pts) -> Base (Solid green)
+          else {
+            extraClass = ' tier-base';
+          }
+          glow = ''; 
+        }
+        else if (score.done >= 3) {
+          const avg = score.pct / score.done;
+          if (avg >= 15) {
+            color = '#38bdf8'; // Solid Blue (Mostly on-time)
+            glow = 'box-shadow:0 0 4px rgba(56,189,248,0.3);';
+          } else {
+            color = 'rgba(56,189,248,0.15)'; // Hollow Blue (Mostly Qaza)
+            glow = 'box-shadow: inset 0 0 0 2px #38bdf8;';
+          }
+        }
+        else if (score.done > 0) {
+          const avg = score.pct / score.done;
+          if (avg >= 15) {
+            color = '#fbbf24'; // Solid Amber (Mostly on-time)
+            glow = 'box-shadow:0 0 4px rgba(251,191,36,0.3);';
+          } else {
+            color = 'rgba(251,191,36,0.15)'; // Hollow Amber (Mostly Qaza)
+            glow = 'box-shadow: inset 0 0 0 2px #fbbf24;';
+          }
+        }
+        else {
+          const hasLoggedAny = ['fajr','dhuhr','asr','maghrib','isha'].some(p => data[p]);
+          if (isToday && !hasLoggedAny) {
+            color = 'var(--color-glass)';
+          } else {
+            color = 'var(--color-accent-red)';
+            opacity = 0.85;
+          }
+        }
+      } else {
+         opacity = 0.5; // Future days should be visible in light mode too
+      }
+
+      const formattedDayNum = window.n ? window.n(i) : i;
+
+      html += `<div class="salah-cal-cell ${isToday ? 'today' : ''}${extraClass}" 
+                   data-date="${dateStr}" 
+                   style="background:${color};opacity:${opacity};${glow}">
+                <span class="salah-cal-day">${formattedDayNum}</span>
+              </div>`;
+    }
+
+    cal.innerHTML = html;
+    this.initCalendarTooltip();
+  },
   onDataUpdated() {
     this._debouncedRender();
   },

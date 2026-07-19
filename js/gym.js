@@ -869,6 +869,18 @@ const Gym = {
     </body></html>`);
     win.document.close();
   }
+,
+  addMeal(desc, protein, calories, type, carbs, fats) {
+    const data = DB.getGym(this.selectedDate);
+    if (!data.diet) data.diet = { meals: [], proteinGoal: 150, carbsGoal: 200, fatsGoal: 65 };
+    if (!data.diet.meals) data.diet.meals = [];
+    data.diet.meals.push({ desc, protein: Number(protein) || 0, calories: Number(calories) || 0, carbs: Number(carbs) || 0, fats: Number(fats) || 0, type });
+    DB.setGym(this.selectedDate, data);
+    this.renderDiet();
+    this.updateHeroMetrics();
+    this.notifyDataChanged();
+  }
+
 };
 
 window.Gym = Gym;
