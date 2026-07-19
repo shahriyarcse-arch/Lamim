@@ -164,7 +164,7 @@ updateSectionTitle() {
         }).catch(() => {});
       } else {
         // Register service worker with auto-update system on production
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/app/sw.js')
           .then((registration) => {
             // Force immediate update check on reload
             registration.update();
