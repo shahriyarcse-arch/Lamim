@@ -181,3 +181,43 @@ ul, ol { list-style: none; }
 [data-theme="light"] body {
   color-scheme: light;
 }
+
+/* Light mode overrides for hardcoded colors */
+[data-theme="light"] .hero-badge {
+  background: rgba(124,58,237,0.08);
+  border-color: rgba(124,58,237,0.15);
+}
+[data-theme="light"] .problem-card {
+  background: rgba(239,68,68,0.03);
+  border-color: rgba(239,68,68,0.08);
+}
+[data-theme="light"] .problem-icon {
+  background: rgba(239,68,68,0.08);
+}
+[data-theme="light"] .emulator-phone {
+  background: var(--bg-primary);
+  border-color: var(--border-subtle);
+}
+[data-theme="light"] .emulator-orb {
+  background: rgba(124,58,237,0.06);
+  border-color: rgba(124,58,237,0.15);
+}
+[data-theme="light"] .emulator-prayer {
+  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(59,130,246,0.03));
+  border-color: rgba(37,99,235,0.12);
+}
+[data-theme="light"] .privacy-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.04), rgba(5,150,105,0.03));
+  border-color: rgba(124,58,237,0.08);
+}
+[data-theme="light"] .privacy-icon {
+  background: rgba(5,150,105,0.08);
+  border-color: rgba(5,150,105,0.15);
+}
+[data-theme="light"] .cta-glow {
+  opacity: 0.04;
+}
+[data-theme="light"] .emulator-dot {
+  background: var(--bg-elevated);
+  border-color: var(--border-subtle);
+}

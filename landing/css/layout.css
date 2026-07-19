@@ -15,7 +15,7 @@
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 .nav.scrolled {
-  background: rgba(2, 4, 8, 0.85);
+  background: var(--bg-glass);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   box-shadow: 0 1px 0 var(--border-subtle);
@@ -188,7 +188,7 @@
   align-items: center;
   gap: var(--sp-2);
   padding: 14px 32px;
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-glass);
   border: 1px solid var(--border-subtle);
   border-radius: var(--r-full);
   font-weight: 600;
@@ -197,7 +197,7 @@
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.12); }
+.btn-secondary:hover { background: var(--bg-glass-hover); color: var(--text-primary); border-color: var(--border-active); }
 .btn-secondary svg { width: 18px; height: 18px; }
 
 /* ── MOCKUP ── */
@@ -282,7 +282,7 @@
   border: 1px solid rgba(248,113,113,0.08);
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
 }
-.problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+.problem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .problem-icon {
   width: 48px; height: 48px;
   border-radius: var(--r-md);
@@ -621,6 +621,11 @@
 .footer-copy { font-size: 0.8125rem; color: var(--text-muted); }
 
 /* ── RESPONSIVE ── */
+@media (min-width: 1440px) {
+  .container, .nav-inner, .section-inner, .footer-inner { max-width: 1320px; }
+  .hero-title { font-size: 5.5rem; }
+}
+
 @media (max-width: 1024px) {
   .bento-grid { grid-template-columns: repeat(2, 1fr); }
   .bento-card.span-2 { grid-column: span 2; }
@@ -637,24 +642,32 @@
     position: absolute;
     top: var(--nav-h);
     left: 0; right: 0;
-    background: rgba(2,4,8,0.95);
+    background: var(--bg-primary);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     padding: var(--sp-6);
     gap: var(--sp-4);
     border-bottom: 1px solid var(--border-subtle);
+    z-index: var(--z-nav);
   }
   .hero { min-height: auto; padding-top: calc(var(--nav-h) + var(--sp-12)); padding-bottom: var(--sp-12); }
   .bento-grid { grid-template-columns: 1fr; }
   .bento-card.span-2 { grid-column: span 1; }
   .section { padding: var(--sp-16) var(--sp-6); }
   .footer-inner { flex-direction: column; text-align: center; }
+  .emulator-wrapper { max-width: 360px; }
 }
 
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; align-items: stretch; }
-  .btn-primary, .btn-secondary { justify-content: center; }
+  .btn-primary, .btn-secondary { justify-content: center; width: 100%; }
   .problem-grid { grid-template-columns: 1fr; }
   .install-grid { grid-template-columns: 1fr; }
-  .privacy-stats { gap: var(--sp-6); }
+  .privacy-stats { gap: var(--sp-6); flex-direction: column; }
+  .hero-title { font-size: 2rem; }
+  .section-title { font-size: 1.75rem; }
+  .emulator-wrapper { max-width: 320px; }
+  .rank-badge { padding: var(--sp-3) var(--sp-4); }
+  .rank-icon { width: 36px; height: 36px; }
+  .rank-icon svg { width: 18px; height: 18px; }
 }

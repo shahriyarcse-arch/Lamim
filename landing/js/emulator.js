@@ -47,18 +47,24 @@ const Emulator = {
 
   startDemo() {
     let step = 0;
-    const delays = [800, 1400, 2200, 3200, 4500];
+    const delays = [800, 600, 800, 1000, 1300];
 
-    this.timer = setInterval(() => {
+    const playStep = () => {
       if (step >= this.nodes.length) {
-        clearInterval(this.timer);
         // Reset after 4 seconds and replay
         setTimeout(() => this.resetDemo(), 4000);
         return;
       }
       this.toggleNode(step);
       step++;
-    }, delays[0]);
+      if (step < this.nodes.length) {
+        setTimeout(playStep, delays[step] - delays[step - 1] || delays[0]);
+      } else {
+        setTimeout(() => this.resetDemo(), 4000);
+      }
+    };
+
+    setTimeout(playStep, delays[0]);
   },
 
   resetDemo() {
@@ -71,21 +77,23 @@ const Emulator = {
 
     // Replay with proper staggered delays
     let step = 0;
-    const delays = [600, 1200, 1800, 2400, 3000];
-    let timeoutId;
+    const delays = [600, 600, 600, 600, 600];
 
     const playStep = () => {
-      if (step >= this.nodes.length) return;
+      if (step >= this.nodes.length) {
+        setTimeout(() => this.resetDemo(), 4000);
+        return;
+      }
       this.toggleNode(step);
       step++;
       if (step < this.nodes.length) {
-        timeoutId = setTimeout(playStep, delays[step] - delays[step - 1]);
+        setTimeout(playStep, delays[step]);
       } else {
         setTimeout(() => this.resetDemo(), 4000);
       }
     };
 
-    setTimeout(playStep, 600);
+    setTimeout(playStep, delays[0]);
   }
 };
 
