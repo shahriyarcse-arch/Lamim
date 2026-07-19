@@ -122,6 +122,8 @@ const PrayerNotifier = {
             requireInteraction: true,
             data: { prayer: prayer.name }
           });
+        }).catch(() => {
+          new Notification(title, { body, icon: './icons/icon-192.png' });
         });
       } else {
         // Fallback to regular Notification API

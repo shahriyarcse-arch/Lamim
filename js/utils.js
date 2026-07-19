@@ -280,14 +280,20 @@ const Utils = {
     };
 
     // 2) Background: refresh from network
-    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`)
-      .then((r) => r.json())
+    if (!navigator.onLine) { if (!servedCache && cb) cb(fallbackName); return; }
+    const ctrl1 = new AbortController();
+    const to1 = setTimeout(() => ctrl1.abort(), 8000);
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`, { signal: ctrl1.signal })
+      .then((r) => { clearTimeout(to1); if (!r.ok) throw new Error(r.status); return r.json(); })
       .then((data) => cacheAndEmit(data.city || data.locality || '', data.countryName || ''))
       .catch(() => {
         // Network geocode failed — only fall back to IP if we had no cache at all
         if (servedCache) return;
-        fetch('https://ipapi.co/json/')
-          .then((r) => r.json())
+        if (!navigator.onLine) { if (cb) cb(fallbackName); return; }
+        const ctrl2 = new AbortController();
+        const to2 = setTimeout(() => ctrl2.abort(), 8000);
+        fetch('https://ipapi.co/json/', { signal: ctrl2.signal })
+          .then((r) => { clearTimeout(to2); if (!r.ok) throw new Error(r.status); return r.json(); })
           .then((d) => { if (d && d.latitude && d.longitude) cacheAndEmit(d.city || '', d.country_name || ''); else if (cb) cb(fallbackName); })
           .catch(() => { if (cb) cb(fallbackName); });
       });
@@ -377,7 +383,7 @@ const Utils = {
     const ctrl = new AbortController();
     const to = setTimeout(() => ctrl.abort(), 8000);
     fetch('js/verses.json', { signal: ctrl.signal })
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => { window.LamimVerses = d; })
       .catch(e => { if (e.name !== 'AbortError') console.warn('verses load failed', e); })
       .finally(() => { clearTimeout(to); this._versesLoading = false; });

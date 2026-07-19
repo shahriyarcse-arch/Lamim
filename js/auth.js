@@ -208,7 +208,12 @@ const Auth = {
 
   async ipLocationFallback(updateFields, icon, statusText) {
     try {
-      const res = await fetch('https://ipapi.co/json/');
+      if (!navigator.onLine) throw new Error("Offline");
+      const ctrl = new AbortController();
+      const to = setTimeout(() => ctrl.abort(), 8000);
+      const res = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+      clearTimeout(to);
+      if (!res.ok) throw new Error(res.status);
       const data = await res.json();
       if (data.latitude && data.longitude) {
         updateFields(data.latitude, data.longitude);

@@ -428,6 +428,8 @@ const Profile = {
             Utils.toast('Notifications enabled 🔔', 'success');
             if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
           }
+        }).catch(() => {
+          Utils.toast('Notifications not supported in this browser', 'error');
         });
       }
     } else {
@@ -787,7 +789,12 @@ const Profile = {
         console.warn("Geolocation failed, trying IP fallback...", err);
         // Strategy 2: IP-based Fallback (Works better with VPNs on Desktop)
         try {
-          const res = await fetch('https://ipapi.co/json/');
+          if (!navigator.onLine) throw new Error("Offline");
+          const ctrl = new AbortController();
+          const to = setTimeout(() => ctrl.abort(), 8000);
+          const res = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+          clearTimeout(to);
+          if (!res.ok) throw new Error(res.status);
           const data = await res.json();
           if (data.latitude && data.longitude) {
             updateFinalLocation(data.latitude, data.longitude);

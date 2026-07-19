@@ -297,25 +297,30 @@ const Finance = {
     } catch (e) { /* ignore */ }
 
     // Background: refresh from network and cache the result
+    if (!navigator.onLine) return;
     try {
-      const res = await fetch('https://open.er-api.com/v6/latest/USD');
+      const ctrl = new AbortController();
+      const to = setTimeout(() => ctrl.abort(), 10000);
+      const res = await fetch('https://open.er-api.com/v6/latest/USD', { signal: ctrl.signal });
+      clearTimeout(to);
+      if (!res.ok) throw new Error(res.status);
       const data = await res.json();
       if (data && data.rates && data.rates.BDT) {
         const newRate = data.rates.BDT;
         if (newRate !== this.exchangeRate) {
           this.exchangeRate = newRate;
           if (document.getElementById('section-finance')?.classList.contains('active')) this.render();
-          // If settings modal is open, refresh its content too
           const modal = document.getElementById('finance-modal-overlay');
           if (modal && modal.classList.contains('show')) {
-             // Only refresh if the title matches "Finance Settings" to avoid overriding other modals
              const title = modal.querySelector('.fin-modal-title')?.innerText;
              if (title === 'Finance Settings') this.showToolsModal();
           }
         }
         try { localStorage.setItem('lamim_fx_rate', JSON.stringify({ ts: Date.now(), rate: newRate })); } catch (e) { /* ignore */ }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Exchange rate fetch failed:', e.message || e);
+    }
   },
 
   getSymbol() { return DB.getSettings().currency === 'BDT' ? '৳' : '$'; },

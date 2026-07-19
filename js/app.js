@@ -128,11 +128,11 @@ updateSectionTitle() {
           for (let registration of registrations) {
             registration.unregister();
           }
-        });
+        }).catch(() => {});
       }
       caches.keys().then(keys => {
         keys.forEach(key => caches.delete(key));
-      });
+      }).catch(() => {});
       setTimeout(() => window.location.reload(true), 500);
       return; // Stop initialization until reload
     }
@@ -161,7 +161,7 @@ updateSectionTitle() {
           for (let registration of registrations) {
             registration.unregister();
           }
-        });
+        }).catch(() => {});
       } else {
         // Register service worker with auto-update system on production
         navigator.serviceWorker.register('/sw.js')
@@ -183,8 +183,8 @@ updateSectionTitle() {
                 caches.keys().then((names) => {
                   Promise.all(names.map(name => caches.delete(name))).then(() => {
                     window.location.reload(true);
-                  });
-                });
+                  }).catch(() => { window.location.reload(true); });
+                }).catch(() => { window.location.reload(true); });
               } else {
                 window.location.reload(true);
               }
@@ -509,7 +509,7 @@ updateSectionTitle() {
       deferredPrompt?.prompt();
       deferredPrompt?.userChoice.then(() => {
         document.getElementById('install-banner')?.classList.add('hidden');
-      });
+      }).catch(() => {});
     });
     document.getElementById('install-dismiss')?.addEventListener('click', () => {
       document.getElementById('install-banner')?.classList.add('hidden');
