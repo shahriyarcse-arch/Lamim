@@ -59,6 +59,28 @@
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(139,92,246,0.4); }
 .nav-cta:active { transform: scale(0.97); }
 
+/* Theme Toggle */
+.theme-toggle {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.1); }
+.theme-toggle svg { width: 18px; height: 18px; color: var(--text-secondary); }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+[data-theme="light"] .theme-toggle {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.1);
+}
+[data-theme="light"] .theme-toggle:hover { background: rgba(0,0,0,0.08); }
+[data-theme="light"] .theme-toggle svg { color: var(--text-secondary); }
+
 /* Mobile Menu */
 .nav-toggle { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
 .nav-toggle span { width: 20px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: 0.3s ease; }
@@ -489,18 +511,24 @@
   transform: translateX(4px);
 }
 .rank-badge.active { box-shadow: 0 0 20px rgba(167,139,250,0.1); }
-.rank-emoji {
+.rank-icon {
   width: 40px; height: 40px; border-radius: var(--r-md);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.25rem;
   background: rgba(167,139,250,0.08);
   flex-shrink: 0;
 }
+.rank-icon svg { width: 20px; height: 20px; color: var(--accent-purple); }
 .rank-info h4 { font-size: 0.9375rem; font-weight: 700; }
 .rank-info p { font-size: 0.8125rem; color: var(--text-muted); }
 
 .rank-desc { max-width: 480px; }
-.rank-desc .section-desc { margin-bottom: var(--sp-6); }
+.rank-desc .section-desc { margin-bottom: var(--sp-4); }
+.rank-desc-text {
+  font-size: 0.9375rem;
+  color: var(--accent-purple);
+  font-style: italic;
+  min-height: 1.5em;
+}
 .rank-progress { margin-top: var(--sp-6); }
 .rank-progress-bar {
   height: 8px; border-radius: var(--r-full);

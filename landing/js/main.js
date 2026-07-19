@@ -11,6 +11,7 @@ const Main = {
     this.initMobileMenu();
     this.initRankShowcase();
     this.initCountUp();
+    this.initThemeToggle();
   },
 
   /* ── Nav scroll effect ── */
@@ -86,7 +87,7 @@ const Main = {
   initRankShowcase() {
     const badges = document.querySelectorAll('.rank-badge');
     const descEl = document.querySelector('.rank-desc-text');
-    if (!badges.length || !descEl) return;
+    if (!badges.length) return;
 
     const descriptions = {
       'Ghafil': 'The heedless — unaware of their spiritual state.',
@@ -104,7 +105,7 @@ const Main = {
         badges.forEach(b => b.classList.remove('active'));
         badge.classList.add('active');
         const rank = badge.dataset.rank;
-        if (descriptions[rank]) {
+        if (descriptions[rank] && descEl) {
           descEl.textContent = descriptions[rank];
         }
         // Update progress bar
@@ -146,6 +147,27 @@ const Main = {
     }, { threshold: 0.5 });
 
     counters.forEach(c => observer.observe(c));
+  },
+
+  /* ── Theme toggle (light/dark) ── */
+  initThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+
+    // Check for saved preference or system preference
+    const saved = localStorage.getItem('lamim-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'dark'); // Default to dark
+
+    document.documentElement.setAttribute('data-theme', theme);
+
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('lamim-theme', next);
+      toggle.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
   }
 };
 
