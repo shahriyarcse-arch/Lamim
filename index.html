@@ -499,30 +499,36 @@
       </div>
     </div>
  
-    <!-- ===== HOME PAGE ===== -->
+    <!-- ===== HOME PAGE (Full Screen Large) ===== -->
     <section class="section-panel active" id="section-home">
+      <!-- Dynamic Aurora Background for Home -->
       <div class="home-aurora-bg" aria-hidden="true">
         <div class="aurora-blob aurora-1"></div>
         <div class="aurora-blob aurora-2"></div>
       </div>
-
-      <div class="home-grid">
-
-        <div class="home-card home-hero glass-card" data-stagger="0">
+      
+      <div class="home-container bento-grid">
+        
+        <!-- Premium Header: Greeting & Spirit Orb -->
+        <div class="bento-item bento-full home-hero-card glass-card">
           <div class="home-hero-content">
             <div class="home-greeting-wrap">
               <h2 class="home-greeting" id="home-greeting">Welcome</h2>
               <div class="home-date" id="home-date">Loading...</div>
               <div class="home-hijri-date" id="home-hijri-date"></div>
             </div>
-            <button class="home-spirit-orb" onclick="App.navigateTo('analysis')" aria-label="View spirit score analysis">
-              <span id="home-spirit-score" class="cinematic-num">0</span>
-              <span class="spirit-label">Spirit</span>
-            </button>
+            
+            <div class="home-spirit-orb-container" onclick="App.navigateTo('analysis')">
+              <div class="home-spirit-score-inner">
+                <span id="home-spirit-score" class="cinematic-num">0</span>
+                <span class="spirit-label">Spirit</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="home-card home-prayer glass-card" id="home-next-prayer" data-stagger="1" style="display:none">
+        <!-- Next Prayer Countdown Card -->
+        <div class="bento-item bento-full home-next-prayer-card glass-card" id="home-next-prayer" style="display:none">
           <div class="next-prayer-header">
             <span class="next-prayer-label">
               <span class="pulse-dot"></span> Next Prayer
@@ -535,42 +541,52 @@
           </div>
         </div>
 
-        <div class="home-card home-insight glass-card bento-hover" data-stagger="2">
-          <div class="insight-box-modern">
-            <span class="insight-icon" style="color:var(--color-accent-teal, #14b8a6); background:color-mix(in srgb, var(--color-accent-teal, #14b8a6) 10%, transparent)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg>
-            </span>
-            <div class="insight-data">
-              <span class="insight-value cinematic-num" id="home-insight-dhikr">0</span>
-              <span class="insight-label">Dhikr Today</span>
+        <!-- Bento Row: Dhikr & Streak -->
+        <div class="bento-row">
+          <!-- Bento Card 1: Dhikr -->
+          <div class="bento-item bento-half glass-card insight-card bento-hover">
+            <div class="insight-box-modern">
+              <span class="insight-icon" style="color:var(--color-accent-teal, #14b8a6); background:color-mix(in srgb, var(--color-accent-teal, #14b8a6) 10%, transparent)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg>
+              </span>
+              <div class="insight-data">
+                <span class="insight-value cinematic-num" id="home-insight-dhikr">0</span>
+                <span class="insight-label">Dhikr Today</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento Card 2: Streak -->
+          <div class="bento-item bento-half glass-card insight-card bento-hover">
+            <div class="insight-box-modern">
+              <span class="insight-icon" style="color:var(--color-accent-orange, #f97316); background:color-mix(in srgb, var(--color-accent-orange, #f97316) 10%, transparent)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              </span>
+              <div class="insight-data">
+                <span class="insight-value cinematic-num" id="home-insight-streak">0</span>
+                <span class="insight-label">Day Streak</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="home-card home-insight glass-card bento-hover" data-stagger="3">
-          <div class="insight-box-modern">
-            <span class="insight-icon" style="color:var(--color-accent-orange, #f97316); background:color-mix(in srgb, var(--color-accent-orange, #f97316) 10%, transparent)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-            </span>
-            <div class="insight-data">
-              <span class="insight-value cinematic-num" id="home-insight-streak">0</span>
-              <span class="insight-label">Day Streak</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="home-card home-salah glass-card" data-stagger="4">
+        <!-- Today's Salah Timeline (Interactive) -->
+        <div class="bento-item bento-full home-salah-timeline-card glass-card">
           <div class="card-header-flex">
             <h3 class="card-title-sm">Today's Salah</h3>
             <span class="salah-count-badge cinematic-num" id="home-salah-count-badge">0/5</span>
           </div>
-          <div class="home-timeline-container" id="home-salah-timeline"></div>
+          
+          <div class="home-timeline-container" id="home-salah-timeline">
+            <!-- Rendered by JS -->
+          </div>
         </div>
 
-        <div class="home-card home-quote glass-card" data-stagger="5">
+        <!-- Daily Inspiration Card (New Feature to fill screen beautifully) -->
+        <div class="bento-item bento-full home-quote-card glass-card">
           <div class="quote-header">
             <span class="quote-badge">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle; position: relative; top: -1px;"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
               Verse of the Day
             </span>
           </div>
@@ -579,7 +595,7 @@
             <p class="quote-translation" id="home-quote-translation">...</p>
           </div>
         </div>
-
+        
       </div>
     </section>
 
