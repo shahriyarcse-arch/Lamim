@@ -262,28 +262,34 @@ updateSectionTitle() {
     });
     setTimeout(() => Utils.autoUpdateLocationOnTravel(), 4000);
 
+    // Take manual control of scroll restoration — sections manage their own scroll
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     // Android hardware back button support
     window.addEventListener('popstate', (e) => {
       // Close any open modal first
       const openModal = document.querySelector('.modal-overlay:not(.hidden)');
       if (openModal) {
         openModal.classList.add('hidden');
-        history.pushState({ section: this.currentSection }, '', '');
+        history.pushState({ section: this.currentSection }, '', '?section=' + this.currentSection);
         return;
       }
       // Close sidebar if open
       const sidebar = document.getElementById('sidebar');
       if (sidebar && sidebar.classList.contains('open')) {
         this.closeSidebar();
-        history.pushState({ section: this.currentSection }, '', '');
+        history.pushState({ section: this.currentSection }, '', '?section=' + this.currentSection);
         return;
       }
-      // Navigate back to previous section or home
+      // Back within the app: follow the history state
       if (e.state && e.state.section) {
         this.navigateTo(e.state.section, true);
-      } else if (this.currentSection !== 'salah') {
-        this.navigateTo('salah', true);
+        return;
       }
+      // Reached the root history entry — let the browser/PWA handle it (close
+      // the app) instead of trapping the user in a default section.
     });
   },
 
@@ -344,6 +350,14 @@ updateSectionTitle() {
       return;
     }
 
+    // Navigation guard: never leave a modal lingering over a different section
+    const openModal = document.querySelector('.modal-overlay:not(.hidden)');
+    if (openModal) openModal.classList.add('hidden');
+
+    // Track per-section scroll position for restoration on back/forward
+    if (!this._scrollPos) this._scrollPos = {};
+    if (this.currentSection) this._scrollPos[this.currentSection] = window.scrollY;
+
     // Cleanup outgoing section
     const sections = { home: Home, salah: Salah, dhikr: Dhikr, nafl: Goals, analysis: Analysis, profile: Profile, mujahid: Mujahid, finance: Finance, gym: Gym, career: Career };
     if (this.currentSection && sections[this.currentSection] && sections[this.currentSection].destroy) {
@@ -354,7 +368,7 @@ updateSectionTitle() {
 
     // Push history state for Android back button (skip if this IS a back navigation)
     if (!isBackNav) {
-      history.pushState({ section: sectionId }, '', '');
+      history.pushState({ section: sectionId }, '', '?section=' + sectionId);
     }
 
     // Active nav items
@@ -395,8 +409,8 @@ updateSectionTitle() {
     // Close sidebar on mobile
     if (window.innerWidth <= 1024) this.closeSidebar();
 
-    // Scroll top (instant — global smooth-scroll makes this janky on long sections)
-    window.scrollTo(0, 0);
+    // Restore this section's last scroll position (back/forward) or go to top
+    window.scrollTo(0, this._scrollPos[sectionId] || 0);
   },
 
   bindNav() {
