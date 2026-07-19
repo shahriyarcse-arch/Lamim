@@ -1,88 +1,28 @@
 /* =============================================
    LAMIM LANDING PAGE — THEME & DESIGN TOKENS
-   ui-ux-pro-max: Modern Dark Cinema Mobile
+   Mobile-first, no horizontal overflow
    ============================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap');
 
-:root {
-  /* ── Color Tokens (reusing Lamim app variables) ── */
-  --bg-deep:       #020408;
-  --bg-primary:    #060b13;
-  --bg-secondary:  #0c1322;
-  --bg-elevated:   #172033;
-  --bg-glass:      rgba(12, 19, 34, 0.45);
-  --bg-glass-hover:rgba(255, 255, 255, 0.05);
-
-  --text-primary:  #ffffff;
-  --text-secondary:#cbd5e1;
-  --text-muted:    #94a3b8;
-
-  --border-subtle: rgba(255,255,255,0.06);
-  --border-active: #a78bfa;
-
-  --accent-purple: #a78bfa;
-  --accent-purple-bright: #c084fc;
-  --accent-teal:   #2dd4bf;
-  --accent-orange: #fb923c;
-  --accent-gold:   #fbbf24;
-  --accent-blue:   #38bdf8;
-  --accent-green:  #34d399;
-
-  --jamaat:  #3fb950;
-  --alone:   #58a6ff;
-  --qaza:    #d29922;
-  --missed:  #f85149;
-
-  /* ── Typography ── */
-  --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-arabic:'Amiri', 'Traditional Arabic', serif;
-
-  /* ── Spacing (8dp grid) ── */
-  --sp-1:  4px;   --sp-2:  8px;   --sp-3:  12px;
-  --sp-4:  16px;  --sp-5:  20px;  --sp-6:  24px;
-  --sp-8:  32px;  --sp-10: 40px;  --sp-12: 48px;
-  --sp-16: 64px;  --sp-20: 80px;  --sp-24: 96px;
-
-  /* ── Radius ── */
-  --r-sm: 8px;  --r-md: 12px;  --r-lg: 16px;
-  --r-xl: 24px; --r-2xl:32px;  --r-full:9999px;
-
-  /* ── Shadows ── */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.3);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.4);
-  --shadow-lg:  0 8px 24px rgba(0,0,0,0.5);
-  --shadow-xl:  0 16px 48px rgba(0,0,0,0.6);
-  --shadow-glow:0 0 40px rgba(167,139,250,0.15);
-
-  /* ── Easing (ui-ux-pro-max: Expo.out) ── */
-  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
-  --ease-smooth:cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* ── Layout ── */
-  --max-w: 1200px;
-  --nav-h: 72px;
-
-  /* ── Z-index ── */
-  --z-base: 1; --z-nav: 100; --z-overlay: 200;
-}
-
-/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--bg-deep);
-  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: #020408;
+  color: #ffffff;
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -90,47 +30,46 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 ul, ol { list-style: none; }
 
-/* ── Utility ── */
-.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--sp-6); }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-
-/* ── Skip Link (a11y) ── */
+/* ── Skip Link (hidden by default, visible on focus) ── */
 .skip-link {
-  position: absolute;
+  position: fixed;
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 24px;
-  background: var(--accent-purple);
+  background: #a78bfa;
   color: #fff;
   font-weight: 600;
-  border-radius: var(--r-md);
-  z-index: 9999;
+  border-radius: 12px;
+  z-index: 99999;
   transition: top 0.2s ease;
+  white-space: nowrap;
 }
 .skip-link:focus {
   top: 12px;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 /* ── Focus Ring (a11y) ── */
 :focus-visible {
-  outline: 2px solid var(--accent-purple);
+  outline: 2px solid #a78bfa;
   outline-offset: 3px;
   border-radius: 4px;
 }
 
 /* ── Glass Card ── */
 .glass {
-  background: var(--bg-glass);
+  background: rgba(12, 19, 34, 0.45);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--r-xl);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 24px;
 }
 
 /* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-purple-bright), var(--accent-blue), var(--accent-gold));
+  background: linear-gradient(135deg, #c084fc, #38bdf8, #fbbf24);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -179,10 +118,11 @@ ul, ol { list-style: none; }
 }
 
 [data-theme="light"] body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
   color-scheme: light;
 }
 
-/* Light mode overrides for hardcoded colors */
 [data-theme="light"] .hero-badge {
   background: rgba(124,58,237,0.08);
   border-color: rgba(124,58,237,0.15);
