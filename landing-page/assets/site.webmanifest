@@ -1,0 +1,32 @@
+{
+  "name": "Lamim",
+  "short_name": "Lamim",
+  "description": "Complete Islamic lifestyle PWA for prayer tracking, dhikr, habit formation, and finance management.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#020408",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "assets/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/icon-512x512.png",
+      "sizes": "1080x1920",
+      "label": "Home Dashboard"
+    }
+  ]
+}
