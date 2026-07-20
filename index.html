@@ -3,478 +3,278 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#020617">
+  <meta name="theme-color" content="#09090b">
   <meta name="color-scheme" content="dark">
-
-  <title>Lamim — Your Complete Islamic Lifestyle Dashboard</title>
-  <meta name="description" content="Lamim is a premium, fully offline Islamic lifestyle PWA. Track prayers, dhikr, habits, finances, and spiritual growth — 100% private, zero servers.">
-  <meta name="robots" content="index, follow">
+  <title>Lamim — Islamic Lifestyle Dashboard</title>
+  <meta name="description" content="Track prayers, dhikr, habits, and finances — 100% offline, zero servers. Your spiritual journey, beautifully tracked.">
   <link rel="canonical" href="https://shahriyarcse-arch.github.io/Lamim/">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Lamim — Your Complete Islamic Lifestyle Dashboard">
-  <meta property="og:description" content="Track prayers, dhikr, habits, finances, and spiritual growth. 100% offline, zero servers, complete privacy.">
+  <meta property="og:title" content="Lamim — Islamic Lifestyle Dashboard">
+  <meta property="og:description" content="Track prayers, dhikr, habits, and finances. 100% offline, zero servers.">
   <meta property="og:image" content="https://shahriyarcse-arch.github.io/Lamim/app/assets/icon-512x512.png">
   <meta property="og:url" content="https://shahriyarcse-arch.github.io/Lamim/">
-  <meta property="og:site_name" content="Lamim">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Lamim — Your Complete Islamic Lifestyle Dashboard">
-  <meta name="twitter:description" content="Track prayers, dhikr, habits, finances, and spiritual growth. 100% offline, zero servers.">
-  <meta name="twitter:image" content="https://shahriyarcse-arch.github.io/Lamim/app/assets/icon-512x512.png">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Lamim",
-    "url": "https://shahriyarcse-arch.github.io/Lamim/",
-    "description": "A premium, fully offline Islamic lifestyle PWA for tracking prayers, dhikr, habits, finances, and spiritual growth.",
-    "applicationCategory": "LifestyleApplication",
-    "operatingSystem": "Web Browser",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-  }
-  </script>
+  <meta name="twitter:title" content="Lamim — Islamic Lifestyle Dashboard">
+  <meta name="twitter:description" content="Track prayers, dhikr, habits, and finances. 100% offline, zero servers.">
 
   <script>
-    (function() {
-      var saved = localStorage.getItem('lamim-theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var theme = saved || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
+    (function(){var s=localStorage.getItem('lamim-theme'),p=window.matchMedia('(prefers-color-scheme:dark)').matches,d=s||(p?'dark':'light');document.documentElement.setAttribute('data-theme',d)})();
   </script>
-
-  <link rel="stylesheet" href="landing/css/theme.css">
-  <link rel="stylesheet" href="landing/css/layout.css">
-  <link rel="stylesheet" href="landing/css/animations.css">
+  <link rel="stylesheet" href="landing/css/style.css">
 </head>
 <body>
 
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  <div class="scroll-progress" aria-hidden="true"></div>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- ═══════════ NAV ═══════════ -->
-  <nav class="nav" role="navigation" aria-label="Main navigation">
+  <!-- ═══ NAV ═══ -->
+  <nav class="nav" role="navigation" aria-label="Main">
     <div class="nav-inner">
-      <a href="#" class="nav-brand" aria-label="Lamim Home">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="16" cy="16" r="15" stroke="url(#g)" stroke-width="1.5"/>
-          <path d="M10 22V12l6-4 6 4v10" stroke="url(#g)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M14 22v-6h4v6" stroke="url(#g)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <defs><linearGradient id="g" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#22c55e"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+      <a href="#" class="nav-brand" aria-label="Home">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" stroke="url(#gb)" stroke-width="1.5"/>
+          <path d="M10 22V12l6-4 6 4v10" stroke="url(#gb)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 22v-6h4v6" stroke="url(#gb)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs><linearGradient id="gb" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#d97706"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
         </svg>
         <span>Lamim</span>
       </a>
 
-      <div class="nav-links" role="menubar">
-        <a href="#features" role="menuitem">Features</a>
-        <a href="#preview" role="menuitem">Preview</a>
-        <a href="#privacy" role="menuitem">Privacy</a>
-        <a href="#ranks" role="menuitem">Ranks</a>
-        <a href="#install" role="menuitem">Install</a>
-        <a href="/app/index.html" class="nav-cta" role="menuitem">Open App</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#steps">How It Works</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/app/index.html" class="nav-cta">Open App</a>
       </div>
 
-      <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" type="button">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
+      <div style="display:flex;align-items:center;gap:4px">
+        <button class="theme-toggle" aria-label="Switch to light mode" type="button">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
 
-      <button class="nav-theme-toggle" aria-label="Switch to light mode" type="button">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
-        <span></span><span></span><span></span>
-      </button>
+        <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <main id="main-content">
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" role="dialog" aria-label="Navigation">
+    <a href="#features">Features</a>
+    <a href="#steps">How It Works</a>
+    <a href="#privacy">Privacy</a>
+    <a href="/app/index.html" style="color:var(--accent)">Open App</a>
+  </div>
 
-    <!-- ═══════════ HERO ═══════════ -->
+  <!-- ═══ HERO ═══ -->
+  <main id="main">
     <section class="hero" id="hero">
-      <div class="hero-bg" aria-hidden="true">
-        <div class="hero-blob hero-blob-1"></div>
-        <div class="hero-blob hero-blob-2"></div>
-        <div class="hero-blob hero-blob-3"></div>
-      </div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-glow-2" aria-hidden="true"></div>
 
       <div class="hero-content">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          100% Offline — Zero Servers
+          100% Offline · Zero Servers
         </div>
 
-        <h1 class="hero-title">
+        <h1>
           Your Spiritual Journey,<br>
           <span class="gradient-text">Beautifully Tracked.</span>
         </h1>
 
         <p class="hero-sub">
-          A premium Islamic lifestyle dashboard that keeps your prayers, dhikr, habits, and finances — completely private, entirely on your device.
+          Lamim unifies your prayers, dhikr, habits, and finances into one private, offline-first dashboard. No accounts. No cloud. Just you and your growth.
         </p>
 
         <div class="hero-actions">
-          <a href="/app/index.html" class="btn-primary magnetic">
+          <a href="/app/index.html" class="btn btn-primary">
             Open Lamim
-            <span class="btn-primary-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
+            <span class="btn-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
           </a>
-          <a href="#features" class="btn-secondary magnetic">
+          <a href="#features" class="btn btn-secondary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             Explore Features
           </a>
         </div>
 
-        <div class="hero-metrics">
-          <div class="hero-metric">
-            <div class="hero-metric-num gradient-text count-up" data-target="0">0</div>
-            <div class="hero-metric-label">Servers</div>
-          </div>
-          <div class="hero-metric">
-            <div class="hero-metric-num gradient-text count-up" data-target="0">0</div>
-            <div class="hero-metric-label">Accounts</div>
-          </div>
-          <div class="hero-metric">
-            <div class="hero-metric-num gradient-text">100%</div>
-            <div class="hero-metric-label">Offline</div>
-          </div>
-          <div class="hero-metric">
-            <div class="hero-metric-num gradient-text">10+</div>
-            <div class="hero-metric-label">Modules</div>
-          </div>
-        </div>
+        <div class="hero-preview reveal">
+          <div class="preview-card">
+            <div class="preview-inner">
+              <div class="preview-top">
+                <div class="preview-user">
+                  <div class="preview-greeting">Good Evening</div>
+                  <div class="preview-name">Muhammad</div>
+                  <div class="preview-date">15 Dhul Hijjah 1447</div>
+                </div>
+                <div class="preview-score">
+                  <span class="preview-score-num">72</span>
+                  <span class="preview-score-label">Spirit</span>
+                </div>
+              </div>
 
-        <!-- Mockup: Double-Bezel -->
-        <div class="hero-mockup reveal">
-          <div class="mockup-frame">
-            <div class="mockup-notch"></div>
-            <div class="mockup-screen">
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px;">
-                <div>
-                  <div class="emulator-greeting">Good Evening</div>
-                  <div style="font-size:1.125rem;font-weight:800;letter-spacing:-0.02em;">Muhammad</div>
-                  <div style="font-size:0.6875rem;color:var(--accent-gold);font-weight:600;">15 Dhul Hijjah 1447</div>
+              <div class="preview-prayer">
+                <div class="preview-prayer-left">
+                  <span class="preview-prayer-label"><span class="preview-prayer-dot"></span> Next Prayer</span>
+                  <span class="preview-prayer-time">01:23:45</span>
                 </div>
-                <div class="emulator-orb">
-                  <div class="emulator-orb-score gradient-text">72</div>
-                  <div class="emulator-orb-label">Spirit</div>
-                </div>
+                <span class="preview-prayer-name">Isha</span>
               </div>
-              <div class="emulator-prayer" style="margin:0 14px;">
-                <div class="emulator-prayer-header">
-                  <span class="emulator-prayer-label"><span class="emulator-prayer-dot"></span> Next Prayer</span>
-                  <div class="emulator-prayer-time">01:23:45</div>
-                </div>
-                <span class="emulator-prayer-name">Isha</span>
+
+              <div class="preview-timeline">
+                <div class="preview-node"><div class="preview-node-dot done">F</div><span class="preview-node-label">Fajr</span></div>
+                <div class="preview-node"><div class="preview-node-dot done">D</div><span class="preview-node-label">Dhuhr</span></div>
+                <div class="preview-node"><div class="preview-node-dot miss">A</div><span class="preview-node-label">Asr</span></div>
+                <div class="preview-node"><div class="preview-node-dot done">M</div><span class="preview-node-label">Maghrib</span></div>
+                <div class="preview-node"><div class="preview-node-dot">I</div><span class="preview-node-label">Isha</span></div>
               </div>
-              <div class="emulator-timeline" style="padding:8px 14px;">
-                <div class="emulator-node"><div class="emulator-dot filled">F</div><span class="emulator-label">Fajr</span></div>
-                <div class="emulator-node"><div class="emulator-dot filled">D</div><span class="emulator-label">Dhuhr</span></div>
-                <div class="emulator-node"><div class="emulator-dot missed">A</div><span class="emulator-label">Asr</span></div>
-                <div class="emulator-node"><div class="emulator-dot filled">M</div><span class="emulator-label">Maghrib</span></div>
-                <div class="emulator-node"><div class="emulator-dot">I</div><span class="emulator-label">Isha</span></div>
-              </div>
-              <div style="padding:8px 14px 12px;">
-                <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
-                <div style="font-family:'Amiri',serif;font-size:0.9375rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
-                <div style="font-size:0.75rem;color:var(--text-secondary);font-style:italic;margin-top:4px;">"Indeed, with hardship comes ease."</div>
+
+              <div class="preview-verse">
+                <div class="preview-verse-label">Verse of the Day</div>
+                <div class="preview-verse-arabic">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+                <div class="preview-verse-en">"Indeed, with hardship comes ease." — Qur'an 94:6</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- ═══════════ PROBLEM ═══════════ -->
-    <section class="section" id="problem">
-      <div class="section-inner">
-        <div class="section-header center reveal">
-          <div class="section-label">The Problem</div>
-          <h2 class="section-title">Scattered Tools.<br><span style="color:var(--text-muted);">Fragmented Journey.</span></h2>
-          <p class="section-desc">Your spiritual life deserves better than 5 different apps that don't talk to each other.</p>
-        </div>
-
-        <div class="problem-grid stagger-children">
-          <div class="problem-card reveal">
-            <div class="problem-card-inner">
-              <div class="problem-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <h3>Privacy Nightmare</h3>
-              <p>Most apps require accounts, send data to servers, and track your spiritual habits. Your journey is personal — it should stay that way.</p>
-            </div>
-          </div>
-          <div class="problem-card reveal">
-            <div class="problem-card-inner">
-              <div class="problem-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </div>
-              <h3>Too Many Apps</h3>
-              <p>One for salah, one for dhikr, one for habits, another for finance. Your spiritual ecosystem shouldn't need 5 subscriptions.</p>
-            </div>
-          </div>
-          <div class="problem-card reveal">
-            <div class="problem-card-inner">
-              <div class="problem-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <h3>Midnight Reset Bug</h3>
-              <p>Standard calendars reset at midnight — but your Tahajjud after 1 AM gets filed as "tomorrow." Islamic days deserve Islamic logic.</p>
-            </div>
-          </div>
-        </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span>Scroll</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
       </div>
     </section>
 
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <!-- ═══════════ SOLUTION ═══════════ -->
-    <section class="section" id="solution">
-      <div class="section-inner">
-        <div class="solution-layout">
-          <div class="solution-text reveal">
-            <div class="section-label">The Solution</div>
-            <h2 class="section-title">One Dashboard.<br><span class="gradient-text">Everything Connected.</span></h2>
-            <p class="section-desc">Lamim unifies your entire Islamic lifestyle into a single, beautiful, offline-first experience.</p>
-            <div class="solution-list">
-              <div class="solution-item">
-                <div class="solution-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <p><strong>Zero Servers, Zero Tracking</strong> — Every byte stays on your device. No accounts, no cloud, no compromise.</p>
-              </div>
-              <div class="solution-item">
-                <div class="solution-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <p><strong>3:00 AM Waking Day</strong> — Night prayers logged after midnight correctly belong to the previous day. Lamim understands Islamic time.</p>
-              </div>
-              <div class="solution-item">
-                <div class="solution-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <p><strong>Spiritual Health Score</strong> — A weighted algorithm that evaluates your salah, dhikr, habits, and goals to assign a spiritual rank.</p>
-              </div>
-              <div class="solution-item">
-                <div class="solution-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <p><strong>Works Offline Forever</strong> — PWA technology means no app store needed. Add to home screen and it works like a native app.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="emulator-wrapper reveal" id="preview">
-            <div class="emulator-phone">
-              <div class="emulator-phone-inner">
-                <div class="emulator-header">
-                  <div><div class="emulator-greeting">Good Evening, Muhammad</div></div>
-                  <div class="emulator-orb">
-                    <div class="emulator-orb-score gradient-text">72</div>
-                    <div class="emulator-orb-label">Spirit</div>
-                  </div>
-                </div>
-                <div class="emulator-prayer">
-                  <div class="emulator-prayer-header">
-                    <span class="emulator-prayer-label"><span class="emulator-prayer-dot"></span> Next Prayer</span>
-                    <span class="emulator-prayer-name">Isha</span>
-                  </div>
-                  <div class="emulator-prayer-time">01:23:45</div>
-                </div>
-                <div class="emulator-timeline" id="emulator-timeline">
-                  <div class="emulator-node"><div class="emulator-dot">F</div><span class="emulator-label">Fajr</span></div>
-                  <div class="emulator-node"><div class="emulator-dot">D</div><span class="emulator-label">Dhuhr</span></div>
-                  <div class="emulator-node"><div class="emulator-dot">A</div><span class="emulator-label">Asr</span></div>
-                  <div class="emulator-node"><div class="emulator-dot">M</div><span class="emulator-label">Maghrib</span></div>
-                  <div class="emulator-node"><div class="emulator-dot">I</div><span class="emulator-label">Isha</span></div>
-                </div>
-                <div style="padding:4px 0 0;">
-                  <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
-                  <div style="font-family:'Amiri',serif;font-size:0.875rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
-                  <div style="font-size:0.6875rem;color:var(--text-secondary);font-style:italic;margin-top:4px;">"Indeed, with hardship comes ease."</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <!-- ═══════════ FEATURES ═══════════ -->
+    <!-- ═══ FEATURES ═══ -->
     <section class="section" id="features">
       <div class="section-inner">
-        <div class="section-header center reveal">
+        <div class="section-header reveal">
           <div class="section-label">Features</div>
-          <h2 class="section-title">Everything You Need.<br><span style="color:var(--text-muted);">Nothing You Don't.</span></h2>
-          <p class="section-desc">Six integrated modules covering every aspect of your Islamic lifestyle.</p>
+          <h2 class="section-title">Everything You Need.<br><span style="color:var(--text-muted)">Nothing You Don't.</span></h2>
+          <p class="section-desc">Seven integrated modules that cover every dimension of your spiritual life.</p>
         </div>
 
-        <div class="bento-grid stagger-children">
-          <div class="bento-card reveal" data-accent="green">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-              <h3>Salah Tracker</h3>
-              <p>Live countdown to the next prayer using local sun-angle math. A 3-week interactive heatmap with glassmorphic visual feedback.</p>
-            </div>
+        <div class="features-grid">
+          <div class="feature-card f-salah reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <h3>Salah Tracker</h3>
+            <p>Live countdown to the next prayer with local sun-angle calculations. Interactive 3-week heatmap with visual feedback.</p>
           </div>
-          <div class="bento-card reveal" data-accent="teal">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></div>
-              <h3>Dhikr Counter</h3>
-              <p>Premium glowing tap button with ripple animations, haptic vibration, and streak tracking. Feels like real tasbeeh beads.</p>
-            </div>
+
+          <div class="feature-card f-dhikr reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg></div>
+            <h3>Dhikr Counter</h3>
+            <p>A premium tap counter with haptic vibration, ripple animations, and streak tracking that feels like real tasbeeh beads.</p>
           </div>
-          <div class="bento-card reveal" data-accent="orange">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
-              <h3>Mujahid (Habit Forge)</h3>
-              <p>Track bad habits, log relapses, earn progression badges, and use guided 4-7-8 breathing exercises to combat urges.</p>
-            </div>
+
+          <div class="feature-card f-habit reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+            <h3>Mujahid &mdash; Habit Forge</h3>
+            <p>Track habits, log relapses, earn badges, and use guided 4-7-8 breathing exercises to strengthen self-discipline.</p>
           </div>
-          <div class="bento-card span-2 reveal" data-accent="gold">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-              <h3>Smart Finance Ledger</h3>
-              <p>Track income and expenses across 220+ categories with monthly summaries, visual timelines, and auto-generated PDF statements. Savings vaults with progress bars.</p>
-            </div>
+
+          <div class="feature-card f-finance reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h3>Finance Ledger</h3>
+            <p>Track income and expenses across 220+ categories. Monthly summaries, visual timelines, savings vaults, and PDF export.</p>
           </div>
-          <div class="bento-card reveal" data-accent="purple">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <h3>Spiritual Health Score</h3>
-              <p>A weighted algorithm that evaluates your entire spiritual state and assigns a rank — from Ghafil to Wali.</p>
-            </div>
+
+          <div class="feature-card f-shs reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <h3>Spiritual Health Score</h3>
+            <p>A weighted algorithm evaluates your salah, dhikr, and habits to assign a spiritual rank &mdash; from Ghafil to Wali.</p>
           </div>
-          <div class="bento-card reveal" data-accent="blue">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-              <h3>Nafl & Sunnah</h3>
-              <p>Track Sunnah Muakkadah, Tahajjud, and Witr with custom 3 AM "Waking Day" boundary logic for accurate night prayer logging.</p>
-            </div>
-          </div>
-          <div class="bento-card span-2 reveal" data-accent="teal">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-              <h3>Analysis Engine</h3>
-              <p>Comprehensive dashboard with PDF export. Visualizes your spiritual health across all modules with charts, trends, and actionable insights.</p>
-            </div>
-          </div>
-          <div class="bento-card reveal" data-accent="purple">
-            <div class="bento-card-inner">
-              <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></div>
-              <h3>Auto-Backup</h3>
-              <p>Non-intrusive 30-day backup reminders. Export your entire progress as a JSON file. Never lose your journey.</p>
-            </div>
+
+          <div class="feature-card f-nafl reveal">
+            <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+            <h3>Nafl &amp; Sunnah Tracker</h3>
+            <p>Track Sunnah Muakkadah, Tahajjud, and Witr with intelligent 3 AM &ldquo;Waking Day&rdquo; boundaries for accurate night prayers.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <!-- ═══════════ RANKS ═══════════ -->
-    <section class="section" id="ranks">
+    <!-- ═══ HOW IT WORKS ═══ -->
+    <section class="section" id="steps">
       <div class="section-inner">
-        <div class="rank-showcase">
-          <div class="rank-desc reveal">
-            <div class="section-label">Spiritual Ranks</div>
-            <h2 class="section-title">Your Rank Reflects<br><span class="gradient-text">Your Devotion.</span></h2>
-            <p class="section-desc">Lamim's Spiritual Health Score evaluates your daily practices and assigns an Islamic title that reflects your current spiritual state.</p>
-            <p class="rank-desc-text" aria-live="polite">The heedless — unaware of their spiritual state.</p>
-            <div class="rank-progress">
-              <div class="rank-progress-bar"><div class="rank-progress-fill"></div></div>
-            </div>
-          </div>
+        <div class="section-header reveal">
+          <div class="section-label">How It Works</div>
+          <h2 class="section-title">Start in Seconds.<br><span style="color:var(--text-muted)">No Sign-Up Required.</span></h2>
+          <p class="section-desc">Zero friction. Open the app and begin tracking immediately.</p>
+        </div>
 
-          <div class="rank-visual reveal">
-            <div class="rank-badge" data-rank="Ghafil"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div><div class="rank-info"><h4>Ghafil</h4><p>The heedless</p></div></div>
-            <div class="rank-badge" data-rank="Musafir"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="rank-info"><h4>Musafir</h4><p>The traveler</p></div></div>
-            <div class="rank-badge" data-rank="Murid"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="rank-info"><h4>Murid</h4><p>The seeker</p></div></div>
-            <div class="rank-badge" data-rank="Mujahid"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div><div class="rank-info"><h4>Mujahid</h4><p>The struggler</p></div></div>
-            <div class="rank-badge" data-rank="Mukhlis"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="rank-info"><h4>Mukhlis</h4><p>The sincere</p></div></div>
-            <div class="rank-badge" data-rank="Muttaqi"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="rank-info"><h4>Muttaqi</h4><p>The God-conscious</p></div></div>
-            <div class="rank-badge" data-rank="Muhsin"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="rank-info"><h4>Muhsin</h4><p>The excellent</p></div></div>
-            <div class="rank-badge" data-rank="Wali"><div class="rank-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div><div class="rank-info"><h4>Wali</h4><p>The intimate of God</p></div></div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">1</div>
+            <h3>Open the App</h3>
+            <p>Visit Lamim in any modern browser. Works instantly. No download, no account, no payment.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">2</div>
+            <h3>Set Your Profile</h3>
+            <p>A 4-step wizard gathers your name, location, and preferences. Your data never leaves your device.</p>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">3</div>
+            <h3>Start Tracking</h3>
+            <p>Your dashboard is live. Log prayers, count dhikr, track habits, and watch your spiritual score grow.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <!-- ═══════════ PRIVACY ═══════════ -->
+    <!-- ═══ PRIVACY ═══ -->
     <section class="section" id="privacy">
       <div class="section-inner">
         <div class="privacy-card reveal">
-          <div class="privacy-card-inner">
-            <div class="privacy-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </div>
-            <h2>Zero Servers.<br><span class="gradient-text">Zero Compromise.</span></h2>
-            <p>Your spiritual journey is between you and Allah. Lamim keeps it that way — no accounts, no cloud sync, no data leakage. Ever.</p>
-            <div class="privacy-stats">
-              <div class="privacy-stat"><div class="privacy-stat-num gradient-text count-up" data-target="0">0</div><div class="privacy-stat-label">Servers</div></div>
-              <div class="privacy-stat"><div class="privacy-stat-num gradient-text count-up" data-target="0">0</div><div class="privacy-stat-label">Accounts</div></div>
-              <div class="privacy-stat"><div class="privacy-stat-num gradient-text">100%</div><div class="privacy-stat-label">Offline</div></div>
-              <div class="privacy-stat"><div class="privacy-stat-num gradient-text">Local</div><div class="privacy-stat-label">Storage</div></div>
-            </div>
+          <div class="privacy-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h2>Zero Servers.<br><span class="gradient-text">Zero Compromise.</span></h2>
+          <p>Your spiritual journey is between you and Allah. Lamim keeps it that way &mdash; no accounts, no cloud, no data collection. Every byte stays on your device.</p>
+          <div class="privacy-stats">
+            <div class="privacy-stat"><div class="privacy-stat-num gradient-text">0</div><div class="privacy-stat-label">Servers</div></div>
+            <div class="privacy-stat"><div class="privacy-stat-num gradient-text">0</div><div class="privacy-stat-label">Accounts</div></div>
+            <div class="privacy-stat"><div class="privacy-stat-num gradient-text">100%</div><div class="privacy-stat-label">Offline</div></div>
+            <div class="privacy-stat"><div class="privacy-stat-num gradient-text">Local</div><div class="privacy-stat-label">Storage</div></div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <!-- ═══════════ INSTALL ═══════════ -->
-    <section class="section" id="install">
-      <div class="section-inner">
-        <div class="section-header center reveal">
-          <div class="section-label">Get Started</div>
-          <h2 class="section-title">Add to Home Screen.<br><span style="color:var(--text-muted);">Use Like a Native App.</span></h2>
-          <p class="section-desc">No app store needed. Works on any device with a modern browser.</p>
-        </div>
-        <div class="install-grid stagger-children">
-          <div class="install-card reveal"><div class="install-card-inner"><div class="install-step">1</div><div class="install-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div><h3>Open in Browser</h3><p>Visit Lamim in Chrome, Safari, or Firefox. The landing page will guide you to the app.</p></div></div>
-          <div class="install-card reveal"><div class="install-card-inner"><div class="install-step">2</div><div class="install-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><h3>Add to Home Screen</h3><p>Tap the share button (iOS) or menu (Android) and select "Add to Home Screen."</p></div></div>
-          <div class="install-card reveal"><div class="install-card-inner"><div class="install-step">3</div><div class="install-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><h3>Start Your Journey</h3><p>Set up your profile, and Lamim begins tracking your spiritual journey instantly — no sign-up required.</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════ CTA ═══════════ -->
+    <!-- ═══ CTA ═══ -->
     <section class="cta-section" id="cta">
-      <div class="cta-glow" aria-hidden="true"></div>
       <div class="section-inner">
         <h2 class="reveal">Begin Your Journey.<br><span class="gradient-text">Today.</span></h2>
         <p class="reveal">Your spiritual growth starts with a single step. Make it count.</p>
-        <a href="/app/index.html" class="btn-primary magnetic reveal">
-          Open Lamim — It's Free
-          <span class="btn-primary-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
+        <a href="/app/index.html" class="btn btn-primary reveal">
+          Open Lamim &mdash; It&rsquo;s Free
+          <span class="btn-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
       </div>
     </section>
-
   </main>
 
+  <!-- ═══ FOOTER ═══ -->
   <footer class="footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-brand">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" opacity="0.3"/><path d="M7 17V9l5-3 5 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" opacity=".3"/><path d="M7 17V9l5-3 5 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>Lamim</span>
       </div>
       <div class="footer-links">
         <a href="#features">Features</a>
         <a href="#privacy">Privacy</a>
-        <a href="#install">Install</a>
-        <a href="https://github.com/shahriyarcse-arch/Lamim" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="#steps">How It Works</a>
+        <a href="https://github.com/shahriyarcse-arch/Lamim" target="_blank" rel="noopener">GitHub</a>
       </div>
       <div class="footer-copy">Built with care for the Ummah.</div>
     </div>
   </footer>
 
-  <script src="landing/js/animations.js" defer></script>
-  <script src="landing/js/emulator.js" defer></script>
   <script src="landing/js/main.js" defer></script>
 
 </body>

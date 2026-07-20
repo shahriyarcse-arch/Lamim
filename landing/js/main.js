@@ -1,20 +1,16 @@
-/* =============================================
-   LAMIM — MAIN CONTROLLER
-   Pill Nav × Staggered Menu × Rank Showcase
-   ============================================= */
+/* ═══════════════════════════════════════
+   LAMIM — INTERACTIONS
+   ═══════════════════════════════════════ */
 
-const Main = {
+const App = {
   init() {
-    this.initNav();
-    this.initSmoothScroll();
-    this.initActiveNav();
-    this.initMobileMenu();
-    this.initRankShowcase();
-    this.initCountUp();
-    this.initThemeToggle();
+    this.nav();
+    this.reveal();
+    this.mobileMenu();
+    this.theme();
   },
 
-  initNav() {
+  nav() {
     const nav = document.querySelector('.nav');
     if (!nav) return;
     const check = () => nav.classList.toggle('scrolled', window.scrollY > 40);
@@ -22,146 +18,62 @@ const Main = {
     check();
   },
 
-  initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const href = anchor.getAttribute('href');
-        if (href === '#') return;
-        const target = document.querySelector(href);
-        if (target) {
-          const top = target.getBoundingClientRect().top + window.scrollY - 100;
-          window.scrollTo({ top, behavior: 'smooth' });
-          document.querySelector('.nav-links')?.classList.remove('open');
-          const toggle = document.querySelector('.nav-toggle');
-          if (toggle) {
-            toggle.classList.remove('open');
-            toggle.setAttribute('aria-expanded', 'false');
-          }
-        }
+  reveal() {
+    const els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); }
       });
-    });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => obs.observe(el));
   },
 
-  initActiveNav() {
-    const sections = document.querySelectorAll('section[id]');
-    const links = document.querySelectorAll('.nav-links a[href^="#"]');
-    if (!sections.length || !links.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          links.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-          });
-        }
-      });
-    }, { threshold: 0.2, rootMargin: '-100px 0px -40% 0px' });
-    sections.forEach(section => observer.observe(section));
-  },
+  mobileMenu() {
+    const btn = document.querySelector('.hamburger');
+    const menu = document.querySelector('.mobile-nav');
+    if (!btn || !menu) return;
 
-  initMobileMenu() {
-    const toggle = document.querySelector('.nav-toggle');
-    const links = document.querySelector('.nav-links');
-    if (!toggle || !links) return;
-
-    toggle.addEventListener('click', () => {
-      const isOpen = links.classList.contains('open');
-      links.classList.toggle('open');
-      toggle.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', !isOpen);
-      toggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     });
 
-    links.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        links.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
       });
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && links.classList.contains('open')) {
-        links.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.focus();
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus();
       }
     });
   },
 
-  initRankShowcase() {
-    const badges = document.querySelectorAll('.rank-badge');
-    const descEl = document.querySelector('.rank-desc-text');
-    if (!badges.length) return;
+  theme() {
+    const btn = document.querySelector('.theme-toggle');
+    if (!btn) return;
+    const html = document.documentElement;
+    const cur = html.getAttribute('data-theme') || 'dark';
+    btn.setAttribute('aria-label', cur === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
 
-    const descriptions = {
-      'Ghafil': 'The heedless — unaware of their spiritual state.',
-      'Musafir': 'The traveler — beginning the journey of awareness.',
-      'Murid': 'The seeker — actively pursuing spiritual growth.',
-      'Mujahid': 'The struggler — fighting against spiritual laziness.',
-      'Mukhlis': 'The sincere — actions rooted in pure intention.',
-      'Muttaqi': 'The God-conscious — cultivating constant awareness.',
-      'Muhsin': 'The excellent — worship with love and presence.',
-      'Wali': 'The intimate — near to God through devotion.'
-    };
-
-    badges.forEach((badge, index) => {
-      badge.addEventListener('click', () => {
-        badges.forEach(b => b.classList.remove('active'));
-        badge.classList.add('active');
-        const rank = badge.dataset.rank;
-        if (descriptions[rank] && descEl) descEl.textContent = descriptions[rank];
-        const fill = document.querySelector('.rank-progress-fill');
-        if (fill) fill.style.width = `${((index + 1) / badges.length) * 100}%`;
-      });
-    });
-    badges[0]?.classList.add('active');
-  },
-
-  initCountUp() {
-    const counters = document.querySelectorAll('.count-up');
-    if (!counters.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.dataset.target, 10);
-          const duration = 1800;
-          const start = performance.now();
-          const animate = (now) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 4);
-            el.textContent = Math.round(target * eased).toLocaleString();
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-          observer.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach(c => observer.observe(c));
-  },
-
-  initThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
-    const navToggle = document.querySelector('.nav-theme-toggle');
-    if (!toggle && !navToggle) return;
-    const targets = [toggle, navToggle].filter(Boolean);
-    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    targets.forEach(el => el.setAttribute('aria-label', current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'));
-
-    const doToggle = () => {
-      const now = document.documentElement.getAttribute('data-theme');
+    btn.addEventListener('click', () => {
+      const now = html.getAttribute('data-theme');
       const next = now === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
+      html.setAttribute('data-theme', next);
       localStorage.setItem('lamim-theme', next);
-      targets.forEach(el => el.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'));
-    };
-    targets.forEach(el => el.addEventListener('click', doToggle));
+      btn.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => Main.init());
+document.addEventListener('DOMContentLoaded', () => App.init());
