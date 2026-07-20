@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#020408">
+  <meta name="theme-color" content="#020204">
   <meta name="color-scheme" content="dark">
 
   <title>Lamim — Your Complete Islamic Lifestyle Dashboard</title>
@@ -39,7 +39,7 @@
   }
   </script>
 
-  <!-- Inline theme init: prevents flash of wrong theme -->
+  <!-- Inline theme init -->
   <script>
     (function() {
       var saved = localStorage.getItem('lamim-theme');
@@ -49,10 +49,6 @@
     })();
   </script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <!-- Styles -->
   <link rel="stylesheet" href="landing/css/theme.css">
   <link rel="stylesheet" href="landing/css/layout.css">
@@ -60,7 +56,7 @@
 </head>
 <body>
 
-  <!-- Skip Link (a11y) -->
+  <!-- Skip Link -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Scroll Progress -->
@@ -71,9 +67,9 @@
     <div class="nav-inner">
       <a href="#" class="nav-brand" aria-label="Lamim Home">
         <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="16" cy="16" r="15" stroke="url(#brand-grad)" stroke-width="2"/>
-          <path d="M10 22V12l6-4 6 4v10" stroke="url(#brand-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M14 22v-6h4v6" stroke="url(#brand-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="16" cy="16" r="15" stroke="url(#brand-grad)" stroke-width="1.5"/>
+          <path d="M10 22V12l6-4 6 4v10" stroke="url(#brand-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 22v-6h4v6" stroke="url(#brand-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <defs><linearGradient id="brand-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#c084fc"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
         </svg>
         <span>Lamim</span>
@@ -85,17 +81,17 @@
         <a href="#privacy" role="menuitem">Privacy</a>
         <a href="#ranks" role="menuitem">Ranks</a>
         <a href="#install" role="menuitem">Install</a>
-        <a href="/app/index.html" class="nav-cta magnetic" role="menuitem">Open App</a>
+        <a href="/app/index.html" class="nav-cta" role="menuitem">Open App</a>
       </div>
 
       <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" type="button">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
 
-      <button class="nav-theme-toggle" id="nav-theme-toggle" aria-label="Switch to light mode" type="button">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <button class="nav-theme-toggle" aria-label="Switch to light mode" type="button">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
 
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
@@ -109,9 +105,9 @@
     <!-- ═══════════════════ HERO ═══════════════════ -->
     <section class="hero" id="hero">
       <div class="hero-bg" aria-hidden="true">
-        <div class="hero-orb hero-orb-1" data-parallax="0.15"></div>
-        <div class="hero-orb hero-orb-2" data-parallax="0.1"></div>
-        <div class="hero-orb hero-orb-3" data-parallax="0.08"></div>
+        <div class="hero-orb hero-orb-1" data-parallax="0.12"></div>
+        <div class="hero-orb hero-orb-2" data-parallax="0.08"></div>
+        <div class="hero-orb hero-orb-3" data-parallax="0.06"></div>
       </div>
 
       <div class="hero-content">
@@ -126,53 +122,55 @@
         </h1>
 
         <p class="hero-sub">
-          Lamim is a premium Islamic lifestyle dashboard that keeps your prayers, dhikr, habits, and finances — completely private, entirely on your device.
+          A premium Islamic lifestyle dashboard that keeps your prayers, dhikr, habits, and finances — completely private, entirely on your device.
         </p>
 
         <div class="hero-actions">
           <a href="/app/index.html" class="btn-primary magnetic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
             Open Lamim
+            <span class="btn-primary-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
           </a>
           <a href="#features" class="btn-secondary magnetic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             Explore Features
           </a>
         </div>
 
-        <!-- Device Mockup -->
+        <!-- Device Mockup: Double-Bezel -->
         <div class="hero-mockup reveal">
           <div class="mockup-frame">
             <div class="mockup-notch"></div>
             <div class="mockup-screen">
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px;">
                 <div>
-                  <div class="emulator-greeting" style="font-size:0.75rem;color:var(--text-muted);">Good Evening</div>
-                  <div style="font-size:1.125rem;font-weight:800;">Muhammad</div>
-                  <div style="font-size:0.6875rem;color:var(--accent-gold);">15 Dhul Hijjah 1447</div>
+                  <div class="emulator-greeting">Good Evening</div>
+                  <div style="font-size:1.125rem;font-weight:800;letter-spacing:-0.02em;">Muhammad</div>
+                  <div style="font-size:0.6875rem;color:var(--accent-gold);font-weight:600;">15 Dhul Hijjah 1447</div>
                 </div>
-                <div style="width:52px;height:52px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);">
-                  <div style="font-size:1.125rem;font-weight:900;background:linear-gradient(135deg,#a855f7,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">72</div>
-                  <div style="font-size:0.5rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);">Spirit</div>
+                <div class="emulator-orb">
+                  <div class="emulator-orb-score gradient-text">72</div>
+                  <div class="emulator-orb-label">Spirit</div>
                 </div>
               </div>
-              <div style="margin:8px 12px;padding:12px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(59,130,246,0.03));border:1px solid rgba(56,189,248,0.12);display:flex;justify-content:space-between;align-items:center;">
-                <div>
-                  <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent-blue);animation:pulse 2s infinite;"></span> Next Prayer</div>
-                  <div class="emulator-prayer-time" style="font-size:1.5rem;font-weight:900;letter-spacing:-0.04em;">01:23:45</div>
+              <div class="emulator-prayer" style="margin:0 14px;">
+                <div class="emulator-prayer-header">
+                  <span class="emulator-prayer-label"><span class="emulator-prayer-dot"></span> Next Prayer</span>
+                  <div class="emulator-prayer-time">01:23:45</div>
                 </div>
-                <div style="font-size:0.625rem;font-weight:700;color:var(--accent-blue);padding:3px 8px;border-radius:999px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);text-transform:uppercase;">Isha</div>
+                <span class="emulator-prayer-name">Isha</span>
               </div>
-              <div style="display:flex;gap:6px;padding:0 12px;margin-top:8px;">
-                <div style="flex:1;height:42px;border-radius:10px;background:linear-gradient(to top,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:900;color:#fff;">F</div>
-                <div style="flex:1;height:42px;border-radius:10px;background:linear-gradient(to top,#2563eb,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:900;color:#fff;">D</div>
-                <div style="flex:1;height:42px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:900;color:var(--text-muted);">A</div>
-                <div style="flex:1;height:42px;border-radius:10px;background:linear-gradient(to top,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:900;color:#fff;">M</div>
-                <div style="flex:1;height:42px;border-radius:10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:0.875rem;font-weight:900;color:var(--text-muted);">I</div>
+              <div class="emulator-timeline" style="padding:8px 14px;">
+                <div class="emulator-node"><div class="emulator-dot filled">F</div><span class="emulator-label">Fajr</span></div>
+                <div class="emulator-node"><div class="emulator-dot filled">D</div><span class="emulator-label">Dhuhr</span></div>
+                <div class="emulator-node"><div class="emulator-dot missed">A</div><span class="emulator-label">Asr</span></div>
+                <div class="emulator-node"><div class="emulator-dot filled">M</div><span class="emulator-label">Maghrib</span></div>
+                <div class="emulator-node"><div class="emulator-dot">I</div><span class="emulator-label">Isha</span></div>
               </div>
-              <div style="padding:12px;margin-top:8px;">
-                <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
-                <div style="font-family:'Amiri',serif;font-size:1rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+              <div style="padding:8px 14px 12px;">
+                <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
+                <div style="font-family:'Amiri',serif;font-size:0.9375rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
                 <div style="font-size:0.75rem;color:var(--text-secondary);font-style:italic;margin-top:4px;">"Indeed, with hardship comes ease."</div>
               </div>
             </div>
@@ -192,27 +190,33 @@
 
         <div class="problem-grid stagger-children">
           <div class="problem-card reveal">
-            <div class="problem-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="problem-card-inner">
+              <div class="problem-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3>Privacy Nightmare</h3>
+              <p>Most apps require accounts, send data to servers, and track your spiritual habits. Your journey is personal — it should stay that way.</p>
             </div>
-            <h3>Privacy Nightmare</h3>
-            <p>Most apps require accounts, send data to servers, and track your spiritual habits. Your journey is personal — it should stay that way.</p>
           </div>
 
           <div class="problem-card reveal">
-            <div class="problem-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="problem-card-inner">
+              <div class="problem-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h3>Too Many Apps</h3>
+              <p>One for salah, one for dhikr, one for habits, another for finance. Your spiritual ecosystem shouldn't need 5 subscriptions.</p>
             </div>
-            <h3>Too Many Apps</h3>
-            <p>One for salah, one for dhikr, one for habits, another for finance. Your spiritual ecosystem shouldn't need 5 subscriptions.</p>
           </div>
 
           <div class="problem-card reveal">
-            <div class="problem-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="problem-card-inner">
+              <div class="problem-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3>Midnight Reset Bug</h3>
+              <p>Standard calendars reset at midnight — but your Tahajjud after 1 AM gets filed as "tomorrow." Islamic days deserve Islamic logic.</p>
             </div>
-            <h3>Midnight Reset Bug</h3>
-            <p>Standard calendars reset at midnight — but your Tahajjud after 1 AM gets filed as "tomorrow." Islamic days deserve Islamic logic.</p>
           </div>
         </div>
       </div>
@@ -232,77 +236,81 @@
             <div class="solution-list">
               <div class="solution-item">
                 <div class="solution-check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <p><strong>Zero Servers, Zero Tracking</strong> — Every byte stays on your device. No accounts, no cloud, no compromise.</p>
               </div>
               <div class="solution-item">
                 <div class="solution-check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <p><strong>3:00 AM Waking Day</strong> — Night prayers logged after midnight correctly belong to the previous day. Lamim understands Islamic time.</p>
               </div>
               <div class="solution-item">
                 <div class="solution-check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <p><strong>Spiritual Health Score</strong> — A weighted algorithm that evaluates your salah, dhikr, habits, and goals to assign a spiritual rank.</p>
               </div>
               <div class="solution-item">
                 <div class="solution-check">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <p><strong>Works Offline Forever</strong> — PWA technology means no app store needed. Add to home screen and it works like a native app.</p>
               </div>
             </div>
           </div>
 
-          <!-- Mini Emulator Preview -->
+          <!-- Mini Emulator: Double-Bezel -->
           <div class="emulator-wrapper reveal" id="preview">
-            <div class="emulator-phone glass">
-              <div class="emulator-header">
-                <div class="emulator-greeting">Good Evening, Muhammad</div>
-                <div class="emulator-orb">
-                  <div class="emulator-orb-score gradient-text">72</div>
-                  <div class="emulator-orb-label">Spirit</div>
+            <div class="emulator-phone">
+              <div class="emulator-phone-inner">
+                <div class="emulator-header">
+                  <div>
+                    <div class="emulator-greeting">Good Evening, Muhammad</div>
+                  </div>
+                  <div class="emulator-orb">
+                    <div class="emulator-orb-score gradient-text">72</div>
+                    <div class="emulator-orb-label">Spirit</div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="emulator-prayer">
-                <div class="emulator-prayer-header">
-                  <span class="emulator-prayer-label"><span class="emulator-prayer-dot"></span> Next Prayer</span>
-                  <span class="emulator-prayer-name">Isha</span>
+                <div class="emulator-prayer">
+                  <div class="emulator-prayer-header">
+                    <span class="emulator-prayer-label"><span class="emulator-prayer-dot"></span> Next Prayer</span>
+                    <span class="emulator-prayer-name">Isha</span>
+                  </div>
+                  <div class="emulator-prayer-time">01:23:45</div>
                 </div>
-                <div class="emulator-prayer-time">01:23:45</div>
-              </div>
 
-              <div class="emulator-timeline" id="emulator-timeline">
-                <div class="emulator-node">
-                  <div class="emulator-dot">F</div>
-                  <span class="emulator-label">Fajr</span>
+                <div class="emulator-timeline" id="emulator-timeline">
+                  <div class="emulator-node">
+                    <div class="emulator-dot">F</div>
+                    <span class="emulator-label">Fajr</span>
+                  </div>
+                  <div class="emulator-node">
+                    <div class="emulator-dot">D</div>
+                    <span class="emulator-label">Dhuhr</span>
+                  </div>
+                  <div class="emulator-node">
+                    <div class="emulator-dot">A</div>
+                    <span class="emulator-label">Asr</span>
+                  </div>
+                  <div class="emulator-node">
+                    <div class="emulator-dot">M</div>
+                    <span class="emulator-label">Maghrib</span>
+                  </div>
+                  <div class="emulator-node">
+                    <div class="emulator-dot">I</div>
+                    <span class="emulator-label">Isha</span>
+                  </div>
                 </div>
-                <div class="emulator-node">
-                  <div class="emulator-dot">D</div>
-                  <span class="emulator-label">Dhuhr</span>
-                </div>
-                <div class="emulator-node">
-                  <div class="emulator-dot">A</div>
-                  <span class="emulator-label">Asr</span>
-                </div>
-                <div class="emulator-node">
-                  <div class="emulator-dot">M</div>
-                  <span class="emulator-label">Maghrib</span>
-                </div>
-                <div class="emulator-node">
-                  <div class="emulator-dot">I</div>
-                  <span class="emulator-label">Isha</span>
-                </div>
-              </div>
 
-              <div style="padding:8px 12px 12px;">
-                <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
-                <div style="font-family:'Amiri',serif;font-size:0.9375rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
-                <div style="font-size:0.75rem;color:var(--text-secondary);font-style:italic;margin-top:4px;">"Indeed, with hardship comes ease."</div>
+                <div style="padding:4px 0 0;">
+                  <div style="font-size:0.625rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;">Verse of the Day</div>
+                  <div style="font-family:'Amiri',serif;font-size:0.875rem;line-height:1.8;text-align:right;color:var(--text-primary);direction:rtl;">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+                  <div style="font-size:0.6875rem;color:var(--text-secondary);font-style:italic;margin-top:4px;">"Indeed, with hardship comes ease."</div>
+                </div>
               </div>
             </div>
           </div>
@@ -325,74 +333,90 @@
 
           <!-- Salah Tracker -->
           <div class="bento-card reveal" data-accent="green">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3>Salah Tracker</h3>
+              <p>Live countdown to the next prayer using local sun-angle math. A 3-week interactive heatmap with glassmorphic visual feedback.</p>
             </div>
-            <h3>Salah Tracker</h3>
-            <p>Live countdown to the next prayer using local sun-angle math. A 3-week interactive heatmap with glassmorphic visual feedback.</p>
           </div>
 
           <!-- Dhikr Counter -->
           <div class="bento-card reveal" data-accent="teal">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="17" cy="17" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="7" cy="17" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="7" cy="7" r="2"/></svg>
+              </div>
+              <h3>Dhikr Counter</h3>
+              <p>Premium glowing tap button with ripple animations, haptic vibration, and streak tracking. Feels like real tasbeeh beads.</p>
             </div>
-            <h3>Dhikr Counter</h3>
-            <p>Premium glowing tap button with ripple animations, haptic vibration, and streak tracking. Feels like real tasbeeh beads.</p>
           </div>
 
           <!-- Habit Forge -->
           <div class="bento-card reveal" data-accent="orange">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              </div>
+              <h3>Mujahid (Habit Forge)</h3>
+              <p>Track bad habits, log relapses, earn progression badges, and use guided 4-7-8 breathing exercises to combat urges.</p>
             </div>
-            <h3>Mujahid (Habit Forge)</h3>
-            <p>Track bad habits, log relapses, earn progression badges, and use guided 4-7-8 breathing exercises to combat urges.</p>
           </div>
 
-          <!-- Smart Finance -->
+          <!-- Smart Finance (span 2) -->
           <div class="bento-card span-2 reveal" data-accent="gold">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <h3>Smart Finance Ledger</h3>
+              <p>Track income and expenses across 220+ categories with monthly summaries, visual timelines, and auto-generated PDF statements. Savings vaults with progress bars.</p>
             </div>
-            <h3>Smart Finance Ledger</h3>
-            <p>Track income and expenses across 220+ categories with monthly summaries, visual timelines, and auto-generated PDF statements. Savings vaults with progress bars.</p>
           </div>
 
           <!-- Spiritual Health Score -->
           <div class="bento-card reveal" data-accent="purple">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <h3>Spiritual Health Score</h3>
+              <p>A weighted algorithm that evaluates your entire spiritual state and assigns a rank — from Ghafil to Wali.</p>
             </div>
-            <h3>Spiritual Health Score</h3>
-            <p>A weighted algorithm that evaluates your entire spiritual state and assigns a rank — from Ghafil to Wali.</p>
           </div>
 
           <!-- Nafl Tracker -->
           <div class="bento-card reveal" data-accent="blue">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              </div>
+              <h3>Nafl & Sunnah</h3>
+              <p>Track Sunnah Muakkadah, Tahajjud, and Witr with custom 3 AM "Waking Day" boundary logic for accurate night prayer logging.</p>
             </div>
-            <h3>Nafl & Sunnah</h3>
-            <p>Track Sunnah Muakkadah, Tahajjud, and Witr with custom 3 AM "Waking Day" boundary logic for accurate night prayer logging.</p>
           </div>
 
-          <!-- Analysis Engine -->
+          <!-- Analysis Engine (span 2) -->
           <div class="bento-card span-2 reveal" data-accent="teal">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <h3>Analysis Engine</h3>
+              <p>Comprehensive dashboard with PDF export. Visualizes your spiritual health across all modules with charts, trends, and actionable insights.</p>
             </div>
-            <h3>Analysis Engine</h3>
-            <p>Comprehensive dashboard with PDF export. Visualizes your spiritual health across all modules with charts, trends, and actionable insights.</p>
           </div>
 
           <!-- Auto Backup -->
           <div class="bento-card reveal" data-accent="purple">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <div class="bento-card-inner">
+              <div class="bento-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              </div>
+              <h3>Auto-Backup</h3>
+              <p>Non-intrusive 30-day backup reminders. Export your entire progress as a JSON file. Never lose your journey.</p>
             </div>
-            <h3>Auto-Backup</h3>
-            <p>Non-intrusive 30-day backup reminders. Export your entire progress as a JSON file. Never lose your journey.</p>
           </div>
 
         </div>
@@ -407,7 +431,7 @@
         <div class="rank-showcase">
           <div class="rank-desc reveal">
             <div class="section-label">Spiritual Ranks</div>
-            <h2 class="section-title">Your Rank Reflects<br><span class="gradient-text">Your devotion.</span></h2>
+            <h2 class="section-title">Your Rank Reflects<br><span class="gradient-text">Your Devotion.</span></h2>
             <p class="section-desc">Lamim's Spiritual Health Score evaluates your daily practices and assigns an Islamic title that reflects your current spiritual state.</p>
             <p class="rank-desc-text" aria-live="polite">The heedless — unaware of their spiritual state.</p>
 
@@ -421,7 +445,7 @@
           <div class="rank-visual reveal">
             <div class="rank-badge" data-rank="Ghafil">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Ghafil</h4>
@@ -430,7 +454,7 @@
             </div>
             <div class="rank-badge" data-rank="Musafir">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Musafir</h4>
@@ -439,7 +463,7 @@
             </div>
             <div class="rank-badge" data-rank="Murid">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Murid</h4>
@@ -448,7 +472,7 @@
             </div>
             <div class="rank-badge" data-rank="Mujahid">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Mujahid</h4>
@@ -457,7 +481,7 @@
             </div>
             <div class="rank-badge" data-rank="Mukhlis">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Mukhlis</h4>
@@ -466,7 +490,7 @@
             </div>
             <div class="rank-badge" data-rank="Muttaqi">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Muttaqi</h4>
@@ -475,7 +499,7 @@
             </div>
             <div class="rank-badge" data-rank="Muhsin">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Muhsin</h4>
@@ -484,7 +508,7 @@
             </div>
             <div class="rank-badge" data-rank="Wali">
               <div class="rank-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
               </div>
               <div class="rank-info">
                 <h4>Wali</h4>
@@ -502,28 +526,30 @@
     <section class="section" id="privacy">
       <div class="section-inner">
         <div class="privacy-card reveal">
-          <div class="privacy-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </div>
-          <h2>Zero Servers.<br><span class="gradient-text">Zero Compromise.</span></h2>
-          <p>Your spiritual journey is between you and Allah. Lamim keeps it that way — no accounts, no cloud sync, no data leakage. Ever.</p>
+          <div class="privacy-card-inner">
+            <div class="privacy-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h2>Zero Servers.<br><span class="gradient-text">Zero Compromise.</span></h2>
+            <p>Your spiritual journey is between you and Allah. Lamim keeps it that way — no accounts, no cloud sync, no data leakage. Ever.</p>
 
-          <div class="privacy-stats">
-            <div class="privacy-stat">
-              <div class="privacy-stat-num gradient-text count-up" data-target="0">0</div>
-              <div class="privacy-stat-label">Servers</div>
-            </div>
-            <div class="privacy-stat">
-              <div class="privacy-stat-num gradient-text count-up" data-target="0">0</div>
-              <div class="privacy-stat-label">Accounts</div>
-            </div>
-            <div class="privacy-stat">
-              <div class="privacy-stat-num gradient-text">100%</div>
-              <div class="privacy-stat-label">Offline</div>
-            </div>
-            <div class="privacy-stat">
-              <div class="privacy-stat-num gradient-text">Local</div>
-              <div class="privacy-stat-label">Storage</div>
+            <div class="privacy-stats">
+              <div class="privacy-stat">
+                <div class="privacy-stat-num gradient-text count-up" data-target="0">0</div>
+                <div class="privacy-stat-label">Servers</div>
+              </div>
+              <div class="privacy-stat">
+                <div class="privacy-stat-num gradient-text count-up" data-target="0">0</div>
+                <div class="privacy-stat-label">Accounts</div>
+              </div>
+              <div class="privacy-stat">
+                <div class="privacy-stat-num gradient-text">100%</div>
+                <div class="privacy-stat-label">Offline</div>
+              </div>
+              <div class="privacy-stat">
+                <div class="privacy-stat-num gradient-text">Local</div>
+                <div class="privacy-stat-label">Storage</div>
+              </div>
             </div>
           </div>
         </div>
@@ -543,30 +569,36 @@
 
         <div class="install-grid stagger-children">
           <div class="install-card reveal">
-            <div class="install-step">1</div>
-            <div class="install-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <div class="install-card-inner">
+              <div class="install-step">1</div>
+              <div class="install-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </div>
+              <h3>Open in Browser</h3>
+              <p>Visit Lamim in Chrome, Safari, or Firefox. The landing page will guide you to the app.</p>
             </div>
-            <h3>Open in Browser</h3>
-            <p>Visit Lamim in Chrome, Safari, or Firefox. The landing page will guide you to the app.</p>
           </div>
 
           <div class="install-card reveal">
-            <div class="install-step">2</div>
-            <div class="install-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <div class="install-card-inner">
+              <div class="install-step">2</div>
+              <div class="install-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
+              <h3>Add to Home Screen</h3>
+              <p>Tap the share button (iOS) or menu (Android) and select "Add to Home Screen."</p>
             </div>
-            <h3>Add to Home Screen</h3>
-            <p>Tap the share button (iOS) or menu (Android) and select "Add to Home Screen."</p>
           </div>
 
           <div class="install-card reveal">
-            <div class="install-step">3</div>
-            <div class="install-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <div class="install-card-inner">
+              <div class="install-step">3</div>
+              <div class="install-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <h3>Start Your Journey</h3>
+              <p>Set up your profile, and Lamim begins tracking your spiritual journey instantly — no sign-up required.</p>
             </div>
-            <h3>Start Your Journey</h3>
-            <p>Set up your profile, and Lamim begins tracking your spiritual journey instantly — no sign-up required.</p>
           </div>
         </div>
       </div>
@@ -579,8 +611,10 @@
         <h2 class="reveal">Begin Your Journey.<br><span class="gradient-text">Today.</span></h2>
         <p class="reveal">Your spiritual growth starts with a single step. Make it count.</p>
         <a href="/app/index.html" class="btn-primary magnetic reveal">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
           Open Lamim — It's Free
+          <span class="btn-primary-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
         </a>
       </div>
     </section>
@@ -592,7 +626,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+          <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
           <path d="M7 17V9l5-3 5 3v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span>Lamim</span>

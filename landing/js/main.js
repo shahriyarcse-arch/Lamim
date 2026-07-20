@@ -1,6 +1,6 @@
 /* =============================================
-   LAMIM LANDING PAGE — MAIN JS
-   Nav, smooth scroll, active tracking, counters
+   LAMIM LANDING — MAIN CONTROLLER
+   Floating Nav × Staggered Menu × Rank Showcase
    ============================================= */
 
 const Main = {
@@ -20,30 +20,36 @@ const Main = {
     if (!nav) return;
 
     const check = () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
+      nav.classList.toggle('scrolled', window.scrollY > 40);
     };
     window.addEventListener('scroll', check, { passive: true });
     check();
   },
 
-  /* ── Smooth scroll for anchor links ── */
+  /* ── Smooth scroll ── */
   initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href'));
+        const href = anchor.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
         if (target) {
-          const offset = 80;
+          const offset = 100;
           const top = target.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({ top, behavior: 'smooth' });
-          // Close mobile menu if open
           document.querySelector('.nav-links')?.classList.remove('open');
+          const toggle = document.querySelector('.nav-toggle');
+          if (toggle) {
+            toggle.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
         }
       });
     });
   },
 
-  /* ── Active nav section tracking ── */
+  /* ── Active nav tracking ── */
   initActiveNav() {
     const sections = document.querySelectorAll('section[id]');
     const links = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -54,36 +60,58 @@ const Main = {
         if (entry.isIntersecting) {
           const id = entry.target.id;
           links.forEach(link => {
-            link.style.color = link.getAttribute('href') === `#${id}`
-              ? 'var(--text-primary)' : '';
+            const isActive = link.getAttribute('href') === `#${id}`;
+            link.classList.toggle('active', isActive);
           });
         }
       });
-    }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+    }, { threshold: 0.2, rootMargin: '-100px 0px -40% 0px' });
 
     sections.forEach(section => observer.observe(section));
   },
 
-  /* ── Mobile menu toggle ── */
+  /* ── Mobile menu with staggered reveal ── */
   initMobileMenu() {
     const toggle = document.querySelector('.nav-toggle');
     const links = document.querySelector('.nav-links');
     if (!toggle || !links) return;
 
     toggle.addEventListener('click', () => {
-      links.classList.toggle('open');
       const isOpen = links.classList.contains('open');
-      toggle.setAttribute('aria-expanded', isOpen);
-      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      if (isOpen) {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      } else {
+        links.classList.add('open');
+        toggle.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close menu');
+      }
     });
 
     // Close on link click
     links.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => links.classList.remove('open'));
+      link.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('open')) {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
     });
   },
 
-  /* ── Rank showcase interactive ── */
+  /* ── Rank showcase ── */
   initRankShowcase() {
     const badges = document.querySelectorAll('.rank-badge');
     const descEl = document.querySelector('.rank-desc-text');
@@ -108,17 +136,15 @@ const Main = {
         if (descriptions[rank] && descEl) {
           descEl.textContent = descriptions[rank];
         }
-        // Update progress bar
         const fill = document.querySelector('.rank-progress-fill');
         if (fill) fill.style.width = `${((index + 1) / badges.length) * 100}%`;
       });
     });
 
-    // Set first as active
     badges[0]?.classList.add('active');
   },
 
-  /* ── Count-up animation for stats ── */
+  /* ── Count-up ── */
   initCountUp() {
     const counters = document.querySelectorAll('.count-up');
     if (!counters.length) return;
@@ -128,14 +154,13 @@ const Main = {
         if (entry.isIntersecting) {
           const el = entry.target;
           const target = parseInt(el.dataset.target, 10);
-          const duration = 1500;
+          const duration = 1800;
           const start = performance.now();
 
           const animate = (now) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 4);
             el.textContent = Math.round(target * eased).toLocaleString();
             if (progress < 1) requestAnimationFrame(animate);
           };
@@ -149,23 +174,19 @@ const Main = {
     counters.forEach(c => observer.observe(c));
   },
 
-  /* ── Theme toggle (light/dark) with persistence ── */
+  /* ── Theme toggle ── */
   initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
     const navToggle = document.querySelector('.nav-theme-toggle');
     if (!toggle && !navToggle) return;
 
     const targets = [toggle, navToggle].filter(Boolean);
-
-    // Read current theme (already set by inline script in <head>)
     const current = document.documentElement.getAttribute('data-theme') || 'dark';
 
-    // Sync aria-labels to match current theme
     targets.forEach(el => {
       el.setAttribute('aria-label', current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     });
 
-    // Toggle handler
     const doToggle = () => {
       const now = document.documentElement.getAttribute('data-theme');
       const next = now === 'dark' ? 'light' : 'dark';

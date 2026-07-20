@@ -1,103 +1,188 @@
 /* =============================================
-   LAMIM LANDING PAGE — ANIMATIONS
-   ui-ux-pro-max: Expo.out easing, 150-300ms
+   LAMIM LANDING — MOTION CHOREOGRAPHY
+   Custom cubic-bezier × Blur Reveals × Spring Physics
    ============================================= */
 
-/* ── Scroll Reveal ── */
+/* ── Scroll Reveal: Blur-Fade-Up ── */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo),
+              filter 0.8s var(--ease-out-expo);
 }
 .reveal.revealed {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
-/* Stagger children */
+/* ── Stagger Children ── */
 .stagger-children .reveal:nth-child(1) { transition-delay: 0ms; }
-.stagger-children .reveal:nth-child(2) { transition-delay: 60ms; }
-.stagger-children .reveal:nth-child(3) { transition-delay: 120ms; }
-.stagger-children .reveal:nth-child(4) { transition-delay: 180ms; }
-.stagger-children .reveal:nth-child(5) { transition-delay: 240ms; }
-.stagger-children .reveal:nth-child(6) { transition-delay: 300ms; }
+.stagger-children .reveal:nth-child(2) { transition-delay: 80ms; }
+.stagger-children .reveal:nth-child(3) { transition-delay: 160ms; }
+.stagger-children .reveal:nth-child(4) { transition-delay: 240ms; }
+.stagger-children .reveal:nth-child(5) { transition-delay: 320ms; }
+.stagger-children .reveal:nth-child(6) { transition-delay: 400ms; }
+.stagger-children .reveal:nth-child(7) { transition-delay: 480ms; }
+.stagger-children .reveal:nth-child(8) { transition-delay: 560ms; }
 
-/* ── Hero entrance ── */
-.hero-badge { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s 0.1s var(--ease-out) forwards; }
-.hero-title { opacity: 0; transform: translateY(24px); animation: heroIn 0.7s 0.2s var(--ease-out) forwards; }
-.hero-sub { opacity: 0; transform: translateY(20px); animation: heroIn 0.7s 0.35s var(--ease-out) forwards; }
-.hero-actions { opacity: 0; transform: translateY(16px); animation: heroIn 0.6s 0.5s var(--ease-out) forwards; }
-.hero-mockup { opacity: 0; transform: translateY(32px) scale(0.97); animation: mockupIn 0.8s 0.6s var(--ease-out) forwards; }
+/* ── Hero Entrance Cascade ── */
+.hero-badge {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  animation: heroIn 0.7s 0.15s var(--ease-out-expo) forwards;
+}
+.hero-title {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: heroIn 0.8s 0.25s var(--ease-out-expo) forwards;
+}
+.hero-sub {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroIn 0.8s 0.4s var(--ease-out-expo) forwards;
+}
+.hero-actions {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: heroIn 0.7s 0.55s var(--ease-out-expo) forwards;
+}
+.hero-mockup {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  animation: mockupIn 1s 0.7s var(--ease-spring) forwards;
+}
 
 @keyframes heroIn {
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes mockupIn {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ── Gradient shift on hero title ── */
+/* ── Gradient Text Shift ── */
 .gradient-text {
-  animation: gradientShift 6s ease-in-out infinite alternate;
+  animation: gradientShift 8s var(--ease-snap) infinite alternate;
 }
 @keyframes gradientShift {
   0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+  100% { background-position: 300% center; }
 }
 
-/* ── Floating card tilt (mouse tracking via JS) ── */
+/* ── Floating Card Tilt (JS-driven) ── */
 .tilt-card {
-  transition: transform 0.2s var(--ease-out);
+  transition: transform 0.3s var(--ease-out-expo);
   transform-style: preserve-3d;
 }
 
-/* ── Emulator node fill animation ── */
+/* ── Emulator Node Fill ── */
 .emulator-dot.filling::after {
-  animation: fillUp 0.6s var(--ease-out) forwards;
+  animation: fillUp 0.5s var(--ease-spring) forwards;
 }
 @keyframes fillUp {
   from { height: 0%; }
   to { height: 100%; }
 }
 
-/* ── Rank badge glow ── */
+/* ── Rank Badge Glow ── */
 .rank-badge.active {
-  animation: rankGlow 2s ease-in-out infinite alternate;
+  animation: rankGlow 2.5s ease-in-out infinite alternate;
 }
 @keyframes rankGlow {
-  0% { box-shadow: 0 0 15px rgba(167,139,250,0.05); }
-  100% { box-shadow: 0 0 25px rgba(167,139,250,0.15); }
+  0% { box-shadow: 0 0 12px rgba(167,139,250,0.03); }
+  100% { box-shadow: 0 0 24px rgba(167,139,250,0.1); }
 }
 
-/* ── Magnetic button hover ── */
-.magnetic { transition: transform 0.3s var(--ease-out); }
+/* ── Magnetic Button ── */
+.magnetic {
+  transition: transform 0.35s var(--ease-spring);
+}
 
-/* ── Parallax layers (subtle) ── */
+/* ── Parallax ── */
 [data-parallax] {
   will-change: transform;
-  transition: transform 0.1s linear;
+  transition: transform 0.15s linear;
 }
 
-/* ── Number counter ── */
+/* ── Count Up Tabular ── */
 .count-up { font-variant-numeric: tabular-nums; }
 
-/* ── Smooth section separator ── */
+/* ── Section Divider ── */
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
-  max-width: 600px;
+  background: linear-gradient(90deg, transparent, var(--hairline), transparent);
+  max-width: 160px;
   margin: 0 auto;
 }
 
-/* ── Scroll progress bar ── */
+/* ── Scroll Progress ── */
 .scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
-  z-index: calc(var(--z-nav) + 1);
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue), var(--accent-gold));
+  z-index: calc(var(--z-sticky) + 1);
   transform-origin: left;
   transform: scaleX(0);
   transition: transform 0.1s linear;
+}
+
+/* ── Nav Link Hover Underline ── */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent-purple);
+  border-radius: 2px;
+  transition: width 0.3s var(--ease-out-expo), left 0.3s var(--ease-out-expo);
+}
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 60%;
+  left: 20%;
+}
+
+/* ── Card Hover Glow ── */
+.bento-card::after,
+.problem-card::after,
+.install-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(167,139,250,0.15), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: -1;
+}
+.bento-card:hover::after,
+.problem-card:hover::after,
+.install-card:hover::after {
+  opacity: 1;
+}
+
+/* ── Privacy Stats Counter Glow ── */
+.privacy-stat-num {
+  text-shadow: 0 0 40px rgba(167,139,250,0.15);
+}
+
+/* ── Mobile: Reduce Motion Intensity ── */
+@media (max-width: 768px) {
+  .reveal {
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  .hero-mockup {
+    animation-duration: 0.8s;
+  }
 }
