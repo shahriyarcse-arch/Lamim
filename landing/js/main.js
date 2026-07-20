@@ -8,6 +8,7 @@ const App = {
     this.reveal();
     this.mobileMenu();
     this.theme();
+    this.ranks();
   },
 
   nav() {
@@ -73,6 +74,35 @@ const App = {
       localStorage.setItem('lamim-theme', next);
       btn.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     });
+  },
+
+  ranks() {
+    const items = document.querySelectorAll('.rank-item');
+    const desc = document.querySelector('.rank-desc-text');
+    const fill = document.querySelector('.rank-bar-fill');
+    if (!items.length) return;
+
+    const descriptions = {
+      'Ghafil': 'The heedless — unaware of their spiritual state.',
+      'Musafir': 'The traveler — beginning the journey of awareness.',
+      'Murid': 'The seeker — actively pursuing spiritual growth.',
+      'Mujahid': 'The struggler — fighting against spiritual laziness.',
+      'Mukhlis': 'The sincere — actions rooted in pure intention.',
+      'Muttaqi': 'The God-conscious — cultivating constant awareness.',
+      'Muhsin': 'The excellent — worship with love and presence.',
+      'Wali': 'The intimate — near to God through devotion.'
+    };
+
+    items.forEach((item, i) => {
+      item.addEventListener('click', () => {
+        items.forEach(b => b.classList.remove('active'));
+        item.classList.add('active');
+        const r = item.dataset.r;
+        if (descriptions[r] && desc) desc.textContent = descriptions[r];
+        if (fill) fill.style.width = ((i + 1) / items.length * 100) + '%';
+      });
+    });
+    items[0]?.classList.add('active');
   }
 };
 
