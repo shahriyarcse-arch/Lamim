@@ -1,22 +1,19 @@
 /* =============================================
-   LAMIM LANDING — ANIMATION ENGINE
-   Blur Reveals × Parallax Depth × Magnetic Physics
+   LAMIM — ANIMATION ENGINE
+   Scroll Blur × Ambient Blobs × Magnetic Physics
    ============================================= */
 
 const Animations = {
   init() {
     this.initScrollReveal();
     this.initMouseGlow();
-    this.initParallax();
     this.initScrollProgress();
     this.initMagneticButtons();
   },
 
-  /* ── Scroll Reveal with Blur ── */
   initScrollReveal() {
     const elements = document.querySelectorAll('.reveal');
     if (!elements.length) return;
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -24,15 +21,10 @@ const Animations = {
           observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -60px 0px'
-    });
-
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
     elements.forEach(el => observer.observe(el));
   },
 
-  /* ── Mouse Glow on Cards ── */
   initMouseGlow() {
     const cards = document.querySelectorAll('.bento-card, .problem-card, .install-card');
     cards.forEach(card => {
@@ -49,32 +41,9 @@ const Animations = {
     });
   },
 
-  /* ── Parallax on Hero Orbs ── */
-  initParallax() {
-    const orbs = document.querySelectorAll('[data-parallax]');
-    if (!orbs.length) return;
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          orbs.forEach(orb => {
-            const speed = parseFloat(orb.dataset.parallax) || 0.15;
-            orb.style.transform = `translateY(${scrollY * speed}px)`;
-          });
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-  },
-
-  /* ── Scroll Progress Bar ── */
   initScrollProgress() {
     const bar = document.querySelector('.scroll-progress');
     if (!bar) return;
-
     window.addEventListener('scroll', () => {
       requestAnimationFrame(() => {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -84,7 +53,6 @@ const Animations = {
     }, { passive: true });
   },
 
-  /* ── Magnetic Button Effect ── */
   initMagneticButtons() {
     const buttons = document.querySelectorAll('.magnetic');
     buttons.forEach(btn => {
