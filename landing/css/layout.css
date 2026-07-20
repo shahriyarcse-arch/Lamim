@@ -23,8 +23,8 @@
   top: 16px;
   right: 16px;
   z-index: 1002;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(8px);
@@ -32,10 +32,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+.theme-toggle:active { transform: scale(0.92); }
 .theme-toggle svg { width: 22px; height: 22px; }
 .theme-toggle .icon-moon,
 [data-theme="light"] .theme-toggle .icon-sun { display: block; }
@@ -53,7 +54,8 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 12px 16px;
+  padding: 10px 16px;
+  padding-top: max(10px, env(safe-area-inset-top));
   background: rgba(2, 4, 8, 0.82);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -96,13 +98,16 @@
   overflow: hidden;
 }
 .nav-links a {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 10px;
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
   flex-shrink: 0;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
 }
 .nav-links a:hover,
 .nav-links a.active {
@@ -131,9 +136,9 @@
   display: none;
   flex-direction: column;
   gap: 5px;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
@@ -221,12 +226,12 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 100px 20px 60px;
+  padding: 72px 20px 60px;
   overflow: hidden;
   width: 100%;
 }
 @media (max-width: 480px) {
-  .hero { padding: 90px 16px 40px; }
+  .hero { padding: 64px 16px 40px; }
 }
 .hero-bg {
   position: absolute;
@@ -346,6 +351,7 @@
   transition: transform 0.2s cubic-bezier(.175,.885,.32,1.275), box-shadow 0.2s;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  min-height: 48px;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -372,6 +378,7 @@
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  min-height: 48px;
 }
 .btn-secondary:hover {
   background: rgba(255,255,255,0.08);
@@ -394,12 +401,12 @@
 
 /* Hero Mockup (inline static preview) */
 .hero-mockup {
-  margin-top: 48px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
 }
 @media (max-width: 480px) {
-  .hero-mockup { margin-top: 32px; }
+  .hero-mockup { margin-top: 24px; }
 }
 .mockup-frame {
   width: 100%;
@@ -427,7 +434,7 @@
    SECTIONS
    ════════════════════════════════════════════════ */
 .section {
-  padding: 60px 16px;
+  padding: 48px 16px;
   width: 100%;
   max-width: 100%;
   overflow: hidden;
@@ -1016,7 +1023,7 @@
 .cta-section {
   text-align: center;
   position: relative;
-  padding: 60px 16px;
+  padding: 48px 16px;
   overflow: hidden;
 }
 @media (min-width: 769px) {
@@ -1055,7 +1062,7 @@
 
 /* ── Footer ── */
 .footer {
-  padding: 40px 16px 28px;
+  padding: 32px 16px calc(20px + env(safe-area-inset-bottom));
   text-align: center;
   border-top: 1px solid rgba(255,255,255,0.04);
 }

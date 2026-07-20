@@ -149,25 +149,34 @@ const Main = {
     counters.forEach(c => observer.observe(c));
   },
 
-  /* ── Theme toggle (light/dark) ── */
+  /* ── Theme toggle (light/dark) with persistence ── */
   initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
-    if (!toggle) return;
+    const navToggle = document.querySelector('.nav-theme-toggle');
+    if (!toggle && !navToggle) return;
 
-    // Check for saved preference or system preference
-    const saved = localStorage.getItem('lamim-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = saved || (prefersDark ? 'dark' : 'dark'); // Default to dark
+    const targets = [toggle, navToggle].filter(Boolean);
 
-    document.documentElement.setAttribute('data-theme', theme);
+    // Read current theme (already set by inline script in <head>)
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
 
-    toggle.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
+    // Sync aria-labels to match current theme
+    targets.forEach(el => {
+      el.setAttribute('aria-label', current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
+
+    // Toggle handler
+    const doToggle = () => {
+      const now = document.documentElement.getAttribute('data-theme');
+      const next = now === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('lamim-theme', next);
-      toggle.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-    });
+      targets.forEach(el => {
+        el.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      });
+    };
+
+    targets.forEach(el => el.addEventListener('click', doToggle));
   }
 };
 
