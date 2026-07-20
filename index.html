@@ -3,9 +3,317 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Lamim</title>
+  <title>Lamim - Complete Islamic Lifestyle PWA</title>
+  <meta name="description" content="Lamim is a premium offline-first Islamic lifestyle dashboard with prayer tracking, spiritual health score, habit formation, and financial planning - all running locally on your device with complete privacy." />
+  <meta name="keywords" content="Islamic PWA, prayer tracker, dhikr counter, habit tracker, spiritual health, financial planning, privacy, offline first, Lamim" />
+  <link rel="icon" href="landing-page/assets/icon.svg">
+  <link rel="apple-touch-icon" href="landing-page/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="landing-page/assets/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="landing-page/assets/android-chrome-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="landing-page/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="landing-page/assets/favicon-16x16.png">
+  <link rel="manifest" href="landing-page/assets/site.webmanifest">
+  <meta name="theme-color" content="#020408">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Amiri:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing-page/css/theme.css">
+  <link rel="stylesheet" href="landing-page/css/layout.css">
+  <link rel="stylesheet" href="landing-page/css/animations.css">
+  <meta property="og:title" content="Lamim - Complete Islamic Lifestyle PWA">
+  <meta property="og:description" content="Premium offline-first Islamic lifestyle dashboard with prayer tracking, spiritual health score, and complete device privacy.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="landing-page/assets/icon.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lamim - Complete Islamic Lifestyle PWA">
+  <meta name="twitter:description" content="Premium offline-first Islamic lifestyle dashboard with prayer tracking, spiritual health score, and complete device privacy.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Lamim","description":"A premium offline-first Islamic lifestyle dashboard for prayer tracking, spiritual health monitoring, habit formation, and personal finance management.","applicationCategory":"LifestyleApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"screenshot":"landing-page/assets/icon.svg","featureList":["Prayer (Salah) Tracker with 3-week heatmap","Dhikr Counter with haptic feedback","Habit Forge (Mujahid) for bad habit tracking","Spiritual Health Score (SHS) gamification","Financial Ledger with 220+ categories","Goals & Sunnah tracking","Analysis & insights with PDF export","100% offline-first, no cloud sync","Zero data leakage, complete privacy"]}</script>
+  <style>
+    :root { --color-bg-primary: #020408; --color-bg-secondary: #060b13; --color-bg-tertiary: #0c1322; --color-bg-elevated: #172033; --color-bg-card: rgba(12,19,34,0.45); --color-accent-primary: #a78bfa; --color-accent-gold: #f0c456; --color-accent-teal: #14b8a6; --color-accent-blue: #38bdf8; --color-accent-orange: #f97316; --color-accent-green: #34d399; --color-accent-red: #f87171; --color-jamaat: #3fb950; --color-alone: #58a6ff; --color-qaza: #d29922; --color-missed: #f85149; --color-text-primary: #fff; --color-text-secondary: #cbd5e1; --color-text-muted: #94a3b8; --color-text-subtle: rgba(255,255,255,0.5); --color-border: rgba(255,255,255,0.06); --color-border-muted: rgba(255,255,255,0.03); --color-border-active: #a78bfa; --color-glass: rgba(255,255,255,0.02); --color-glass-hover: rgba(255,255,255,0.05); --glass-blur: blur(20px); --shadow-premium: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); --shadow-glow-purple: 0 0 30px rgba(167,139,250,0.2); --shadow-glow-gold: 0 0 24px rgba(240,196,86,0.2); --font-sans: 'Inter','Outfit',-apple-system,BlinkMacSystemFont,sans-serif; --font-arabic: 'Amiri','Traditional Arabic',serif; --text-xs: 0.625rem; --text-sm: 0.75rem; --text-base: 0.875rem; --text-md: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem; --text-4xl: 2.25rem; --text-5xl: 3rem; --text-6xl: 3.75rem; --fw-light: 300; --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-extrabold: 800; --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem; --space-24: 6rem; --space-32: 8rem; --radius-sm: 0.375rem; --radius-md: 0.75rem; --radius-lg: 1rem; --radius-xl: 1.5rem; --radius-2xl: 2rem; --radius-3xl: 3rem; --radius-full: 9999px; --transition-fast: 150ms cubic-bezier(0.4,0,0.2,1); --transition-base: 250ms cubic-bezier(0.4,0,0.2,1); --transition-slow: 400ms cubic-bezier(0.4,0,0.2,1); --transition-spring: 500ms cubic-bezier(0.34,1.56,0.64,1); }
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--font-sans);background:var(--color-bg-primary);color:var(--color-text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}a{color:inherit;text-decoration:none}img{max-width:100%;display:block}button{cursor:pointer;font-family:inherit}.container{width:100%;max-width:1200px;margin:0 auto;padding:0 1rem}@media(min-width:768px){.container{padding:0 1.5rem}}@media(min-width:1024px){.container{padding:0 2rem}}
+    .skip-link{position:fixed;top:-120px;left:6px;z-index:99999;background:var(--color-accent-primary);color:#fff;padding:8px 16px;border-radius:8px;font-weight:600;text-decoration:none;transition:top .2s}.skip-link:focus{top:6px;outline:none}
+    .section{padding:5rem 0;overflow:hidden;position:relative}@media(min-width:768px){.section{padding:6rem 0}}@media(min-width:1024px){.section{padding:8rem 0}}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 0;background:transparent;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:all .3s}.navbar.scrolled{background:rgba(2,4,8,0.9);border-bottom-color:var(--color-border)}.nav-wrapper{display:flex;align-items:center;justify-content:space-between}.logo{display:flex;align-items:center;gap:0.5rem;font-size:1.25rem;font-weight:700}.nav-links{display:flex;gap:2rem}.nav-link{font-size:0.875rem;font-weight:500;color:var(--color-text-secondary);transition:color .2s;position:relative}.nav-link:hover,.nav-link.active{color:var(--color-text-primary)}.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--color-accent-primary);transition:width .2s}.nav-link:hover::after,.nav-link.active::after{width:100%}.mobile-menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px}.mobile-menu-toggle span{display:block;width:24px;height:2px;background:var(--color-text-primary);border-radius:2px;transition:all .3s}@media(max-width:768px){.nav-links{display:none;position:fixed;top:72px;left:0;right:0;background:rgba(2,4,8,0.96);backdrop-filter:blur(20px);flex-direction:column;padding:1.5rem;gap:1rem;border-bottom:1px solid var(--color-border)}.nav-links.active{display:flex}.mobile-menu-toggle{display:flex}}
+    .hero-section{min-height:100vh;display:flex;align-items:center;position:relative;padding:5rem 0;background:radial-gradient(ellipse at top,rgba(139,92,246,0.08) 0%,#020408 70%);overflow:hidden}.hero-content{text-align:center;max-width:900px;margin:0 auto;position:relative;z-index:2}.badge-container{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-bottom:1.5rem}.badge{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-weight:600;padding:0.25rem 0.75rem;border-radius:9999px;border:1px solid;background:rgba(167,139,250,0.15);color:var(--color-accent-primary);border-color:rgba(167,139,250,0.3)}.badge-gold{background:rgba(240,196,86,0.15);color:var(--color-accent-gold);border-color:rgba(240,196,86,0.3)}.badge-teal{background:rgba(20,184,166,0.15);color:var(--color-accent-teal);border-color:rgba(20,184,166,0.3)}
+    .text-display{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em}.text-h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;line-height:1.1;letter-spacing:-0.015em}.text-h3{font-size:clamp(1.125rem,2vw,1.5rem);font-weight:600}.text-body-lg{font-size:1.125rem;line-height:1.8;color:var(--color-text-secondary)}.text-caption{font-size:0.625rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-text-muted)}.gradient-text{background:linear-gradient(135deg,#c084fc,#f0c456,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 8s ease-in-out infinite}.gradient-text-stat{background:linear-gradient(135deg,#c084fc,#38bdf8,#f0c456,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gradientShift 6s ease-in-out infinite}
+    @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:3rem}.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.875rem;font-weight:600;line-height:1;padding:0.75rem 1.5rem;border-radius:1rem;border:1px solid transparent;cursor:pointer;transition:all .25s;text-decoration:none;white-space:nowrap;font-family:inherit}.btn-primary{background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:#020617;border-color:var(--color-accent-primary);box-shadow:0 4px 16px rgba(139,92,246,0.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,92,246,0.4),0 0 30px rgba(167,139,250,0.2)}.btn-secondary{background:rgba(255,255,255,0.02);backdrop-filter:blur(20px);color:#fff;border-color:rgba(255,255,255,0.06)}.btn-secondary:hover{background:rgba(255,255,255,0.05);border-color:var(--color-accent-primary);transform:translateY(-1px)}.btn-lg{padding:1rem 2rem;font-size:1rem}.btn-sm{padding:0.5rem 1rem;font-size:0.75rem}.btn-ghost{background:transparent;color:var(--color-text-secondary);border-color:transparent}.btn-ghost:hover{background:rgba(255,255,255,0.02);color:#fff}.btn-gold{background:linear-gradient(135deg,#f0c456,#fbbf24);color:#020617;border-color:var(--color-accent-gold);box-shadow:0 4px 16px rgba(240,196,86,0.3)}.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(240,196,86,0.4),0 0 24px rgba(240,196,86,0.2)}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:4rem;padding:1.5rem;background:rgba(12,19,34,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:2rem}.stat-item{text-align:center}.stat-value{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;background:linear-gradient(135deg,#c084fc,#38bdf8,#f0c456,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.25rem}.stat-label{font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em}
+    .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;align-items:center}.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:4rem}.feature-card{position:relative;background:rgba(12,19,34,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:1.5rem;padding:2rem;transition:all .5s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden}.feature-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--color-accent-primary);box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 30px rgba(167,139,250,0.2)}.feature-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:1rem;background:rgba(255,255,255,0.02);margin-bottom:1.5rem;font-size:24px}
+    .card-showcase{position:relative;background:rgba(12,19,34,0.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:2rem;padding:1.5rem;max-width:500px;margin:4rem auto 0;box-shadow:0 12px 40px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.05)}.card-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem}.card-header-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:0.75rem;background:rgba(255,255,255,0.02)}.card-content{display:flex;flex-direction:column;gap:1rem}
+    .progress-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}.progress-ring svg{transform:rotate(-90deg)}.progress-ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8}.progress-ring-fill{fill:none;stroke:var(--color-accent-primary);stroke-width:8;stroke-linecap:round}.progress-text{position:absolute;font-size:1.25rem;font-weight:700}
+    .demo-card{background:var(--color-bg-elevated);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--color-border);border-radius:2rem;padding:2rem;box-shadow:var(--shadow-premium);height:100%}
+    .install-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:4rem}.install-card{background:var(--color-bg-elevated);padding:2rem;border-radius:2rem;border:1px solid var(--color-border);text-align:center}.install-icon{width:80px;height:80px;border-radius:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}.step-number{width:24px;height:24px;border-radius:50%;background:var(--color-accent-primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:#020617;font-size:12px;font-weight:700}
+    footer{background:var(--color-bg-tertiary);padding:3rem 0 1.5rem;border-top:1px solid var(--color-border)}.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-bottom:3rem}.footer-bottom{border-top:1px solid var(--color-border);padding-top:1.5rem;text-align:center}
+    .text-center{text-align:center}.text-secondary{color:var(--color-text-secondary)}.text-muted{color:var(--color-text-muted)}.text-primary{color:var(--color-text-primary)}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mb-12{margin-bottom:3rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.mt-12{margin-top:3rem}.mt-16{margin-top:4rem}.w-full{width:100%}.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.items-start{align-items:flex-start}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}
+    .shape-blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.3;pointer-events:none;z-index:0}.shape-blob-1{width:600px;height:600px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);top:-200px;right:-200px}.shape-blob-2{width:400px;height:400px;background:linear-gradient(135deg,#14b8a6,#2dd4bf);bottom:-100px;left:-100px}.shape-blob-3{width:300px;height:300px;background:linear-gradient(135deg,#f0c456,#fbbf24);top:50%;left:50%;transform:translate(-50%,-50%)}
+    .scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);cursor:pointer;z-index:2}.scroll-arrow{width:24px;height:40px;border:2px solid var(--color-text-muted);border-radius:12px;position:relative}.scroll-arrow::after{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:4px;height:8px;background:var(--color-text-muted);border-radius:2px;animation:scrollBounce 2s ease-in-out infinite}@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:1}50%{transform:translateX(-50%) translateY(6px);opacity:0.5}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}
+    @media(prefers-contrast:high){:root{--color-border:currentColor;--color-border-muted:currentColor;--color-text-muted:var(--color-text-secondary)}}
+    :focus:not(:focus-visible){outline:none}:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(167,139,250,0.4);border-radius:4px}
+  </style>
 </head>
 <body>
-  <p>Landing page will be built here.</p>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#" class="logo">
+          <svg width="28" height="28" viewBox="0 0 512 512"><path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" fill="url(#lg)" opacity="0.95"/></svg>
+          <span>Lamim</span>
+        </a>
+        <div class="nav-links">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#security" class="nav-link">Security</a>
+          <a href="#demo" class="nav-link">Demo</a>
+          <a href="#testimonials" class="nav-link">Testimonials</a>
+          <a href="#download" class="nav-link">Install</a>
+        </div>
+        <button class="mobile-menu-toggle" aria-label="Toggle mobile menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero-section">
+      <div class="shape-blob shape-blob-1"></div>
+      <div class="shape-blob shape-blob-2"></div>
+      <div class="shape-blob shape-blob-3"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="badge-container">
+            <span class="badge">Premium PWA</span>
+            <span class="badge badge-gold">Zero Cloud</span>
+            <span class="badge badge-teal">Privacy First</span>
+          </div>
+          <h1 class="text-display gradient-text">Your Complete Islamic<br><span class="gradient-text-stat">Lifestyle Dashboard</span></h1>
+          <p class="text-body-lg" style="max-width:650px;margin:2rem auto;color:var(--color-text-secondary)">Lamim transforms your device into a premium Islamic productivity hub. Track prayers, cultivate spiritual habits, manage finances, and achieve your goals while maintaining 100% privacy — all running locally with zero data leakage.</p>
+          <div class="hero-actions">
+            <a href="#download" class="btn btn-primary btn-lg">Install Now</a>
+            <a href="#demo" class="btn btn-secondary btn-lg">View Demo</a>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-item"><div class="stat-value">220+</div><div class="stat-label">Categories</div></div>
+            <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">Core Modules</div></div>
+            <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">Privacy Protected</div></div>
+            <div class="stat-item"><div class="stat-value">0ms</div><div class="stat-label">Read Times</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator"><div class="scroll-arrow"></div></div>
+    </section>
+
+    <section class="section" id="security">
+      <div class="container">
+        <div class="grid-2">
+          <div>
+            <div class="card-showcase">
+              <div class="card-header">
+                <div class="card-header-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-primary)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div><h3 style="color:#fff;margin-bottom:4px">Security Status</h3><p style="color:var(--color-text-muted);font-size:14px">100% Encrypted & Private</p></div>
+              </div>
+              <div class="card-content">
+                <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+                  <div class="progress-ring" style="width:60px;height:60px">
+                    <svg width="60" height="60"><circle class="progress-ring-bg" cx="30" cy="30" r="28" stroke-width="4"/><circle class="progress-ring-fill" cx="30" cy="30" r="28" stroke-width="4" stroke-dasharray="176" stroke-dashoffset="0"/></svg>
+                    <div class="progress-text">100%</div>
+                  </div>
+                  <div><div style="color:#fff;font-weight:600;margin-bottom:4px">Privacy Guard</div><div style="color:var(--color-jamaat);font-size:14px">✓ Zero Cloud Sync</div><div style="color:var(--color-jamaat);font-size:14px">✓ Local Storage Only</div><div style="color:var(--color-jamaat);font-size:14px">✓ No Account Required</div></div>
+                </div>
+                <div class="badge-container" style="justify-content:flex-start"><span class="badge">IndexedDB</span><span class="badge badge-gold">No Servers</span><span class="badge badge-teal">Offline First</span><span class="badge" style="background:rgba(249,115,22,0.15);color:var(--color-accent-orange);border-color:rgba(249,115,22,0.3)">Zero Tracking</span></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h2 class="text-h2">Complete Digital Privacy<br>Redefined</h2>
+            <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
+              <div style="display:flex;gap:1rem;align-items:flex-start">
+                <div style="width:32px;height:32px;border-radius:12px;background:rgba(52,211,153,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-jamaat)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div><h3 style="color:#fff;margin-bottom:0.5rem;font-size:18px">Local-First Architecture</h3><p style="color:var(--color-text-secondary);line-height:1.6">All your data stays on your device. Zero cloud synchronization, no central database, no third-party access. Complete control over your spiritual journey.</p></div>
+              </div>
+              <div style="display:flex;gap:1rem;align-items:flex-start">
+                <div style="width:32px;height:32px;border-radius:12px;background:rgba(167,139,250,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-primary)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div><h3 style="color:#fff;margin-bottom:0.5rem;font-size:18px">Zero Data Leakage</h3><p style="color:var(--color-text-secondary);line-height:1.6">Every interaction is processed locally. Your prayer times, dhikr counts, financial data, and spiritual progress remain completely private and under your sole control.</p></div>
+              </div>
+              <div style="display:flex;gap:1rem;align-items:flex-start">
+                <div style="width:32px;height:32px;border-radius:12px;background:rgba(240,196,86,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg></div>
+                <div><h3 style="color:#fff;margin-bottom:0.5rem;font-size:18px">IndexedDB Engine</h3><p style="color:var(--color-text-secondary);line-height:1.6">Bypasses the 5MB localStorage limit with a synchronous RAM cache for 0ms read times and non-blocking background writes, giving you unlimited secure offline storage.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div style="text-align:center;max-width:700px;margin:0 auto 4rem">
+          <h2 class="text-h2">All-in-One Islamic Lifestyle Solution</h2>
+          <p class="text-body-lg" style="color:var(--color-text-secondary);margin-top:1rem">From morning prayers to evening reflections, Lamim provides the perfect blend of spiritual practice, productivity, and personal growth.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-blue)" stroke-width="2"><path d="M12 2a10 10 0 0 0-7.07 17.07l7.07-7.07 7.07 7.07A10 10 0 0 0 12 2z"/><path d="M12 7v5l3 3"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Salah Tracker</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Live prayer times using local sun-angle calculations. 3-week interactive heatmap with tiered visual feedback distinguishing Jama'at, Alone, Qaza, and Missed.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(56,189,248,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:92%;background:var(--color-accent-blue);border-radius:4px"></div></div><span style="color:var(--color-accent-blue);font-size:12px;font-weight:600">92%</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge">Heatmap</span><span class="badge badge-gold">Streaks</span></div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-teal)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 7h10"/><path d="M7 11h8"/><path d="M7 15h6"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Dhikr Counter</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Premium glowing tap button with ripple animations, tap sound, haptic vibration (navigator.vibrate), and streak tracking. Replicate the feel of physical Tasbeeh beads.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(20,184,166,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:88%;background:var(--color-accent-teal);border-radius:4px"></div></div><span style="color:var(--color-accent-teal);font-size:12px;font-weight:600">88%</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge badge-teal">Haptic</span><span class="badge">Ripple</span></div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-orange)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7H18a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Mujahid (Habit Forge)</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Advanced habit tracking with relapse logging, progression badges, and guided 4-7-8 breathing exercises. Break free from bad habits through spiritual discipline.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(249,115,22,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:78%;background:var(--color-accent-orange);border-radius:4px"></div></div><span style="color:var(--color-accent-orange);font-size:12px;font-weight:600">78%</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge" style="background:rgba(249,115,22,0.15);color:var(--color-accent-orange);border-color:rgba(249,115,22,0.3)">Streaks</span><span class="badge badge-gold">Badges</span></div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-green)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7H18a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Smart Finance</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Track income and expenses across 220+ master categories. Monthly summaries, visual transaction timelines, savings vaults with gradient progress bars, and PDF exports.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(52,211,153,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:85%;background:var(--color-accent-green);border-radius:4px"></div></div><span style="color:var(--color-accent-green);font-size:12px;font-weight:600">85%</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge badge-teal">220+ Cats</span><span class="badge badge-gold">Savings</span></div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Spiritual Health Score</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Proprietary weighted algorithm ranking: Ghafil → Musafir → Murid → Mujahid → Mukhlis → Muttaqi → Muhsin → Wali. Interactive gamified spiritual growth.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(240,196,86,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:95%;background:var(--color-accent-gold);border-radius:4px"></div></div><span style="color:var(--color-accent-gold);font-size:12px;font-weight:600">8 Ranks</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge badge-gold">SHS</span><span class="badge">Gamified</span></div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-primary)" stroke-width="2"><path d="M9 9V5a5 5 0 0 1 10 0v4"/><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 14v4"/></svg></div>
+            <h3 style="margin-bottom:0.75rem;font-size:1.25rem">Complete Privacy</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.7">Zero external cloud sync. No email/password/phone registration. No central database. XSS-fortified with global HTML escaper before DOM injection.</p>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem"><div style="flex:1;height:4px;background:rgba(167,139,250,0.2);border-radius:4px;overflow:hidden"><div style="height:100%;width:100%;background:var(--color-accent-primary);border-radius:4px"></div></div><span style="color:var(--color-accent-primary);font-size:12px;font-weight:600">100%</span></div>
+            <div style="display:flex;gap:0.5rem"><span class="badge">Offline First</span><span class="badge badge-teal">XSS Safe</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo" style="background:radial-gradient(ellipse at 50% 50%,rgba(139,92,246,0.03) 0%,transparent 70%)">
+      <div class="container">
+        <div style="text-align:center;max-width:700px;margin:0 auto 4rem">
+          <h2 class="text-h2">Experience Lamim in Action</h2>
+          <p class="text-body-lg" style="color:var(--color-text-secondary);margin-top:1rem">Interact with Lamim's core functionality directly on this page. Tap, track, and watch your spiritual health score evolve in real-time.</p>
+        </div>
+        <div class="demo-card" style="max-width:600px;margin:0 auto">
+          <div style="border-bottom:1px solid var(--color-border);padding-bottom:1.5rem;margin-bottom:1.5rem">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3 style="font-size:1.125rem">Today's Activities</h3>
+              <div style="display:flex;align-items:center;gap:0.5rem"><div style="width:8px;height:8px;border-radius:50%;background:var(--color-jamaat);box-shadow:0 0 10px var(--color-jamaat)"></div><span style="font-size:12px;color:var(--color-text-muted)">Live</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1.25rem">
+            <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:40px;height:40px;border-radius:12px;background:rgba(56,189,248,0.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-blue)" stroke-width="2"><path d="M12 2a10 10 0 0 0-7.07 17.07l7.07-7.07 7.07 7.07A10 10 0 0 0 12 2z"/><path d="M12 7v5l3 3"/></svg></div><div style="flex:1"><div style="color:#fff;font-weight:500;margin-bottom:2px">Fajr Prayer</div><div style="color:var(--color-jamaat);font-size:13px">✅ Completed (Jama'at)</div></div><div style="width:44px;height:24px;background:rgba(52,211,153,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-jamaat)" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg></div></div>
+            <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:40px;height:40px;border-radius:12px;background:rgba(20,184,166,0.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-teal)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 7h10"/><path d="M7 11h8"/><path d="M7 15h6"/></svg></div><div style="flex:1"><div style="color:#fff;font-weight:500;margin-bottom:2px">Morning Dhikr</div><div style="color:var(--color-accent-teal);font-size:13px">✅ 108 Repetitions</div></div><div style="width:44px;height:24px;background:rgba(20,184,166,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-teal)" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg></div></div>
+            <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:40px;height:40px;border-radius:12px;background:rgba(240,196,86,0.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="2"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg></div><div style="flex:1"><div style="color:#fff;font-weight:500;margin-bottom:2px">Spirit Score</div><div style="color:var(--color-accent-gold);font-size:13px">✅ Rank: Murid (76%)</div></div><div style="width:44px;height:24px;background:rgba(240,196,86,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-gold)" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg></div></div>
+            <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:40px;height:40px;border-radius:12px;background:rgba(52,211,153,0.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-green)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7H18a3.5 3.5 0 0 1 0 7H6"/></svg></div><div style="flex:1"><div style="color:#fff;font-weight:500;margin-bottom:2px">Savings Goal</div><div style="color:var(--color-accent-green);font-size:13px">✅ ₹8,500 / ₹10,000</div></div><div style="width:44px;height:24px;background:rgba(52,211,153,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-green)" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg></div></div>
+          </div>
+          <div style="border-top:1px solid var(--color-border);padding-top:1.25rem;margin-top:1.25rem;display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;align-items:center;gap:0.75rem"><div style="width:8px;height:8px;border-radius:50%;background:var(--color-jamaat);animation:pulseGlow 2s ease-in-out infinite"></div><span style="font-size:13px;color:var(--color-text-muted)">Real-time Updates</span></div>
+            <a href="../app/" class="btn btn-primary btn-sm">Launch Full App</a>
+          </div>
+        </div>
+        <style>@keyframes pulseGlow{0%,100%{opacity:1;box-shadow:0 0 8px var(--color-jamaat)}50%{opacity:0.6;box-shadow:0 0 20px var(--color-jamaat)}}</style>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div style="text-align:center;max-width:700px;margin:0 auto 4rem">
+          <h2 class="text-h2">Trusted by the Global Ummah</h2>
+          <p class="text-body-lg" style="color:var(--color-text-secondary);margin-top:1rem">Lamim helps Muslims worldwide maintain their spiritual practices while managing daily life — all with complete privacy.</p>
+        </div>
+        <div class="grid-3">
+          <div class="feature-card" style="text-align:center;padding:2.5rem 1.5rem">
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;font-weight:700;color:#fff">AY</div>
+            <p style="color:var(--color-text-secondary);font-style:italic;line-height:1.7;margin-bottom:1.5rem">"Lamim has completely transformed my daily spiritual routine. The Salah heatmap keeps me accountable, and having everything in one place is incredible."</p>
+            <div style="font-weight:600;color:#fff">Ahmed Y.</div>
+            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px">Software Engineer, UAE</div>
+          </div>
+          <div class="feature-card" style="text-align:center;padding:2.5rem 1.5rem">
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#2dd4bf);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;font-weight:700;color:#fff">FN</div>
+            <p style="color:var(--color-text-secondary);font-style:italic;line-height:1.7;margin-bottom:1.5rem">"I've been searching for a privacy-focused Islamic app for years. Lamim's offline-first approach and beautiful design made me switch immediately."</p>
+            <div style="font-weight:600;color:#fff">Fatima N.</div>
+            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px">Researcher, Malaysia</div>
+          </div>
+          <div class="feature-card" style="text-align:center;padding:2.5rem 1.5rem">
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f0c456,#fbbf24);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:1.5rem;font-weight:700;color:#020617">OK</div>
+            <p style="color:var(--color-text-secondary);font-style:italic;line-height:1.7;margin-bottom:1.5rem">"The Spiritual Health Score is genius — it gamifies my Iman in a way that's motivating without being gimmicky. The 3AM rollover logic for Tahajjud is brilliant."</p>
+            <div style="font-weight:600;color:#fff">Omar K.</div>
+            <div style="font-size:13px;color:var(--color-text-muted);margin-top:4px">Product Manager, UK</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="download" style="background:radial-gradient(ellipse at 50% 50%,rgba(240,196,86,0.03) 0%,transparent 70%)">
+      <div class="container">
+        <div style="text-align:center;max-width:700px;margin:0 auto">
+          <h2 class="text-h2">Install Lamim on Your Device</h2>
+          <p class="text-body-lg" style="color:var(--color-text-secondary);margin-top:1rem;margin-bottom:3rem">Add Lamim to your home screen for a native app experience. Works seamlessly on iOS, Android, and desktop — no app store required.</p>
+          <div class="install-grid">
+            <div class="install-card">
+              <div class="install-icon" style="background:rgba(59,130,246,0.1)"><svg width="36" height="36" viewBox="0 0 24 24" fill="#3b82f6"><path d="M18.71 19.5c-.83 1.12-2.22 2.37-3.77 2.37H5.04c-1.55 0-2.94-1.25-3.77-2.37L9 15.21l4.71 4.29c.57.52 1.39.82 2.26.81h1.82c.87 0 1.68-.33 2.26-.8l2.94-2.67c-.31.02-.63.05-.95.05-3.88 0-7.29-2.62-8.18-6.5l3.95-2.95c.45.5 1.05.8 1.71.8h.8c.66 0 1.26-.25 1.71-.8l2.89-2.67c-.36-.35-.89-.55-1.43-.55-1.04 0-1.89.84-2.03 1.91L13.2 9.1c-1.5-1.3-3.9-1.3-5.4 0L5.24 10.9c-.53 1.05-.23 2.33.7 3.11L9 15.21l4.71 4.29z"/></svg></div>
+              <h3 style="margin-bottom:1rem">iOS Safari</h3>
+              <div style="text-align:left;display:flex;flex-direction:column;gap:0.75rem">
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">1</div><span style="color:var(--color-text-secondary);font-size:14px">Open Lamim in Safari</span></div>
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">2</div><span style="color:var(--color-text-secondary);font-size:14px">Tap Share → Add to Home Screen</span></div>
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">3</div><span style="color:var(--color-text-secondary);font-size:14px">Confirm and enjoy!</span></div>
+              </div>
+              <a href="../app/" class="btn btn-primary" style="margin-top:1.5rem;width:100%">Launch Lamim</a>
+            </div>
+            <div class="install-card">
+              <div class="install-icon" style="background:rgba(34,197,94,0.1)"><svg width="36" height="36" viewBox="0 0 24 24" fill="#22c55e"><path d="M17.523 15.227L15.106 13.8l-2.107 2.107a1.5 1.5 0 0 1-2.121 0L8.894 13.8l-2.417 1.427A1.5 1.5 0 0 0 5 16.5V19.5a1.5 1.5 0 0 0 1.5 1.5h12A1.5 1.5 0 0 0 20 19.5v-3a1.5 1.5 0 0 0-1.477-1.473zM12 7a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg></div>
+              <h3 style="margin-bottom:1rem">Android Chrome</h3>
+              <div style="text-align:left;display:flex;flex-direction:column;gap:0.75rem">
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">1</div><span style="color:var(--color-text-secondary);font-size:14px">Open Lamim in Chrome</span></div>
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">2</div><span style="color:var(--color-text-secondary);font-size:14px">Tap Menu → Add to Home Screen</span></div>
+                <div style="display:flex;align-items:center;gap:0.75rem"><div class="step-number">3</div><span style="color:var(--color-text-secondary);font-size:14px">Confirm and start using!</span></div>
+              </div>
+              <a href="../app/" class="btn btn-secondary" style="margin-top:1.5rem;width:100%">Launch Lamim</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
+            <svg width="28" height="28" viewBox="0 0 512 512"><path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" fill="url(#lg)" opacity="0.95"/></svg>
+            <span style="font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,#c084fc,#f0c456,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Lamim</span>
+          </div>
+          <p style="color:var(--color-text-secondary);line-height:1.7;font-size:14px">Premium Islamic lifestyle dashboard designed for privacy-conscious Muslims who seek spiritual growth while managing daily productivity and financial goals.</p>
+        </div>
+        <div><h4 style="color:#fff;font-size:15px;font-weight:600;margin-bottom:1rem">Features</h4><div style="display:flex;flex-direction:column;gap:0.5rem"><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Salah Tracker</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Dhikr Counter</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Habit Forge</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Financial Ledger</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Goals & Sunnah</a></div></div>
+        <div><h4 style="color:#fff;font-size:15px;font-weight:600;margin-bottom:1rem">Technology</h4><div style="display:flex;flex-direction:column;gap:0.5rem"><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Progressive Web App</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">IndexedDB Storage</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Service Workers</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Offline First</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">100% JavaScript</a></div></div>
+        <div><h4 style="color:#fff;font-size:15px;font-weight:600;margin-bottom:1rem">Company</h4><div style="display:flex;flex-direction:column;gap:0.5rem"><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Privacy Policy</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Terms of Service</a><a href="#" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">Documentation</a><a href="https://github.com/shahriyarcse-arch/Lamim" style="color:var(--color-text-secondary);font-size:14px;text-decoration:none">GitHub</a></div></div>
+      </div>
+      <div class="footer-bottom"><p style="font-size:13px;color:var(--color-text-muted)">© 2026 Lamim. Crafted for the Ummah. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <svg style="position:absolute;width:0;height:0"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#a855f7"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
+
+  <script>document.querySelector('.navbar').classList.add('scrolled')</script>
+  <script>
+    document.querySelector('.mobile-menu-toggle').addEventListener('click',function(){document.querySelector('.nav-links').classList.toggle('active')});
+    document.querySelectorAll('.nav-link').forEach(function(a){a.addEventListener('click',function(){document.querySelector('.nav-links').classList.remove('active')})});
+    document.addEventListener('scroll',function(){var n=document.querySelector('.navbar');window.scrollY>50?n.classList.add('scrolled'):n.classList.remove('scrolled')});
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t){var o=document.querySelector('.navbar').offsetHeight;window.scrollTo({top:t.offsetTop-o+20,behavior:'smooth'})}})});
+  </script>
 </body>
 </html>
