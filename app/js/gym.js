@@ -803,12 +803,7 @@ const Gym = {
     }).join('');
 
     const genDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-    const win = window.open('', '_blank');
-    if (!win) {
-      if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Please allow popups to export PDF', 'error');
-      return;
-    }
-    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gym & Diet Report — ${monthName}</title>
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gym & Diet Report — ${monthName}</title>
     <style>
       @page { size: A4; margin: 16mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -866,8 +861,8 @@ const Gym = {
       <span class="brand">LAMIM · ${genDate}</span>
     </div>
     <script>setTimeout(() => { window.print(); }, 800);</script>
-    </body></html>`);
-    win.document.close();
+    </body></html>`;
+    Utils.printInPWA(html);
   }
 ,
   addMeal(desc, protein, calories, type, carbs, fats) {

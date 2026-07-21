@@ -713,6 +713,34 @@ const UI = {
   hideSettingsModal() {
     const modal = document.getElementById('section-settings-modal');
     if (modal) modal.classList.add('hidden');
+  },
+
+  // Print HTML inside the PWA (no window.open, stays in standalone mode)
+  printInPWA(html) {
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
+    document.body.appendChild(iframe);
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
+    const win = iframe.contentWindow;
+    const printFn = () => {
+      win.focus();
+      win.print();
+    };
+    iframe.onload = printFn;
+    setTimeout(printFn, 1000);
+    const checkPrint = setInterval(() => {
+      if (win.matchMedia) {
+        const mq = win.matchMedia('print');
+        if (mq.matches) return;
+      }
+    }, 500);
+    setTimeout(() => {
+      clearInterval(checkPrint);
+      document.body.removeChild(iframe);
+    }, 60000);
   }
 };
 

@@ -1821,13 +1821,7 @@ const Finance = {
       ...incs.map(i => ({ ...i, type: 'income' }))
     ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    const win = window.open('', '_blank');
-    if (!win) {
-      overlay.remove();
-      Utils.toast('Please allow popups to export statement', 'error');
-      return;
-    }
-    win.document.write(`
+    const winHtml = `
       <html>
         <head>
           <title>LAMIM - Digital Statement</title>
@@ -1994,9 +1988,9 @@ const Finance = {
           <script>window.onload = () => { setTimeout(() => { window.print(); window.close(); }, 800); }</script>
         </body>
       </html>
-    `);
-    win.document.close();
+    `;
     overlay.remove();
+    Utils.printInPWA(winHtml);
   },
 
   initChart(stats) {

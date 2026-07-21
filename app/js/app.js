@@ -488,8 +488,11 @@ updateSectionTitle() {
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
       deferredPrompt = e;
-      const banner = document.getElementById('install-banner');
-      if (banner) banner.classList.remove('hidden');
+      if (localStorage.getItem('lamim_install_dismissed')) return;
+      setTimeout(() => {
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.classList.remove('hidden');
+      }, 30000);
     });
     document.getElementById('install-btn')?.addEventListener('click', () => {
       deferredPrompt?.prompt();
@@ -498,6 +501,7 @@ updateSectionTitle() {
       }).catch(() => {});
     });
     document.getElementById('install-dismiss')?.addEventListener('click', () => {
+      localStorage.setItem('lamim_install_dismissed', '1');
       document.getElementById('install-banner')?.classList.add('hidden');
     });
   },
