@@ -715,32 +715,21 @@ const UI = {
     if (modal) modal.classList.add('hidden');
   },
 
-  // Print HTML inside the PWA (no window.open, stays in standalone mode)
+  // Print HTML — stays inside PWA (uses blob URL + window.open)
   printInPWA(html) {
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
-    document.body.appendChild(iframe);
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open();
-    doc.write(html);
-    doc.close();
-    const win = iframe.contentWindow;
-    const printFn = () => {
-      win.focus();
-      win.print();
-    };
-    iframe.onload = printFn;
-    setTimeout(printFn, 1000);
-    const checkPrint = setInterval(() => {
-      if (win.matchMedia) {
-        const mq = win.matchMedia('print');
-        if (mq.matches) return;
+    const cleaned = html.replace(/<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi, '');
+    const withPrint = cleaned.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
+    try {
+      const blob = new Blob([withPrint], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const win = window.open(url, 'lamim-print');
+      setTimeout(() => URL.revokeObjectURL(url), 120000);
+      if (!win) {
+        Utils.toast('Please allow popups for print', 'error');
       }
-    }, 500);
-    setTimeout(() => {
-      clearInterval(checkPrint);
-      document.body.removeChild(iframe);
-    }, 60000);
+    } catch (e) {
+      Utils.toast('Print failed: ' + e.message, 'error');
+    }
   }
 };
 
