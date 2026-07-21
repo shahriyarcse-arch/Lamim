@@ -429,6 +429,16 @@ updateSectionTitle() {
       }
     }
 
+    // Show install banner ONLY on Home section when not dismissed
+    const installBanner = document.getElementById('install-banner');
+    if (installBanner) {
+      if (sectionId === 'home' && !localStorage.getItem('lamim_install_dismissed') && this.deferredPrompt) {
+        installBanner.classList.remove('hidden');
+      } else {
+        installBanner.classList.add('hidden');
+      }
+    }
+
     // Close sidebar on mobile
     if (window.innerWidth <= 1024) this.closeSidebar();
 
@@ -450,16 +460,53 @@ updateSectionTitle() {
       document.getElementById(id)?.addEventListener('click', () => {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
-        sidebar?.classList.toggle('open');
-        overlay?.classList.toggle('show');
+        if (sidebar && overlay) {
+          sidebar.classList.add('open');
+          overlay.classList.remove('hidden');
+        }
       });
     });
     document.getElementById('sidebar-overlay')?.addEventListener('click', () => this.closeSidebar());
   },
 
   closeSidebar() {
-    document.getElementById('sidebar')?.classList.remove('open');
-    document.getElementById('sidebar-overlay')?.classList.remove('show');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar && overlay) {
+      sidebar.classList.remove('open');
+      overlay.classList.add('hidden');
+    }
+  },
+
+  notifyDataChanged() {
+    const mod = this.currentSection && SECTION_MODULES[this.currentSection];
+    if (mod && typeof mod.onDataUpdated === 'function') {
+      Utils.safeRun(() => mod.onDataUpdated(), `${this.currentSection} onDataUpdated`);
+    }
+  },
+
+  bindInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      if (localStorage.getItem('lamim_install_dismissed')) return;
+      setTimeout(() => {
+        if (this.currentSection === 'home' || !this.currentSection) {
+          const banner = document.getElementById('install-banner');
+          if (banner) banner.classList.remove('hidden');
+        }
+      }, 30000);
+    });
+    document.getElementById('install-btn')?.addEventListener('click', () => {
+      this.deferredPrompt?.prompt();
+      this.deferredPrompt?.userChoice.then(() => {
+        document.getElementById('install-banner')?.classList.add('hidden');
+      }).catch(() => {});
+    });
+    document.getElementById('install-dismiss')?.addEventListener('click', () => {
+      localStorage.setItem('lamim_install_dismissed', '1');
+      document.getElementById('install-banner')?.classList.add('hidden');
+    });
   },
 
   // Deep-link support for PWA shortcuts / shared URLs (?section=salah)
@@ -471,39 +518,6 @@ updateSectionTitle() {
         setTimeout(() => this.navigateTo(section), 0);
       }
     } catch (e) { /* ignore deep-link errors */ }
-  },
-
-  // Route a data-update event to the active section's onDataUpdated() handler.
-  // Inactive sections ignore it (their init() re-reads fresh data on entry),
-  // so we avoid the old pattern of every module holding a permanent window listener.
-  routeDataUpdate() {
-    const mod = this.currentSection && SECTION_MODULES[this.currentSection];
-    if (mod && typeof mod.onDataUpdated === 'function') {
-      Utils.safeRun(() => mod.onDataUpdated(), `${this.currentSection} onDataUpdated`);
-    }
-  },
-
-  bindInstallPrompt() {
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', e => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if (localStorage.getItem('lamim_install_dismissed')) return;
-      setTimeout(() => {
-        const banner = document.getElementById('install-banner');
-        if (banner) banner.classList.remove('hidden');
-      }, 30000);
-    });
-    document.getElementById('install-btn')?.addEventListener('click', () => {
-      deferredPrompt?.prompt();
-      deferredPrompt?.userChoice.then(() => {
-        document.getElementById('install-banner')?.classList.add('hidden');
-      }).catch(() => {});
-    });
-    document.getElementById('install-dismiss')?.addEventListener('click', () => {
-      localStorage.setItem('lamim_install_dismissed', '1');
-      document.getElementById('install-banner')?.classList.add('hidden');
-    });
   },
 
   checkBackupReminder() {
