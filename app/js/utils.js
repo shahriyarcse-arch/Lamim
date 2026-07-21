@@ -713,24 +713,6 @@ const UI = {
   hideSettingsModal() {
     const modal = document.getElementById('section-settings-modal');
     if (modal) modal.classList.add('hidden');
-  },
-
-  // Print HTML — opens print dialog via popup (most reliable across mobile/desktop)
-  printInPWA(html) {
-    try {
-      const hasPrintScript = /window\.print/.test(html);
-      const finalHtml = hasPrintScript ? html : html.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
-      const win = window.open('', '_blank');
-      if (!win) {
-        Utils.toast('Please allow popups to print/export PDF', 'error');
-        return;
-      }
-      win.document.write(finalHtml);
-      win.document.close();
-    } catch (e) {
-      console.error('Print failed:', e);
-      Utils.toast('Export failed: ' + e.message, 'error');
-    }
   }
 };
 

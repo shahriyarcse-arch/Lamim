@@ -769,12 +769,19 @@ const Analysis = {
       </div>
     `;
 
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Lamim Spiritual Report — ${monthName} ${currentYear}</title>
+    const genDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    const win = window.open('', '_blank');
+    if (!win) {
+      if (typeof Utils !== 'undefined' && Utils.toast) Utils.toast('Please allow popups to export PDF', 'error');
+      return;
+    }
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Lamim Spiritual Report — ${monthName} ${currentYear}</title>
       <style>
         @page { size: A4; margin: 16mm; }
         * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      </style>${innerHTML}</body></html>`;
-    Utils.printInPWA(html);
+      </style>${innerHTML}</body></html>`);
+    win.document.close();
+    setTimeout(() => { win.print(); }, 800);
   },
   destroy() {
     if (this._debouncedRender) this._debouncedRender.cancel();

@@ -828,7 +828,21 @@ this.renderPrayerCards(date, true); // true = skipAnim
 
     const fullHTML = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LAMIM - Salah Report ' + monthName + ' ' + year + '</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>' + css + '</style></head><body>' + bodyHTML + '</body></html>';
 
-    Utils.printInPWA(fullHTML);
+    // Open in new window
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      Utils.toast('Popup blocked. Please allow popups and try again.', 'error');
+      return;
+    }
+
+    printWindow.document.open();
+    printWindow.document.write(fullHTML);
+    printWindow.document.close();
+
+    setTimeout(function() {
+      printWindow.focus();
+      printWindow.print();
+    }, 1000);
   },
 
   /* ---- TOOLTIP LOGIC ---- */
