@@ -32,6 +32,9 @@
       --wrap-pad: clamp(16px, 4vw, 40px);
     }
 
+    body { animation: landing-fade .5s cubic-bezier(.22,1,.36,1); }
+    @keyframes landing-fade { 0% { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -734,6 +737,10 @@
     /* -------------------------------------------------------------------------- */
     .dark {
       background: var(--dark);
+      color: var(--paper);
+    }
+
+    .dark h2, .dark h3, .demo h2, .demo h3 {
       color: var(--paper);
     }
 

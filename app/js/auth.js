@@ -369,7 +369,7 @@ const Auth = {
         document.body.classList.remove('home-active');
         Utils.toast(isBn ? 'লগ আউট করা হয়েছে' : 'Logged out', 'info');
         this.resetSetup();
-        setTimeout(() => App.showPage('setup'), 500);
+        setTimeout(() => { window.location.href = '../index.html'; }, 500);
       }
     });
   }

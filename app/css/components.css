@@ -383,6 +383,13 @@ select.input option:disabled { color: var(--color-text-muted); }
   color: #ef4444;
   background: rgba(239, 68, 68, 0.08);
 }
+.sidebar-footer a.nav-item {
+  text-decoration: none; color: var(--color-text-muted); cursor: pointer;
+}
+.sidebar-footer a.nav-item:hover {
+  color: var(--color-accent-primary);
+  background: rgba(168, 85, 247, 0.08);
+}
 
 /* Removed redundant light mode overrides as they are now handled by variables */
 
