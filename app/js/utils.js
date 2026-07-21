@@ -667,18 +667,36 @@ const Utils = {
     }
   },
 
-  // PDF Export — open print dialog in popup (most reliable approach across mobile/desktop)
+  // PDF Export — Desktop: window.open popup; Mobile/PWA: hidden iframe (stays in app)
   exportPDF(html) {
     try {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+        || ('standalone' in navigator && navigator.standalone);
+
       const hasPrintScript = /window\.print/.test(html);
       const finalHtml = hasPrintScript ? html : html.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
-      const win = window.open('about:blank', '_blank');
-      if (!win) {
-        Utils.toast('Please allow popups to print/export PDF', 'error');
-        return;
+
+      if (isMobile) {
+        let iframe = document.getElementById('lamim-pdf-frame');
+        if (iframe) iframe.remove();
+        iframe = document.createElement('iframe');
+        iframe.id = 'lamim-pdf-frame';
+        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
+        document.body.appendChild(iframe);
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(finalHtml);
+        doc.close();
+      } else {
+        const win = window.open('about:blank', '_blank');
+        if (!win) {
+          Utils.toast('Please allow popups to print/export PDF', 'error');
+          return;
+        }
+        win.document.write(finalHtml);
+        win.document.close();
       }
-      win.document.write(finalHtml);
-      win.document.close();
     } catch (e) {
       console.error('Print failed:', e);
       Utils.toast('Export failed: ' + e.message, 'error');
