@@ -161,67 +161,6 @@ input[type="range"]:focus-visible {
   cursor: progress;
 }
 
-/* ---------- PWA INSTALL BANNER ---------- */
-.install-banner {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  top: calc(72px + env(safe-area-inset-top, 0px));
-  z-index: var(--z-toast, 30000);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: min(460px, calc(100% - 24px));
-  padding: 10px 14px;
-  border-radius: var(--radius-lg, 16px);
-  background: rgba(18, 20, 32, 0.68);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  animation: installBannerIn 0.3s ease;
-}
-[data-theme="light"] .install-banner {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-.install-banner.hidden { display: none; }
-.install-banner-icon img { display: block; border-radius: 10px; }
-.install-banner-text { flex: 1; min-width: 0; }
-.install-banner-title { font-weight: var(--fw-bold, 700); font-size: 14px; color: var(--color-text-primary); }
-.install-banner-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
-.install-banner-btn {
-  flex: none;
-  border: none;
-  border-radius: 10px;
-  padding: 8px 16px;
-  font-weight: var(--fw-semibold, 600);
-  font-size: 13px;
-  color: #fff;
-  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-  cursor: pointer;
-}
-.install-banner-btn:hover { filter: brightness(1.08); }
-.install-banner-btn:focus-visible { outline: 2px solid var(--color-accent-primary); outline-offset: 2px; }
-.install-banner-dismiss {
-  flex: none;
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-text-secondary);
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-}
-.install-banner-dismiss:hover { background: rgba(255, 255, 255, 0.16); }
-.install-banner-dismiss:focus-visible { outline: 2px solid var(--color-accent-primary); outline-offset: 2px; }
-@keyframes installBannerIn {
-  from { opacity: 0; transform: translate(-50%, -20px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
-}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -229,6 +168,5 @@ input[type="range"]:focus-visible {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .install-banner { animation: none; }
 }
 

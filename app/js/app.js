@@ -239,7 +239,6 @@ updateSectionTitle() {
     // Nav bindings
     this.bindNav();
     this.bindSidebarToggle();
-    this.bindInstallPrompt();
 
     // Accessibility (dialogs, focus traps, keyboard proxy buttons, labels)
     if (typeof Utils !== 'undefined' && Utils.initA11y) Utils.initA11y();
@@ -429,16 +428,6 @@ updateSectionTitle() {
       }
     }
 
-    // Show install banner ONLY on Home section when not dismissed
-    const installBanner = document.getElementById('install-banner');
-    if (installBanner) {
-      if (sectionId === 'home' && !localStorage.getItem('lamim_install_dismissed') && this.deferredPrompt) {
-        installBanner.classList.remove('hidden');
-      } else {
-        installBanner.classList.add('hidden');
-      }
-    }
-
     // Close sidebar on mobile
     if (window.innerWidth <= 1024) this.closeSidebar();
 
@@ -483,30 +472,6 @@ updateSectionTitle() {
     if (mod && typeof mod.onDataUpdated === 'function') {
       Utils.safeRun(() => mod.onDataUpdated(), `${this.currentSection} onDataUpdated`);
     }
-  },
-
-  bindInstallPrompt() {
-    window.addEventListener('beforeinstallprompt', e => {
-      e.preventDefault();
-      this.deferredPrompt = e;
-      if (localStorage.getItem('lamim_install_dismissed')) return;
-      setTimeout(() => {
-        if (this.currentSection === 'home' || !this.currentSection) {
-          const banner = document.getElementById('install-banner');
-          if (banner) banner.classList.remove('hidden');
-        }
-      }, 30000);
-    });
-    document.getElementById('install-btn')?.addEventListener('click', () => {
-      this.deferredPrompt?.prompt();
-      this.deferredPrompt?.userChoice.then(() => {
-        document.getElementById('install-banner')?.classList.add('hidden');
-      }).catch(() => {});
-    });
-    document.getElementById('install-dismiss')?.addEventListener('click', () => {
-      localStorage.setItem('lamim_install_dismissed', '1');
-      document.getElementById('install-banner')?.classList.add('hidden');
-    });
   },
 
   // Deep-link support for PWA shortcuts / shared URLs (?section=salah)
