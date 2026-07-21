@@ -1983,8 +1983,8 @@ const Finance = {
             <div class="footer">
               <div class="footer-text">LAMIM ECOSYSTEM — SECURE FINANCE</div>
               <div style="font-size:10px; color:#cbd5e1; margin-top:12px; font-weight:600;">© 2026 LAMIM. All Financial Data Encrypted Locally.</div>
-            </div>
           </div>
+          <script>window.onload = function(){setTimeout(function(){window.print();window.close()},800)}</script>
         </body>
       </html>
     `;
