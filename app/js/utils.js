@@ -715,42 +715,26 @@ const UI = {
     if (modal) modal.classList.add('hidden');
   },
 
-  // PDF Export — Desktop uses window.open+document.write, Mobile uses blob+iframe
+  // PDF Export — Universal: window.open + document.write (works on all devices)
   exportPDF(html) {
     if (!html) return;
     try {
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        || ('ontouchstart' in window && window.innerWidth <= 1024);
-
       const cleaned = html.replace(/<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi, '');
       const printScript = '<script>window.addEventListener("load",function(){setTimeout(function(){try{window.focus();window.print()}catch(e){}},400)})<\/script>';
       const fullDoc = cleaned.includes('</body>')
         ? cleaned.replace('</body>', printScript + '</body>')
         : cleaned + printScript;
 
-      if (isMobile) {
-        const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
-        const blobUrl = URL.createObjectURL(blob);
-        let iframe = document.getElementById('lamim-pdf-frame');
-        if (iframe) iframe.remove();
-        iframe = document.createElement('iframe');
-        iframe.id = 'lamim-pdf-frame';
-        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
-        iframe.src = blobUrl;
-        document.body.appendChild(iframe);
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
-      } else {
-        const win = window.open('', '_blank');
-        if (!win) {
-          Utils.toast('Please allow popups to export PDF', 'error');
-          return;
-        }
-        win.document.write(fullDoc);
-        win.document.close();
+      const win = window.open('', '_blank');
+      if (!win) {
+        Utils.toast('Please allow popups to export PDF. If popups are already allowed, try exporting again or use Ctrl+P.', 'error');
+        return;
       }
+      win.document.write(fullDoc);
+      win.document.close();
     } catch (err) {
       console.error('PDF export failed:', err);
-      Utils.toast('Export failed: ' + err.message, 'error');
+      Utils.toast('Export failed: ' + err.message + '. Try Ctrl+P instead.', 'error');
     }
   }
 };
