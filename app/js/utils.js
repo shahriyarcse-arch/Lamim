@@ -713,7 +713,80 @@ const UI = {
   hideSettingsModal() {
     const modal = document.getElementById('section-settings-modal');
     if (modal) modal.classList.add('hidden');
+  },
+
+  // Universal PDF Export/Print — Mobile Safe & Desktop Compatible
+  exportPDF(html) {
+    if (!html) return;
+
+    // Detect mobile device, mobile viewport, or PWA standalone mode
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)
+      || ('ontouchstart' in window && window.innerWidth <= 1024);
+
+    // Clean inline window.print() scripts from html to avoid duplicate print triggers
+    const cleanedHtml = html.replace(/<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi, '');
+    const finalHtml = cleanedHtml.includes('</body>')
+      ? cleanedHtml.replace('</body>', '<script>setTimeout(function(){try{window.print();}catch(e){}},500);</script></body>')
+      : cleanedHtml + '<script>setTimeout(function(){try{window.print();}catch(e){}},500);</script>';
+
+    if (isMobile) {
+      // MOBILE / PHONE / PWA MODE: Use hidden in-app iframe to trigger native print dialog safely
+      let iframe = document.getElementById('lamim-mobile-print-frame');
+      if (iframe && iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+
+      iframe = document.createElement('iframe');
+      iframe.id = 'lamim-mobile-print-frame';
+      iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;visibility:hidden;z-index:-9999;';
+      document.body.appendChild(iframe);
+
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(finalHtml);
+      doc.close();
+
+      const win = iframe.contentWindow;
+      const triggerPrint = () => {
+        try {
+          win.focus();
+          win.print();
+        } catch (e) {
+          console.error('Mobile PDF Print Error:', e);
+        }
+      };
+
+      setTimeout(triggerPrint, 600);
+
+      // Clean up frame after 45s
+      setTimeout(() => {
+        try {
+          if (iframe && iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        } catch (e) {}
+      }, 45000);
+
+    } else {
+      // PC / DESKTOP MODE: Open in a new tab (original behavior)
+      const win = window.open('', '_blank');
+      if (!win) {
+        if (typeof Utils !== 'undefined' && Utils.toast) {
+          Utils.toast('Please allow popups to export PDF', 'error');
+        }
+        return;
+      }
+      win.document.open();
+      win.document.write(finalHtml);
+      win.document.close();
+      setTimeout(() => {
+        try {
+          win.focus();
+          win.print();
+        } catch (e) {}
+      }, 500);
+    }
   }
 };
+
 
 
