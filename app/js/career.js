@@ -908,7 +908,6 @@ const Career = {
       <span class="quote">"The secret of getting ahead is getting started." — Mark Twain</span>
       <span class="brand">LAMIM · ${genDate}</span>
     </div>
-    <script>setTimeout(() => { window.print(); }, 800);</script>
     </body></html>`;
     Utils.printInPWA(html);
   },

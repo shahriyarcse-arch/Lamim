@@ -860,11 +860,10 @@ const Gym = {
       <span class="quote">"Take care of your body. It's the only place you have to live." — Jim Rohn</span>
       <span class="brand">LAMIM · ${genDate}</span>
     </div>
-    <script>setTimeout(() => { window.print(); }, 800);</script>
     </body></html>`;
     Utils.printInPWA(html);
-  }
-,
+  },
+
   addMeal(desc, protein, calories, type, carbs, fats) {
     const data = DB.getGym(this.selectedDate);
     if (!data.diet) data.diet = { meals: [], proteinGoal: 150, carbsGoal: 200, fatsGoal: 65 };

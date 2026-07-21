@@ -715,20 +715,21 @@ const UI = {
     if (modal) modal.classList.add('hidden');
   },
 
-  // Print HTML — stays inside PWA (uses blob URL + window.open)
+  // Print HTML — opens print dialog via popup (most reliable across mobile/desktop)
   printInPWA(html) {
-    const cleaned = html.replace(/<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi, '');
-    const withPrint = cleaned.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
     try {
-      const blob = new Blob([withPrint], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const win = window.open(url, 'lamim-print');
-      setTimeout(() => URL.revokeObjectURL(url), 120000);
+      const hasPrintScript = /window\.print/.test(html);
+      const finalHtml = hasPrintScript ? html : html.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
+      const win = window.open('', '_blank');
       if (!win) {
-        Utils.toast('Please allow popups for print', 'error');
+        Utils.toast('Please allow popups to print/export PDF', 'error');
+        return;
       }
+      win.document.write(finalHtml);
+      win.document.close();
     } catch (e) {
-      Utils.toast('Print failed: ' + e.message, 'error');
+      console.error('Print failed:', e);
+      Utils.toast('Export failed: ' + e.message, 'error');
     }
   }
 };
