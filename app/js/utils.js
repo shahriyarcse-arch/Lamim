@@ -715,23 +715,21 @@ const UI = {
     if (modal) modal.classList.add('hidden');
   },
 
-  // PDF Export — Universal: window.open + document.write (works on all devices)
+  // PDF Export — Universal: window.open + document.write + parent-call win.print()
   exportPDF(html) {
     if (!html) return;
     try {
-      const cleaned = html.replace(/<script>[\s\S]*?window\.print\(\)[\s\S]*?<\/script>/gi, '');
-      const printScript = '<script>window.addEventListener("load",function(){setTimeout(function(){try{window.focus();window.print()}catch(e){}},400)})<\/script>';
-      const fullDoc = cleaned.includes('</body>')
-        ? cleaned.replace('</body>', printScript + '</body>')
-        : cleaned + printScript;
-
       const win = window.open('', '_blank');
       if (!win) {
-        Utils.toast('Please allow popups to export PDF. If popups are already allowed, try exporting again or use Ctrl+P.', 'error');
+        Utils.toast('Popup blocked. Please allow popups and try again.', 'error');
         return;
       }
-      win.document.write(fullDoc);
+      win.document.open();
+      win.document.write(html);
       win.document.close();
+      setTimeout(() => {
+        try { win.focus(); win.print(); } catch (e) { console.warn('Print trigger failed', e); }
+      }, 1000);
     } catch (err) {
       console.error('PDF export failed:', err);
       Utils.toast('Export failed: ' + err.message + '. Try Ctrl+P instead.', 'error');

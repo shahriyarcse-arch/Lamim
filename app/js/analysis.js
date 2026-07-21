@@ -773,7 +773,7 @@ const Analysis = {
       <style>
         @page { size: A4; margin: 16mm; }
         * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      </style>${innerHTML}</body></html>`;
+      </style></head><body>${innerHTML}</body></html>`;
     Utils.exportPDF(html);
   },
   destroy() {
