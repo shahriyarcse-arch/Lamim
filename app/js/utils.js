@@ -667,6 +667,24 @@ const Utils = {
     }
   },
 
+  // PDF Export — open print dialog in popup (most reliable approach across mobile/desktop)
+  exportPDF(html) {
+    try {
+      const hasPrintScript = /window\.print/.test(html);
+      const finalHtml = hasPrintScript ? html : html.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
+      const win = window.open('about:blank', '_blank');
+      if (!win) {
+        Utils.toast('Please allow popups to print/export PDF', 'error');
+        return;
+      }
+      win.document.write(finalHtml);
+      win.document.close();
+    } catch (e) {
+      console.error('Print failed:', e);
+      Utils.toast('Export failed: ' + e.message, 'error');
+    }
+  },
+
 };
 
 const UI = {
@@ -714,29 +732,6 @@ const UI = {
     const modal = document.getElementById('section-settings-modal');
     if (modal) modal.classList.add('hidden');
   },
-
-  // PDF Export — open print dialog in popup (most reliable approach across mobile/desktop)
-  exportPDF(html) {
-    try {
-      console.log('[exportPDF] called, html length:', html?.length);
-      const hasPrintScript = /window\.print/.test(html);
-      const finalHtml = hasPrintScript ? html : html.replace('</body>', '<script>setTimeout(function(){window.print();window.close()},1000)</script></body>');
-      console.log('[exportPDF] opening window...');
-      const win = window.open('about:blank', '_blank');
-      if (!win) {
-        console.log('[exportPDF] window.open returned null');
-        Utils.toast('Please allow popups to print/export PDF', 'error');
-        return;
-      }
-      console.log('[exportPDF] window opened, writing document...');
-      win.document.write(finalHtml);
-      win.document.close();
-      console.log('[exportPDF] done');
-    } catch (e) {
-      console.error('[exportPDF] FAILED:', e);
-      Utils.toast('Export failed: ' + e.message, 'error');
-    }
-  }
 };
 
 
