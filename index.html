@@ -339,7 +339,7 @@
     .hero-grid {
       display: flex;
       flex-direction: column;
-      gap: clamp(36px, 6vw, 70px);
+      gap: clamp(28px, 5vw, 60px);
     }
 
     .hero p {
@@ -352,14 +352,29 @@
     .actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
+      margin-top: clamp(4px, 1vw, 8px);
     }
 
-    @media (min-width: 480px) {
+    .actions .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    @media (min-width: 540px) {
       .actions {
         flex-direction: row;
         width: auto;
+      }
+      .actions .btn {
+        width: auto;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .actions {
+        margin-top: 0;
       }
     }
 
@@ -1403,16 +1418,28 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
+      align-items: center;
+      text-align: center;
     }
 
     .final h2 {
-      max-width: 12ch;
+      max-width: 14ch;
+      margin: 0 auto;
     }
 
     .final p {
       color: #50654f;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       font-size: clamp(1rem, 1.8vw, 1.15rem);
+      max-width: 52ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final .btn {
+      min-height: 52px;
+      padding: 0 36px;
+      font-size: 1rem;
     }
 
     @media (min-width: 768px) {
@@ -1421,6 +1448,18 @@
         justify-content: space-between;
         align-items: flex-end;
         gap: 40px;
+        text-align: left;
+      }
+      .final h2 {
+        margin: 0;
+      }
+      .final p {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .final .btn {
+        min-height: 48px;
+        padding: 0 32px;
       }
     }
 
