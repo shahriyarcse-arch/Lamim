@@ -1,2 +1,1999 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lamim | One day, held with intention</title><meta name="description" content="Lamim is a private offline-first Islamic life companion for prayer, habits, health, money and reflection."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet"><style>:root{--paper:#f1f0e9;--ink:#13211b;--muted:#6b776f;--dark:#12261e;--mint:#cfee82;--teal:#5e9f7b;--lilac:#ddd1ed;--sky:#bddcf0;--coral:#edb391;--gold:#e4ca71;--line:#cbd6ce;--ease:cubic-bezier(.16,1,.3,1)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 'DM Sans',system-ui,sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 10% 4%,#e2f4c1,transparent 24%),radial-gradient(circle at 90% 8%,#e7ddf4,transparent 28%),radial-gradient(circle at 48% 84%,#d5edf1,transparent 24%)}a{color:inherit;text-decoration:none}button{font:inherit}h1,h2,h3,p,blockquote{margin:0}h1,h2,h3{font-family:Manrope,sans-serif;letter-spacing:-.06em}h1{font-size:clamp(4rem,9.5vw,10rem);line-height:.82;max-width:7.5ch}h1 em,h2 em{font:500 1em/.9 'Playfair Display',serif;color:var(--teal);font-style:normal}h2{font-size:clamp(2.8rem,5vw,5.8rem);line-height:.9}h3{font-size:1.3rem;line-height:1.05}p{color:var(--muted);max-width:68ch}.wrap{width:min(1240px,calc(100% - 40px));margin:auto}.eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--teal)}.nav{position:fixed;z-index:20;top:16px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;padding:9px 12px 9px 16px;background:#f1f0e9db;backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:999px}.brand{display:flex;align-items:center;gap:9px;font-family:Manrope;font-weight:800}.mark{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:var(--dark);color:var(--mint);font:18px Georgia}.links{display:flex;gap:23px;color:var(--muted);font-size:.82rem}.links a:hover{color:var(--ink)}.navcta,.btn{min-height:46px;padding:0 18px;border:0;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}.navcta{background:var(--dark);color:var(--paper);font-size:.8rem}.btn{background:var(--dark);color:var(--paper)}.btn.alt{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn:hover,.navcta:hover{transform:translateY(-3px);box-shadow:0 14px 30px #13211b22}.menu{display:none;background:none;border:0;width:44px;height:44px;font-size:20px}.hero{min-height:100svh;padding:150px 0 82px;display:grid;align-items:center}.hero-grid{display:grid;grid-template-columns:.78fr 1.22fr;gap:7vw;align-items:center}.hero p{font-size:1.16rem;line-height:1.45;margin:31px 0;max-width:43ch}.actions{display:flex;gap:10px;flex-wrap:wrap}.hero-art{height:645px;position:relative}.halo{position:absolute;inset:7% 0 3% 7%;border-radius:50%;background:radial-gradient(circle at 68% 28%,#d8ccec,transparent 66%)}.orbit{position:absolute;inset:0;border:1px solid #5e9f7b55;border-radius:50%;transform:rotate(18deg) scale(.89);animation:spin 25s linear infinite}.orbit:after{content:"";position:absolute;right:13%;top:12%;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 9px #5e9f7b22}@keyframes spin{to{transform:rotate(378deg) scale(.89)}}.app{position:absolute;left:8%;right:0;top:8%;bottom:2%;padding:15px;border:1px solid #13211b2c;border-radius:30px;background:#fafbf6ee;box-shadow:0 30px 85px #13211b2b;transform:rotate(3deg);transition:transform .45s var(--ease)}.hero-art:hover .app{transform:rotate(0) translateY(-9px)}.app-head{display:flex;justify-content:space-between;padding:4px 7px 14px;border-bottom:1px solid var(--line);font-weight:800}.app-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:13px}.tile{padding:16px;border-radius:18px;min-height:132px;background:#edf2eb}.tile.mint{background:var(--mint)}.tile.sky{background:var(--sky)}.tile.dark{background:var(--dark);color:var(--paper)}.wide{grid-column:1/-1;min-height:160px}.kicker{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;opacity:.65}.big{font:500 2.4rem/1 'Playfair Display',serif;margin:16px 0 8px}.row{display:flex;justify-content:space-between;margin-top:13px;font-size:.77rem}.meter{height:7px;background:#13211b22;border-radius:9px;overflow:hidden;margin-top:15px}.meter span{display:block;width:76%;height:100%;background:var(--teal);border-radius:inherit;animation:fill 1.4s var(--ease) both}@keyframes fill{from{width:0}}.float{position:absolute;right:-3%;bottom:10%;padding:14px 17px;border-radius:18px;background:var(--dark);color:var(--paper);box-shadow:0 16px 35px #13211b33;animation:float 4s ease-in-out infinite}.float b{display:block;color:var(--mint);font-size:1.2rem}@keyframes float{50%{transform:translateY(-10px)}}.ribbon{padding:18px 0;border-block:1px solid var(--line);overflow:hidden}.track{display:flex;gap:44px;white-space:nowrap;animation:move 25s linear infinite;color:var(--muted);font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;font-weight:800}.track span:after{content:'·';color:var(--teal);margin-left:44px}@keyframes move{to{transform:translateX(-50%)}}section{padding:150px 0}.section-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:9vw;margin-bottom:74px}.section-head h2{max-width:9ch;margin-top:18px}.section-head p{font-size:1.18rem;line-height:1.45;padding-top:10px;max-width:40ch}.manifest{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.manifest article{padding:28px 20px 28px 0;border-right:1px solid var(--line)}.manifest article:not(:first-child){padding-left:20px}.manifest article:last-child{border:0}.manifest b{display:block;color:var(--teal);font:500 2rem 'Playfair Display',serif}.manifest p{font-size:.88rem;margin-top:8px}.dark{background:var(--dark);color:var(--paper)}.dark p{color:#b9c7bd}.dark-grid,.feature-grid,.analysis-grid,.demo-grid,.faq-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:10vw;align-items:center}.dark h2,.feature-copy h2,.analysis-copy h2{max-width:9ch}.dark-grid>div>p,.demo-copy p{font-size:1.15rem;line-height:1.45;margin-top:27px}.system{border-top:1px solid #f1f0e922}.system-row{display:grid;grid-template-columns:58px 1fr 1.3fr 20px;gap:18px;padding:25px 0;border-bottom:1px solid #f1f0e922}.system-row h3{font:500 2rem 'Playfair Display',serif}.num,.arrow{color:var(--mint)}.num{font:500 1.7rem 'Playfair Display',serif}.system-row p{font-size:.92rem}.feature-copy p,.analysis-copy p{font-size:1.15rem;line-height:1.45;margin:26px 0}.visual,.analysis-board,.profile-card{min-height:420px;padding:29px;border:1px solid var(--line);border-radius:30px;position:relative;overflow:hidden}.visual h3{font-size:2rem;max-width:10ch;margin-top:17px}.visual p{margin-top:14px}.salah{background:#173329;color:var(--paper)}.salah p{color:#b9c7bd}.heatmap{position:absolute;right:30px;bottom:32px;display:grid;grid-template-columns:repeat(7,24px);gap:7px;transform:rotate(-8deg)}.heatmap i{width:24px;height:24px;border-radius:6px;background:#2b5140}.heatmap i:nth-child(3n){background:var(--teal)}.heatmap i:nth-child(5n){background:var(--mint)}.nafl{background:var(--gold)}.nafl-ring{position:absolute;right:7%;bottom:-75px;width:320px;height:320px;border:1px solid #13211b55;border-radius:50%;animation:spin 18s linear infinite}.nafl-ring:before,.nafl-ring:after{content:'Witr';position:absolute;top:33px;left:45px;background:var(--dark);color:var(--paper);padding:10px 13px;border-radius:99px;font-size:.72rem}.nafl-ring:after{content:'Tahajjud';top:auto;left:auto;right:13px;bottom:37px;background:var(--teal)}.nafl-center{position:absolute;right:114px;bottom:78px;text-align:center}.nafl-center b{display:block;font:500 3.5rem 'Playfair Display',serif}.dhikr{background:var(--mint)}.dhikr-ring{position:absolute;right:36px;bottom:31px;width:230px;height:230px;border-radius:50%;border:1px solid #13211b55;display:grid;place-items:center}.count{text-align:center}.count b{display:block;font:500 4.5rem 'Playfair Display',serif}.mujahid{background:var(--lilac)}.breath{position:absolute;right:40px;bottom:33px;width:220px;height:220px;border-radius:50%;background:#fafbf666;display:grid;place-items:center;animation:breathe 6s ease-in-out infinite}.breath:before{content:'4 · 7 · 8';position:absolute;inset:25px;border-radius:50%;border:1px solid #13211b44;display:grid;place-items:center;font-weight:800}@keyframes breathe{0%,100%{transform:scale(.86)}50%{transform:scale(1)}}.gym{background:var(--sky)}.gym-ring{position:absolute;right:30px;bottom:-85px;width:335px;height:335px;border:1px solid #13211b55;border-radius:50%}.gym-ring:after{content:'8,240';position:absolute;right:34px;bottom:52px;font:500 3.2rem 'Playfair Display',serif}.career{background:var(--coral)}.career-bars{position:absolute;left:30px;right:30px;bottom:32px;height:145px;display:flex;align-items:end;gap:9px}.career-bars i{flex:1;background:var(--dark);border-radius:9px 9px 2px 2px}.career-bars i:nth-child(1){height:30px}.career-bars i:nth-child(2){height:68px}.career-bars i:nth-child(3){height:50px}.career-bars i:nth-child(4){height:105px;background:var(--teal)}.career-bars i:nth-child(5){height:135px}.ledger{background:#fafbf6;color:var(--dark);box-shadow:0 28px 80px #13211b2b;transform:rotate(-2deg)}.ledger-top,.analysis-top{display:flex;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--line);font-size:.78rem;font-weight:800}.ledger-total,.score{font:500 3.3rem 'Playfair Display',serif;margin:26px 0}.ledger-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:.88rem}.green{color:var(--teal)}.analysis-board{background:#fafbf6;color:var(--dark);transform:rotate(2deg)}.score{font-size:5rem}.chart{height:145px;display:flex;align-items:end;gap:11px;border-bottom:1px solid var(--line);padding:0 12px}.chart i{flex:1;background:var(--teal);border-radius:8px 8px 0 0}.chart i:nth-child(1){height:40%}.chart i:nth-child(2){height:61%}.chart i:nth-child(3){height:48%}.chart i:nth-child(4){height:75%}.chart i:nth-child(5){height:68%}.chart i:nth-child(6){height:90%;background:var(--mint)}.profile{background:var(--lilac)}.profile-card{background:#fafbf6;color:var(--dark);transform:rotate(-2deg)}.profile-top{display:flex;gap:15px;align-items:center;padding-bottom:22px;border-bottom:1px solid var(--line)}.avatar{width:59px;height:59px;border-radius:50%;display:grid;place-items:center;background:var(--mint);font:500 1.45rem 'Playfair Display',serif}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:24px 0}.stat{padding:14px;border-radius:15px;background:var(--bg)}.stat b{display:block;font-size:1.5rem}.stat span{font-size:.7rem}.profile-row{display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line);font-size:.85rem}.demo{background:var(--dark);color:var(--paper)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:25px}.tab{min-height:42px;padding:0 14px;border:1px solid #f1f0e944;border-radius:999px;background:transparent;color:var(--paper);cursor:pointer}.tab[aria-selected=true]{background:var(--mint);color:var(--dark);border-color:var(--mint)}.phone{max-width:430px;margin:auto;padding:12px;border-radius:31px;background:#08100d;box-shadow:0 28px 80px #0006;transform:rotate(2deg)}.screen{min-height:480px;padding:28px;border-radius:23px;background:#234238}.screen small{color:#b9c7bd;letter-spacing:.1em;text-transform:uppercase}.screen h3{font:500 2.7rem 'Playfair Display',serif;margin:36px 0 26px}.screen .meter{height:9px;background:#f1f0e933}.screen .meter span{background:var(--mint)}.screen-row{display:flex;justify-content:space-between;padding:19px 0;border-bottom:1px solid #f1f0e826;font-size:.88rem}.screen-row strong{color:var(--mint)}.faq-grid{align-items:start}.faq-list{border-top:1px solid var(--line)}details{padding:19px 0;border-bottom:1px solid var(--line)}summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;font-weight:800}summary::-webkit-details-marker{display:none}summary:after{content:'+';font-size:1.3rem;color:var(--teal)}details[open] summary:after{content:'−'}details p{padding:14px 30px 0 0;font-size:.92rem}.final{background:var(--mint)}.final .wrap{display:flex;justify-content:space-between;align-items:end;gap:30px}.final h2{max-width:9ch}.final p{color:#50654f;margin-bottom:22px}.footer{padding:35px 0;background:#0b1713;color:var(--paper)}.footer-grid{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:35px;padding-bottom:35px;border-bottom:1px solid #f1f0e826}.footer p,.footer-links{color:#9aafa2;font-size:.84rem;margin-top:13px}.footer-links{display:grid;gap:8px}.footer h3{color:var(--mint);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase}.bottom{display:flex;justify-content:space-between;padding-top:20px;color:#9aafa2;font-size:.78rem}.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:none}:focus-visible{outline:3px solid var(--teal);outline-offset:4px}@media(max-width:840px){.wrap{width:min(100% - 28px,620px)}.links{display:none}.menu{display:block}.nav.mobile .links{display:flex;position:absolute;top:58px;left:0;right:0;flex-direction:column;padding:18px;background:var(--paper);border:1px solid var(--line);border-radius:22px}.hero{padding-top:130px}.hero-grid,.section-head,.dark-grid,.feature-grid,.analysis-grid,.demo-grid,.faq-grid{grid-template-columns:1fr;gap:45px}.hero-art{height:470px}.app{left:1%;right:0}.float{right:0}section{padding:95px 0}.section-head{margin-bottom:50px}.manifest{grid-template-columns:1fr 1fr}.manifest article:nth-child(2){border-right:0}.manifest article:nth-child(3),.manifest article:nth-child(4){border-bottom:0}.system-row{grid-template-columns:52px 1fr 20px}.system-row p{grid-column:2/-1}.system-row h3{font-size:1.8rem}.visual{min-height:360px}.final .wrap{display:block}.final p{margin-top:24px}.footer-grid{grid-template-columns:1fr 1fr}.bottom{align-items:flex-start;flex-direction:column;gap:10px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orbit,.float,.track,.breath{animation:none}.reveal{opacity:1;transform:none;transition:none}}</style></head><body><nav class="nav" aria-label="Primary"><a class="brand" href="#top"><span class="mark">ل</span>lamim</a><div class="links"><a href="#difference">Difference</a><a href="#system">System</a><a href="#insights">Insights</a><a href="#faq">FAQ</a></div><a class="navcta" href="app/index.html">Open app ↗</a><button class="menu" aria-label="Open navigation" aria-expanded="false">☰</button></nav><main id="top"><section class="hero"><div class="wrap hero-grid"><div class="reveal"><div class="eyebrow">A living system for an intentional life</div><h1 style="margin-top:24px">One day. Every intention. <em>Held.</em></h1><p>Lamim combines Salah, Nafl, Dhikr, Mujahid, Gym, Career, Finance, Goals, Analysis, and Profile in one private offline-first companion.</p><div class="actions"><a class="btn" href="app/index.html">Start privately ↗</a><a class="btn alt" href="#system">Tour the system</a></div></div><div class="hero-art reveal"><div class="halo"></div><div class="orbit"></div><div class="app"><div class="app-head"><span>Tuesday, 21 July <span style="color:var(--teal)">●</span></span><span>•••</span></div><div class="app-grid"><div class="tile mint"><div class="kicker">Next prayer</div><div class="big">Maghrib</div><div class="row"><span>in 01:42:18</span><b>18:47</b></div></div><div class="tile sky"><div class="kicker">Spiritual health</div><div class="big">Murid</div><div class="meter"><span></span></div><div class="row"><span>this week</span><b>76%</b></div></div><div class="tile dark wide"><div class="kicker">Live activity</div><div class="row"><span>Fajr, Jama'at</span><b style="color:var(--mint)">✓</b></div><div class="row"><span>Dhikr, 108 repetitions</span><b style="color:var(--mint)">✓</b></div><div class="row"><span>Gym, 42 minutes</span><b style="color:var(--mint)">✓</b></div></div></div></div><div class="float"><b>100%</b> local and private</div></div></div></section><div class="ribbon"><div class="track"><span>Salah with presence</span><span>Nafl with intention</span><span>Dhikr with rhythm</span><span>Habits with mercy</span><span>Career with direction</span><span>Money with clarity</span><span>Zero cloud, zero tracking</span><span>Salah with presence</span></div></div><section id="difference"><div class="wrap"><div class="section-head reveal"><div><div class="eyebrow">01 · The Lamim difference</div><h2>One system beats nine scattered apps.</h2></div><p>Lamim does not treat prayer, habits, money, health, and ambition as separate lives. It gives them one context, one rhythm, and one private home.</p></div><div class="manifest"><article class="reveal"><b>01</b><h3>Private by architecture</h3><p>No account, no cloud sync, no third-party profile.</p></article><article class="reveal"><b>02</b><h3>Built for real days</h3><p>A custom 3 AM waking-day boundary for night worship.</p></article><article class="reveal"><b>03</b><h3>Useful, not noisy</h3><p>Insight from patterns, not engagement tricks.</p></article><article class="reveal"><b>04</b><h3>Always close</h3><p>Offline-first storage and local calculations.</p></article></div></div></section><section class="dark" id="system"><div class="wrap dark-grid"><div class="reveal"><div class="eyebrow" style="color:var(--mint)">02 · The complete system</div><h2>Everything your day asks for.</h2><p>Each module is focused, but the intelligence compounds across the whole experience.</p></div><div class="system"><article class="system-row reveal"><div class="num">01</div><h3>Salah</h3><p>Local prayer times, countdowns, Jama'at, Qaza, Missed, and a three-week heatmap.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">02</div><h3>Dhikr</h3><p>Tactile Tasbeeh with presets, custom phrases, haptics, sound, sessions, and streaks.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">03</div><h3>Nafl</h3><p>Sunnah Muakkadah, Tahajjud, Witr, and optional prayers with a 3 AM boundary.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">04</div><h3>Mujahid</h3><p>Habit forge with relapse logging, progression badges, and 4-7-8 breathing.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">05</div><h3>Gym</h3><p>Workout sessions, sets, reps, movement streaks, diet, sleep, and records.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">06</div><h3>Career</h3><p>Focus sessions, study time, career goals, milestones, and direction.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">07</div><h3>Finance</h3><p>220+ categories, savings vaults, timelines, currency support, and PDF statements.</p><span class="arrow">↗</span></article><article class="system-row reveal"><div class="num">08</div><h3>Analysis</h3><p>Spiritual Health Score, weighted ranks, trends, and downloadable reports.</p><span class="arrow">↗</span></article></div></div></section><section><div class="wrap feature-grid"><div class="feature-copy reveal"><div class="eyebrow">03 · Salah</div><h2>Let consistency become visible.</h2><p>Local sun-angle calculations power the next-prayer countdown. The heatmap adds context, showing Jama'at, Alone, Qaza, and Missed.</p><a class="btn" href="app/index.html?section=salah">Explore Salah ↗</a></div><div class="visual salah reveal"><div class="eyebrow" style="color:var(--mint)">Three-week rhythm</div><h3>Small marks. A clearer pattern.</h3><p>Fajr and Dhuhr are complete. Asr is next. Maghrib is waiting for you.</p><div class="heatmap"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div></section><section style="background:var(--gold)"><div class="wrap feature-grid"><div class="visual nafl reveal"><div class="eyebrow">04 · Nafl Salah</div><h3>Keep the prayers you choose.</h3><p>Witr completed. Tahajjud remembered. A private record of the prayers that asked a little more from you.</p><div class="nafl-ring"></div><div class="nafl-center"><b>3 AM</b><span>new waking day</span></div></div><div class="feature-copy reveal"><div class="eyebrow">The night view</div><h2>Your night has its own logic.</h2><p>Tahajjud and Witr belong to the waking day you were living, not an arbitrary midnight boundary.</p><a class="btn" href="app/index.html?section=goals">Explore Nafl ↗</a></div></div></section><section><div class="wrap feature-grid"><div class="feature-copy reveal"><div class="eyebrow">05 · Dhikr</div><h2>Make repetition feel present.</h2><p>Tap, haptic response, subtle ripple, and session history let the practice stay meaningful without becoming performative.</p><a class="btn" href="app/index.html?section=dhikr">Open Dhikr ↗</a></div><div class="visual dhikr reveal"><div class="eyebrow">Tasbeeh session</div><h3>108 repetitions, one breath at a time.</h3><p>Choose a phrase, begin a session, and let the interface disappear behind the rhythm.</p><div class="dhikr-ring"><div class="count"><b>108</b><span>today</span></div></div></div></div></section><section style="background:var(--lilac)"><div class="wrap feature-grid"><div class="visual mujahid reveal"><div class="eyebrow">06 · Mujahid</div><h3>Discipline without shame.</h3><p>Log the hard moment, start the breathing guide, and keep moving.</p><div class="breath"></div></div><div class="feature-copy reveal"><div class="eyebrow">Recovery as a feature</div><h2>Growth should feel honest.</h2><p>Streaks, relapse logs, badges, and breathing give you practical tools for habits you are trying to leave behind.</p><a class="btn" href="app/index.html?section=mujahid">Enter the forge ↗</a></div></div></section><section><div class="wrap feature-grid"><div class="feature-copy reveal"><div class="eyebrow">07 · Gym & movement</div><h2>Train the body that carries the intention.</h2><p>Workouts, sets, reps, diet, sleep, movement streaks, and personal records. No social feed, no comparison loop.</p><a class="btn" href="app/index.html?section=gym">Build your rhythm ↗</a></div><div class="visual gym reveal"><div class="eyebrow">Training log</div><h3>12 days of showing up.</h3><p>42 minutes today. Personal best on the deadlift. Recovery still counts.</p><div class="gym-ring"></div></div></div></section><section style="background:var(--coral)"><div class="wrap feature-grid"><div class="visual career reveal"><div class="eyebrow">08 · Career</div><h3>Direction over drift.</h3><p>One skill improved this week. One project moved forward.</p><div class="career-bars"><i></i><i></i><i></i><i></i><i></i></div></div><div class="feature-copy reveal"><div class="eyebrow">Professional life, with boundaries</div><h2>Turn ambition into a daily practice.</h2><p>Keep career goals, focus sessions, study time, and milestones visible without letting work consume the rest of your life.</p><a class="btn" href="app/index.html?section=career">Shape your path ↗</a></div></div></section><section><div class="wrap feature-grid"><div class="feature-copy reveal"><div class="eyebrow">09 · Smart finance</div><h2>Clarity is a form of care.</h2><p>Track income and expenses across 220+ categories, create savings vaults, see timelines, convert currencies, and export PDF statements.</p><a class="btn" href="app/index.html?section=finance">Explore the ledger ↗</a></div><div class="visual ledger reveal"><div class="ledger-top"><span>Monthly overview</span><span>July 2026</span></div><div class="ledger-total">₹58,000</div><div class="ledger-row"><span>Income</span><b class="green">+ ₹72,000</b></div><div class="ledger-row"><span>Essentials</span><b>− ₹32,500</b></div><div class="ledger-row"><span>Giving</span><b>− ₹8,000</b></div><div class="ledger-row"><span>Savings vault</span><b class="green">₹8,500 / ₹10,000</b></div></div></div></section><section id="insights"><div class="wrap analysis-grid"><div class="analysis-board reveal"><div class="analysis-top"><span>Spiritual health report</span><span class="green">This month</span></div><div class="score">76 <small>/ 100</small></div><div style="font-size:.75rem;color:var(--muted)">Murid, moving toward Mujahid</div><div class="chart"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="row"><span>Prayer</span><b>92%</b></div><div class="row"><span>Dhikr</span><b>88%</b></div></div><div class="feature-copy reveal"><div class="eyebrow">10 · Analysis & insights</div><h2>See the pattern, not just the score.</h2><p>Connect Salah, Nafl, Dhikr, habits, and goals into a useful long-term view. Review trends and export a PDF report.</p><a class="btn" href="app/index.html?section=analysis">Open your insights ↗</a></div></div></section><section class="profile"><div class="wrap feature-grid"><div class="feature-copy reveal"><div class="eyebrow">11 · Profile</div><h2>Your whole self, in one view.</h2><p>City, prayer method, language, currency, notifications, goals, rank, and preferences in one considered space.</p><a class="btn" href="app/index.html?section=profile">Make it yours ↗</a></div><div class="profile-card reveal"><div class="profile-top"><div class="avatar">MR</div><div><h3>Mr riyar</h3><p>Dhaka · Murid · 18 day rhythm</p></div></div><div class="stats"><div class="stat"><b>92%</b><span>Salah rhythm</span></div><div class="stat"><b>14</b><span>goals alive</span></div><div class="stat"><b>₹8.5k</b><span>vault saved</span></div></div><div class="profile-row"><span>Current focus</span><b>Steady mornings</b></div><div class="profile-row"><span>Data location</span><b class="green">This device</b></div></div></div></section><section class="demo"><div class="wrap demo-grid"><div class="demo-copy reveal"><div class="eyebrow" style="color:var(--mint)">12 · A living product</div><h2>See the app change as you do.</h2><p>Switch between your day, analysis, and profile. This preview is interactive.</p><div class="tabs"><button class="tab" aria-selected="true" data-mode="Today" data-title="A steady morning" data-copy="Fajr, dhikr, gym, and room to breathe." data-value="76%">Today</button><button class="tab" aria-selected="false" data-mode="Analysis" data-title="A longer view" data-copy="Three weeks of rhythm, not a perfect streak." data-value="92%">Analysis</button><button class="tab" aria-selected="false" data-mode="Profile" data-title="A clear identity" data-copy="Your goals, rank, and private progress in one place." data-value="64%">Profile</button></div></div><div class="phone reveal"><div class="screen"><small>Lamim / <span id="mode">Today</span></small><h3 id="title">A steady morning</h3><div class="meter"><span id="meter"></span></div><div class="screen-row"><span id="copy">Fajr, dhikr, gym, and room to breathe.</span><strong id="value">76%</strong></div><div class="screen-row"><span>Private by default</span><span>✓</span></div><div class="screen-row"><span>Stored on</span><span>This device</span></div></div></div></div></section><section id="faq"><div class="wrap faq-grid"><div class="reveal"><div class="eyebrow">13 · Questions, answered</div><h2>Nothing hidden behind the calm.</h2></div><div class="faq-list reveal"><details open><summary>What is included in Lamim?</summary><p>Salah, Nafl, Dhikr, Mujahid, Gym, Career, Goals and Sunnah, Smart Finance, Savings Vaults, Analysis, Spiritual Health Score, Profile, local backups, and PWA installation.</p></details><details><summary>Does Lamim need an account?</summary><p>No. Lamim works without email, password, phone number, or a central user database.</p></details><details><summary>Can I use it without internet?</summary><p>Yes. The app is built for offline use with local storage and service-worker caching.</p></details></div></div></section><section class="final"><div class="wrap"><div><div class="eyebrow">Everything you need to begin</div><h2>Make room for what lasts.</h2></div><div><p>Open Lamim, choose one small practice, and let the rest become clearer with time.</p><a class="btn" href="app/index.html">Launch Lamim ↗</a></div></div></section></main><footer class="footer"><div class="wrap footer-grid"><div><a class="brand" href="#top"><span class="mark">ل</span>lamim</a><p>Your entire life, one quiet system.</p></div><div><h3>Explore</h3><div class="footer-links"><a href="#system">The system</a><a href="#insights">Insights</a><a href="#faq">FAQ</a></div></div><div><h3>Modules</h3><div class="footer-links"><a href="app/index.html?section=salah">Salah</a><a href="app/index.html?section=finance">Finance</a><a href="app/index.html?section=mujahid">Mujahid</a></div></div><div><h3>Product</h3><div class="footer-links"><a href="#difference">Difference</a><a href="app/index.html">Open app</a></div></div></div><div class="wrap bottom"><span>Offline first. Always yours.</span><span>© 2026 Lamim. Crafted for the Ummah.</span></div></footer><script>const nav=document.querySelector('.nav'),menu=document.querySelector('.menu');menu.addEventListener('click',()=>{const open=nav.classList.toggle('mobile');menu.setAttribute('aria-expanded',open)});const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e));document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected','false'));t.setAttribute('aria-selected','true');document.querySelector('#mode').textContent=t.dataset.mode;document.querySelector('#title').textContent=t.dataset.title;document.querySelector('#copy').textContent=t.dataset.copy;document.querySelector('#value').textContent=t.dataset.value;document.querySelector('#meter').style.width=t.dataset.value}));</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lamim | One day, held with intention</title>
+  <meta name="description" content="Lamim is a private offline-first Islamic life companion for prayer, habits, health, money and reflection.">
+  <meta name="theme-color" content="#f1f0e9">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Manrope:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #f1f0e9;
+      --paper-rgb: 241, 240, 233;
+      --ink: #13211b;
+      --muted: #6b776f;
+      --dark: #12261e;
+      --mint: #cfee82;
+      --teal: #5e9f7b;
+      --lilac: #ddd1ed;
+      --sky: #bddcf0;
+      --coral: #edb391;
+      --gold: #e4ca71;
+      --line: #cbd6ce;
+      --line-dark: rgba(241, 240, 233, 0.14);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --wrap-max: 1280px;
+      --wrap-pad: clamp(16px, 4vw, 40px);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+      line-height: 1.55;
+      overflow-x: hidden;
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 4%, #e2f4c1, transparent 24%),
+        radial-gradient(circle at 90% 8%, #e7ddf4, transparent 28%),
+        radial-gradient(circle at 48% 84%, #d5edf1, transparent 24%);
+      pointer-events: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+
+    h1, h2, h3, h4, p, blockquote, figure {
+      margin: 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Manrope', system-ui, sans-serif;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6.5vw + 0.5rem, 7.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+    }
+
+    h1 em, h2 em {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 500;
+      font-style: normal;
+      color: var(--teal);
+      line-height: 0.95;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw + 0.5rem, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    h3 {
+      font-size: clamp(1.15rem, 2vw, 1.6rem);
+      line-height: 1.15;
+    }
+
+    p {
+      color: var(--muted);
+      max-width: 65ch;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--wrap-max);
+      padding-left: var(--wrap-pad);
+      padding-right: var(--wrap-pad);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .eyebrow {
+      font-size: clamp(0.68rem, 1vw, 0.75rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--teal);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* NAVIGATION                                                                 */
+    /* -------------------------------------------------------------------------- */
+    .nav {
+      position: fixed;
+      z-index: 100;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: var(--wrap-max);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px 8px 16px;
+      background: rgba(var(--paper-rgb), 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 8px 32px rgba(19, 33, 27, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--dark);
+      color: var(--mint);
+      font-family: Georgia, serif;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .links {
+      display: none;
+      gap: clamp(16px, 2vw, 28px);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .links a {
+      transition: color 0.2s ease;
+      padding: 6px 0;
+    }
+
+    .links a:hover {
+      color: var(--ink);
+    }
+
+    .navcta, .btn {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .navcta {
+      background: var(--dark);
+      color: var(--paper);
+    }
+
+    .btn {
+      background: var(--dark);
+      color: var(--paper);
+      padding: 0 24px;
+      min-height: 48px;
+      font-size: 0.92rem;
+    }
+
+    .btn.alt {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    .btn:hover, .navcta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(19, 33, 27, 0.16);
+    }
+
+    .btn:active, .navcta:active {
+      transform: translateY(0);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      color: var(--ink);
+      border-radius: 50%;
+      transition: background 0.2s ease;
+    }
+
+    .menu:active {
+      background: rgba(19, 33, 27, 0.08);
+    }
+
+    /* Mobile Nav Dropdown */
+    .nav-overlay {
+      position: fixed;
+      top: 66px;
+      left: 12px;
+      right: 12px;
+      background: rgba(241, 240, 233, 0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 20px 50px rgba(19, 33, 27, 0.18);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px) scale(0.98);
+      transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s ease;
+      z-index: 99;
+    }
+
+    .nav.mobile-active .nav-overlay {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .nav-overlay a {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      padding: 12px 16px;
+      border-radius: 14px;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-overlay a:active, .nav-overlay a:hover {
+      background: rgba(19, 33, 27, 0.06);
+    }
+
+    @media (min-width: 768px) {
+      .nav {
+        top: 16px;
+        padding: 9px 12px 9px 16px;
+      }
+
+      .links {
+        display: flex;
+      }
+
+      .menu, .nav-overlay {
+        display: none !important;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* HERO SECTION                                                               */
+    /* -------------------------------------------------------------------------- */
+    .hero {
+      padding: 110px 0 60px;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(36px, 6vw, 70px);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      line-height: 1.5;
+      margin: clamp(20px, 4vw, 32px) 0;
+      max-width: 44ch;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    @media (min-width: 480px) {
+      .actions {
+        flex-direction: row;
+        width: auto;
+      }
+    }
+
+    .hero-art {
+      width: 100%;
+      max-width: 580px;
+      margin: 0 auto;
+      min-height: 380px;
+      position: relative;
+    }
+
+    .halo {
+      position: absolute;
+      inset: 7% 0 3% 7%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 68% 28%, #d8ccec, transparent 66%);
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 0;
+      border: 1px solid #5e9f7b55;
+      border-radius: 50%;
+      transform: rotate(18deg) scale(.89);
+      animation: spin 25s linear infinite;
+    }
+
+    .orbit::after {
+      content: "";
+      position: absolute;
+      right: 13%;
+      top: 12%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 9px #5e9f7b22;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(378deg) scale(.89); }
+    }
+
+    .app {
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      top: 4%;
+      bottom: 2%;
+      padding: clamp(12px, 3vw, 20px);
+      border: 1px solid #13211b2c;
+      border-radius: clamp(20px, 4vw, 30px);
+      background: #fafbf6ee;
+      box-shadow: 0 20px 60px rgba(19, 33, 27, 0.15);
+      transform: rotate(1deg);
+      transition: transform .45s var(--ease);
+    }
+
+    .hero-art:hover .app {
+      transform: rotate(0) translateY(-6px);
+    }
+
+    .app-head {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 7px 12px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 2vw, 13px);
+      margin-top: 12px;
+    }
+
+    .tile {
+      padding: clamp(10px, 2.5vw, 16px);
+      border-radius: 16px;
+      min-height: 110px;
+      background: #edf2eb;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tile.mint { background: var(--mint); }
+    .tile.sky { background: var(--sky); }
+    .tile.dark { background: var(--dark); color: var(--paper); }
+    
+    .wide {
+      grid-column: 1 / -1;
+      min-height: 140px;
+    }
+
+    .kicker {
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-weight: 800;
+      opacity: .75;
+    }
+
+    .big {
+      font: 500 clamp(1.6rem, 4vw, 2.4rem)/1 'Playfair Display', serif;
+      margin: 8px 0 4px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: clamp(0.7rem, 1.2vw, 0.77rem);
+    }
+
+    .meter {
+      height: 7px;
+      background: #13211b22;
+      border-radius: 9px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .meter span {
+      display: block;
+      width: 76%;
+      height: 100%;
+      background: var(--teal);
+      border-radius: inherit;
+      animation: fill 1.4s var(--ease) both;
+    }
+
+    @keyframes fill {
+      from { width: 0; }
+    }
+
+    .float {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: var(--dark);
+      color: var(--paper);
+      box-shadow: 0 12px 30px rgba(19, 33, 27, 0.25);
+      animation: float 4s ease-in-out infinite;
+      font-size: 0.8rem;
+      z-index: 10;
+    }
+
+    .float b {
+      display: block;
+      color: var(--mint);
+      font-size: 1.1rem;
+      line-height: 1.1;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        min-height: 100vh;
+        padding: 140px 0 80px;
+        display: grid;
+        align-items: center;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: clamp(40px, 5vw, 90px);
+        align-items: center;
+      }
+
+      .hero-art {
+        height: 620px;
+        max-width: 100%;
+      }
+
+      .app {
+        left: 8%;
+        right: 0;
+        top: 8%;
+        bottom: 2%;
+        padding: 15px;
+        border-radius: 30px;
+        transform: rotate(3deg);
+      }
+
+      .float {
+        right: -3%;
+        bottom: 10%;
+        padding: 14px 17px;
+      }
+
+      .tile {
+        min-height: 132px;
+        padding: 16px;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* MARQUEE RIBBON                                                             */
+    /* -------------------------------------------------------------------------- */
+    .ribbon {
+      padding: 16px 0;
+      border-block: 1px solid var(--line);
+      overflow: hidden;
+      background: rgba(var(--paper-rgb), 0.5);
+    }
+
+    .track-wrapper {
+      display: flex;
+      overflow: hidden;
+      user-select: none;
+      width: 100%;
+    }
+
+    .track {
+      display: flex;
+      gap: clamp(24px, 4vw, 48px);
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+      will-change: transform;
+      color: var(--muted);
+      font-size: clamp(0.7rem, 1.2vw, 0.76rem);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .track span::after {
+      content: '·';
+      color: var(--teal);
+      margin-left: clamp(24px, 4vw, 48px);
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ribbon:hover .track {
+      animation-play-state: paused;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTIONS COMMON                                                            */
+    /* -------------------------------------------------------------------------- */
+    section {
+      padding: clamp(50px, 8vw, 130px) 0;
+    }
+
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: clamp(36px, 6vw, 74px);
+    }
+
+    .section-head h2 {
+      max-width: 12ch;
+      margin-top: 8px;
+    }
+
+    .section-head p {
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      line-height: 1.5;
+      max-width: 44ch;
+    }
+
+    @media (min-width: 900px) {
+      .section-head {
+        display: grid;
+        grid-template-columns: 0.75fr 1.25fr;
+        gap: clamp(40px, 6vw, 90px);
+        align-items: start;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTION 01: MANIFEST                                                       */
+    /* -------------------------------------------------------------------------- */
+    .manifest {
+      display: grid;
+      grid-template-columns: 1fr;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .manifest article {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .manifest article:last-child {
+      border-bottom: 0;
+    }
+
+    .manifest b {
+      display: block;
+      color: var(--teal);
+      font: 500 clamp(1.8rem, 3vw, 2.2rem) 'Playfair Display', serif;
+      margin-bottom: 4px;
+    }
+
+    .manifest h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+    }
+
+    .manifest p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (min-width: 540px) and (max-width: 1023px) {
+      .manifest {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .manifest article {
+        padding: 24px 18px;
+      }
+
+      .manifest article:nth-child(1), .manifest article:nth-child(2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .manifest article:nth-child(3), .manifest article:nth-child(4) {
+        border-bottom: 0;
+      }
+
+      .manifest article:nth-child(1), .manifest article:nth-child(3) {
+        border-right: 1px solid var(--line);
+      }
+
+      .manifest article:nth-child(2), .manifest article:nth-child(4) {
+        padding-left: 18px;
+      }
+
+      .manifest article:nth-child(1), .manifest article:nth-child(3) {
+        padding-left: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .manifest {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .manifest article {
+        padding: 28px 20px 28px 0;
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
+      }
+
+      .manifest article:not(:first-child) {
+        padding-left: 20px;
+      }
+
+      .manifest article:last-child {
+        border-right: 0;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTION 02: SYSTEM MODULES                                                 */
+    /* -------------------------------------------------------------------------- */
+    .dark {
+      background: var(--dark);
+      color: var(--paper);
+    }
+
+    .dark p {
+      color: #b9c7bd;
+    }
+
+    .dark-grid, .feature-grid, .analysis-grid, .demo-grid, .faq-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(32px, 6vw, 80px);
+    }
+
+    @media (min-width: 960px) {
+      .dark-grid, .feature-grid, .analysis-grid, .demo-grid, .faq-grid {
+        display: grid;
+        grid-template-columns: 0.75fr 1.25fr;
+        gap: clamp(40px, 6vw, 90px);
+        align-items: center;
+      }
+    }
+
+    .system {
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .system-row {
+      display: grid;
+      grid-template-columns: 36px 1fr 24px;
+      gap: 8px 14px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line-dark);
+      transition: background 0.2s ease;
+      align-items: baseline;
+    }
+
+    .system-row p {
+      grid-column: 2 / -1;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    @media (min-width: 640px) {
+      .system-row {
+        grid-template-columns: 48px 1fr 1.3fr 24px;
+        gap: 18px;
+      }
+
+      .system-row p {
+        grid-column: auto;
+      }
+    }
+
+    .system-row h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--paper);
+    }
+
+    .num, .arrow {
+      color: var(--mint);
+    }
+
+    .num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+    }
+
+    .arrow {
+      font-size: 1.1rem;
+      text-align: right;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FEATURE VISUAL CARDS                                                       */
+    /* -------------------------------------------------------------------------- */
+    .feature-copy p, .analysis-copy p {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      line-height: 1.5;
+      margin: clamp(16px, 3vw, 26px) 0;
+    }
+
+    .visual, .analysis-board, .profile-card {
+      min-height: clamp(320px, 45vh, 420px);
+      padding: clamp(20px, 4vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: clamp(20px, 3vw, 30px);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .visual h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      max-width: 12ch;
+      margin-top: 14px;
+    }
+
+    .visual p {
+      margin-top: 12px;
+    }
+
+    /* Salah Visual */
+    .salah {
+      background: #173329;
+      color: var(--paper);
+    }
+
+    .salah p {
+      color: #b9c7bd;
+    }
+
+    .heatmap {
+      position: absolute;
+      right: clamp(12px, 4vw, 30px);
+      bottom: clamp(16px, 4vw, 32px);
+      display: grid;
+      grid-template-columns: repeat(7, clamp(16px, 3.5vw, 24px));
+      gap: clamp(4px, 1vw, 7px);
+      transform: rotate(-6deg);
+    }
+
+    .heatmap i {
+      aspect-ratio: 1;
+      border-radius: 5px;
+      background: #2b5140;
+    }
+
+    .heatmap i:nth-child(3n) { background: var(--teal); }
+    .heatmap i:nth-child(5n) { background: var(--mint); }
+
+    /* Nafl Visual */
+    .nafl {
+      background: var(--gold);
+    }
+
+    .nafl-ring {
+      position: absolute;
+      right: -10%;
+      bottom: -25%;
+      width: clamp(220px, 45vw, 320px);
+      height: clamp(220px, 45vw, 320px);
+      border: 1px solid #13211b55;
+      border-radius: 50%;
+      animation: spin 18s linear infinite;
+    }
+
+    .nafl-ring::before, .nafl-ring::after {
+      content: 'Witr';
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      background: var(--dark);
+      color: var(--paper);
+      padding: 8px 12px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .nafl-ring::after {
+      content: 'Tahajjud';
+      top: auto;
+      left: auto;
+      right: 15%;
+      bottom: 15%;
+      background: var(--teal);
+    }
+
+    .nafl-center {
+      position: absolute;
+      right: clamp(16px, 12vw, 114px);
+      bottom: clamp(32px, 10vw, 78px);
+      text-align: center;
+    }
+
+    .nafl-center b {
+      display: block;
+      font: 500 clamp(2.4rem, 6vw, 3.5rem) 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    /* Dhikr Visual */
+    .dhikr {
+      background: var(--mint);
+    }
+
+    .dhikr-ring {
+      position: absolute;
+      right: clamp(16px, 5vw, 36px);
+      bottom: clamp(16px, 5vw, 31px);
+      width: clamp(160px, 35vw, 230px);
+      height: clamp(160px, 35vw, 230px);
+      border-radius: 50%;
+      border: 1px solid #13211b55;
+      display: grid;
+      place-items: center;
+    }
+
+    .count {
+      text-align: center;
+    }
+
+    .count b {
+      display: block;
+      font: 500 clamp(3rem, 8vw, 4.5rem) 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    /* Mujahid Visual */
+    .mujahid {
+      background: var(--lilac);
+    }
+
+    .breath {
+      position: absolute;
+      right: clamp(16px, 5vw, 40px);
+      bottom: clamp(16px, 5vw, 33px);
+      width: clamp(160px, 35vw, 220px);
+      height: clamp(160px, 35vw, 220px);
+      border-radius: 50%;
+      background: #fafbf666;
+      display: grid;
+      place-items: center;
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    .breath::before {
+      content: '4 · 7 · 8';
+      position: absolute;
+      inset: clamp(16px, 4vw, 25px);
+      border-radius: 50%;
+      border: 1px solid #13211b44;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(.86); }
+      50% { transform: scale(1); }
+    }
+
+    /* Gym Visual */
+    .gym {
+      background: var(--sky);
+    }
+
+    .gym-ring {
+      position: absolute;
+      right: -5%;
+      bottom: -25%;
+      width: clamp(230px, 45vw, 335px);
+      height: clamp(230px, 45vw, 335px);
+      border: 1px solid #13211b55;
+      border-radius: 50%;
+    }
+
+    .gym-ring::after {
+      content: '8,240';
+      position: absolute;
+      right: 15%;
+      bottom: 25%;
+      font: 500 clamp(2.2rem, 5vw, 3.2rem) 'Playfair Display', serif;
+    }
+
+    /* Career Visual */
+    .career {
+      background: var(--coral);
+    }
+
+    .career-bars {
+      position: absolute;
+      left: clamp(16px, 4vw, 30px);
+      right: clamp(16px, 4vw, 30px);
+      bottom: clamp(20px, 4vw, 32px);
+      height: 135px;
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(6px, 1.5vw, 9px);
+    }
+
+    .career-bars i {
+      flex: 1;
+      background: var(--dark);
+      border-radius: 8px 8px 2px 2px;
+    }
+
+    .career-bars i:nth-child(1) { height: 30px; }
+    .career-bars i:nth-child(2) { height: 68px; }
+    .career-bars i:nth-child(3) { height: 50px; }
+    .career-bars i:nth-child(4) { height: 105px; background: var(--teal); }
+    .career-bars i:nth-child(5) { height: 135px; }
+
+    /* Finance Ledger */
+    .ledger {
+      background: #fafbf6;
+      color: var(--dark);
+      box-shadow: 0 20px 60px rgba(19, 33, 27, 0.12);
+      transform: rotate(-1deg);
+    }
+
+    .ledger-top, .analysis-top {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .ledger-total, .score {
+      font: 500 clamp(2.4rem, 6vw, 3.3rem)/1 'Playfair Display', serif;
+      margin: 20px 0;
+    }
+
+    .ledger-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(0.8rem, 1.5vw, 0.88rem);
+    }
+
+    .green { color: var(--teal); }
+
+    /* Analysis Board */
+    .analysis-board {
+      background: #fafbf6;
+      color: var(--dark);
+      transform: rotate(1deg);
+    }
+
+    .score {
+      font-size: clamp(3.2rem, 8vw, 5rem);
+    }
+
+    .chart {
+      height: 130px;
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(6px, 1.5vw, 11px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 6px 4px;
+      margin: 16px 0;
+    }
+
+    .chart i {
+      flex: 1;
+      background: var(--teal);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .chart i:nth-child(1) { height: 40%; }
+    .chart i:nth-child(2) { height: 61%; }
+    .chart i:nth-child(3) { height: 48%; }
+    .chart i:nth-child(4) { height: 75%; }
+    .chart i:nth-child(5) { height: 68%; }
+    .chart i:nth-child(6) { height: 90%; background: var(--mint); }
+
+    /* Profile Card */
+    .profile { background: var(--lilac); }
+
+    .profile-card {
+      background: #fafbf6;
+      color: var(--dark);
+      transform: rotate(-1deg);
+    }
+
+    .profile-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--mint);
+      font: 500 1.35rem 'Playfair Display', serif;
+      flex-shrink: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(6px, 1.5vw, 10px);
+      padding: 18px 0;
+    }
+
+    .stat {
+      padding: 10px 8px;
+      border-radius: 14px;
+      background: rgba(19, 33, 27, 0.04);
+      text-align: center;
+    }
+
+    .stat b {
+      display: block;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      line-height: 1.1;
+    }
+
+    .stat span {
+      font-size: clamp(0.62rem, 1vw, 0.7rem);
+      color: var(--muted);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      font-size: clamp(0.8rem, 1.5vw, 0.85rem);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* DEMO SECTION                                                               */
+    /* -------------------------------------------------------------------------- */
+    .demo {
+      background: var(--dark);
+      color: var(--paper);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .tab {
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid #f1f0e944;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--paper);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--mint);
+      color: var(--dark);
+      border-color: var(--mint);
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 10px;
+      border-radius: 28px;
+      background: #08100d;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+      transform: rotate(1deg);
+      transition: transform 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .phone {
+        transform: rotate(2deg);
+      }
+    }
+
+    .screen {
+      min-height: 440px;
+      padding: clamp(20px, 4vw, 28px);
+      border-radius: 20px;
+      background: #234238;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .screen small {
+      color: #b9c7bd;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+
+    .screen h3 {
+      font: 500 clamp(2rem, 5vw, 2.7rem) 'Playfair Display', serif;
+      margin: 24px 0 18px;
+      color: var(--paper);
+    }
+
+    .screen .meter {
+      height: 9px;
+      background: #f1f0e933;
+    }
+
+    .screen .meter span {
+      background: var(--mint);
+    }
+
+    .screen-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #f1f0e826;
+      font-size: 0.88rem;
+    }
+
+    .screen-row strong {
+      color: var(--mint);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FAQ SECTION                                                                */
+    /* -------------------------------------------------------------------------- */
+    .faq-list {
+      border-top: 1px solid var(--line);
+    }
+
+    details {
+      border-bottom: 1px solid var(--line);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-weight: 800;
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      padding: 18px 0;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: var(--teal);
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+
+    details[open] summary::after {
+      content: '−';
+    }
+
+    details p {
+      padding: 0 16px 18px 0;
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FINAL CTA                                                                  */
+    /* -------------------------------------------------------------------------- */
+    .final {
+      background: var(--mint);
+    }
+
+    .final-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .final h2 {
+      max-width: 12ch;
+    }
+
+    .final p {
+      color: #50654f;
+      margin-bottom: 20px;
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+    }
+
+    @media (min-width: 768px) {
+      .final-wrap {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 40px;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FOOTER                                                                     */
+    /* -------------------------------------------------------------------------- */
+    .footer {
+      padding: 40px 0;
+      background: #0b1713;
+      color: var(--paper);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 24px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid #f1f0e826;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+
+    .footer p, .footer-links {
+      color: #9aafa2;
+      font-size: 0.84rem;
+      margin-top: 12px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer h3 {
+      color: var(--mint);
+      font-size: 0.75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+      }
+
+      .footer-brand {
+        grid-column: auto;
+      }
+    }
+
+    .bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 24px;
+      color: #9aafa2;
+      font-size: 0.78rem;
+    }
+
+    @media (min-width: 640px) {
+      .bottom {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* ANIMATIONS & UTILS                                                         */
+    /* -------------------------------------------------------------------------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--teal);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .orbit, .float, .track, .breath, .nafl-ring { animation: none !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navigation Header -->
+  <nav class="nav" aria-label="Primary">
+    <a class="brand" href="#top" aria-label="Lamim Home">
+      <span class="mark" aria-hidden="true">ل</span>lamim
+    </a>
+    
+    <div class="links">
+      <a href="#difference">Difference</a>
+      <a href="#system">System</a>
+      <a href="#insights">Insights</a>
+      <a href="#faq">FAQ</a>
+    </div>
+
+    <div class="nav-actions">
+      <a class="navcta" href="app/index.html">Open app ↗</a>
+      <button class="menu" aria-label="Open navigation" aria-expanded="false" id="menuToggle">☰</button>
+    </div>
+
+    <!-- Mobile Navigation Overlay Dropdown -->
+    <div class="nav-overlay" id="navOverlay" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+      <a href="#difference" class="nav-link-mobile"><span>The Difference</span><span>↗</span></a>
+      <a href="#system" class="nav-link-mobile"><span>Complete System</span><span>↗</span></a>
+      <a href="#insights" class="nav-link-mobile"><span>Insights & Score</span><span>↗</span></a>
+      <a href="#faq" class="nav-link-mobile"><span>Questions & Answers</span><span>↗</span></a>
+      <a href="app/index.html" style="background: var(--dark); color: var(--paper); text-align: center; justify-content: center; margin-top: 8px;">Launch App ↗</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">A living system for an intentional life</div>
+          <h1 style="margin-top:20px">One day. Every intention. <em>Held.</em></h1>
+          <p>Lamim combines Salah, Nafl, Dhikr, Mujahid, Gym, Career, Finance, Goals, Analysis, and Profile in one private offline-first companion.</p>
+          <div class="actions">
+            <a class="btn" href="app/index.html">Start privately ↗</a>
+            <a class="btn alt" href="#system">Tour the system</a>
+          </div>
+        </div>
+
+        <div class="hero-art reveal">
+          <div class="halo"></div>
+          <div class="orbit"></div>
+          <div class="app">
+            <div class="app-head">
+              <span>Tuesday, 21 July <span style="color:var(--teal)">●</span></span>
+              <span>•••</span>
+            </div>
+            <div class="app-grid">
+              <div class="tile mint">
+                <div class="kicker">Next prayer</div>
+                <div class="big">Maghrib</div>
+                <div class="row"><span>in 01:42:18</span><b>18:47</b></div>
+              </div>
+              <div class="tile sky">
+                <div class="kicker">Spiritual health</div>
+                <div class="big">Murid</div>
+                <div class="meter"><span></span></div>
+                <div class="row"><span>this week</span><b>76%</b></div>
+              </div>
+              <div class="tile dark wide">
+                <div class="kicker">Live activity</div>
+                <div class="row"><span>Fajr, Jama'at</span><b style="color:var(--mint)">✓</b></div>
+                <div class="row"><span>Dhikr, 108 repetitions</span><b style="color:var(--mint)">✓</b></div>
+                <div class="row"><span>Gym, 42 minutes</span><b style="color:var(--mint)">✓</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="float"><b>100%</b> local and private</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Infinite Marquee Ribbon -->
+    <div class="ribbon">
+      <div class="track-wrapper">
+        <div class="track">
+          <span>Salah with presence</span>
+          <span>Nafl with intention</span>
+          <span>Dhikr with rhythm</span>
+          <span>Habits with mercy</span>
+          <span>Career with direction</span>
+          <span>Money with clarity</span>
+          <span>Zero cloud, zero tracking</span>
+          <span>Salah with presence</span>
+          <span>Nafl with intention</span>
+          <span>Dhikr with rhythm</span>
+          <span>Habits with mercy</span>
+          <span>Career with direction</span>
+          <span>Money with clarity</span>
+          <span>Zero cloud, zero tracking</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 01: Difference -->
+    <section id="difference">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">01 · The Lamim difference</div>
+            <h2>One system beats nine scattered apps.</h2>
+          </div>
+          <p>Lamim does not treat prayer, habits, money, health, and ambition as separate lives. It gives them one context, one rhythm, and one private home.</p>
+        </div>
+
+        <div class="manifest">
+          <article class="reveal">
+            <b>01</b>
+            <h3>Private by architecture</h3>
+            <p>No account, no cloud sync, no third-party profile.</p>
+          </article>
+          <article class="reveal">
+            <b>02</b>
+            <h3>Built for real days</h3>
+            <p>A custom 3 AM waking-day boundary for night worship.</p>
+          </article>
+          <article class="reveal">
+            <b>03</b>
+            <h3>Useful, not noisy</h3>
+            <p>Insight from patterns, not engagement tricks.</p>
+          </article>
+          <article class="reveal">
+            <b>04</b>
+            <h3>Always close</h3>
+            <p>Offline-first storage and local calculations.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: Complete System -->
+    <section class="dark" id="system">
+      <div class="wrap dark-grid">
+        <div class="reveal">
+          <div class="eyebrow" style="color:var(--mint)">02 · The complete system</div>
+          <h2>Everything your day asks for.</h2>
+          <p>Each module is focused, but the intelligence compounds across the whole experience.</p>
+        </div>
+
+        <div class="system">
+          <article class="system-row reveal">
+            <div class="num">01</div>
+            <h3>Salah</h3>
+            <p>Local prayer times, countdowns, Jama'at, Qaza, Missed, and a three-week heatmap.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">02</div>
+            <h3>Dhikr</h3>
+            <p>Tactile Tasbeeh with presets, custom phrases, haptics, sound, sessions, and streaks.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">03</div>
+            <h3>Nafl</h3>
+            <p>Sunnah Muakkadah, Tahajjud, Witr, and optional prayers with a 3 AM boundary.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">04</div>
+            <h3>Mujahid</h3>
+            <p>Habit forge with relapse logging, progression badges, and 4-7-8 breathing.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">05</div>
+            <h3>Gym</h3>
+            <p>Workout sessions, sets, reps, movement streaks, diet, sleep, and records.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">06</div>
+            <h3>Career</h3>
+            <p>Focus sessions, study time, career goals, milestones, and direction.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">07</div>
+            <h3>Finance</h3>
+            <p>220+ categories, savings vaults, timelines, currency support, and PDF statements.</p>
+            <span class="arrow">↗</span>
+          </article>
+          <article class="system-row reveal">
+            <div class="num">08</div>
+            <h3>Analysis</h3>
+            <p>Spiritual Health Score, weighted ranks, trends, and downloadable reports.</p>
+            <span class="arrow">↗</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: Salah -->
+    <section>
+      <div class="wrap feature-grid">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">03 · Salah</div>
+          <h2>Let consistency become visible.</h2>
+          <p>Local sun-angle calculations power the next-prayer countdown. The heatmap adds context, showing Jama'at, Alone, Qaza, and Missed.</p>
+          <a class="btn" href="app/index.html?section=salah">Explore Salah ↗</a>
+        </div>
+        <div class="visual salah reveal">
+          <div class="eyebrow" style="color:var(--mint)">Three-week rhythm</div>
+          <h3>Small marks. A clearer pattern.</h3>
+          <p>Fajr and Dhuhr are complete. Asr is next. Maghrib is waiting for you.</p>
+          <div class="heatmap" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: Nafl -->
+    <section style="background:var(--gold)">
+      <div class="wrap feature-grid">
+        <div class="visual nafl reveal">
+          <div class="eyebrow">04 · Nafl Salah</div>
+          <h3>Keep the prayers you choose.</h3>
+          <p>Witr completed. Tahajjud remembered. A private record of the prayers that asked a little more from you.</p>
+          <div class="nafl-ring" aria-hidden="true"></div>
+          <div class="nafl-center">
+            <b>3 AM</b>
+            <span>new waking day</span>
+          </div>
+        </div>
+        <div class="feature-copy reveal">
+          <div class="eyebrow">The night view</div>
+          <h2>Your night has its own logic.</h2>
+          <p>Tahajjud and Witr belong to the waking day you were living, not an arbitrary midnight boundary.</p>
+          <a class="btn" href="app/index.html?section=goals">Explore Nafl ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: Dhikr -->
+    <section>
+      <div class="wrap feature-grid">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">05 · Dhikr</div>
+          <h2>Make repetition feel present.</h2>
+          <p>Tap, haptic response, subtle ripple, and session history let the practice stay meaningful without becoming performative.</p>
+          <a class="btn" href="app/index.html?section=dhikr">Open Dhikr ↗</a>
+        </div>
+        <div class="visual dhikr reveal">
+          <div class="eyebrow">Tasbeeh session</div>
+          <h3>108 repetitions, one breath at a time.</h3>
+          <p>Choose a phrase, begin a session, and let the interface disappear behind the rhythm.</p>
+          <div class="dhikr-ring">
+            <div class="count">
+              <b>108</b>
+              <span>today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 06: Mujahid -->
+    <section style="background:var(--lilac)">
+      <div class="wrap feature-grid">
+        <div class="visual mujahid reveal">
+          <div class="eyebrow">06 · Mujahid</div>
+          <h3>Discipline without shame.</h3>
+          <p>Log the hard moment, start the breathing guide, and keep moving.</p>
+          <div class="breath" aria-hidden="true"></div>
+        </div>
+        <div class="feature-copy reveal">
+          <div class="eyebrow">Recovery as a feature</div>
+          <h2>Growth should feel honest.</h2>
+          <p>Streaks, relapse logs, badges, and breathing give you practical tools for habits you are trying to leave behind.</p>
+          <a class="btn" href="app/index.html?section=mujahid">Enter the forge ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 07: Gym -->
+    <section>
+      <div class="wrap feature-grid">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">07 · Gym & movement</div>
+          <h2>Train the body that carries the intention.</h2>
+          <p>Workouts, sets, reps, diet, sleep, movement streaks, and personal records. No social feed, no comparison loop.</p>
+          <a class="btn" href="app/index.html?section=gym">Build your rhythm ↗</a>
+        </div>
+        <div class="visual gym reveal">
+          <div class="eyebrow">Training log</div>
+          <h3>12 days of showing up.</h3>
+          <p>42 minutes today. Personal best on the deadlift. Recovery still counts.</p>
+          <div class="gym-ring" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 08: Career -->
+    <section style="background:var(--coral)">
+      <div class="wrap feature-grid">
+        <div class="visual career reveal">
+          <div class="eyebrow">08 · Career</div>
+          <h3>Direction over drift.</h3>
+          <p>One skill improved this week. One project moved forward.</p>
+          <div class="career-bars" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div class="feature-copy reveal">
+          <div class="eyebrow">Professional life, with boundaries</div>
+          <h2>Turn ambition into a daily practice.</h2>
+          <p>Keep career goals, focus sessions, study time, and milestones visible without letting work consume the rest of your life.</p>
+          <a class="btn" href="app/index.html?section=career">Shape your path ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 09: Finance -->
+    <section>
+      <div class="wrap feature-grid">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">09 · Smart finance</div>
+          <h2>Clarity is a form of care.</h2>
+          <p>Track income and expenses across 220+ categories, create savings vaults, see timelines, convert currencies, and export PDF statements.</p>
+          <a class="btn" href="app/index.html?section=finance">Explore the ledger ↗</a>
+        </div>
+        <div class="visual ledger reveal">
+          <div class="ledger-top">
+            <span>Monthly overview</span>
+            <span>July 2026</span>
+          </div>
+          <div class="ledger-total">₹58,000</div>
+          <div class="ledger-row"><span>Income</span><b class="green">+ ₹72,000</b></div>
+          <div class="ledger-row"><span>Essentials</span><b>− ₹32,500</b></div>
+          <div class="ledger-row"><span>Giving</span><b>− ₹8,000</b></div>
+          <div class="ledger-row"><span>Savings vault</span><b class="green">₹8,500 / ₹10,000</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 10: Analysis & Insights -->
+    <section id="insights">
+      <div class="wrap analysis-grid">
+        <div class="analysis-board reveal">
+          <div class="analysis-top">
+            <span>Spiritual health report</span>
+            <span class="green">This month</span>
+          </div>
+          <div class="score">76 <small style="font-size:0.4em; color:var(--muted);">/ 100</small></div>
+          <div style="font-size:.78rem; color:var(--muted)">Murid, moving toward Mujahid</div>
+          <div class="chart" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="row"><span>Prayer</span><b>92%</b></div>
+          <div class="row"><span>Dhikr</span><b>88%</b></div>
+        </div>
+        <div class="feature-copy reveal">
+          <div class="eyebrow">10 · Analysis & insights</div>
+          <h2>See the pattern, not just the score.</h2>
+          <p>Connect Salah, Nafl, Dhikr, habits, and goals into a useful long-term view. Review trends and export a PDF report.</p>
+          <a class="btn" href="app/index.html?section=analysis">Open your insights ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 11: Profile -->
+    <section class="profile">
+      <div class="wrap feature-grid">
+        <div class="feature-copy reveal">
+          <div class="eyebrow">11 · Profile</div>
+          <h2>Your whole self, in one view.</h2>
+          <p>City, prayer method, language, currency, notifications, goals, rank, and preferences in one considered space.</p>
+          <a class="btn" href="app/index.html?section=profile">Make it yours ↗</a>
+        </div>
+        <div class="profile-card reveal">
+          <div class="profile-top">
+            <div class="avatar">MR</div>
+            <div>
+              <h3 style="font-size:1.25rem;">Mr riyar</h3>
+              <p style="font-size:0.85rem;">Dhaka · Murid · 18 day rhythm</p>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>92%</b><span>Salah rhythm</span></div>
+            <div class="stat"><b>14</b><span>goals alive</span></div>
+            <div class="stat"><b>₹8.5k</b><span>vault saved</span></div>
+          </div>
+          <div class="profile-row"><span>Current focus</span><b>Steady mornings</b></div>
+          <div class="profile-row"><span>Data location</span><b class="green">This device</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 12: Interactive Demo -->
+    <section class="demo">
+      <div class="wrap demo-grid">
+        <div class="demo-copy reveal">
+          <div class="eyebrow" style="color:var(--mint)">12 · A living product</div>
+          <h2>See the app change as you do.</h2>
+          <p>Switch between your day, analysis, and profile. This preview is interactive.</p>
+          <div class="tabs" role="tablist">
+            <button class="tab" role="tab" aria-selected="true" data-mode="Today" data-title="A steady morning" data-copy="Fajr, dhikr, gym, and room to breathe." data-value="76%">Today</button>
+            <button class="tab" role="tab" aria-selected="false" data-mode="Analysis" data-title="A longer view" data-copy="Three weeks of rhythm, not a perfect streak." data-value="92%">Analysis</button>
+            <button class="tab" role="tab" aria-selected="false" data-mode="Profile" data-title="A clear identity" data-copy="Your goals, rank, and private progress in one place." data-value="64%">Profile</button>
+          </div>
+        </div>
+        <div class="phone reveal">
+          <div class="screen">
+            <div>
+              <small>Lamim / <span id="mode">Today</span></small>
+              <h3 id="title">A steady morning</h3>
+              <div class="meter"><span id="meter" style="width: 76%;"></span></div>
+            </div>
+            <div>
+              <div class="screen-row">
+                <span id="copy">Fajr, dhikr, gym, and room to breathe.</span>
+                <strong id="value">76%</strong>
+              </div>
+              <div class="screen-row"><span>Private by default</span><span>✓</span></div>
+              <div class="screen-row"><span>Stored on</span><span>This device</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 13: FAQ -->
+    <section id="faq">
+      <div class="wrap faq-grid">
+        <div class="reveal">
+          <div class="eyebrow">13 · Questions, answered</div>
+          <h2>Nothing hidden behind the calm.</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details open>
+            <summary>What is included in Lamim?</summary>
+            <p>Salah, Nafl, Dhikr, Mujahid, Gym, Career, Goals and Sunnah, Smart Finance, Savings Vaults, Analysis, Spiritual Health Score, Profile, local backups, and PWA installation.</p>
+          </details>
+          <details>
+            <summary>Does Lamim need an account?</summary>
+            <p>No. Lamim works without email, password, phone number, or a central user database.</p>
+          </details>
+          <details>
+            <summary>Can I use it without internet?</summary>
+            <p>Yes. The app is built for offline use with local storage and service-worker caching.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final">
+      <div class="wrap final-wrap">
+        <div>
+          <div class="eyebrow" style="color:#2f4e3f;">Everything you need to begin</div>
+          <h2 style="margin-top:12px;">Make room for what lasts.</h2>
+        </div>
+        <div>
+          <p>Open Lamim, choose one small practice, and let the rest become clearer with time.</p>
+          <a class="btn" href="app/index.html" style="background:var(--dark); color:var(--paper);">Launch Lamim ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" style="color:var(--paper)">
+          <span class="mark">ل</span>lamim
+        </a>
+        <p>Your entire life, one quiet system.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <div class="footer-links">
+          <a href="#system">The system</a>
+          <a href="#insights">Insights</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h3>Modules</h3>
+        <div class="footer-links">
+          <a href="app/index.html?section=salah">Salah</a>
+          <a href="app/index.html?section=finance">Finance</a>
+          <a href="app/index.html?section=mujahid">Mujahid</a>
+        </div>
+      </div>
+      <div>
+        <h3>Product</h3>
+        <div class="footer-links">
+          <a href="#difference">Difference</a>
+          <a href="app/index.html">Open app</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap bottom">
+      <span>Offline first. Always yours.</span>
+      <span>© 2026 Lamim. Crafted for the Ummah.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation Toggle Logic
+    const nav = document.querySelector('.nav');
+    const menuToggle = document.querySelector('#menuToggle');
+    const navOverlay = document.querySelector('#navOverlay');
+    const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+
+    function toggleMenu(open) {
+      const isMobile = open !== undefined ? open : !nav.classList.contains('mobile-active');
+      nav.classList.toggle('mobile-active', isMobile);
+      menuToggle.setAttribute('aria-expanded', isMobile ? 'true' : 'false');
+      menuToggle.textContent = isMobile ? '✕' : '☰';
+    }
+
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close menu when clicking links inside mobile overlay
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close menu on click outside
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('mobile-active') && !nav.contains(e.target)) {
+        toggleMenu(false);
+      }
+    });
+
+    // Intersection Observer for Entrance Reveal Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Interactive Demo Preview Tabs
+    const tabs = document.querySelectorAll('.tab');
+    const modeEl = document.querySelector('#mode');
+    const titleEl = document.querySelector('#title');
+    const copyEl = document.querySelector('#copy');
+    const valueEl = document.querySelector('#value');
+    const meterEl = document.querySelector('#meter');
+
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        tabs.forEach(x => x.setAttribute('aria-selected', 'false'));
+        t.setAttribute('aria-selected', 'true');
+        
+        if (modeEl) modeEl.textContent = t.dataset.mode;
+        if (titleEl) titleEl.textContent = t.dataset.title;
+        if (copyEl) copyEl.textContent = t.dataset.copy;
+        if (valueEl) valueEl.textContent = t.dataset.value;
+        if (meterEl) meterEl.style.width = t.dataset.value;
+      });
+    });
+  </script>
+</body>
+</html>
