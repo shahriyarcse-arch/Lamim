@@ -1,11 +1,11 @@
-:root {
+﻿:root {
   --paper: #f1f0e9;
   --paper-rgb: 241, 240, 233;
   --ink: #13211b;
-  --muted: #6b776f;
+  --muted: #505c54;
   --dark: #12261e;
   --mint: #cfee82;
-  --teal: #5e9f7b;
+  --teal: #3d7a5a;
   --lilac: #ddd1ed;
   --sky: #bddcf0;
   --coral: #edb391;
@@ -1633,4 +1633,17 @@ details p {
   .lenis { scroll-behavior: auto; }
   .orbit, .float, .track, .breath, .nafl-orbit-ring, .nafl-badge { animation: none !important; }
   .reveal { opacity: 1; transform: none; }
+}
+/* === Accessibility: Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+  .reveal { opacity: 1; transform: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* === Accessibility: Focus Visible === */
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
