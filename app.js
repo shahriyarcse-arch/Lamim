@@ -42,8 +42,6 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }
 }
 
-/* ---- PREVENT BROWSER SCROLL RESTORATION ---- */
-history.scrollRestoration = 'manual';
 
 /* ---- EASING ---- */
 const ease = [0.16, 1, 0.3, 1];
