@@ -55,7 +55,22 @@
   <noscript>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Manrope:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="styles.min.css">
-    <style>.reveal{opacity:1;transform:none}</style>
+    <style>.reveal{opacity:1;transform:none}
+    /* Brand Essence Section */
+    .brand-essence { padding: 90px 0 60px; text-align: center; }
+    .essence-head { max-width: 680px; margin: 0 auto 48px; }
+    .essence-head .eyebrow { margin-bottom: 12px; color: var(--teal); letter-spacing: .14em; font-weight: 800; font-size: .78rem; }
+    .essence-head h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -.035em; color: var(--ink); }
+    .essence-head p { margin: 0 auto; font-size: 1.05rem; color: var(--muted); line-height: 1.6; }
+    .essence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+    .essence-card { background: #ffffff; border: 1px solid rgba(203, 214, 206, .6); border-radius: 24px; padding: 36px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(19, 33, 27, .03); transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease); }
+    .essence-card:hover { transform: translateY(-5px); box-shadow: 0 18px 45px rgba(19, 33, 27, .09); }
+    .essence-card.active { border: 2px solid #97D84C; box-shadow: 0 12px 36px rgba(151, 216, 76, .22); }
+    .essence-icon-badge { width: 58px; height: 58px; border-radius: 18px; background: #f0f8e8; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: inset 0 2px 4px rgba(255, 255, 255, .8); }
+    .essence-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; letter-spacing: -.02em; }
+    .essence-card p { font-size: .92rem; color: var(--muted); margin: 0; }
+
+  </style>
   </noscript>
 
   <style>
@@ -125,6 +140,21 @@
     .meter span{display:block;width:76%;height:100%;background:var(--teal);border-radius:inherit}
     @media(prefers-reduced-motion:reduce){.track{animation:none}.reveal{opacity:1;transform:none}}
     :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+  
+    /* Brand Essence Section */
+    .brand-essence { padding: 90px 0 60px; text-align: center; }
+    .essence-head { max-width: 680px; margin: 0 auto 48px; }
+    .essence-head .eyebrow { margin-bottom: 12px; color: var(--teal); letter-spacing: .14em; font-weight: 800; font-size: .78rem; }
+    .essence-head h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -.035em; color: var(--ink); }
+    .essence-head p { margin: 0 auto; font-size: 1.05rem; color: var(--muted); line-height: 1.6; }
+    .essence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+    .essence-card { background: #ffffff; border: 1px solid rgba(203, 214, 206, .6); border-radius: 24px; padding: 36px 24px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(19, 33, 27, .03); transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease); }
+    .essence-card:hover { transform: translateY(-5px); box-shadow: 0 18px 45px rgba(19, 33, 27, .09); }
+    .essence-card.active { border: 2px solid #97D84C; box-shadow: 0 12px 36px rgba(151, 216, 76, .22); }
+    .essence-icon-badge { width: 58px; height: 58px; border-radius: 18px; background: #f0f8e8; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: inset 0 2px 4px rgba(255, 255, 255, .8); }
+    .essence-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; letter-spacing: -.02em; }
+    .essence-card p { font-size: .92rem; color: var(--muted); margin: 0; }
+
   </style>
 </head>
 <body>
@@ -227,6 +257,57 @@
         </div>
       </div>
     </div>
+
+    
+    <!-- Brand Essence Section -->
+    <section class="brand-essence reveal" id="brand-essence">
+      <div class="wrap">
+        <div class="essence-head">
+          <div class="eyebrow">BRAND ESSENCE</div>
+          <h2>Think. Plan. Achieve.</h2>
+          <p>Lamim is a living system for an intentional life. We bring clarity, planning, and action together to help you achieve more.</p>
+        </div>
+
+        <div class="essence-grid">
+          <!-- Fast -->
+          <div class="essence-card">
+            <div class="essence-icon-badge">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3d7a5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3>Fast</h3>
+            <p>Built for speed</p>
+          </div>
+
+          <!-- Secure -->
+          <div class="essence-card">
+            <div class="essence-icon-badge">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3d7a5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Secure</h3>
+            <p>Your data is safe</p>
+          </div>
+
+          <!-- Smart (Highlighted Card) -->
+          <div class="essence-card active">
+            <div class="essence-icon-badge">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3d7a5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="3" width="4" height="18" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="2" y="13" width="4" height="8" rx="1"/></svg>
+            </div>
+            <h3>Smart</h3>
+            <p>AI powered</p>
+          </div>
+
+          <!-- Human -->
+          <div class="essence-card">
+            <div class="essence-icon-badge">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3d7a5a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>Human</h3>
+            <p>Designed for people</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
     <!-- Stats Bar -->
     <section class="stats-bar reveal">
