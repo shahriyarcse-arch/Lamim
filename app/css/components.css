@@ -612,8 +612,12 @@ select.input option:disabled { color: var(--color-text-muted); }
 
 /* --- Center Brand with Animated Orb --- */
 .topbar-brand {
-  display: flex; align-items: center; gap: 10px;
-  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .topbar-logo-orb {
@@ -1130,5 +1134,6 @@ select.input option:disabled { color: var(--color-text-muted); }
   background-color: #97D84C;
   border-radius: 50%;
 }
+
 
 
