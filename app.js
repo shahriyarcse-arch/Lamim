@@ -219,3 +219,6 @@ tabs.forEach((t) => {
     }
   });
 });
+
+/* ---- Motion CDN fallback cancel ---- */
+window.__motionReady();

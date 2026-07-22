@@ -610,6 +610,14 @@
     </div>
   </footer>
 
+  <script>
+    window.__motionFallback = setTimeout(function(){
+      document.querySelectorAll('.reveal').forEach(function(el){
+        el.style.opacity = '1'; el.style.transform = 'none';
+      });
+    },5000);
+    window.__motionReady = function(){ clearTimeout(window.__motionFallback); };
+  </script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
