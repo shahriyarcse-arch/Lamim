@@ -61,7 +61,10 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 
   animate('.hero h1', { opacity: [0, 1], transform: ['translateY(30px)', 'translateY(0)'] }, { duration: 0.8, delay: 0.08, easing: ease });
 
-  animate('.hero h1 em', { opacity: [0, 1], transform: ['scale(0.88)', 'scale(1)'] }, { duration: 0.6, delay: 0.35, easing: ease });
+  animate('.hero h1 em', { opacity: [0, 1], transform: ['scale(0.88)', 'scale(1)'] }, { duration: 0.6, delay: 0.35, easing: ease }).finished.then(() => {
+    document.querySelector('.hero h1 em').style.transform = '';
+    document.querySelector('.hero h1 em').style.opacity = '';
+  });
 
   animate('.hero p', { opacity: [0, 1], transform: ['translateY(20px)', 'translateY(0)'] }, { duration: 0.6, delay: 0.22, easing: ease });
 
@@ -143,6 +146,7 @@ function toggleMenu(open) {
   nav.classList.toggle('mobile-active', isMobile);
   menuToggle.setAttribute('aria-expanded', isMobile ? 'true' : 'false');
   menuToggle.textContent = isMobile ? '✕' : '☰';
+  document.body.style.overflow = isMobile ? 'hidden' : '';
   if (isMobile) {
     previousFocus = document.activeElement;
     document.querySelector('.nav-overlay a').focus();
