@@ -1,5 +1,5 @@
-import Lenis from 'https://unpkg.com/lenis@1.1.21/dist/lenis.mjs';
-import { animate, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@11.18.2/+esm";
+import Lenis from './lib/lenis.mjs';
+import { animate, inView, stagger } from "./lib/motion.mjs";
 
 /* ---- LENIS SMOOTH SCROLL (skip if reduced motion) ---- */
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

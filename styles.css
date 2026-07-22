@@ -109,7 +109,7 @@ h1 {
 }
 
 h1 em, h2 em {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: 500;
   font-style: normal;
   color: var(--teal);
@@ -488,7 +488,7 @@ p {
 }
 
 .big {
-  font: 500 clamp(1.6rem, 4vw, 2.4rem)/1 'Playfair Display', serif;
+  font: 500 clamp(1.6rem, 4vw, 2.4rem)/1 'Manrope', sans-serif;
   margin: 8px 0 4px;
 }
 
@@ -656,7 +656,7 @@ p {
 }
 
 .stat-number {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: 500;
   font-size: clamp(2rem, 4vw, 2.8rem);
   line-height: 1;
@@ -731,7 +731,7 @@ section {
 .manifest b {
   display: block;
   color: var(--teal);
-  font: 500 clamp(1.8rem, 3vw, 2.2rem) 'Playfair Display', serif;
+  font: 500 clamp(1.8rem, 3vw, 2.2rem) 'Manrope', sans-serif;
   margin-bottom: 4px;
 }
 
@@ -865,7 +865,7 @@ section {
 }
 
 .system-row h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: 500;
   font-size: clamp(1.4rem, 2.5vw, 2rem);
   color: var(--paper);
@@ -873,7 +873,7 @@ section {
 
 .num {
   color: var(--mint);
-  font-family: 'Playfair Display', serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: 500;
   font-size: clamp(1.2rem, 2vw, 1.7rem);
 }
@@ -1030,7 +1030,7 @@ section {
 
 .nafl-center-text b {
   display: block;
-  font: 500 clamp(1.4rem, 3.2vw, 2.2rem)/1 'Playfair Display', serif;
+  font: 500 clamp(1.4rem, 3.2vw, 2.2rem)/1 'Manrope', sans-serif;
 }
 
 .nafl-center-text span {
@@ -1060,7 +1060,7 @@ section {
 
 .count b {
   display: block;
-  font: 500 clamp(1.6rem, 3.8vw, 2.8rem)/1 'Playfair Display', serif;
+  font: 500 clamp(1.6rem, 3.8vw, 2.8rem)/1 'Manrope', sans-serif;
 }
 
 .count span {
@@ -1118,7 +1118,7 @@ section {
 
 .gym-stat b {
   display: block;
-  font: 500 clamp(1.5rem, 3.5vw, 2.6rem)/1 'Playfair Display', serif;
+  font: 500 clamp(1.5rem, 3.5vw, 2.6rem)/1 'Manrope', sans-serif;
   color: var(--ink);
 }
 
@@ -1175,7 +1175,7 @@ section {
 }
 
 .ledger-total, .score {
-  font: 500 clamp(2.4rem, 6vw, 3.3rem)/1 'Playfair Display', serif;
+  font: 500 clamp(2.4rem, 6vw, 3.3rem)/1 'Manrope', sans-serif;
   margin: 20px 0;
 }
 
@@ -1247,7 +1247,7 @@ section {
   display: grid;
   place-items: center;
   background: var(--mint);
-  font: 500 1.35rem 'Playfair Display', serif;
+  font: 500 1.35rem 'Manrope', sans-serif;
   flex-shrink: 0;
 }
 
@@ -1356,7 +1356,7 @@ section {
 }
 
 .screen h3 {
-  font: 500 clamp(2rem, 5vw, 2.7rem) 'Playfair Display', serif;
+  font: 500 clamp(2rem, 5vw, 2.7rem) 'Manrope', sans-serif;
   margin: 24px 0 18px;
   color: var(--paper);
 }
