@@ -54,6 +54,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
   <link rel="stylesheet" href="styles.css">
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
   <a href="#top" class="skip-link">Skip to main content</a>
@@ -506,13 +507,13 @@
           <h2>See the app change as you do.</h2>
           <p>Switch between your day, analysis, and profile. This preview is interactive.</p>
           <div class="tabs" role="tablist">
-            <button class="tab" role="tab" aria-selected="true" aria-controls="demo-panel" data-mode="Today" data-title="A steady morning" data-copy="Fajr, dhikr, gym, and room to breathe." data-value="76%">Today</button>
-            <button class="tab" role="tab" aria-selected="false" aria-controls="demo-panel" data-mode="Analysis" data-title="A longer view" data-copy="Three weeks of rhythm, not a perfect streak." data-value="92%">Analysis</button>
-            <button class="tab" role="tab" aria-selected="false" aria-controls="demo-panel" data-mode="Profile" data-title="A clear identity" data-copy="Your goals, rank, and private progress in one place." data-value="64%">Profile</button>
+            <button type="button" class="tab" role="tab" aria-selected="true" aria-controls="demo-panel" data-mode="Today" data-title="A steady morning" data-copy="Fajr, dhikr, gym, and room to breathe." data-value="76%">Today</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" aria-controls="demo-panel" data-mode="Analysis" data-title="A longer view" data-copy="Three weeks of rhythm, not a perfect streak." data-value="92%">Analysis</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" aria-controls="demo-panel" data-mode="Profile" data-title="A clear identity" data-copy="Your goals, rank, and private progress in one place." data-value="64%">Profile</button>
           </div>
         </div>
         <div class="phone reveal">
-          <div class="screen" role="tabpanel" id="demo-panel" aria-label="Demo preview">
+          <div class="screen" role="tabpanel" id="demo-panel" aria-label="Demo preview" aria-live="polite">
             <div>
               <small>Lamim / <span id="mode">Today</span></small>
               <h3 id="title">A steady morning</h3>
