@@ -224,7 +224,6 @@ p {
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.2s ease;
   white-space: nowrap;
 }
 
@@ -245,15 +244,6 @@ p {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--ink);
-}
-
-.btn:hover, .navcta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(19, 33, 27, 0.16);
-}
-
-.btn:active, .navcta:active {
-  transform: translateY(0);
 }
 
 .nav-actions {
@@ -1589,6 +1579,10 @@ details p {
 .btn:hover, .navcta:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 16px 40px rgba(19,33,27,0.14);
+}
+
+.btn:active, .navcta:active {
+  transform: translateY(0) scale(1);
 }
 
 .visual, .analysis-board, .profile-card, .phone, .system-row {
