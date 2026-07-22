@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" width="640" height="180">
+  <defs>
+    <!-- Facet 1: Vertical Stem Gradient (#97D84C -> #74C365) -->
+    <linearGradient id="logoV" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#97D84C"/>
+      <stop offset="100%" stop-color="#74C365"/>
+    </linearGradient>
+    <!-- Facet 2: Front Fold Gradient (#B5EB67 -> #69B82A) -->
+    <linearGradient id="logoF" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B5EB67"/>
+      <stop offset="50%" stop-color="#97D84C"/>
+      <stop offset="100%" stop-color="#69B82A"/>
+    </linearGradient>
+    <!-- Facet 3: Shadow / Underfold (#3D7812 -> #1D420E) -->
+    <linearGradient id="logoS" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3D7812" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#1D420E" stop-opacity="0.98"/>
+    </linearGradient>
+    <!-- Facet 4: Horizontal Base (#8ED83E -> #B5EB67) -->
+    <linearGradient id="logoH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8ED83E"/>
+      <stop offset="100%" stop-color="#B5EB67"/>
+    </linearGradient>
+    <!-- Specular Highlight -->
+    <linearGradient id="logoSp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Glow and Drop Shadow -->
+    <filter id="logoShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#112218" flood-opacity="0.12"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#74C365" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- 3D Folded Ribbon L Icon -->
+  <g transform="translate(20, 10) scale(0.38)" filter="url(#logoShadow)">
+    <path d="M140,115 C140,82 172,60 205,75 L240,92 C252,98 252,112 252,122 L252,325 L140,375Z" fill="url(#logoV)"/>
+    <path d="M175,255 L252,300 L252,385 L175,340Z" fill="url(#logoS)"/>
+    <path d="M140,195 C140,182 150,175 162,180 L252,130 L252,325 L140,375Z" fill="url(#logoF)" opacity="0.97"/>
+    <path d="M140,195 L252,130 L232,118 L140,172Z" fill="url(#logoSp)" opacity="0.85"/>
+    <path d="M175,300 L350,300 C382,300 400,320 400,344 C400,368 382,385 350,385 L175,385Z" fill="url(#logoH)"/>
+    <path d="M175,300 L355,300 C367,300 376,307 376,314 L175,314Z" fill="url(#logoSp)" opacity="0.5"/>
+  </g>
+
+  <!-- Wordmark "lamim" -->
+  <g fill="#112218">
+    <!-- l -->
+    <path d="M 215,62 C 215,56 219,52 225,52 C 231,52 235,56 235,62 L 235,114 C 235,120 231,124 225,124 C 219,124 215,120 215,114 Z"/>
+    <!-- a -->
+    <path d="M 278,74 C 265,74 254,84 254,99 C 254,114 265,125 278,125 C 286,125 292,121 296,115 L 296,119 C 296,123 299,125 303,125 C 308,125 311,123 311,119 L 311,81 C 311,76 307,74 303,74 C 299,74 296,76 296,80 L 296,83 C 292,77 286,74 278,74 Z M 281,88 C 290,88 296,94 296,100 C 296,107 290,113 281,113 C 273,113 267,107 267,100 C 267,94 273,88 281,88 Z"/>
+    <!-- m -->
+    <path d="M 328,76 C 332,76 335,78 336,83 C 340,77 347,74 355,74 C 362,74 368,78 371,84 C 375,77 383,74 391,74 C 401,74 408,81 408,92 L 408,119 C 408,123 405,125 401,125 C 397,125 394,123 394,119 L 394,93 C 394,87 389,84 384,84 C 378,84 373,88 373,94 L 373,119 C 373,123 370,125 366,125 C 362,125 359,123 359,119 L 359,93 C 359,87 354,84 349,84 C 343,84 338,88 338,94 L 338,119 C 338,123 335,125 331,125 C 327,125 324,123 324,119 L 324,81 C 324,78 326,76 328,76 Z"/>
+    <!-- i -->
+    <path d="M 425,76 C 429,76 432,78 432,82 L 432,119 C 432,123 429,125 425,125 C 421,125 418,123 418,119 L 418,82 C 418,78 421,76 425,76 Z"/>
+    <!-- m -->
+    <path d="M 445,76 C 449,76 452,78 453,83 C 457,77 464,74 472,74 C 479,74 485,78 488,84 C 492,77 500,74 508,74 C 518,74 525,81 525,92 L 525,119 C 525,123 522,125 518,125 C 514,125 511,123 511,119 L 511,93 C 511,87 506,84 501,84 C 495,84 490,88 490,94 L 490,119 C 490,123 487,125 483,125 C 479,125 476,123 476,119 L 476,93 C 476,87 471,84 466,84 C 460,84 455,88 455,94 L 455,119 C 455,123 452,125 448,125 C 444,125 441,123 441,119 L 441,81 C 441,78 443,76 445,76 Z"/>
+  </g>
+
+  <!-- Green Dot on 'i' matching logo.png -->
+  <circle cx="425" cy="62" r="7" fill="#97D84C"/>
+
+  <!-- Tagline: Think • Plan • Achieve -->
+  <text x="215" y="152" font-family="'Manrope', 'Satoshi', sans-serif" font-weight="600" font-size="16" letter-spacing="3" fill="#74C365">Think • Plan • Achieve</text>
+</svg>

@@ -213,7 +213,7 @@
   <div class="modal dhikr-history-modal">
     <div class="modal-header dhikr-hist-header">
       <h3 class="modal-title">Dhikr History</h3>
-      <button class="modal-close" onclick="Dhikr.hideHistoryModal()">✕</button>
+      <button class="modal-close" onclick="Dhikr.hideHistoryModal()"></button>
     </div>
     <div class="modal-body dhikr-hist-body" id="dhikr-history-modal-body">
       <!-- Content injected by JS -->
@@ -290,7 +290,7 @@
               <div class="gender-cards-row anim-target" style="margin-top: var(--space-5);">
                 <!-- Male Card -->
                 <div class="gender-card-v2 male" id="setup-gender-male" onclick="Auth.setGender('male')">
-                  <div class="gcv2-check">✓</div>
+                  <div class="gcv2-check"></div>
                   <div class="gcv2-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="gender-svg">
                       <circle cx="10" cy="14" r="5" />
@@ -303,7 +303,7 @@
                 </div>
                 <!-- Female Card -->
                 <div class="gender-card-v2 female" id="setup-gender-female" onclick="Auth.setGender('female')">
-                  <div class="gcv2-check">✓</div>
+                  <div class="gcv2-check"></div>
                   <div class="gcv2-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="gender-svg">
                       <circle cx="12" cy="9" r="5" />
@@ -466,24 +466,18 @@
         <span class="hamburger-line"></span>
       </button>
       
-      <!-- Center Brand with Animated Orb -->
+      <!-- Center Brand with Signature 3D Ribbon Logo -->
       <div class="topbar-brand">
-        <div class="topbar-logo-orb">
-          <div class="orb-ring orb-ring-1"></div>
-          <div class="orb-ring orb-ring-2"></div>
-          <div class="orb-core">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512"><path d="M336 344c-70.69 0-128-57.31-128-128 0-31.14 11.23-59.62 30-81.82-74.05 10.55-130 74.2-130 151.82 0 83.95 68.05 152 152 152 77.62 0 141.27-55.95 151.82-130-22.2 18.77-50.68 30-81.82 30z" fill="#ffffff" opacity="0.95"/><path d="M256 128l16 48 48 16-48 16-16 48-16-48-48-16 48-16z" fill="#fcd34d"/></svg>
-          </div>
-        </div>
-        <span class="topbar-brand-name">Lamim</span>
+        <img src="assets/logo-mark.png" alt="Lamim Logo" style="height:20px; width:auto; object-fit:contain;">
+        <span class="topbar-brand-name">lam<span class="i-green-dot">&#305;</span>m</span>
       </div>
 
       <!-- Actions: Theme Toggle + Avatar -->
       <div class="topbar-actions">
         <button class="topbar-theme-toggle" onclick="Profile.toggleTheme()" title="Toggle Theme" aria-label="Toggle theme">
           <div class="theme-toggle-track">
-            <span class="theme-icon theme-icon-sun">☀️</span>
-            <span class="theme-icon theme-icon-moon">🌙</span>
+            <span class="theme-icon theme-icon-sun">️</span>
+            <span class="theme-icon theme-icon-moon"></span>
             <div class="theme-toggle-thumb"></div>
           </div>
         </button>
@@ -609,8 +603,8 @@
       <div class="topbar-actions">
         <button class="topbar-theme-toggle" onclick="Profile.toggleTheme()" title="Toggle Theme" aria-label="Toggle theme">
           <div class="theme-toggle-track">
-            <span class="theme-icon theme-icon-sun">☀️</span>
-            <span class="theme-icon theme-icon-moon">🌙</span>
+            <span class="theme-icon theme-icon-sun">️</span>
+            <span class="theme-icon theme-icon-moon"></span>
             <div class="theme-toggle-thumb"></div>
           </div>
         </button>
@@ -655,8 +649,8 @@
       <!-- Calendar -->
       <div class="card mt-4">
         <div class="card-header">
-          <div class="card-title">📅 Monthly Calendar</div>
-          <button class="btn btn-sm btn-secondary" onclick="Salah.exportPDF()">📤 Export PDF</button>
+          <div class="card-title"> Monthly Calendar</div>
+          <button class="btn btn-sm btn-secondary" onclick="Salah.exportPDF()"> Export PDF</button>
         </div>
         <div id="salah-calendar" class="salah-calendar"></div>
         <div style="display:flex;gap:var(--space-4);margin-top:var(--space-3);flex-wrap:wrap">
@@ -1212,7 +1206,7 @@
       <div class="modal" style="max-width:400px">
         <div class="modal-header">
           <h3 class="modal-title" id="profile-edit-title">Edit</h3>
-          <button class="modal-close" onclick="Profile.closeEditModal()">✕</button>
+          <button class="modal-close" onclick="Profile.closeEditModal()"></button>
         </div>
         <div style="margin-bottom:var(--space-4)">
           <label class="input-label" id="profile-edit-label" style="margin-bottom:6px;display:block">Value</label>
@@ -1237,7 +1231,7 @@
             <div class="ver-app-name">Lamim</div>
             <div class="ver-tagline">Spirituality Companion</div>
           </div>
-          <button class="modal-close" onclick="Profile.closeVersionModal()">✕</button>
+          <button class="modal-close" onclick="Profile.closeVersionModal()"></button>
         </div>
 
         <div class="ver-body">
@@ -1268,7 +1262,7 @@
     <!-- Confirmation Modal -->
     <div class="modal-overlay hidden" id="confirm-modal" style="display:flex; align-items:center; justify-content:center;">
       <div class="modal custom-confirm-panel">
-        <div class="confirm-icon-wrap" id="confirm-icon-box">⚠️</div>
+        <div class="confirm-icon-wrap" id="confirm-icon-box">️</div>
         <h3 class="confirm-title" id="confirm-title">Are you sure?</h3>
         <p class="confirm-msg" id="confirm-msg">This action cannot be undone.</p>
         <div class="confirm-actions">
@@ -1281,7 +1275,7 @@
     <!-- Themed Danger Confirm (Logout / Delete / Factory Reset) -->
     <div class="modal-overlay hidden" id="danger-confirm-modal">
       <div class="modal danger-confirm">
-        <div class="danger-icon" id="danger-icon">⚠️</div>
+        <div class="danger-icon" id="danger-icon">️</div>
         <h3 class="danger-title" id="danger-title">Are you sure?</h3>
         <p class="danger-msg" id="danger-msg">This action cannot be undone.</p>
         <div class="danger-actions">
@@ -1315,7 +1309,7 @@
 <!-- GOAL MODAL -->
 <div class="modal-overlay hidden" id="goal-modal">
   <div class="modal">
-    <div class="modal-header"><h3 class="modal-title" id="goal-modal-title">New Goal</h3><button class="modal-close" onclick="Goals.hideModal()">✕</button></div>
+    <div class="modal-header"><h3 class="modal-title" id="goal-modal-title">New Goal</h3><button class="modal-close" onclick="Goals.hideModal()"></button></div>
     <input type="hidden" id="goal-id-field">
     <div class="auth-form">
       <div class="input-group"><label class="input-label">Title</label><input class="input" id="goal-title-field" placeholder="e.g. Pray all 5 salah daily"></div>
@@ -1325,8 +1319,8 @@
         <div class="input-group"><label class="input-label">Unit</label><input class="input" id="goal-unit-field" placeholder="days, pages, etc."></div>
       </div>
       <div class="grid-2">
-        <div class="input-group"><label class="input-label">Category</label><select class="input" id="goal-category-field"><option value="salah">🕋 Salah</option><option value="dhikr">📿 Dhikr</option><option value="quran">📖 Quran</option><option value="charity">💝 Charity</option><option value="learning">📚 Learning</option><option value="other">🎯 Other</option></select></div>
-        <div class="input-group"><label class="input-label">Priority</label><select class="input" id="goal-priority-field"><option value="high">🔴 High</option><option value="medium" selected>🟡 Medium</option><option value="low">🟢 Low</option></select></div>
+        <div class="input-group"><label class="input-label">Category</label><select class="input" id="goal-category-field"><option value="salah"> Salah</option><option value="dhikr"> Dhikr</option><option value="quran"> Quran</option><option value="charity"> Charity</option><option value="learning"> Learning</option><option value="other"> Other</option></select></div>
+        <div class="input-group"><label class="input-label">Priority</label><select class="input" id="goal-priority-field"><option value="high"> High</option><option value="medium" selected>🟡 Medium</option><option value="low">🟢 Low</option></select></div>
       </div>
       <div class="grid-2">
         <div class="input-group"><label class="input-label">Deadline</label><input class="input" type="date" id="goal-deadline-field"></div>
@@ -1341,7 +1335,7 @@
 <!-- DHIKR ADD MODAL -->
 <div class="modal-overlay hidden" id="dhikr-add-modal">
   <div class="modal">
-    <div class="modal-header"><h3 class="modal-title">Custom Dhikr</h3><button class="modal-close" onclick="Dhikr.hideAddModal()">✕</button></div>
+    <div class="modal-header"><h3 class="modal-title">Custom Dhikr</h3><button class="modal-close" onclick="Dhikr.hideAddModal()"></button></div>
     <div class="auth-form">
       <div class="input-group"><label class="input-label">Name / Transliteration</label><input class="input" id="custom-latin" maxlength="60" placeholder="e.g. SubhanAllah"></div>
       <div class="input-group"><label class="input-label">Target Count</label><input class="input" type="number" id="custom-target" value="33" min="1"></div>
@@ -1359,7 +1353,7 @@
     <div class="modal history-modal-content-container anim-scale-up">
       <div class="modal-header">
         <h3 class="modal-title">Spiritual Journey</h3>
-        <button class="modal-close" onclick="Goals.hideHistory()">✕</button>
+        <button class="modal-close" onclick="Goals.hideHistory()"></button>
       </div>
       
       <!-- Sophisticated Summary -->
@@ -1390,12 +1384,12 @@
     <div class="modal anim-scale-up" style="max-width:400px;">
       <div class="modal-header">
         <h3 class="modal-title">Add Habit to Quit</h3>
-        <button class="modal-close" onclick="Mujahid.hideAddModal()">✕</button>
+        <button class="modal-close" onclick="Mujahid.hideAddModal()"></button>
       </div>
       <div class="modal-body" style="padding:20px; max-height:80vh; overflow-y:auto;">
         <!-- STEP 1: SELECT OR TYPE HABIT -->
         <div style="margin-bottom:16px;">
-          <input type="text" id="mujahid-custom-habit-input" class="mujahid-forge-field" placeholder="🔍 Search or type a habit..." style="margin-bottom:14px; border-width:2px;" />
+          <input type="text" id="mujahid-custom-habit-input" class="mujahid-forge-field" placeholder=" Search or type a habit..." style="margin-bottom:14px; border-width:2px;" />
           
           <div id="mujahid-default-habits" class="mujahid-habits-grid" style="margin-bottom:0; max-height:220px; overflow-y:auto; padding-right:4px;">
             <!-- Presets injected here -->
@@ -1407,7 +1401,7 @@
           <!-- Step 2.1: Visual Theme (Collapsible) -->
           <details style="margin-bottom:16px;">
             <summary style="cursor:pointer; color:var(--color-text-muted, rgba(255,255,255,0.5)); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; outline:none; user-select:none; display:flex; align-items:center; gap:8px;">
-              <span>🎨 Customize Visual Theme</span>
+              <span> Customize Visual Theme</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </summary>
             <div style="margin-top:12px; padding:12px; background:var(--color-bg-tertiary, rgba(0,0,0,0.2)); border-radius:12px; border:1px solid var(--color-divider-subtle, rgba(255,255,255,0.05));">
@@ -1424,7 +1418,7 @@
           <div class="custom-dt-picker-card" style="background:var(--color-bg-secondary, rgba(255,255,255,0.02)); border:1px solid var(--color-divider-subtle, rgba(255,255,255,0.05)); border-radius:16px; padding:16px; margin-bottom:16px; text-align:center;">
             <!-- Display Selected Date/Time dynamically -->
             <div id="mujahid-dt-display" style="font-size:14px; font-weight:800; color:var(--color-accent-green, #10b981); margin-bottom:12px; letter-spacing:0.5px; text-transform:uppercase;">
-              🕒 Starting: Right Now
+               Starting: Right Now
             </div>
 
             <!-- Quick Date Buttons + Custom Trigger -->
@@ -1504,7 +1498,7 @@
     <div class="modal anim-scale-up" style="max-width:320px;">
       <div class="modal-header">
         <h3 class="modal-title">Set Start Time</h3>
-        <button class="modal-close" onclick="Mujahid.hideStartDateModal()">✕</button>
+        <button class="modal-close" onclick="Mujahid.hideStartDateModal()"></button>
       </div>
       <div class="modal-body">
         <p>When did you start fighting this habit?</p>
@@ -1525,7 +1519,7 @@
           </span>
           Mark Relapse
         </h3>
-        <button class="modal-close" onclick="Mujahid.hideRelapseModal()">✕</button>
+        <button class="modal-close" onclick="Mujahid.hideRelapseModal()"></button>
       </div>
       <div class="modal-body">
         <p class="mujahid-relapse-sub">A relapse is a lesson, not a failure. Why did it happen?</p>
@@ -1550,7 +1544,7 @@
           <button id="mujahid-history-clear-btn" class="btn btn-icon-sm mujahid-history-clear" title="Clear History">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
-          <button class="modal-close" onclick="Mujahid.hideHistoryModal()" style="margin:0;">✕</button>
+          <button class="modal-close" onclick="Mujahid.hideHistoryModal()" style="margin:0;"></button>
         </div>
       </div>
       <div class="modal-body">
@@ -1564,7 +1558,7 @@
   <!-- MUJAHID CONFIRM MODAL -->
   <div class="modal-overlay hidden" id="mujahid-confirm-modal" style="z-index: 30000;">
     <div class="modal anim-scale-up" style="max-width:320px; text-align:center;">
-      <div style="width:60px; height:60px; background:rgba(239, 68, 68, 0.1); color:var(--color-accent-red, #ef4444); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:30px;">⚠️</div>
+      <div style="width:60px; height:60px; background:rgba(239, 68, 68, 0.1); color:var(--color-accent-red, #ef4444); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:30px;">️</div>
       <h3 class="modal-title" id="mujahid-confirm-title" style="color:var(--color-text-primary) !important; margin-bottom:12px;">Are you sure?</h3>
       <p id="mujahid-confirm-msg" style="color:var(--color-text-muted); font-size:14px; line-height:1.6; margin-bottom:24px;">This action cannot be undone.</p>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -1578,12 +1572,12 @@
   <div class="modal-overlay hidden" id="mujahid-tools-modal" onclick="if(event.target===this) Mujahid.hideToolsModal()">
     <div class="modal anim-scale-up" style="max-width:400px;max-height:85vh;overflow-y:auto;padding:0;border-radius:28px;">
       <div class="modal-header" style="display:flex;align-items:center;gap:14px;padding:24px 24px 20px;border-bottom:1px solid var(--color-divider-subtle, rgba(255,255,255,0.06));background:linear-gradient(135deg, rgba(239,68,68,0.10), rgba(168,85,247,0.08));border-radius:28px 28px 0 0;">
-        <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg, rgba(239,68,68,0.18), rgba(168,85,247,0.18));display:flex;align-items:center;justify-content:center;color:var(--color-accent-red, #ef4444);font-size:22px;border:1px solid rgba(255,255,255,0.08);">⚙️</div>
+        <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg, rgba(239,68,68,0.18), rgba(168,85,247,0.18));display:flex;align-items:center;justify-content:center;color:var(--color-accent-red, #ef4444);font-size:22px;border:1px solid rgba(255,255,255,0.08);">️</div>
         <div style="flex:1;">
           <h3 class="modal-title" style="margin:0;font-size:18px;font-weight:800;letter-spacing:-0.01em;">Mujahid Settings</h3>
           <div style="font-size:12px;color:var(--color-text-muted);margin-top:2px;">Discipline tools & milestone guide</div>
         </div>
-        <button class="modal-close" onclick="Mujahid.hideToolsModal()" style="position:static;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-muted);font-size:16px;transition:background 0.3s;">✕</button>
+        <button class="modal-close" onclick="Mujahid.hideToolsModal()" style="position:static;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-text-muted);font-size:16px;transition:background 0.3s;"></button>
       </div>
       <div class="modal-body" style="padding:24px;">
 
@@ -1604,10 +1598,10 @@
         <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:12px;">Tools</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
           <button class="mujahid-tool-btn" onclick="Mujahid.resetAllStartDates()" style="display:flex;align-items:center;gap:12px;text-align:left;padding:14px 16px;border-radius:14px;font-size:14px;font-weight:600;background:var(--color-surface-card);border:1px solid var(--color-surface-nested);color:var(--color-text-primary);cursor:pointer;transition:transform 0.2s, border-color 0.2s;">
-            <span style="font-size:18px;">🔄</span> Reset All Timers
+            <span style="font-size:18px;"></span> Reset All Timers
           </button>
           <button class="mujahid-tool-btn danger" onclick="Mujahid.clearAllData()" style="display:flex;align-items:center;gap:12px;text-align:left;padding:14px 16px;border-radius:14px;font-size:14px;font-weight:600;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:var(--color-accent-red, #ef4444);cursor:pointer;transition:transform 0.2s, background 0.2s;">
-            <span style="font-size:18px;">🗑️</span> Clear All Data
+            <span style="font-size:18px;">️</span> Clear All Data
           </button>
         </div>
       </div>
@@ -1630,7 +1624,7 @@
     <link rel="stylesheet" href="css/breathing-modal.css">
 
     <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; position:relative; z-index:10;">
-      <button class="modal-close" onclick="Mujahid.hideBreathingExercise()" style="position:absolute; top:30px; right:30px; z-index:30; background:rgba(255,255,255,0.08); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:18px; border:1px solid rgba(255,255,255,0.12); cursor:pointer; color:#fff; transition: background 0.3s, transform 0.3s;">✕</button>
+      <button class="modal-close" onclick="Mujahid.hideBreathingExercise()" style="position:absolute; top:30px; right:30px; z-index:30; background:rgba(255,255,255,0.08); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:18px; border:1px solid rgba(255,255,255,0.12); cursor:pointer; color:#fff; transition: background 0.3s, transform 0.3s;"></button>
 
       <!-- Top label -->
       <div style="position:absolute; top:34px; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
@@ -1661,7 +1655,7 @@
   <!-- Section Settings Modal (Custom Popup) -->
   <div id="section-settings-modal" class="modal-overlay hidden">
     <div class="modal card card-glass anim-scale-up" style="max-width:340px; width:90%; padding:30px 28px; border-radius:16px; position:relative; border:1px solid var(--color-divider-subtle, rgba(255,255,255,0.08));">
-      <button class="modal-close" onclick="UI.hideSettingsModal()" style="position:absolute; top:14px; right:14px; z-index:5; width:30px; height:30px; border-radius:8px; background:transparent; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--color-text-muted); font-size:16px; transition:background 0.2s, color 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='var(--color-text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-muted)'">✕</button>
+      <button class="modal-close" onclick="UI.hideSettingsModal()" style="position:absolute; top:14px; right:14px; z-index:5; width:30px; height:30px; border-radius:8px; background:transparent; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--color-text-muted); font-size:16px; transition:background 0.2s, color 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='var(--color-text-primary)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-muted)'"></button>
       <div class="flex flex-col items-center text-center gap-3">
         <div class="modal-icon-orb" id="settings-modal-icon" style="width:54px; height:54px; background:rgba(248,113,113,0.1); color:#f87171; border-radius:13px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(248,113,113,0.2);">
           <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>

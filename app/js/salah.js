@@ -461,7 +461,7 @@ const Salah = {
       <div class="salah-cards-container">
         ${isFuture ? `
           <div class="salah-empty-stats" style="grid-column: 1 / -1; margin: 0;">
-            <div class="salah-empty-title">🔒 ${titleLocked}</div>
+            <div class="salah-empty-title"> ${titleLocked}</div>
             <div class="salah-empty-subtitle">${descLocked}</div>
           </div>
         ` : ''}
@@ -563,13 +563,13 @@ this.renderPrayerCards(date, true); // true = skipAnim
      this.renderCalendar();
 
     const sm = this.statusMeta[status];
-    const result = sm.result === 'successful' ? '✅' : sm.result === 'qaza' ? '⏰' : '❌';
+    const result = sm.result === 'successful' ? '' : sm.result === 'qaza' ? '⏰' : '';
 
     // Celebrate all 5 done
     const score = Utils.salahScore(DB.getSalah(date));
     if (score.done === 5) {
       setTimeout(() => {
-        Utils.toast(window.t ? window.t('🎉 MashaAllah! All 5 farz prayers logged!') : '🎉 MashaAllah! All 5 farz prayers logged!', 'success');
+        Utils.toast(window.t ? window.t(' MashaAllah! All 5 farz prayers logged!') : ' MashaAllah! All 5 farz prayers logged!', 'success');
         Utils.confetti();
       }, 500);
     }
@@ -889,7 +889,7 @@ this.renderPrayerCards(date, true); // true = skipAnim
           sColor = 'var(--color-text-muted)';
         }
 
-        const emojis = { fajr:'🌅', dhuhr:'☀️', asr:'🌤️', maghrib:'🌇', isha:'🌌' };
+        const emojis = { fajr:'', dhuhr:'️', asr:'️', maghrib:'', isha:'' };
         
         html += `
           <div class="tt-row">

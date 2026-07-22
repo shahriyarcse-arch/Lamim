@@ -303,7 +303,7 @@ const Utils = {
 
   // Toast
   toast(msg, type = 'info', duration = 3000) {
-    const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    const icons = { success: '', error: '', info: 'ℹ️', warning: '️' };
     const container = document.getElementById('toast-container');
     if (!container) return;
     const el = document.createElement('div');
@@ -532,8 +532,8 @@ const Utils = {
     }
 
     const types = {
-      danger: { icon: '🗑️', color: 'var(--fin-red)', bg: 'rgba(248, 113, 113, 0.1)', btn: 'var(--fin-red)' },
-      warning: { icon: '⚠️', color: 'var(--fin-orange)', bg: 'rgba(251, 191, 36, 0.1)', btn: 'var(--fin-orange)' },
+      danger: { icon: '️', color: 'var(--fin-red)', bg: 'rgba(248, 113, 113, 0.1)', btn: 'var(--fin-red)' },
+      warning: { icon: '️', color: 'var(--fin-orange)', bg: 'rgba(251, 191, 36, 0.1)', btn: 'var(--fin-orange)' },
       info: { icon: 'ℹ️', color: 'var(--fin-blue)', bg: 'rgba(56, 189, 248, 0.1)', btn: 'var(--fin-blue)' }
     };
 
@@ -578,7 +578,7 @@ const Utils = {
     if (titleEl) titleEl.textContent = opts.title || 'Are you sure?';
     if (msgEl) msgEl.textContent = opts.message || '';
     if (iconEl) {
-      iconEl.innerHTML = opts.icon || '⚠️';
+      iconEl.innerHTML = opts.icon || '️';
       iconEl.style.background = color + '1f';
       iconEl.style.color = color;
       iconEl.style.boxShadow = `0 0 0 6px ${color}12, 0 12px 30px ${color}2e`;

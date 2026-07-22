@@ -34,7 +34,7 @@ const Career = {
 
   _GOAL_MAX_LEN: 120,
 
-  _emojiRe: /^(?:💻|📖|🎓|🌐|💼|💪|✨|✍️|🎨|🎯)\s*/u,
+  _emojiRe: /^(?:|||||||️||)\s*/u,
 
   init() {
     this.selectedDate = Utils.todayStr();
@@ -819,7 +819,7 @@ const Career = {
         </tr>`;
       }
       const goalsCell = goalsMap[r.day]
-        ? `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start">` + goalsMap[r.day].map(g => `<span style="display:inline-block;font-size:10px;line-height:1.3;padding:2px 7px;border-radius:999px;white-space:nowrap;${g.done ? 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0' : 'background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0'}">${g.done ? '✓' : '○'} ${Utils.escapeHTML(g.text)}</span>`).join('') + `</div>`
+        ? `<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-start">` + goalsMap[r.day].map(g => `<span style="display:inline-block;font-size:10px;line-height:1.3;padding:2px 7px;border-radius:999px;white-space:nowrap;${g.done ? 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0' : 'background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0'}">${g.done ? '' : '○'} ${Utils.escapeHTML(g.text)}</span>`).join('') + `</div>`
         : '—';
       return `<tr>
         <td style="padding:8px;border-bottom:1px solid #e2e8f0;font-weight:700;vertical-align:top">${r.day}</td>
@@ -974,7 +974,7 @@ const Career = {
 
     const t = (v) => window.n ? window.n(v) : v;
     const dayPct = dayTotal > 0 ? Math.round((dayDone / dayTotal) * 100) : 0;
-    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(7) + '🔥' : '—';
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(7) + '' : '—';
     const heroLabel = isSelectedToday ? 'Today\'s Goals' : 'Day\'s Goals';
 
     statsEl.innerHTML = `
@@ -1096,7 +1096,7 @@ const Career = {
     streak = Math.round(streak * 100) / 100;
 
     const t = (v) => window.n ? window.n(v) : v;
-    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(daysInMonth) + '🔥' : '—';
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(daysInMonth) + '' : '—';
 
     statsEl.innerHTML = `
       <div class="cb-progress-hero-tile">
@@ -1236,7 +1236,7 @@ const Career = {
     streak = Math.round(streak * 100) / 100;
 
     const t = (v) => window.n ? window.n(v) : v;
-    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(totalDays) + '🔥' : '—';
+    const streakText = streak > 0 ? t(streak % 1 === 0 ? streak : streak.toFixed(2)) + '/' + t(totalDays) + '' : '—';
 
     statsEl.innerHTML = `
       <div class="cb-progress-hero-tile">

@@ -46,7 +46,7 @@ const Profile = {
 
       <div class="profile-stats">
         <div class="streak-badge active streak-perfect" style="background:rgba(255,214,10,0.1); border-color:rgba(255,214,10,0.3); color:var(--color-accent-gold);" title="Your Lamim Spiritual Score (LSS)">
-          <span class="badge-icon">⚡</span>${user.spirit_level || 'Ghafil'} · ${Math.round(user.spirit_score || 0)} Power
+          <span class="badge-icon"></span>${user.spirit_level || 'Ghafil'} · ${Math.round(user.spirit_score || 0)} Power
         </div>
         <div class="streak-badge ${streak.consistency > 0 ? 'active' : ''} streak-consistency" title="Consecutive days with 4+ prayers logged">
           <span class="badge-icon">${pIcons.consistency}</span>${streak.consistency}d Consistent
@@ -417,7 +417,7 @@ const Profile = {
     if (s.notifications) {
       // Turning ON
       if (Notification.permission === 'granted') {
-        Utils.toast('Notifications enabled 🔔', 'success');
+        Utils.toast('Notifications enabled ', 'success');
         if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
       } else if (Notification.permission === 'denied') {
         Utils.toast('Notifications blocked by browser. Enable from browser address bar settings.', 'error');
@@ -425,7 +425,7 @@ const Profile = {
         // First time — ask permission
         Notification.requestPermission().then(p => {
           if (p === 'granted') {
-            Utils.toast('Notifications enabled 🔔', 'success');
+            Utils.toast('Notifications enabled ', 'success');
             if (typeof PrayerNotifier !== 'undefined') PrayerNotifier.init();
           }
         }).catch(() => {

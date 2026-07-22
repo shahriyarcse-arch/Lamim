@@ -371,13 +371,13 @@ const Mujahid = {
 
   migrateIcons() {
     const iconMap = {
-      '🔞': this.defaultHabits.find(h => h.id === 'porn').icon,
-      '🚫': this.defaultHabits.find(h => h.id === 'masturbation').icon,
-      '🚬': this.defaultHabits.find(h => h.id === 'smoking').icon,
-      '📱': this.defaultHabits.find(h => h.id === 'social_media').icon,
-      '🎮': this.defaultHabits.find(h => h.id === 'gaming').icon,
-      '🍔': this.defaultHabits.find(h => h.id === 'overeating').icon,
-      '🎯': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 8-8 8"/><path d="m8 8 8 8"/></svg>'
+      '': this.defaultHabits.find(h => h.id === 'porn').icon,
+      '': this.defaultHabits.find(h => h.id === 'masturbation').icon,
+      '': this.defaultHabits.find(h => h.id === 'smoking').icon,
+      '': this.defaultHabits.find(h => h.id === 'social_media').icon,
+      '': this.defaultHabits.find(h => h.id === 'gaming').icon,
+      '': this.defaultHabits.find(h => h.id === 'overeating').icon,
+      '': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 8-8 8"/><path d="m8 8 8 8"/></svg>'
     };
 
     let changed = false;
@@ -428,7 +428,7 @@ const Mujahid = {
               const oldBadge = this.getBadgeForDays(lastKnownDays);
               const newBadge = this.getBadgeForDays(timeStats.days);
               if (newBadge && (!oldBadge || newBadge.days > oldBadge.days)) {
-                Utils.toast(`RANK ADVANCEMENT: You have achieved the rank of "${newBadge.name}"! 🛡️✨`, 'success');
+                Utils.toast(`RANK ADVANCEMENT: You have achieved the rank of "${newBadge.name}"! ️`, 'success');
               }
             }
             
@@ -960,7 +960,7 @@ const Mujahid = {
     // Reset Custom Date & Time UI
     const dtDisplay = document.getElementById('mujahid-dt-display');
     if (dtDisplay) {
-      dtDisplay.innerText = '🕒 Starting: Right Now';
+      dtDisplay.innerText = ' Starting: Right Now';
       dtDisplay.style.color = 'var(--color-accent-green)';
     }
     const customControls = document.getElementById('mujahid-custom-dt-controls');
@@ -1094,7 +1094,7 @@ const Mujahid = {
       // Render and notify
       this.render(true);
       if (input) input.value = '';
-      Utils.toast('Habit forged! Your journey begins ⚔️', 'success');
+      Utils.toast('Habit forged! Your journey begins ️', 'success');
 
     } catch (error) {
       console.error('Mujahid: Failed to forge habit:', error);
@@ -1123,7 +1123,7 @@ const Mujahid = {
       // Right Now
       startInput.value = '';
       if (dtDisplay) {
-        dtDisplay.innerText = '🕒 Starting: Right Now';
+        dtDisplay.innerText = ' Starting: Right Now';
         dtDisplay.style.color = 'var(--color-accent-green)';
       }
     } else {
@@ -1142,7 +1142,7 @@ const Mujahid = {
       if (dtDisplay) {
         const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
         const formatted = date.toLocaleString('en-US', options);
-        dtDisplay.innerText = `🕒 Starting: ${formatted}`;
+        dtDisplay.innerText = ` Starting: ${formatted}`;
         dtDisplay.style.color = 'var(--theme-color, #6366f1)';
       }
     }
@@ -1254,7 +1254,7 @@ const Mujahid = {
     const dtDisplay = document.getElementById('mujahid-dt-display');
     if (dtDisplay) {
       const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
-      dtDisplay.innerText = `🕒 Starting: ${date.toLocaleString('en-US', options)}`;
+      dtDisplay.innerText = ` Starting: ${date.toLocaleString('en-US', options)}`;
       dtDisplay.style.color = 'var(--theme-color, #6366f1)';
     }
   },

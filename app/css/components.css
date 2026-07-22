@@ -1,5 +1,5 @@
-/* =============================================
-   LAMIM — REUSABLE COMPONENTS
+﻿/* =============================================
+   LAMIM â€” REUSABLE COMPONENTS
    ============================================= */
 
 /* === CARDS === */
@@ -338,7 +338,7 @@ select.input option:disabled { color: var(--color-text-muted); }
   background: rgba(99, 102, 241, 0.06);
 }
 
-/* Active state — glowing pill */
+/* Active state â€” glowing pill */
 .nav-item.active { 
   background: rgba(168, 85, 247, 0.12); 
   color: var(--color-accent-primary);
@@ -667,17 +667,15 @@ select.input option:disabled { color: var(--color-text-muted); }
 }
 
 .topbar-brand-name {
-  font-size: 20px; font-weight: 800;
-  letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--color-text-primary) 20%, #a855f7 60%, #38bdf8 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: brandShimmer 5s ease-in-out infinite;
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  line-height: 1;
 }
 
-@keyframes brandShimmer {
-  0%, 100% { background-position: 0% 50%; }
+
   50% { background-position: 100% 50%; }
 }
 
@@ -1111,5 +1109,26 @@ select.input option:disabled { color: var(--color-text-muted); }
 }
 .edit-char-count.warn { color: var(--fin-orange); }
 .edit-char-count.max { color: var(--fin-red); }
+
+
+
+/* --- Precise Round Green Dot for i in wordmark --- */
+.i-green-dot {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-align: center;
+}
+.i-green-dot::after {
+  content: "";
+  position: absolute;
+  top: .09em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: .2em;
+  height: .2em;
+  background-color: #97D84C;
+  border-radius: 50%;
+}
 
 

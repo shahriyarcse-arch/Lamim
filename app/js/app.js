@@ -423,7 +423,7 @@ updateSectionTitle() {
         const errDiv = document.createElement('div');
         errDiv.className = 'section-error-recovery';
         errDiv.style.cssText = 'text-align:center;padding:60px 20px;';
-        errDiv.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">⚠️</div><div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:16px;">Something went wrong loading this section.</div><button class="btn" onclick="App.navigateTo(\'' + sectionId + '\')" style="padding:10px 24px;border-radius:12px;background:var(--color-accent-primary);color:#fff;font-weight:600;">Try Again</button>';
+        errDiv.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">️</div><div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:16px;">Something went wrong loading this section.</div><button class="btn" onclick="App.navigateTo(\'' + sectionId + '\')" style="padding:10px 24px;border-radius:12px;background:var(--color-accent-primary);color:#fff;font-weight:600;">Try Again</button>';
         panel.appendChild(errDiv);
       }
     }

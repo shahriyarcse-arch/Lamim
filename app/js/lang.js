@@ -80,7 +80,7 @@ const Translations = {
   'Logged': 'লগ করা হয়েছে',
   // Dashboard & Home
   'Today': 'আজ',
-  '📋 Today': '📋 আজকে',
+  ' Today': ' আজকে',
   'Habits & Sunnah': 'অভ্যাস ও সুন্নাহ',
   'Knowledge Hub': 'জ্ঞানের হাব',
   'Total Vault Savings': 'মোট ভল্ট সেভিংস',
@@ -178,7 +178,7 @@ const Translations = {
   'Active': 'সক্রিয়',
   'Completed': 'সম্পন্ন',
   'Archived': 'আর্কাইভড',
-  '➕ New Goal': '➕ নতুন লক্ষ্য',
+  ' New Goal': ' নতুন লক্ষ্য',
   'New Goal': 'নতুন লক্ষ্য',
   'Cancel': 'বাতিল',
   'Save Goal': 'সেভ করুন',
@@ -322,20 +322,20 @@ const Translations = {
   'sec': 'সেকেন্ড',
   
   // Toasts
-  'Great job! Stay strong! 💪': 'অসাধারণ! শক্ত থাকুন! 💪',
-  'Day marked as clean! Keep going! 🎉': 'দিনটি পরিষ্কার হিসেবে চিহ্নিত! চালিয়ে যান! 🎉',
-  'Relapse Undone! Your streak is restored. 🛡️✨': 'পতন বাতিল করা হয়েছে! আপনার স্ট্রিক ফিরে এসেছে। 🛡️✨',
-  'Habit forged! Your journey begins ⚔️': 'অভ্যাস তৈরি হয়েছে! আপনার যাত্রা শুরু ⚔️',
+  'Great job! Stay strong! ': 'অসাধারণ! শক্ত থাকুন! ',
+  'Day marked as clean! Keep going! ': 'দিনটি পরিষ্কার হিসেবে চিহ্নিত! চালিয়ে যান! ',
+  'Relapse Undone! Your streak is restored. ️': 'পতন বাতিল করা হয়েছে! আপনার স্ট্রিক ফিরে এসেছে। ️',
+  'Habit forged! Your journey begins ️': 'অভ্যাস তৈরি হয়েছে! আপনার যাত্রা শুরু ️',
   'Please select or type a habit name': 'অনুগ্রহ করে একটি অভ্যাসের নাম নির্বাচন করুন বা লিখুন',
   'Start date updated!': 'শুরুর তারিখ আপডেট হয়েছে!',
   'No messages found': 'কোনো বার্তা পাওয়া যায়নি',
   'Location services not supported': 'লোকেশন সার্ভিস সমর্থিত নয়',
   'Detecting your location...': 'আপনার লোকেশন শনাক্ত করা হচ্ছে...',
-  'Notifications enabled 🔔': 'নোটিফিকেশন চালু হয়েছে 🔔',
+  'Notifications enabled ': 'নোটিফিকেশন চালু হয়েছে ',
   'This field cannot be empty': 'এই ঘরটি খালি রাখা যাবে না',
 
   'Salah data cleared': 'সালাতের ডেটা মুছে ফেলা হয়েছে',
-  '🎉 MashaAllah! All 5 farz prayers logged!': '🎉 মাশাআল্লাহ! ৫ ওয়াক্ত ফরজ সালাতই রেকর্ড করা হয়েছে!',
+  ' MashaAllah! All 5 farz prayers logged!': ' মাশাআল্লাহ! ৫ ওয়াক্ত ফরজ সালাতই রেকর্ড করা হয়েছে!',
 
   'Copied to clipboard': 'ক্লিপবোর্ডে কপি হয়েছে',
   'Saving...': 'সেভ হচ্ছে...'

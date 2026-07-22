@@ -98,7 +98,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         el.classList.remove('reveal');
         el.style.transform = '';
       });
-      return () => {};
+      return () => { };
     }, { amount: 0.12 });
   });
 
@@ -109,7 +109,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       animate('.manifest article', { opacity: [0, 1], transform: ['translateY(22px)', 'translateY(0)'] }, { duration: 0.6, delay: stagger(0.08), easing: ease }).finished.then(() => {
         document.querySelectorAll('.manifest article').forEach((a) => { a.classList.remove('reveal'); a.style.transform = ''; });
       });
-      return () => {};
+      return () => { };
     }, { amount: 0.12 });
   }
 
@@ -120,7 +120,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       animate('.system-row', { opacity: [0, 1], transform: ['translateY(18px)', 'translateY(0)'] }, { duration: 0.5, delay: stagger(0.05), easing: ease }).finished.then(() => {
         document.querySelectorAll('.system-row').forEach((r) => { r.classList.remove('reveal'); r.style.transform = ''; });
       });
-      return () => {};
+      return () => { };
     }, { amount: 0.1 });
   }
 
@@ -129,7 +129,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   if (faqList) {
     inView(faqList, () => {
       animate('details', { opacity: [0, 1], transform: ['translateY(14px)', 'translateY(0)'] }, { duration: 0.5, delay: stagger(0.06), easing: ease });
-      return () => {};
+      return () => { };
     }, { amount: 0.1 });
   }
 

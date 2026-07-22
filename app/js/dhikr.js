@@ -275,7 +275,7 @@ const Dhikr = {
               </div>
               ${target > 0 ? `<div class="ds-bar"><div class="ds-bar-fill" style="width:${pct}%;background:${color}"></div></div>` : ''}
             </div>
-            ${target > 0 && cnt >= target ? '<div class="ds-done">✓</div>' : ''}
+            ${target > 0 && cnt >= target ? '<div class="ds-done"></div>' : ''}
           </div>
         `;
         grid.appendChild(temp.firstElementChild);
