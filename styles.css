@@ -1613,6 +1613,6 @@ details p {
 
 @media (prefers-reduced-motion: reduce) {
   .lenis { scroll-behavior: auto; }
-  .orbit, .float, .track, .breath, .nafl-orbit-ring { animation: none !important; }
+  .orbit, .float, .track, .breath, .nafl-orbit-ring, .nafl-badge { animation: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
