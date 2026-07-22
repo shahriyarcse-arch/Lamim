@@ -104,6 +104,10 @@ h1 {
   letter-spacing: -0.05em;
 }
 
+.hero-title {
+  margin-top: 20px;
+}
+
 h1 em, h2 em {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 500;
@@ -314,7 +318,6 @@ p {
   transition: background 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .nav-overlay a:active, .nav-overlay a:hover {
@@ -1616,6 +1619,6 @@ details p {
 
 @media (prefers-reduced-motion: reduce) {
   .lenis { scroll-behavior: auto; }
-  .orbit, .float, .track, .breath, .nafl-ring { animation: none !important; }
+  .orbit, .float, .track, .breath, .nafl-orbit-ring { animation: none !important; }
   .reveal { opacity: 1; transform: none; }
 }

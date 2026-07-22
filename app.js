@@ -27,6 +27,11 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const target = document.querySelector(href);
       if (target) {
         lenis.scrollTo(target, { offset: -72, duration: 1.4, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        // Move focus for skip-link accessibility
+        if (anchor.classList.contains('skip-link') || anchor.closest('.skip-link')) {
+          target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+        }
       }
     });
   });
@@ -131,12 +136,20 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 const nav = document.querySelector('.nav');
 const menuToggle = document.querySelector('#menuToggle');
 const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+let previousFocus = null;
 
 function toggleMenu(open) {
   const isMobile = open !== undefined ? open : !nav.classList.contains('mobile-active');
   nav.classList.toggle('mobile-active', isMobile);
   menuToggle.setAttribute('aria-expanded', isMobile ? 'true' : 'false');
   menuToggle.textContent = isMobile ? '✕' : '☰';
+  if (isMobile) {
+    previousFocus = document.activeElement;
+    document.querySelector('.nav-overlay a').focus();
+  } else if (previousFocus) {
+    previousFocus.focus();
+    previousFocus = null;
+  }
 }
 
 menuToggle.addEventListener('click', (e) => {
@@ -154,6 +167,25 @@ document.addEventListener('click', (e) => {
   }
 });
 
+/* ---- TRAP FOCUS IN MOBILE NAV ---- */
+document.addEventListener('keydown', (e) => {
+  if (!nav.classList.contains('mobile-active')) return;
+  if (e.key !== 'Tab') return;
+  const overlay = document.querySelector('.nav-overlay');
+  if (!overlay) return;
+  const focusable = overlay.querySelectorAll('a, button');
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+});
+
 /* ---- DEMO TABS ---- */
 const tabs = document.querySelectorAll('.tab');
 const modeEl = document.querySelector('#mode');
@@ -162,14 +194,28 @@ const copyEl = document.querySelector('#copy');
 const valueEl = document.querySelector('#value');
 const meterEl = document.querySelector('#meter');
 
+function selectTab(t) {
+  tabs.forEach((x) => x.setAttribute('aria-selected', 'false'));
+  t.setAttribute('aria-selected', 'true');
+  if (modeEl) modeEl.textContent = t.dataset.mode;
+  if (titleEl) titleEl.textContent = t.dataset.title;
+  if (copyEl) copyEl.textContent = t.dataset.copy;
+  if (valueEl) valueEl.textContent = t.dataset.value;
+  if (meterEl) meterEl.style.width = t.dataset.value;
+}
+
 tabs.forEach((t) => {
-  t.addEventListener('click', () => {
-    tabs.forEach((x) => x.setAttribute('aria-selected', 'false'));
-    t.setAttribute('aria-selected', 'true');
-    if (modeEl) modeEl.textContent = t.dataset.mode;
-    if (titleEl) titleEl.textContent = t.dataset.title;
-    if (copyEl) copyEl.textContent = t.dataset.copy;
-    if (valueEl) valueEl.textContent = t.dataset.value;
-    if (meterEl) meterEl.style.width = t.dataset.value;
+  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('keydown', (e) => {
+    const idx = Array.from(tabs).indexOf(t);
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      selectTab(tabs[(idx + 1) % tabs.length]);
+      tabs[(idx + 1) % tabs.length].focus();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      selectTab(tabs[(idx - 1 + tabs.length) % tabs.length]);
+      tabs[(idx - 1 + tabs.length) % tabs.length].focus();
+    }
   });
 });
