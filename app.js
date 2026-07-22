@@ -30,7 +30,20 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       }
     });
   });
+
+  /* ---- HANDLE INITIAL HASH ON LOAD ---- */
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      setTimeout(() => {
+        lenis.scrollTo(target, { offset: -72, duration: 0 });
+      }, 200);
+    }
+  }
 }
+
+/* ---- PREVENT BROWSER SCROLL RESTORATION ---- */
+history.scrollRestoration = 'manual';
 
 /* ---- EASING ---- */
 const ease = [0.16, 1, 0.3, 1];
